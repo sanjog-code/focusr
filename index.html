@@ -8,6 +8,10 @@
     <meta name="theme-color" content="#08080f">
     <title>Focusr — Spatial Deep Work Studio</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+        <!-- Spatial Atelier Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
     <style>
 /* ── Reset & Root ── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -29,7 +33,8 @@
     --radius:20px;
     --radius-sm:12px;
     --tr:.3s cubic-bezier(.25,.46,.45,.94);
-    --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+    --font:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+    --font-mono:'JetBrains Mono','SF Mono',Menlo,Monaco,Consolas,monospace;
     --backdrop-blur:12px;
     --backdrop-opacity:.85;
     --backdrop-tint:rgba(8,14,24,.62);
@@ -37,7 +42,14 @@
     --orb-2-color:rgba(94,92,230,.06);
     --orb-3-color:rgba(48,209,88,.04);
 }
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+/* ── Global Spatial Micro-Scrollbars ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+* { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
 
 /* ── Spatial Backdrop ── */
 .backdrop-wrapper{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -70,6 +82,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     border:1px solid var(--border);
     border-radius:var(--radius);
     position:relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 .glass::before{content:'';position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(to bottom,rgba(255,255,255,.045),transparent);border-radius:inherit;pointer-events:none}
 @supports not (backdrop-filter:blur(1px)){.glass{background:rgba(18,18,30,.88)}}
@@ -136,6 +149,83 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     font-weight:700;
 }
 .home-actions{display:flex;align-items:center;gap:.6rem}
+
+
+/* ── Spatial Action Island ── */
+.spatial-action-island {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.35rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+}
+.spatial-action-island .btn-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    cursor: pointer;
+}
+.spatial-action-island .btn-icon:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--text);
+    transform: translateY(-1px) scale(1.05);
+}
+.spatial-action-island .btn-icon:active {
+    transform: scale(0.95);
+}
+.spatial-action-island .btn-spotify:hover {
+    color: #1ed760;
+    background: rgba(30, 215, 96, 0.15);
+}
+
+/* ── Home Atelier Dashboard Grid ── */
+.home-atelier-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 1.25rem;
+}
+.home-atelier-grid .category-card,
+.home-atelier-grid .daily-target-card,
+.home-atelier-grid .ghost-home-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 0 !important;
+}
+@media (min-width: 768px) {
+    .home-atelier-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+        align-items: stretch;
+    }
+    .home-atelier-grid .category-card {
+        grid-column: 1 / 2;
+        height: 100%;
+    }
+    .home-atelier-grid .daily-target-card {
+        grid-column: 2 / 3;
+        height: 100%;
+    }
+    .home-atelier-grid .ghost-home-card {
+        grid-column: 1 / 3;
+    }
+}
 
 .mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;width:100%;max-width:700px;margin-bottom:2.5rem}
 .mode-card{padding:2rem 1.2rem;text-align:center;cursor:pointer;transition:all var(--tr)}
@@ -245,8 +335,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .ring-fill.is-long-break{stroke:var(--warning);filter:drop-shadow(0 0 6px rgba(255,159,10,.35))}
 
 .timer-display{
-    font-size:clamp(2.4rem,8vw,4.5rem);font-weight:200;letter-spacing:.04em;
+    font-family:var(--font-mono);
+    font-size:clamp(2.4rem,8vw,4.5rem);font-weight:300;letter-spacing:-.02em;
     font-variant-numeric:tabular-nums;line-height:1;
+    font-feature-settings:"tnum" 1, "zero" 1;
+    text-shadow:0 0 30px var(--accent-glow), 0 0 60px rgba(10,132,255,0.12);
     transition:opacity .3s ease;user-select:none;
     position:relative;z-index:2;
 }
@@ -3724,20 +3817,22 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                     </button>
                 </div>
             </div>
-            <button class="btn-icon btn-spotify" id="btn-open-spotify" title="Spotify Focus Music & Playlists">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-                </svg>
-                <span class="spotify-pulse-dot" id="home-spotify-pulse" style="display:none"></span>
-            </button>
-            <button class="btn-icon" id="btn-open-target" title="Daily Focus Target (Set daily goal)">🎯</button>
-            <button class="btn-icon" id="btn-toggle-cosmo" title="Cosmor the Blue Minion">🚀</button>
-            <button class="btn-icon" id="btn-open-themes" title="Atmosphere & Backdrops">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-            </button>
-            <button class="btn-icon" id="go-analytics" title="Analytics">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
-            </button>
+            <div class="spatial-action-island glass">
+                <button class="btn-icon btn-spotify" id="btn-open-spotify" title="Spotify Focus Music & Playlists">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                    </svg>
+                    <span class="spotify-pulse-dot" id="home-spotify-pulse" style="display:none"></span>
+                </button>
+                <button class="btn-icon" id="btn-open-target" title="Daily Focus Target (Set daily goal)">🎯</button>
+                <button class="btn-icon" id="btn-toggle-cosmo" title="Cosmor the Blue Minion">🚀</button>
+                <button class="btn-icon" id="btn-open-themes" title="Atmosphere & Backdrops">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </button>
+                <button class="btn-icon" id="go-analytics" title="Analytics">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -3828,6 +3923,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     </div>
 
     <!-- Focus Category Selector -->
+        <div class="home-atelier-grid">
     <div class="category-card glass" id="category-card">
         <div class="category-card-header">
             <span class="category-header-title">🏷️ Focus Category</span>
@@ -3924,7 +4020,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 <button class="ghost-mode-pill" data-mode="apex" title="Overdrive challenge (+8% faster than PB)">⚡ Apex (+8%)</button>
             </div>
         </div>
-    </div>
+    
+    </div></div>
 
     <div class="quick-stats glass">
         <div class="stat"><span class="stat-value" id="qs-time">0m</span><span class="stat-label">Today</span></div>
