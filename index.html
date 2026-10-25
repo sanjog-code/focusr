@@ -3053,7 +3053,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                         <span class="feat-badge-icon">⏳</span>
                         <div>
                             <div class="feat-badge-name">Desertion Penalty</div>
-                            <div class="feat-badge-detail">Auto-pauses clock and adds dynamic penalty time whenever you desert the tab</div>
+                            <div class="feat-badge-detail">Auto-pauses clock and adds dynamic penalty time whenever you switch windows or tabs</div>
                         </div>
                     </div>
                     <div class="intro-feature-item">
@@ -3579,7 +3579,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 <span id="fi-elapsed"></span>
                 <span id="fi-detail"></span>
             </div>
-            <span class="focus-hint">Space to pause · Esc to stop · ⏸️ Auto-Pause on Tab Switch · 🔒 Anti-Distraction Active</span>
+            <span class="focus-hint">Space to pause · Esc to stop · ⏸️ Auto-Pause on Window/Tab Switch · 🔒 Anti-Distraction Active</span>
         </div>
 
         <!-- Spatial Glass Inventory Shelf -->
@@ -4802,8 +4802,8 @@ function isUserNotFocusing() {
     // Scheduled Pomodoro break phases are rest periods, not slacking
     if (S.mode === 'pomodoro' && S.pomoIsBreak) return false;
     
-    // 1. Tab deserted / hidden in background
-    if (document.hidden) return true;
+    // 1. Tab or Window deserted / unfocused / hidden in background
+    if (document.hidden || !document.hasFocus()) return true;
     
     // 2. Timer clock paused during a work/focus phase
     if (S.paused) return true;
@@ -9262,100 +9262,138 @@ window.addEventListener('beforeunload', e => {
     }
 });
 
-// ── Tab Switch / Auto-Pause & Tab Desertion Penalty Guard ──
-document.addEventListener('visibilitychange', () => {
+// ── Window & Tab Switch / Auto-Pause & Desertion Penalty Guard ──
+let windowDesertionDebounce = null;
+
+function handleWindowOrTabDesertion(source = 'window') {
     if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
 
-    if (document.hidden) {
-        // User switched away / deserted the tab! Auto-pause and calculate penalty based on session time
-        if (S.running && !S.paused) {
-            pauseSession(true);
-            S.distractions++;
-            soundWarning();
+    // Check if truly away: document is either hidden or window has lost focus
+    const isAway = document.hidden || !document.hasFocus();
+    if (!isAway) return;
 
-            // Calculate penalty based on total session time (10% of total session, minimum 30 seconds)
-            let baseSessionMs = 1500000;
-            if (S.mode === 'timer') {
-                baseSessionMs = S.initialTargetMs || S.targetMs || 1500000;
-            } else if (S.mode === 'pomodoro') {
-                baseSessionMs = (S.pomoWork * 60000) || 1500000;
-            } else if (S.mode === 'stopwatch') {
-                const elapsedNow = (S.pausedAt || Date.now()) - S.startTime - S.totalPaused;
-                baseSessionMs = Math.max(600000, elapsedNow);
-            }
+    if (S.running && !S.paused) {
+        pauseSession(true);
+        S.distractions++;
+        soundWarning();
 
-            // 10% of total session time, rounded to clean 5-second intervals, min 30s
-            const rawPenalty = baseSessionMs * 0.10;
-            const penaltyMs = Math.max(30000, Math.round(rawPenalty / 5000) * 5000);
-
-            // Add time penalty increment directly to active session duration
-            if (S.mode === 'timer' || S.mode === 'pomodoro') {
-                S.targetMs += penaltyMs;
-            } else {
-                S.stopwatchPenaltyDebt = (S.stopwatchPenaltyDebt || 0) + penaltyMs;
-            }
-            S.totalPenaltyMs = (S.totalPenaltyMs || 0) + penaltyMs;
-            S.penaltyCount = (S.penaltyCount || 0) + 1;
-            S.lastPenaltyAdded = penaltyMs;
-
-            if (S.inconsistencies) {
-                S.inconsistencies.push({
-                    type: 'desertion',
-                    icon: '🚨',
-                    title: 'Tab Desertion',
-                    count: 1,
-                    detail: `Deserted focus tab (+${fmtPenalty(penaltyMs)} penalty added to session clock).`
-                });
-            }
-
-            // Penalty widens the gap against Ghost Racer
-            if (GhostRacer.active) {
-                GhostRacer.targetDurationMs += penaltyMs;
-                GhostRacer.ghostProgressMs += Math.round(penaltyMs * 0.35);
-            }
-
-            updatePenaltyBadge();
-            document.title = `🚨 +${fmtPenalty(penaltyMs)} PENALTY (Tab Deserted) | Focusr`;
-
-            if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
-
-            if ('Notification' in window && Notification.permission === 'granted') {
-                try {
-                    new Notification('🚨 TAB DESERTED — Time Penalty Added!', {
-                        body: `+${fmtPenalty(penaltyMs)} penalty added to session (10% of session time). Total penalty: +${fmtPenalty(S.totalPenaltyMs)}. Return to Focusr!`,
-                        tag: 'focus-penalty',
-                        renotify: true
-                    });
-                } catch {}
-            }
+        // Calculate penalty based on total session time (10% of total session, minimum 30 seconds)
+        let baseSessionMs = 1500000;
+        if (S.mode === 'timer') {
+            baseSessionMs = S.initialTargetMs || S.targetMs || 1500000;
+        } else if (S.mode === 'pomodoro') {
+            baseSessionMs = (S.pomoWork * 60000) || 1500000;
+        } else if (S.mode === 'stopwatch') {
+            const elapsedNow = (S.pausedAt || Date.now()) - S.startTime - S.totalPaused;
+            baseSessionMs = Math.max(600000, elapsedNow);
         }
-    } else {
-        // User returned to Focusr tab!
-        if (S.autoPausedByTab && S.paused) {
-            resumeSession(true);
-            const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
-            document.title = `${timerDisp.textContent} ${icon} Focusr`;
-            soundResume();
 
-            // Visual penalty shake & crimson flash on the timer display
-            timerDisp.classList.add('penalty-flash');
-            setTimeout(() => timerDisp.classList.remove('penalty-flash'), 1200);
+        // 10% of total session time, rounded to clean 5-second intervals, min 30s
+        const rawPenalty = baseSessionMs * 0.10;
+        const penaltyMs = Math.max(30000, Math.round(rawPenalty / 5000) * 5000);
 
-            if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
-
-            // Cosmo alert delivery and toast feedback
-            const penText = S.lastPenaltyAdded ? `+${fmtPenalty(S.lastPenaltyAdded)}` : `+${fmtPenalty(S.totalPenaltyMs)}`;
-            if (window.Cosmo && Cosmo.deliver) {
-                Cosmo.deliver(`🚨 Tab Desertion Penalty! ${penText} added (+${fmtPenalty(S.totalPenaltyMs)} total across ${S.penaltyCount} desertion${S.penaltyCount > 1 ? 's' : ''}). Stay locked in!`, '🚨', 6000);
-            } else {
-                showToast(`🚨 Tab Desertion Penalty: ${penText} added to session!`, '🚨', 5000);
-            }
-            S.lastPenaltyAdded = 0;
+        // Add time penalty increment directly to active session duration
+        if (S.mode === 'timer' || S.mode === 'pomodoro') {
+            S.targetMs += penaltyMs;
         } else {
-            const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
-            document.title = `${timerDisp.textContent} ${icon} Focusr`;
+            S.stopwatchPenaltyDebt = (S.stopwatchPenaltyDebt || 0) + penaltyMs;
+        }
+        S.totalPenaltyMs = (S.totalPenaltyMs || 0) + penaltyMs;
+        S.penaltyCount = (S.penaltyCount || 0) + 1;
+        S.lastPenaltyAdded = penaltyMs;
+
+        const isWindowSwitch = (source === 'window' && !document.hidden);
+        const desertionTitle = isWindowSwitch ? 'Window Desertion' : 'Tab Desertion';
+        const desertionDetail = isWindowSwitch 
+            ? `Switched away to another application/window (+${fmtPenalty(penaltyMs)} penalty added to session clock).`
+            : `Deserted focus tab (+${fmtPenalty(penaltyMs)} penalty added to session clock).`;
+
+        if (S.inconsistencies) {
+            S.inconsistencies.push({
+                type: 'desertion',
+                icon: '🚨',
+                title: desertionTitle,
+                count: 1,
+                detail: desertionDetail
+            });
+        }
+
+        // Penalty widens the gap against Ghost Racer
+        if (GhostRacer.active) {
+            GhostRacer.targetDurationMs += penaltyMs;
+            GhostRacer.ghostProgressMs += Math.round(penaltyMs * 0.35);
+        }
+
+        updatePenaltyBadge();
+        document.title = `🚨 +${fmtPenalty(penaltyMs)} PENALTY (${desertionTitle}) | Focusr`;
+
+        if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
+
+        if ('Notification' in window && Notification.permission === 'granted') {
+            try {
+                new Notification(`🚨 ${desertionTitle.toUpperCase()} — Time Penalty Added!`, {
+                    body: `+${fmtPenalty(penaltyMs)} penalty added to session (10% of session time). Total penalty: +${fmtPenalty(S.totalPenaltyMs)}. Return to Focusr!`,
+                    tag: 'focus-penalty',
+                    renotify: true
+                });
+            } catch {}
         }
     }
+}
+
+function handleWindowOrTabReturn(source = 'window') {
+    if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
+
+    // Check if truly focused and visible
+    if (document.hidden || !document.hasFocus()) return;
+
+    if (S.autoPausedByTab && S.paused) {
+        resumeSession(true);
+        const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+        document.title = `${timerDisp.textContent} ${icon} Focusr`;
+        soundResume();
+
+        // Visual penalty shake & crimson flash on the timer display
+        timerDisp.classList.add('penalty-flash');
+        setTimeout(() => timerDisp.classList.remove('penalty-flash'), 1200);
+
+        if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
+
+        // Cosmo alert delivery and toast feedback
+        const penText = S.lastPenaltyAdded ? `+${fmtPenalty(S.lastPenaltyAdded)}` : `+${fmtPenalty(S.totalPenaltyMs)}`;
+        if (window.Cosmo && Cosmo.deliver) {
+            Cosmo.deliver(`🚨 Focus Broken! ${penText} added (+${fmtPenalty(S.totalPenaltyMs)} total across ${S.penaltyCount} desertion${S.penaltyCount > 1 ? 's' : ''}). Stay locked on Focusr!`, '🚨', 6000);
+        } else {
+            showToast(`🚨 Focus Broken: ${penText} penalty added to session!`, '🚨', 5000);
+        }
+        S.lastPenaltyAdded = 0;
+    } else {
+        const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+        document.title = `${timerDisp.textContent} ${icon} Focusr`;
+    }
+}
+
+// 1. Tab visibility changes (switching tabs or minimizing browser)
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        handleWindowOrTabDesertion('tab');
+    } else {
+        handleWindowOrTabReturn('tab');
+    }
+});
+
+// 2. Window focus and blur (switching to other apps, opening other windows, clicking outside browser)
+window.addEventListener('blur', () => {
+    // Debounce slightly to prevent micro-flickers when clicking internal modals/iframes
+    if (windowDesertionDebounce) clearTimeout(windowDesertionDebounce);
+    windowDesertionDebounce = setTimeout(() => {
+        handleWindowOrTabDesertion('window');
+    }, 150);
+});
+
+window.addEventListener('focus', () => {
+    if (windowDesertionDebounce) clearTimeout(windowDesertionDebounce);
+    handleWindowOrTabReturn('window');
 });
 
 /* ── Init ── */
