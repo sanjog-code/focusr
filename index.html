@@ -1018,7 +1018,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 <span id="fi-elapsed"></span>
                 <span id="fi-detail"></span>
             </div>
-            <span class="focus-hint">Space to pause · Esc to stop · 🔒 Anti-Distraction Lock Active</span>
+            <span class="focus-hint">Space to pause · Esc to stop · ⏸️ Auto-Pause on Tab Switch · 🔒 Anti-Distraction Active</span>
         </div>
 
         <!-- Spatial Glass Inventory Shelf -->
@@ -3391,21 +3391,37 @@ function skipBreak() {
     renderPomoDots();
 }
 
+function pauseSession(isAutoTab = false) {
+    if (!S.running || S.paused) return;
+    S.pausedAt = Date.now();
+    S.paused = true;
+    S.autoPausedByTab = isAutoTab;
+    timerDisp.classList.add('paused');
+    btnPause.innerHTML = '▶';
+    if (!isAutoTab) {
+        showToast(pick(MOTIV.paused), '⏸️');
+    }
+}
+
+function resumeSession(isAutoTab = false) {
+    if (!S.paused) return;
+    S.totalPaused += Date.now() - S.pausedAt;
+    S.paused = false;
+    S.running = true;
+    S.autoPausedByTab = false;
+    timerDisp.classList.remove('paused');
+    btnPause.innerHTML = '❚❚';
+    if (!isAutoTab) {
+        showToast(pick(MOTIV.resumed), '▶️');
+    }
+}
+
 function togglePause() {
     if (!S.running && !S.paused) return;
     if (S.paused) {
-        S.totalPaused += Date.now() - S.pausedAt;
-        S.paused = false;
-        S.running = true;
-        timerDisp.classList.remove('paused');
-        btnPause.innerHTML = '❚❚';
-        showToast(pick(MOTIV.resumed), '▶️');
+        resumeSession(false);
     } else {
-        S.pausedAt = Date.now();
-        S.paused = true;
-        timerDisp.classList.add('paused');
-        btnPause.innerHTML = '▶';
-        showToast(pick(MOTIV.paused), '⏸️');
+        pauseSession(false);
     }
 }
 
@@ -3417,6 +3433,7 @@ function beginSession() {
     S.lastTickSec = -1;
     S.pomoCompletedWork = 0;
     S.distractions = 0;
+    S.autoPausedByTab = false;
 
     if (S.mode === 'timer') {
         const h = clamp(parseInt($('inp-h').value) || 0, 0, 23);
@@ -3663,29 +3680,46 @@ window.addEventListener('beforeunload', e => {
     }
 });
 
-// ── Tab Switch / Distraction Detector ──
+// ── Tab Switch / Auto-Pause & Auto-Resume Guard ──
 document.addEventListener('visibilitychange', () => {
-    if (currentScreen !== 'focus' || !S.running) return;
+    if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
 
     if (document.hidden) {
-        S.distractions++;
-        soundWarning();
-        document.title = '⚠️ RETURN TO FOCUS! | Focus';
+        // User switched away to another tab: Auto-pause the clock!
+        if (S.running && !S.paused) {
+            pauseSession(true);
+            S.distractions++;
+            soundWarning();
+            document.title = '⏸️ CLOCK PAUSED (Tab Switched) | Focusr';
 
-        if ('Notification' in window && Notification.permission === 'granted') {
-            try {
-                new Notification('⚠️ Stay Focused!', {
-                    body: 'You switched to another tab. Stay locked in to keep your streak!',
-                    tag: 'focus-distract',
-                    renotify: true
-                });
-            } catch {}
+            if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
+
+            if ('Notification' in window && Notification.permission === 'granted') {
+                try {
+                    new Notification('⏸️ Focus Clock Auto-Paused!', {
+                        body: 'You switched tabs. Return to Focusr to automatically resume your session!',
+                        tag: 'focus-autopause',
+                        renotify: true
+                    });
+                } catch {}
+            }
         }
     } else {
-        const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
-        document.title = `${timerDisp.textContent} ${icon} Focus`;
-        soundResume();
-        showToast(`⚠️ Distraction detected! (${S.distractions} tab switch${S.distractions > 1 ? 'es' : ''}) Stay in the zone.`, '👀', 5000);
+        // User returned to Focusr tab!
+        if (S.autoPausedByTab && S.paused) {
+            // Auto-resume the clock!
+            resumeSession(true);
+            const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+            document.title = `${timerDisp.textContent} ${icon} Focusr`;
+            soundResume();
+
+            if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('happy');
+
+            showToast(`Welcome back! Clock auto-resumed (${S.distractions} tab switch${S.distractions > 1 ? 'es' : ''})`, '▶️', 4500);
+        } else {
+            const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+            document.title = `${timerDisp.textContent} ${icon} Focusr`;
+        }
     }
 });
 
