@@ -5195,7 +5195,7 @@ body.oled-true-black .glass {
 
 <div class="quick-stats glass">
         <div class="stat"><span class="stat-value" id="qs-time">0m</span><span class="stat-label">Today</span></div>
-        <div class="stat"><span class="stat-value" id="qs-streak">0</span><span class="stat-label">Day Streak</span></div>
+        <div class="stat" title="Day Streak increases only when you complete your daily focus goal"><span class="stat-value" id="qs-streak">0</span><span class="stat-label">Day Streak</span></div>
         <div class="stat"><span class="stat-value" id="qs-sess">0</span><span class="stat-label">Sessions</span></div>
         <div class="stat"><span class="stat-value" id="qs-pomos">0</span><span class="stat-label">Pomodoros</span></div>
     </div>
@@ -8621,12 +8621,12 @@ function checkDailyGoalGreeting() {
 
     setTimeout(() => {
         if (todayMs === 0) {
-            showToast(`Today's Goal: ${fmtShort(targetMs)}. Start a session to launch today's streak!`, '', 5500);
+            showToast(`Today's Goal: ${fmtShort(targetMs)}. Complete your daily goal to increase your streak!`, '', 5000);
         } else if (todayMs < targetMs) {
             const rem = targetMs - todayMs;
-            showToast(`Daily Goal: ${fmtShort(todayMs)} of ${fmtShort(targetMs)} completed (${fmtShort(rem)} remaining). Let's go!`, '', 5500);
+            showToast(`Daily Goal: ${fmtShort(todayMs)} of ${fmtShort(targetMs)} completed (${fmtShort(rem)} to go). Complete today's target to extend your streak!`, '', 5000);
         } else {
-            showToast(`Daily Target conquered! ${fmtShort(todayMs)} focused today. Superstar!`, '', 5500);
+            showToast(`Daily Target conquered! Day streak active.`, '', 5000);
         }
     }, 1200);
 }
@@ -13109,6 +13109,58 @@ function beginSession() {
     }, 600);
 }
 
+/* ── Daily Goal Streak Calculation ── */
+// Streak ONLY increases when the user completes their daily target goal.
+function calculateDailyGoalStreak() {
+    const targetMins = typeof getDailyTargetMinutes === 'function' ? getDailyTargetMinutes() : 120;
+    const targetMs = targetMins * 60000;
+    const all = (typeof S !== 'undefined' && S.sessions) ? S.sessions : [];
+    if (!all || !all.length) return 0;
+
+    const getMsForDate = (dateStr) => {
+        return all
+            .filter(s => s.date === dateStr)
+            .reduce((sum, s) => sum + (s.duration || 0), 0);
+    };
+
+    const cur = new Date();
+    const today = cur.toISOString().slice(0, 10);
+    const todayMs = getMsForDate(today);
+    const todayCompleted = todayMs >= targetMs;
+
+    let streak = 0;
+
+    if (todayCompleted) {
+        // Today's daily target is conquered! Streak counts today (+1)
+        streak = 1;
+        cur.setDate(cur.getDate() - 1);
+        while (true) {
+            const ds = cur.toISOString().slice(0, 10);
+            if (getMsForDate(ds) >= targetMs) {
+                streak++;
+                cur.setDate(cur.getDate() - 1);
+            } else {
+                break;
+            }
+        }
+    } else {
+        // Today's daily target is not completed yet: streak reflects unbroken completed targets through yesterday
+        cur.setDate(cur.getDate() - 1);
+        while (true) {
+            const ds = cur.toISOString().slice(0, 10);
+            if (getMsForDate(ds) >= targetMs) {
+                streak++;
+                cur.setDate(cur.getDate() - 1);
+            } else {
+                break;
+            }
+        }
+    }
+
+    return streak;
+}
+window.calculateDailyGoalStreak = calculateDailyGoalStreak;
+
 /* ── Analytics ── */
 function refreshHomeStats() {
     loadSessions();
@@ -13123,13 +13175,8 @@ function refreshHomeStats() {
     $('qs-pomos').textContent = todayPomos;
     if ($('qs-bottles')) $('qs-bottles').textContent = S.inventory.length;
 
-    let streak = 0;
-    const d = new Date();
-    while (true) {
-        const ds = d.toISOString().slice(0, 10);
-        if (S.sessions.some(s => s.date === ds)) { streak++; d.setDate(d.getDate() - 1); }
-        else break;
-    }
+    // Streak ONLY increases when the daily focus goal is completed
+    const streak = calculateDailyGoalStreak();
     $('qs-streak').textContent = streak;
 
     // Update Daily Target Card
