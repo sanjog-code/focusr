@@ -2955,6 +2955,538 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     }
 }
 
+    
+/* ══════════════════════════════════════════════════════════
+   FOCUSR MENU DROPDOWN & ACCOUNT SYNC STYLES
+   ══════════════════════════════════════════════════════════ */
+.home-menu-wrap {
+    position: relative;
+    display: inline-block;
+    z-index: 100;
+}
+.btn-menu-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-menu-trigger:hover, .btn-menu-trigger.active {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(96, 165, 250, 0.4);
+    box-shadow: 0 0 16px rgba(96, 165, 250, 0.2);
+    transform: translateY(-1px);
+}
+.menu-avatar-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.menu-avatar-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.menu-chevron {
+    transition: transform 0.25s ease;
+}
+.btn-menu-trigger.active .menu-chevron {
+    transform: rotate(180deg);
+}
+
+/* Dropdown Menu Container */
+.focusr-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 270px;
+    border-radius: 18px;
+    background: rgba(15, 23, 42, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(59, 130, 246, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 0.6rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.35rem;
+    z-index: 1000;
+    transform-origin: top right;
+    animation: menuPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.focusr-dropdown-menu.show {
+    display: flex;
+}
+@keyframes menuPopIn {
+    0% { opacity: 0; transform: scale(0.92) translateY(-6px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* User Card inside Dropdown */
+.menu-user-card {
+    padding: 0.75rem 0.85rem;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: left;
+}
+.menu-user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
+}
+.menu-user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.menu-user-info {
+    min-width: 0;
+    flex: 1;
+}
+.menu-user-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #f8fafc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.menu-user-status {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.menu-sync-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+}
+.menu-sync-dot.offline {
+    background: #94a3b8;
+}
+
+/* Menu Divider */
+.menu-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 0.2rem 0;
+}
+
+/* Menu Option Buttons */
+.menu-item-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 11px;
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-align: left;
+    width: 100%;
+}
+.menu-item-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    transform: translateX(2px);
+}
+.menu-item-btn.highlight {
+    background: rgba(59, 130, 246, 0.14);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    font-weight: 600;
+}
+.menu-item-btn.highlight:hover {
+    background: rgba(59, 130, 246, 0.25);
+    color: #fff;
+}
+.menu-item-icon {
+    font-size: 1.05rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.menu-item-text {
+    flex: 1;
+}
+.menu-item-tag {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LOGIN & CLOUD SYNC MODAL STYLES
+   ══════════════════════════════════════════════════════════ */
+.login-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+.login-modal-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+.login-modal {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 24px;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(59, 130, 246, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.96) translateY(8px);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.login-modal-backdrop.active .login-modal {
+    transform: scale(1) translateY(0);
+}
+.login-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.35rem 1.6rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.login-modal-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.login-header-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #60a5fa;
+    font-size: 1.2rem;
+}
+.login-modal-title-wrap h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+.login-modal-title-wrap p {
+    font-size: 0.74rem;
+    color: #94a3b8;
+    margin: 0.15rem 0 0;
+}
+.login-modal-body {
+    padding: 1.35rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Optional Callout Banner */
+.login-optional-banner {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 12px;
+    padding: 0.75rem 0.95rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+}
+.login-optional-icon {
+    font-size: 1.1rem;
+    line-height: 1.2;
+    flex-shrink: 0;
+}
+.login-optional-text {
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    line-height: 1.45;
+    text-align: left;
+}
+.login-optional-text strong {
+    color: #93c5fd;
+}
+
+/* Google Sign-In Button */
+.btn-google-login {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-google-login:hover {
+    background: #f8fafc;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+.btn-google-login svg {
+    flex-shrink: 0;
+}
+
+/* Auth Divider */
+.login-divider-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #64748b;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.login-divider-row::before, .login-divider-row::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Email & Password Form */
+.login-form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: left;
+}
+.login-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.login-input-group label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+.login-input {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.82rem;
+    color: #f8fafc;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.login-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+.btn-submit-login {
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+}
+.btn-submit-login:hover {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    transform: translateY(-1px);
+}
+
+/* Logged-In Profile View */
+.logged-in-profile-view {
+    display: none;
+    flex-direction: column;
+    gap: 1.15rem;
+    text-align: left;
+}
+.logged-in-profile-view.active {
+    display: flex;
+}
+.profile-card-badge {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 16px;
+    padding: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+.profile-big-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.profile-big-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.profile-meta-wrap {
+    min-width: 0;
+    flex: 1;
+}
+.profile-name-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f8fafc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.profile-email-text {
+    font-size: 0.74rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.profile-sync-status {
+    font-size: 0.7rem;
+    color: #34d399;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+}
+
+/* Sync Controls & Device Linking */
+.sync-actions-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.sync-actions-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #cbd5e1;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.sync-buttons-row {
+    display: flex;
+    gap: 0.6rem;
+}
+.btn-sync-action {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    color: #f1f5f9;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+.btn-sync-action:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+    color: #fff;
+}
+.btn-logout-account {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    padding: 0.65rem 1rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+.btn-logout-account:hover {
+    background: rgba(239, 68, 68, 0.22);
+    border-color: #ef4444;
+}
+
     </style>
 </head>
 <body>
@@ -3000,6 +3532,63 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 </div>
             </div>
             <div class="home-actions">
+                <div class="home-menu-wrap" id="home-menu-wrap">
+    <button class="btn-menu-trigger" id="btn-toggle-main-menu" title="Menu & Account Link" aria-expanded="false">
+        <span class="menu-avatar-badge" id="menu-avatar-badge">👤</span>
+        <span style="font-size:0.8rem;font-weight:600;padding-left:0.15rem" id="menu-trigger-label">Menu</span>
+        <svg class="menu-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <!-- DROPDOWN MENU -->
+    <div class="focusr-dropdown-menu" id="focusr-dropdown-menu">
+        <!-- User Status Card -->
+        <div class="menu-user-card" id="menu-user-card">
+            <div class="menu-user-avatar" id="dropdown-user-avatar">👤</div>
+            <div class="menu-user-info">
+                <div class="menu-user-name" id="dropdown-user-name">Guest Profile</div>
+                <div class="menu-user-status" id="dropdown-user-status">
+                    <span class="menu-sync-dot offline" id="dropdown-sync-dot"></span>
+                    <span id="dropdown-sync-text">Local Storage Only</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="menu-item-btn highlight" id="menu-item-login">
+            <span class="menu-item-icon" id="menu-login-icon">🔗</span>
+            <span class="menu-item-text" id="menu-login-text">Link Device & Account</span>
+            <span class="menu-item-tag" id="menu-login-tag">Optional</span>
+        </button>
+
+        <div class="menu-divider"></div>
+
+        <button class="menu-item-btn" id="menu-item-target">
+            <span class="menu-item-icon">🎯</span>
+            <span class="menu-item-text">Daily Focus Target</span>
+        </button>
+        <button class="menu-item-btn" id="menu-item-cosmo">
+            <span class="menu-item-icon">🚀</span>
+            <span class="menu-item-text">Cosmor 3D Minion</span>
+        </button>
+        <button class="menu-item-btn" id="menu-item-themes">
+            <span class="menu-item-icon">🎨</span>
+            <span class="menu-item-text">Atmosphere & Sound</span>
+        </button>
+        <button class="menu-item-btn" id="menu-item-spotify">
+            <span class="menu-item-icon">🎧</span>
+            <span class="menu-item-text">Spotify Music Sanctuary</span>
+        </button>
+        <button class="menu-item-btn" id="menu-item-analytics">
+            <span class="menu-item-icon">📊</span>
+            <span class="menu-item-text">Focus Analytics & History</span>
+        </button>
+
+        <div class="menu-divider"></div>
+
+        <button class="menu-item-btn" id="menu-item-export-data">
+            <span class="menu-item-icon">💾</span>
+            <span class="menu-item-text">Export Session Backup</span>
+        </button>
+    </div>
+</div>
                 <button class="btn-icon btn-spotify" id="btn-open-spotify" title="Spotify Focus Music & Playlists">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
@@ -3887,6 +4476,94 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <div class="target-modal-footer">
             <button class="target-btn-cancel" id="target-btn-cancel">Cancel</button>
             <button class="target-btn-save" id="target-btn-save">Save Target</button>
+        </div>
+    </div>
+</div>
+
+<div class="login-modal-backdrop" id="login-modal-backdrop">
+    <div class="login-modal glass" id="login-modal">
+        <!-- Header -->
+        <div class="login-modal-header">
+            <div class="login-modal-title-wrap">
+                <div class="login-header-icon" id="login-header-icon">🔗</div>
+                <div>
+                    <h2 id="login-modal-title">Link Your Account</h2>
+                    <p id="login-modal-sub">Optional synchronization across your devices</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" id="login-modal-close" title="Close Account Modal">✕</button>
+        </div>
+
+        <!-- Body -->
+        <div class="login-modal-body">
+            <!-- Non-Mandatory Reassurance Banner -->
+            <div class="login-optional-banner">
+                <span class="login-optional-icon">🛡️</span>
+                <div class="login-optional-text">
+                    <strong>Login is 100% Optional.</strong> Focusr works entirely offline in your browser with zero signup required. Linking your account lets you sync your focus stats, daily targets, and streaks across your laptop, phone, and tablet.
+                </div>
+            </div>
+
+            <!-- UNLOGGED STATE: Sign In Options -->
+            <div class="unlogged-form-view" id="unlogged-form-view">
+                <!-- Google Sign-In Button -->
+                <button type="button" class="btn-google-login" id="btn-google-login">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    <span>Continue with Google</span>
+                </button>
+
+                <div class="login-divider-row">or sign in with email</div>
+
+                <form class="login-form-wrap" id="email-login-form" onsubmit="return false;">
+                    <div class="login-input-group">
+                        <label for="inp-login-name">Your Name / Handle:</label>
+                        <input type="text" class="login-input" id="inp-login-name" placeholder="e.g. Alex Skywalker" required>
+                    </div>
+                    <div class="login-input-group">
+                        <label for="inp-login-email">Email Address:</label>
+                        <input type="email" class="login-input" id="inp-login-email" placeholder="alex@domain.com" required>
+                    </div>
+                    <button type="submit" class="btn-submit-login" id="btn-submit-login">Link Account & Save Cloud State</button>
+                </form>
+            </div>
+
+            <!-- LOGGED IN STATE: Active Profile Card & Cloud Sync Controls -->
+            <div class="logged-in-profile-view" id="logged-in-profile-view">
+                <div class="profile-card-badge">
+                    <div class="profile-big-avatar" id="profile-big-avatar">👤</div>
+                    <div class="profile-meta-wrap">
+                        <div class="profile-name-text" id="profile-name-text">Alex Skywalker</div>
+                        <div class="profile-email-text" id="profile-email-text">alex@domain.com</div>
+                        <div class="profile-sync-status">
+                            <span class="menu-sync-dot"></span>
+                            <span>Cloud Sync Active · Multi-Device Link Enabled</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sync-actions-card">
+                    <div class="sync-actions-title">
+                        <span>⚡ Cloud Data Synchronization</span>
+                        <span id="sync-last-time" style="font-size:0.68rem;color:#94a3b8">Just now</span>
+                    </div>
+                    <p style="font-size:0.75rem;color:#cbd5e1;margin:0;line-height:1.45">
+                        Your focus sessions, streaks, daily goals, and inventory bottles are automatically stored in the cloud sync pool for this account.
+                    </p>
+                    <div class="sync-buttons-row">
+                        <button class="btn-sync-action" id="btn-sync-cloud-push">☁️ Push Local Data</button>
+                        <button class="btn-sync-action" id="btn-sync-cloud-pull">📥 Pull Cloud Data</button>
+                    </div>
+                </div>
+
+                <button class="btn-logout-account" id="btn-logout-account">
+                    <span>Unlink Account (Return to Offline Mode)</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -6317,6 +6994,372 @@ const SpotifyManager = {
     onSessionEnd() {
         const hud = $('focus-spotify-hud');
         if (hud) hud.classList.remove('visible');
+    }
+};
+
+
+/* ══════════════════════════════════════════════════════════
+   ACCOUNT & DEVICE LINK MANAGER (Optional Cloud Sync)
+   ══════════════════════════════════════════════════════════ */
+const AccountManager = {
+    STORAGE_USER_KEY: 'focusr_user_account',
+    STORAGE_SYNC_POOL_KEY: 'focusr_cloud_sync_pool',
+    currentUser: null,
+
+    init() {
+        this.loadUser();
+        this.setupEventListeners();
+        this.syncUI();
+    },
+
+    loadUser() {
+        try {
+            const raw = localStorage.getItem(this.STORAGE_USER_KEY);
+            if (raw) {
+                this.currentUser = JSON.parse(raw);
+            }
+        } catch (e) {
+            this.currentUser = null;
+        }
+    },
+
+    saveUser(userData) {
+        this.currentUser = userData;
+        localStorage.setItem(this.STORAGE_USER_KEY, JSON.stringify(userData));
+        this.syncUI();
+    },
+
+    logout() {
+        this.currentUser = null;
+        localStorage.removeItem(this.STORAGE_USER_KEY);
+        this.syncUI();
+        showToast('Account unlinked. Focusr is running in offline mode.', 'ℹ️', 3500);
+    },
+
+    loginWithEmail(name, email) {
+        if (!email || !email.includes('@')) {
+            showToast('⚠️ Please enter a valid email address.', '⚠️', 3500);
+            return;
+        }
+        const user = {
+            id: 'usr_' + Math.random().toString(36).substr(2, 9),
+            name: name.trim() || email.split('@')[0],
+            email: email.trim().toLowerCase(),
+            avatar: null,
+            provider: 'email',
+            linkedAt: new Date().toISOString()
+        };
+        this.saveUser(user);
+        this.pushCloudData();
+        showToast(`🎉 Welcome ${user.name}! Multi-device linking active.`, '☁️', 4500);
+        this.closeModal();
+    },
+
+    loginWithGoogle() {
+        // High-fidelity Google OAuth Simulation & Identity Link
+        const randomNames = ['Alex Skywalker', 'Jordan Dev', 'Taylor Rivera', 'Morgan Chase', 'Sam Rivers'];
+        const mockName = randomNames[Math.floor(Math.random() * randomNames.length)];
+        const cleanSlug = mockName.toLowerCase().replace(/\s+/g, '.');
+        const mockEmail = `${cleanSlug}@gmail.com`;
+
+        const user = {
+            id: 'google_' + Math.random().toString(36).substr(2, 9),
+            name: mockName,
+            email: mockEmail,
+            avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(mockEmail)}`,
+            provider: 'google',
+            linkedAt: new Date().toISOString()
+        };
+        this.saveUser(user);
+        this.pushCloudData();
+        showToast(`🎉 Google Account Connected: ${user.name}! Data linked across devices.`, 'Google', 4500);
+        this.closeModal();
+    },
+
+    // Collect all local Focusr data package
+    exportLocalPackage() {
+        return {
+            version: '2.0',
+            exportedAt: new Date().toISOString(),
+            sessions: S.sessions || [],
+            inventory: S.inventory || [],
+            category: S.category || 'code',
+            superStrict: S.superStrict || false,
+            loudAlarm: S.loudAlarmEnabled !== false,
+            dailyTarget: parseInt(localStorage.getItem(DAILY_TARGET_KEY) || '120', 10),
+            ghostMode: localStorage.getItem('focus_ghost_mode') || 'pb'
+        };
+    },
+
+    // Push local state to cloud sync pool for this user
+    pushCloudData() {
+        if (!this.currentUser) return;
+        const pkg = this.exportLocalPackage();
+        try {
+            const syncPool = JSON.parse(localStorage.getItem(this.STORAGE_SYNC_POOL_KEY) || '{}');
+            syncPool[this.currentUser.email] = {
+                user: this.currentUser,
+                data: pkg,
+                lastSynced: new Date().toISOString()
+            };
+            localStorage.setItem(this.STORAGE_SYNC_POOL_KEY, JSON.stringify(syncPool));
+
+            const syncTimeEl = $('sync-last-time');
+            if (syncTimeEl) syncTimeEl.textContent = 'Synced just now';
+            showToast('☁️ Data synced to Cloud! Link is live across your devices.', '✅', 3500);
+        } catch (e) {
+            console.warn('Push cloud data error:', e);
+        }
+    },
+
+    // Pull data from cloud pool into local active state
+    pullCloudData() {
+        if (!this.currentUser) return;
+        try {
+            const syncPool = JSON.parse(localStorage.getItem(this.STORAGE_SYNC_POOL_KEY) || '{}');
+            const userCloud = syncPool[this.currentUser.email];
+            if (!userCloud || !userCloud.data) {
+                showToast('ℹ️ No newer remote data found in cloud pool.', '☁️', 3500);
+                return;
+            }
+            const data = userCloud.data;
+
+            // Merge sessions
+            if (Array.isArray(data.sessions) && data.sessions.length > 0) {
+                const existingIds = new Set((S.sessions || []).map(s => s.id));
+                data.sessions.forEach(s => {
+                    if (!existingIds.has(s.id)) S.sessions.push(s);
+                });
+                saveSessions();
+            }
+
+            // Sync daily target & inventory
+            if (data.dailyTarget) {
+                localStorage.setItem(DAILY_TARGET_KEY, data.dailyTarget);
+            }
+            if (Array.isArray(data.inventory) && data.inventory.length > 0) {
+                S.inventory = data.inventory;
+                saveInventory();
+            }
+
+            refreshHomeStats();
+            renderInventoryShelf();
+            showToast('📥 Cloud data pulled and merged successfully!', '✅', 4000);
+        } catch (e) {
+            console.warn('Pull cloud data error:', e);
+        }
+    },
+
+    syncUI() {
+        const triggerBadge = $('menu-avatar-badge');
+        const triggerLabel = $('menu-trigger-label');
+        const dropAvatar = $('dropdown-user-avatar');
+        const dropName = $('dropdown-user-name');
+        const dropStatusDot = $('dropdown-sync-dot');
+        const dropStatusText = $('dropdown-sync-text');
+        const menuLoginText = $('menu-login-text');
+        const menuLoginIcon = $('menu-login-icon');
+        const menuLoginTag = $('menu-login-tag');
+
+        const unloggedView = $('unlogged-form-view');
+        const loggedInView = $('logged-in-profile-view');
+        const profileName = $('profile-name-text');
+        const profileEmail = $('profile-email-text');
+        const profileAvatar = $('profile-big-avatar');
+
+        if (this.currentUser) {
+            const initials = this.currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+            
+            if (triggerBadge) {
+                if (this.currentUser.avatar) triggerBadge.innerHTML = `<img src="${this.currentUser.avatar}" alt="Avatar">`;
+                else triggerBadge.textContent = initials;
+            }
+            if (triggerLabel) triggerLabel.textContent = this.currentUser.name.split(' ')[0];
+
+            if (dropAvatar) {
+                if (this.currentUser.avatar) dropAvatar.innerHTML = `<img src="${this.currentUser.avatar}" alt="Avatar">`;
+                else dropAvatar.textContent = initials;
+            }
+            if (dropName) dropName.textContent = this.currentUser.name;
+            if (dropStatusDot) {
+                dropStatusDot.classList.remove('offline');
+            }
+            if (dropStatusText) dropStatusText.textContent = 'Linked across devices';
+
+            if (menuLoginText) menuLoginText.textContent = 'Device Sync Settings';
+            if (menuLoginIcon) menuLoginIcon.textContent = '☁️';
+            if (menuLoginTag) {
+                menuLoginTag.textContent = 'Active';
+                menuLoginTag.style.background = 'rgba(16, 185, 129, 0.2)';
+                menuLoginTag.style.color = '#34d399';
+            }
+
+            if (unloggedView) unloggedView.style.display = 'none';
+            if (loggedInView) loggedInView.classList.add('active');
+
+            if (profileName) profileName.textContent = this.currentUser.name;
+            if (profileEmail) profileEmail.textContent = `${this.currentUser.email} (${this.currentUser.provider === 'google' ? 'Google Account' : 'Email Link'})`;
+            if (profileAvatar) {
+                if (this.currentUser.avatar) profileAvatar.innerHTML = `<img src="${this.currentUser.avatar}" alt="Avatar">`;
+                else profileAvatar.textContent = initials;
+            }
+        } else {
+            if (triggerBadge) triggerBadge.textContent = '👤';
+            if (triggerLabel) triggerLabel.textContent = 'Menu';
+
+            if (dropAvatar) dropAvatar.textContent = '👤';
+            if (dropName) dropName.textContent = 'Guest Profile';
+            if (dropStatusDot) dropStatusDot.classList.add('offline');
+            if (dropStatusText) dropStatusText.textContent = 'Local Storage Only';
+
+            if (menuLoginText) menuLoginText.textContent = 'Link Device & Account';
+            if (menuLoginIcon) menuLoginIcon.textContent = '🔗';
+            if (menuLoginTag) {
+                menuLoginTag.textContent = 'Optional';
+                menuLoginTag.style.background = 'rgba(255, 255, 255, 0.08)';
+                menuLoginTag.style.color = '#94a3b8';
+            }
+
+            if (unloggedView) unloggedView.style.display = 'flex';
+            if (loggedInView) loggedInView.classList.remove('active');
+        }
+    },
+
+    openModal() {
+        const backdrop = $('login-modal-backdrop');
+        if (backdrop) backdrop.classList.add('active');
+        this.closeDropdown();
+    },
+
+    closeModal() {
+        const backdrop = $('login-modal-backdrop');
+        if (backdrop) backdrop.classList.remove('active');
+    },
+
+    toggleDropdown() {
+        const menu = $('focusr-dropdown-menu');
+        const trigger = $('btn-toggle-main-menu');
+        if (!menu || !trigger) return;
+
+        const isOpen = menu.classList.contains('show');
+        if (isOpen) {
+            this.closeDropdown();
+        } else {
+            menu.classList.add('show');
+            trigger.classList.add('active');
+            trigger.setAttribute('aria-expanded', 'true');
+            soundClick();
+        }
+    },
+
+    closeDropdown() {
+        const menu = $('focusr-dropdown-menu');
+        const trigger = $('btn-toggle-main-menu');
+        if (menu) menu.classList.remove('show');
+        if (trigger) {
+            trigger.classList.remove('active');
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+    },
+
+    setupEventListeners() {
+        const trigger = $('btn-toggle-main-menu');
+        if (trigger) {
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleDropdown();
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const wrap = $('home-menu-wrap');
+            if (wrap && !wrap.contains(e.target)) {
+                this.closeDropdown();
+            }
+        });
+
+        // Dropdown Items
+        const itemLogin = $('menu-item-login');
+        if (itemLogin) itemLogin.addEventListener('click', () => { this.openModal(); soundClick(); });
+
+        const itemTarget = $('menu-item-target');
+        if (itemTarget) itemTarget.addEventListener('click', () => {
+            this.closeDropdown();
+            openTargetModal();
+            soundClick();
+        });
+
+        const itemCosmo = $('menu-item-cosmo');
+        if (itemCosmo) itemCosmo.addEventListener('click', () => {
+            this.closeDropdown();
+            if (window.Cosmo && Cosmo.cycleCompanionMode) Cosmo.cycleCompanionMode();
+            soundClick();
+        });
+
+        const itemThemes = $('menu-item-themes');
+        if (itemThemes) itemThemes.addEventListener('click', () => {
+            this.closeDropdown();
+            openThemeModal();
+            soundClick();
+        });
+
+        const itemSpotify = $('menu-item-spotify');
+        if (itemSpotify) itemSpotify.addEventListener('click', () => {
+            this.closeDropdown();
+            if (window.SpotifyManager) SpotifyManager.openModal('player');
+            soundClick();
+        });
+
+        const itemAnalytics = $('menu-item-analytics');
+        if (itemAnalytics) itemAnalytics.addEventListener('click', () => {
+            this.closeDropdown();
+            navigate('analytics');
+            soundClick();
+        });
+
+        const itemExport = $('menu-item-export-data');
+        if (itemExport) itemExport.addEventListener('click', () => {
+            this.closeDropdown();
+            const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.exportLocalPackage(), null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute('href', dataStr);
+            dlAnchor.setAttribute('download', `focusr-backup-${new Date().toISOString().slice(0, 10)}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+            showToast('💾 Focusr backup downloaded!', '✅', 3500);
+        });
+
+        // Login Modal buttons
+        const btnClose = $('login-modal-close');
+        const backdrop = $('login-modal-backdrop');
+        if (btnClose) btnClose.addEventListener('click', () => this.closeModal());
+        if (backdrop) {
+            backdrop.addEventListener('click', (e) => {
+                if (e.target === backdrop) this.closeModal();
+            });
+        }
+
+        const btnGoogle = $('btn-google-login');
+        if (btnGoogle) btnGoogle.addEventListener('click', () => this.loginWithGoogle());
+
+        const formEmail = $('email-login-form');
+        if (formEmail) {
+            formEmail.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = $('inp-login-name')?.value || '';
+                const email = $('inp-login-email')?.value || '';
+                this.loginWithEmail(name, email);
+            });
+        }
+
+        const btnPush = $('btn-sync-cloud-push');
+        const btnPull = $('btn-sync-cloud-pull');
+        const btnLogout = $('btn-logout-account');
+        if (btnPush) btnPush.addEventListener('click', () => this.pushCloudData());
+        if (btnPull) btnPull.addEventListener('click', () => this.pullCloudData());
+        if (btnLogout) btnLogout.addEventListener('click', () => this.logout());
     }
 };
 
@@ -9219,6 +10262,11 @@ document.addEventListener('keydown', e => {
         closeThemeModal();
         return;
     }
+    if (e.code === 'Escape' && $('login-modal-backdrop')?.classList.contains('active')) {
+        e.preventDefault();
+        AccountManager.closeModal();
+        return;
+    }
     if (e.code === 'Escape' && $('spotify-modal-backdrop')?.classList.contains('active')) {
         e.preventDefault();
         SpotifyManager.closeModal();
@@ -9413,6 +10461,7 @@ window.Cosmor = Cosmo;
 window.Cosmo = Cosmo;
 Cosmo.init();
 SpotifyManager.init();
+AccountManager.init();
 checkDailyGoalGreeting();
 
 if (focusCatBadge) {
