@@ -1444,6 +1444,67 @@ body.oled-true-black .glass {
 /* ═════════════════════════════════════════════════════════════════
    WALLPAPER & ATMOSPHERE MARKETPLACE MODAL (52+ FREE THEMES)
    ═════════════════════════════════════════════════════════════════ */
+
+/* ─── Custom Wallpaper Upload & Algorithmic Theme Styling ─── */
+.market-btn-upload {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.45rem 0.95rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;
+    background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff; cursor: pointer; transition: all .2s ease;
+}
+.market-btn-upload:hover {
+    background: var(--accent); border-color: var(--accent);
+    box-shadow: 0 0 16px var(--accent-glow); transform: translateY(-1px);
+}
+.market-card-custom-tag {
+    position: absolute; top: 0.6rem; left: 0.6rem;
+    padding: 0.2rem 0.55rem; border-radius: 6px;
+    font-size: 0.65rem; font-weight: 800; letter-spacing: 0.06em;
+    background: rgba(168, 85, 247, 0.9); color: #fff;
+    backdrop-filter: blur(8px);
+}
+.market-card-delete-btn {
+    position: absolute; bottom: 0.6rem; right: 0.6rem;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(239, 68, 68, 0.88); border: none; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: 0; transition: opacity .2s, transform .2s, background .2s;
+    z-index: 5; font-size: 0.75rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.market-wallpaper-card:hover .market-card-delete-btn { opacity: 1; }
+.market-card-delete-btn:hover { transform: scale(1.15); background: #dc2626; }
+
+.global-dropzone-overlay {
+    position: fixed; inset: 0; background: rgba(5, 7, 14, 0.88);
+    backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+    z-index: 999; display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .25s ease, visibility .25s ease;
+}
+.global-dropzone-overlay.active {
+    opacity: 1; visibility: visible; pointer-events: auto;
+}
+.global-dropzone-card {
+    max-width: 480px; width: 90%; padding: 2.5rem 2rem; border-radius: 24px;
+    background: rgba(18, 22, 34, 0.95); border: 2px dashed var(--accent);
+    text-align: center; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8);
+    transform: scale(0.95); transition: transform .25s ease;
+}
+.global-dropzone-overlay.active .global-dropzone-card {
+    transform: scale(1);
+}
+.dropzone-icon {
+    width: 68px; height: 68px; border-radius: 50%; margin: 0 auto 1.25rem;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14);
+    display: flex; align-items: center; justify-content: center;
+}
+.global-dropzone-card h3 {
+    font-size: 1.35rem; color: #fff; margin: 0 0 0.5rem 0; font-weight: 700;
+}
+.global-dropzone-card p {
+    font-size: 0.88rem; color: var(--text-dim); margin: 0; line-height: 1.5;
+}
+
 .wallpaper-marketplace-backdrop {
     position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78);
     backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
@@ -5584,7 +5645,13 @@ body.oled-true-black .glass {
                 </h2>
                 <p>Curated spatial backgrounds, live dynamic liquid hues, and atmospheric depth. Completely free.</p>
             </div>
-            <button class="modal-close-btn" id="wallpaper-marketplace-close" title="Close Marketplace">✕</button>
+            <div style="display:flex;align-items:center;gap:0.75rem">
+                <button class="market-btn-upload" id="btn-market-upload" type="button" title="Upload custom wallpaper & auto-generate theme">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span>+ Upload Wallpaper</span>
+                </button>
+                <button class="modal-close-btn" id="wallpaper-marketplace-close" title="Close Marketplace">✕</button>
+            </div>
         </div>
 
         <!-- Search Bar Row -->
@@ -5599,6 +5666,7 @@ body.oled-true-black .glass {
 
         <!-- Category Filter Pills -->
         <div class="market-categories-row" id="market-categories-row">
+            <button class="market-cat-pill" data-category="custom" id="market-cat-pill-custom">🎨 Custom (<span id="custom-themes-count">0</span>)</button>
             <button class="market-cat-pill active" data-category="all">All Atmospheres (52)</button>
             <button class="market-cat-pill" data-category="nature">🌿 Sanctuary Nature (10)</button>
             <button class="market-cat-pill" data-category="cosmic">🌌 Cosmic & Space (10)</button>
@@ -5648,10 +5716,15 @@ body.oled-true-black .glass {
                     <strong>Wallpaper & Atmosphere Marketplace</strong>
                     <span>Browse 52+ free high-resolution space, cyberpunk, nature, and lo-fi themes.</span>
                 </div>
-                <button class="atelier-btn-primary" id="btn-atelier-open-marketplace" type="button" style="white-space:nowrap">
-                    <span>Explore 52+ Themes</span>
-                    <span>→</span>
-                </button>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+                    <button class="atelier-btn-secondary" id="btn-atelier-upload-wallpaper" type="button" style="white-space:nowrap;padding:0.55rem 0.9rem;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#fff;font-size:0.8rem;font-weight:600;cursor:pointer">
+                        <span>+ Custom Image</span>
+                    </button>
+                    <button class="atelier-btn-primary" id="btn-atelier-open-marketplace" type="button" style="white-space:nowrap">
+                        <span>Explore 52+ Themes</span>
+                        <span>→</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Custom Accent Color Picker -->
@@ -8146,6 +8219,8 @@ function getLiquidHue() {
 }
 
 function getActiveTheme() {
+    const customMatch = (window.CUSTOM_THEMES && window.CUSTOM_THEMES.find(t => t.id === themeConfig.themeId));
+    if (customMatch) return customMatch;
     return THEMES.find(t => t.id === themeConfig.themeId) || THEMES[0];
 }
 
@@ -14034,17 +14109,362 @@ const DiscoveryEngine = {
 /* ═════════════════════════════════════════════════════════════════
    FOCUSR WALLPAPER & ATMOSPHERE MARKETPLACE CONTROLLER
    ═════════════════════════════════════════════════════════════════ */
+
+/* ═════════════════════════════════════════════════════════════════
+   FOCUSR ALGORITHMIC THEME EXTRACTOR & CONTRAST SAFEGUARD
+   ═════════════════════════════════════════════════════════════════ */
+const FocusrThemeExtractor = {
+    async processImageFile(file) {
+        if (!file || !file.type.startsWith('image/')) {
+            throw new Error('Please select a valid image file (JPG, PNG, WebP).');
+        }
+
+        const dataUrl = await this.readFileAsDataUrl(file);
+        const img = await this.loadImage(dataUrl);
+
+        // Optimize image resolution to 1920x1080 to conserve browser memory
+        const optimizedBgUrl = this.resizeImage(img, 1920, 1080, 0.84);
+
+        // Extract palette & dynamic parameters
+        const analysis = this.extractColors(img);
+
+        const customTheme = {
+            id: 'custom-' + Date.now(),
+            name: this.formatThemeName(file.name),
+            sub: 'Custom Spatial Atmosphere',
+            image: optimizedBgUrl,
+            category: 'custom',
+            isCustom: true,
+            accent: analysis.accent,
+            accentGlow: analysis.accentGlow,
+            liquidHue: analysis.liquidHue,
+            tint: analysis.tint,
+            orb1: analysis.orb1,
+            orb2: analysis.orb2,
+            orb3: analysis.orb3,
+            palette: analysis.palette,
+            contrastRatio: analysis.contrastRatio
+        };
+
+        return customTheme;
+    },
+
+    readFileAsDataUrl(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    },
+
+    loadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        });
+    },
+
+    resizeImage(img, maxW, maxH, quality = 0.84) {
+        let w = img.width;
+        let h = img.height;
+        if (w > maxW || h > maxH) {
+            const ratio = Math.min(maxW / w, maxH / h);
+            w = Math.round(w * ratio);
+            h = Math.round(h * ratio);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        return canvas.toDataURL('image/jpeg', quality);
+    },
+
+    formatThemeName(fileName) {
+        if (!fileName) return 'Custom Atmosphere';
+        const name = fileName.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim();
+        return name.charAt(0).toUpperCase() + name.slice(1, 26);
+    },
+
+    extractColors(img) {
+        const sampleSize = 100;
+        const canvas = document.createElement('canvas');
+        canvas.width = sampleSize;
+        canvas.height = sampleSize;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, sampleSize, sampleSize);
+
+        const imgData = ctx.getImageData(0, 0, sampleSize, sampleSize).data;
+        const colorBuckets = {};
+        let rTotal = 0, gTotal = 0, bTotal = 0, count = 0;
+
+        for (let i = 0; i < imgData.length; i += 16) {
+            const r = imgData[i];
+            const g = imgData[i + 1];
+            const b = imgData[i + 2];
+            const a = imgData[i + 3];
+
+            if (a < 128) continue;
+            const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            if (lum < 15 || lum > 245) continue;
+
+            rTotal += r; gTotal += g; bTotal += b; count++;
+
+            const hsl = this.rgbToHsl(r, g, b);
+            const hueBucket = Math.round(hsl.h / 15) * 15;
+            const satKey = Math.round(hsl.s * 10);
+            const key = hueBucket + '_' + satKey;
+
+            if (!colorBuckets[key]) {
+                colorBuckets[key] = { rTotal: 0, gTotal: 0, bTotal: 0, count: 0, hsl };
+            }
+            colorBuckets[key].rTotal += r;
+            colorBuckets[key].gTotal += g;
+            colorBuckets[key].bTotal += b;
+            colorBuckets[key].count++;
+        }
+
+        const avgR = count > 0 ? Math.round(rTotal / count) : 40;
+        const avgG = count > 0 ? Math.round(gTotal / count) : 40;
+        const avgB = count > 0 ? Math.round(bTotal / count) : 50;
+
+        let bestBucket = null;
+        let bestScore = -1;
+
+        for (const key in colorBuckets) {
+            const b = colorBuckets[key];
+            const avgHsl = this.rgbToHsl(b.rTotal / b.count, b.gTotal / b.count, b.bTotal / b.count);
+            
+            let lightnessBonus = 1;
+            if (avgHsl.l >= 0.4 && avgHsl.l <= 0.7) lightnessBonus = 1.6;
+            else if (avgHsl.l < 0.25 || avgHsl.l > 0.85) lightnessBonus = 0.4;
+
+            const score = b.count * Math.pow(avgHsl.s + 0.1, 1.8) * lightnessBonus;
+            if (score > bestScore) {
+                bestScore = score;
+                bestBucket = b;
+            }
+        }
+
+        let rawAccentR, rawAccentG, rawAccentB;
+        if (bestBucket && bestBucket.count > 0) {
+            rawAccentR = Math.round(bestBucket.rTotal / bestBucket.count);
+            rawAccentG = Math.round(bestBucket.gTotal / bestBucket.count);
+            rawAccentB = Math.round(bestBucket.bTotal / bestBucket.count);
+        } else {
+            rawAccentR = 0; rawAccentG = 240; rawAccentB = 255;
+        }
+
+        // Contrast Safeguard: Enforce minimum 4.5:1 WCAG AA against dark backing
+        const adjustedAccent = this.ensureContrastSafeguard(rawAccentR, rawAccentG, rawAccentB);
+        const accentHex = adjustedAccent.hex;
+        const accentHsl = adjustedAccent.hsl;
+
+        const liquidHue = Math.round(accentHsl.h);
+        const accentGlow = 'rgba(' + adjustedAccent.r + ', ' + adjustedAccent.g + ', ' + adjustedAccent.b + ', 0.38)';
+
+        // Ambient dark atmospheric tint
+        const tintR = Math.min(24, Math.round(avgR * 0.12));
+        const tintG = Math.min(26, Math.round(avgG * 0.12));
+        const tintB = Math.min(32, Math.round(avgB * 0.14));
+        const tint = 'rgba(' + tintR + ', ' + tintG + ', ' + tintB + ', 0.76)';
+
+        // Orbs
+        const orb1 = 'rgba(' + adjustedAccent.r + ', ' + adjustedAccent.g + ', ' + adjustedAccent.b + ', 0.14)';
+        
+        const secHsl = { h: (accentHsl.h + 35) % 360, s: Math.min(1, accentHsl.s * 0.9), l: accentHsl.l };
+        const secRgb = this.hslToRgb(secHsl.h, secHsl.s, secHsl.l);
+        const orb2 = 'rgba(' + secRgb.r + ', ' + secRgb.g + ', ' + secRgb.b + ', 0.09)';
+
+        const tertHsl = { h: (accentHsl.h + 180) % 360, s: 0.35, l: 0.65 };
+        const tertRgb = this.hslToRgb(tertHsl.h, tertHsl.s, tertHsl.l);
+        const orb3 = 'rgba(' + tertRgb.r + ', ' + tertRgb.g + ', ' + tertRgb.b + ', 0.06)';
+
+        const palette = [
+            accentHex,
+            this.rgbToHex(secRgb.r, secRgb.g, secRgb.b),
+            this.rgbToHex(tintR + 10, tintG + 10, tintB + 14)
+        ];
+
+        return {
+            accent: accentHex,
+            accentGlow,
+            liquidHue,
+            tint,
+            orb1,
+            orb2,
+            orb3,
+            palette,
+            contrastRatio: adjustedAccent.contrastRatio
+        };
+    },
+
+    ensureContrastSafeguard(r, g, b) {
+        let hsl = this.rgbToHsl(r, g, b);
+        const bgLuminance = 0.008; // Luminance of dark glass container #0c0f17
+        let currentLuminance = this.calculateRelativeLuminance(r, g, b);
+        let contrastRatio = (currentLuminance + 0.05) / (bgLuminance + 0.05);
+
+        // Iteratively elevate lightness and saturation until contrast ratio meets WCAG AA (>= 4.6:1)
+        let iterations = 0;
+        while (contrastRatio < 4.6 && iterations < 20) {
+            hsl.l = Math.min(0.88, hsl.l + 0.05);
+            hsl.s = Math.max(0.60, Math.min(0.98, hsl.s * 1.1));
+            const rgb = this.hslToRgb(hsl.h, hsl.s, hsl.l);
+            r = rgb.r; g = rgb.g; b = rgb.b;
+            currentLuminance = this.calculateRelativeLuminance(r, g, b);
+            contrastRatio = (currentLuminance + 0.05) / (bgLuminance + 0.05);
+            iterations++;
+        }
+
+        return {
+            r, g, b,
+            hex: this.rgbToHex(r, g, b),
+            hsl,
+            contrastRatio: contrastRatio.toFixed(2)
+        };
+    },
+
+    calculateRelativeLuminance(r, g, b) {
+        const a = [r, g, b].map(v => {
+            v /= 255;
+            return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        });
+        return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+    },
+
+    rgbToHsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+        if (max === min) {
+            h = s = 0;
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h *= 60;
+        }
+        return { h, s, l };
+    },
+
+    hslToRgb(h, s, l) {
+        let r, g, b;
+        if (s === 0) {
+            r = g = b = l;
+        } else {
+            const hue2rgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1/6) return p + (q - p) * 6 * t;
+                if (t < 1/2) return q;
+                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            };
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            r = hue2rgb(p, q, (h / 360) + 1/3);
+            g = hue2rgb(p, q, h / 360);
+            b = hue2rgb(p, q, (h / 360) - 1/3);
+        }
+        return {
+            r: Math.round(r * 255),
+            g: Math.round(g * 255),
+            b: Math.round(b * 255)
+        };
+    },
+
+    rgbToHex(r, g, b) {
+        const toHex = x => {
+            const hex = Math.round(x).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        };
+        return '#' + toHex(r) + toHex(g) + toHex(b);
+    }
+};
+
+/* ═════════════════════════════════════════════════════════════════
+   FOCUSR CUSTOM THEME STORAGE (LOCALSTORAGE + STATE)
+   ═════════════════════════════════════════════════════════════════ */
+const CustomThemeStorage = {
+    STORAGE_KEY: 'focusr_custom_themes',
+    themes: [],
+
+    init() {
+        this.load();
+    },
+
+    load() {
+        try {
+            const raw = localStorage.getItem(this.STORAGE_KEY);
+            this.themes = raw ? JSON.parse(raw) : [];
+            window.CUSTOM_THEMES = this.themes;
+        } catch (e) {
+            console.warn('Failed to load custom themes from localStorage:', e);
+            this.themes = [];
+            window.CUSTOM_THEMES = [];
+        }
+    },
+
+    save() {
+        try {
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.themes));
+            window.CUSTOM_THEMES = this.themes;
+        } catch (e) {
+            console.error('LocalStorage quota error saving custom themes:', e);
+            showToast('Storage quota warning: theme active for this session.', '', 4000);
+        }
+    },
+
+    addTheme(theme) {
+        // Keep max 8 custom themes to conserve browser quota
+        this.themes = this.themes.filter(t => t.id !== theme.id);
+        if (this.themes.length >= 8) {
+            this.themes.shift();
+        }
+        this.themes.push(theme);
+        this.save();
+    },
+
+    removeTheme(themeId) {
+        this.themes = this.themes.filter(t => t.id !== themeId);
+        this.save();
+        if (themeConfig.themeId === themeId) {
+            applyTheme('zen-mist', undefined, undefined, true);
+        }
+    },
+
+    getThemes() {
+        return this.themes;
+    }
+};
+
+
 const WallpaperMarketplace = {
     activeCategory: 'all',
     searchQuery: '',
     previewThemeId: null,
 
     init() {
+        CustomThemeStorage.init();
+        this.updateCustomCountBadge();
+
         const btnOpen = $('btn-open-marketplace');
         const btnAtelier = $('btn-atelier-open-marketplace');
         const btnClose = $('wallpaper-marketplace-close');
         const backdrop = $('wallpaper-marketplace-backdrop');
         const searchInput = $('market-search-input');
+        const btnUpload = $('btn-market-upload');
+        const btnAtelierUpload = $('btn-atelier-upload-wallpaper');
+        const fileInput = $('wallpaper-file-input');
 
         if (btnOpen) btnOpen.addEventListener('click', () => this.open());
         if (btnAtelier) {
@@ -14088,7 +14508,94 @@ const WallpaperMarketplace = {
             });
         });
 
-        console.log('WallpaperMarketplace initialized with 52 themes');
+        // File upload triggers
+        if (btnUpload && fileInput) {
+            btnUpload.addEventListener('click', () => fileInput.click());
+        }
+        if (btnAtelierUpload && fileInput) {
+            btnAtelierUpload.addEventListener('click', () => fileInput.click());
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', async (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (file) {
+                    await this.handleUserUpload(file);
+                    fileInput.value = '';
+                }
+            });
+        }
+
+        // Global Drag & Drop listener
+        this.setupGlobalDragAndDrop();
+
+        console.log('WallpaperMarketplace initialized with 52+ catalog and custom upload engine');
+    },
+
+    updateCustomCountBadge() {
+        const countBadge = $('custom-themes-count');
+        if (countBadge) {
+            countBadge.textContent = CustomThemeStorage.getThemes().length;
+        }
+    },
+
+    async handleUserUpload(file) {
+        showToast('Analyzing image palette & verifying WCAG contrast...', '', 2500);
+        try {
+            const customTheme = await FocusrThemeExtractor.processImageFile(file);
+            CustomThemeStorage.addTheme(customTheme);
+            this.updateCustomCountBadge();
+            applyTheme(customTheme.id, undefined, undefined, true);
+            soundClick();
+            this.renderGrid();
+            showToast('Custom atmosphere "' + customTheme.name + '" deployed! Accent: ' + customTheme.accent + ' (Contrast ' + customTheme.contrastRatio + ':1 WCAG Verified)', '', 4000);
+        } catch (err) {
+            console.error('Custom theme creation error:', err);
+            showToast(err.message || 'Could not process image.', '', 4000);
+        }
+    },
+
+    setupGlobalDragAndDrop() {
+        const overlay = $('global-dropzone-overlay');
+        if (!overlay) return;
+
+        let dragCounter = 0;
+
+        window.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            dragCounter++;
+            if (e.dataTransfer && e.dataTransfer.types && e.dataTransfer.types.includes('Files')) {
+                overlay.classList.add('active');
+            }
+        });
+
+        window.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dragCounter--;
+            if (dragCounter <= 0) {
+                dragCounter = 0;
+                overlay.classList.remove('active');
+            }
+        });
+
+        window.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        window.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            dragCounter = 0;
+            overlay.classList.remove('active');
+
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                if (file.type && file.type.startsWith('image/')) {
+                    await this.handleUserUpload(file);
+                } else {
+                    showToast('Please drop an image file (JPG, PNG, WebP).', '', 3000);
+                }
+            }
+        });
     },
 
     open() {
@@ -14107,7 +14614,6 @@ const WallpaperMarketplace = {
         if (!backdrop) return;
         backdrop.classList.remove('active');
 
-        // Restore original theme if user was previewing
         if (this.previewThemeId) {
             const activeTheme = getActiveTheme();
             const bgImgEl = $('backdrop-image');
@@ -14124,18 +14630,22 @@ const WallpaperMarketplace = {
         }
     },
 
+    getAllThemes() {
+        const customThemes = CustomThemeStorage.getThemes();
+        return [...customThemes, ...THEMES];
+    },
+
     renderGrid() {
         const container = $('market-wallpapers-grid');
         if (!container) return;
 
         const activeId = (themeConfig && themeConfig.themeId) || 'zen-mist';
+        const allList = this.getAllThemes();
 
-        const filtered = THEMES.filter(t => {
-            // Category filter
+        const filtered = allList.filter(t => {
             if (this.activeCategory !== 'all') {
                 if (t.category !== this.activeCategory) return false;
             }
-            // Search query filter
             if (this.searchQuery) {
                 const q = this.searchQuery;
                 const matchName = (t.name || '').toLowerCase().includes(q);
@@ -14151,7 +14661,7 @@ const WallpaperMarketplace = {
                 <div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-dim)">
                     <div style="font-size:2rem;margin-bottom:0.5rem">✦</div>
                     <strong style="display:block;font-size:1rem;color:#fff;margin-bottom:0.25rem">No matching atmospheres found</strong>
-                    <span>Try searching for "kyoto", "nebula", "rain", or select "All Atmospheres".</span>
+                    <span>${this.activeCategory === 'custom' ? 'No custom uploads yet. Click "+ Upload Wallpaper" or drag any image into the window!' : 'Try searching for another keyword or select All Atmospheres.'}</span>
                 </div>
             `;
             return;
@@ -14159,17 +14669,27 @@ const WallpaperMarketplace = {
 
         container.innerHTML = filtered.map(t => {
             const isActive = t.id === activeId;
+            const isCustom = !!t.isCustom;
             const dots = (t.palette || []).map(c => '<span class="market-palette-dot" style="background:' + c + '"></span>').join('');
             const thumb = t.image 
                 ? '<img src="' + t.image + '" alt="' + t.name + '" loading="lazy" class="market-card-img">'
                 : '<div class="market-card-fallback-thumb" style="background:' + ((t.palette && t.palette[2]) || '#090a0f') + '">✦</div>';
 
+            const badgeHtml = isCustom 
+                ? '<div class="market-card-custom-tag">CUSTOM</div>'
+                : '<div class="market-card-free-tag">FREE</div>';
+
+            const deleteHtml = isCustom
+                ? '<button class="market-card-delete-btn" data-delete-id="' + t.id + '" title="Delete custom theme">✕</button>'
+                : '';
+
             return `
                 <div class="market-wallpaper-card ${isActive ? 'active' : ''}" data-theme-id="${t.id}">
                     <div class="market-card-thumb-wrap">
                         ${thumb}
-                        <div class="market-card-free-tag">FREE</div>
+                        ${badgeHtml}
                         ${isActive ? '<div class="market-card-active-badge">✓ Active</div>' : ''}
+                        ${deleteHtml}
                         <div class="market-card-hover-overlay">
                             <button class="market-btn-apply" data-theme-id="${t.id}">
                                 <span>${isActive ? 'Active Atmosphere' : 'Apply Atmosphere'}</span>
@@ -14181,19 +14701,33 @@ const WallpaperMarketplace = {
                             <span class="market-card-title">${t.name}</span>
                             <div class="market-palette-dots">${dots}</div>
                         </div>
-                        <div class="market-card-sub">${t.sub || ''}</div>
+                        <div class="market-card-sub">${t.sub || (isCustom ? 'User Generated Atmosphere' : '')}</div>
                     </div>
                 </div>
             `;
         }).join('');
 
+        // Attach delete listeners
+        container.querySelectorAll('.market-card-delete-btn').forEach(delBtn => {
+            delBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const themeId = delBtn.dataset.deleteId;
+                if (confirm('Delete this custom atmosphere?')) {
+                    CustomThemeStorage.removeTheme(themeId);
+                    this.updateCustomCountBadge();
+                    this.renderGrid();
+                    showToast('Custom atmosphere deleted.', '', 2500);
+                }
+            });
+        });
+
         // Attach click listeners to cards and apply buttons
         container.querySelectorAll('.market-wallpaper-card').forEach(card => {
             const themeId = card.dataset.themeId;
 
-            // Live preview on hover
             card.addEventListener('mouseenter', () => {
-                const t = THEMES.find(x => x.id === themeId);
+                const all = this.getAllThemes();
+                const t = all.find(x => x.id === themeId);
                 if (t && t.image) {
                     this.previewThemeId = themeId;
                     const bgImgEl = $('backdrop-image');
@@ -14221,7 +14755,6 @@ const WallpaperMarketplace = {
                 }
             });
 
-            // Apply atmosphere on click
             card.addEventListener('click', () => {
                 this.previewThemeId = null;
                 applyTheme(themeId, undefined, undefined, true);
@@ -14924,6 +15457,20 @@ if (focusCatBadge) {
         <div style="text-align:center;margin-top:1.2rem;">
             <button class="btn-secondary" id="pricing-modal-close" style="padding:6px 20px;font-size:0.8rem">Close Panel</button>
         </div>
+    </div>
+</div>
+
+<!-- Hidden File Input for Custom Wallpaper Upload -->
+<input type="file" id="wallpaper-file-input" accept="image/jpeg,image/png,image/webp,image/avif" style="display:none">
+
+<!-- Global Drag & Drop Overlay -->
+<div class="global-dropzone-overlay" id="global-dropzone-overlay">
+    <div class="global-dropzone-card glass">
+        <div class="dropzone-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3>Drop Image to Deploy Custom Theme</h3>
+        <p>Focusr will extract the color palette, verify WCAG AA contrast for readability, and deploy your custom spatial atmosphere instantly.</p>
     </div>
 </div>
 
