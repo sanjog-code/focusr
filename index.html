@@ -2249,6 +2249,712 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     #cosmo-canvas{width:150px;height:150px}
     .cosmo-bubble{width:calc(100vw - 2rem);max-width:320px;padding:.85rem 1rem}
 }
+    
+/* ══════════════════════════════════════════════════════════
+   SPOTIFY INTEGRATION STYLES (Focusr Spatial Music)
+   ══════════════════════════════════════════════════════════ */
+.btn-spotify {
+    background: rgba(30, 215, 96, 0.12) !important;
+    border: 1px solid rgba(30, 215, 96, 0.35) !important;
+    color: #1ed760 !important;
+    position: relative;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.btn-spotify:hover {
+    background: rgba(30, 215, 96, 0.22) !important;
+    border-color: #1ed760 !important;
+    box-shadow: 0 0 16px rgba(30, 215, 96, 0.35) !important;
+    transform: translateY(-1px) scale(1.04);
+}
+.btn-spotify.playing {
+    background: rgba(30, 215, 96, 0.25) !important;
+    border-color: #1ed760 !important;
+    box-shadow: 0 0 18px rgba(30, 215, 96, 0.45) !important;
+}
+.spotify-pulse-dot {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #1ed760;
+    box-shadow: 0 0 8px #1ed760;
+    animation: spotifyGlow 1.8s infinite ease-in-out;
+}
+@keyframes spotifyGlow {
+    0%, 100% { opacity: 0.6; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* Focus Screen Spotify Pill */
+.btn-focus-spotify {
+    border-color: rgba(30, 215, 96, 0.3) !important;
+    color: #a7f3d0 !important;
+}
+.btn-focus-spotify:hover {
+    border-color: #1ed760 !important;
+    color: #fff !important;
+    box-shadow: 0 0 14px rgba(30, 215, 96, 0.3) !important;
+}
+.btn-focus-spotify .spotify-pill-icon {
+    display: inline-flex;
+    align-items: center;
+    color: #1ed760;
+}
+.btn-focus-spotify.active-playing {
+    background: rgba(30, 215, 96, 0.18) !important;
+    border-color: #1ed760 !important;
+}
+
+/* Active Focus Mini-Player HUD */
+.focus-spotify-hud {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 480px;
+    margin: 0.65rem auto 0;
+    padding: 0.55rem 0.95rem;
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(30, 215, 96, 0.28);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+.focus-spotify-hud.visible {
+    display: flex;
+}
+.focus-spotify-info {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    overflow: hidden;
+    min-width: 0;
+    flex: 1;
+}
+.focus-spotify-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(30, 215, 96, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1ed760;
+    flex-shrink: 0;
+}
+.focus-spotify-meta {
+    overflow: hidden;
+    text-align: left;
+    min-width: 0;
+}
+.focus-spotify-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #f8fafc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: -0.01em;
+}
+.focus-spotify-sub {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.focus-spotify-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+}
+.spotify-hud-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #f1f5f9;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.spotify-hud-btn:hover {
+    background: rgba(30, 215, 96, 0.2);
+    border-color: #1ed760;
+    color: #fff;
+}
+.spotify-equalizer {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+}
+.spotify-equalizer span {
+    width: 2.5px;
+    background: #1ed760;
+    border-radius: 1px;
+    animation: eqBounce 1.2s infinite ease-in-out;
+}
+.spotify-equalizer span:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.spotify-equalizer span:nth-child(2) { height: 90%; animation-delay: 0.3s; }
+.spotify-equalizer span:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+@keyframes eqBounce {
+    0%, 100% { height: 25%; }
+    50% { height: 100%; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   SPOTIFY MODAL STYLES
+   ══════════════════════════════════════════════════════════ */
+.spotify-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.68);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+.spotify-modal-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+.spotify-modal {
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    border-radius: 24px;
+    background: rgba(11, 19, 36, 0.88);
+    border: 1px solid rgba(30, 215, 96, 0.3);
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(30, 215, 96, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.96) translateY(8px);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.spotify-modal-backdrop.active .spotify-modal {
+    transform: scale(1) translateY(0);
+}
+.spotify-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.6rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.spotify-modal-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+.spotify-header-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(30, 215, 96, 0.15);
+    border: 1px solid rgba(30, 215, 96, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1ed760;
+    box-shadow: 0 0 16px rgba(30, 215, 96, 0.25);
+    flex-shrink: 0;
+}
+.spotify-modal-title-wrap h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #f8fafc;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.spotify-powered-badge {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 0.18rem 0.55rem;
+    border-radius: 9999px;
+    background: rgba(30, 215, 96, 0.2);
+    color: #1ed760;
+    border: 1px solid rgba(30, 215, 96, 0.4);
+}
+.spotify-modal-title-wrap p {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin: 0.15rem 0 0;
+}
+
+/* Tabs */
+.spotify-nav-tabs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1.6rem 0.4rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+.spotify-tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #94a3b8;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+.spotify-tab-btn:hover {
+    color: #f1f5f9;
+}
+.spotify-tab-btn.active {
+    color: #1ed760;
+    border-bottom-color: #1ed760;
+}
+
+/* Content Body */
+.spotify-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.spotify-tab-content {
+    display: none;
+    flex-direction: column;
+    gap: 1.15rem;
+}
+.spotify-tab-content.active {
+    display: flex;
+}
+
+/* Embedded Player Wrap */
+.spotify-player-frame-wrap {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #121212;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    min-height: 152px;
+}
+.spotify-player-frame-wrap iframe {
+    width: 100%;
+    height: 152px;
+    border: none;
+    display: block;
+}
+
+/* Preset Station Grid */
+.spotify-stations-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.spotify-stations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+}
+.station-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.7rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: left;
+}
+.station-card:hover {
+    background: rgba(30, 215, 96, 0.1);
+    border-color: rgba(30, 215, 96, 0.4);
+    transform: translateY(-2px);
+}
+.station-card.active {
+    background: rgba(30, 215, 96, 0.16);
+    border-color: #1ed760;
+    box-shadow: 0 0 16px rgba(30, 215, 96, 0.25);
+}
+.station-icon {
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+.station-info {
+    min-width: 0;
+    flex: 1;
+}
+.station-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #f8fafc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.station-vibe {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Custom Spotify Link Input */
+.spotify-custom-wrap {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+.spotify-input-row {
+    display: flex;
+    gap: 0.5rem;
+}
+.spotify-url-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.8rem;
+    color: #f8fafc;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.spotify-url-input:focus {
+    border-color: #1ed760;
+    box-shadow: 0 0 10px rgba(30, 215, 96, 0.3);
+}
+.spotify-load-btn {
+    background: #1ed760;
+    color: #0b1324;
+    font-weight: 700;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.spotify-load-btn:hover {
+    background: #22e668;
+    box-shadow: 0 0 14px rgba(30, 215, 96, 0.5);
+    transform: scale(1.02);
+}
+
+/* Spotify Connect Account Card */
+.spotify-connect-card {
+    background: linear-gradient(135deg, rgba(30, 215, 96, 0.12), rgba(15, 23, 42, 0.6));
+    border: 1px solid rgba(30, 215, 96, 0.3);
+    border-radius: 16px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+.connect-status-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.connect-user-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.connect-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(30, 215, 96, 0.2);
+    border: 2px solid #1ed760;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #1ed760;
+}
+.connect-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.connect-user-name {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+.connect-user-sub {
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+.btn-connect-spotify {
+    background: #1ed760;
+    color: #000;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    align-self: flex-start;
+}
+.btn-connect-spotify:hover {
+    background: #25ec6e;
+    box-shadow: 0 0 20px rgba(30, 215, 96, 0.6);
+    transform: translateY(-1px);
+}
+.btn-disconnect-spotify {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-disconnect-spotify:hover {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #ef4444;
+}
+
+/* OAuth Playback Controls Card */
+.spotify-oauth-playback {
+    display: none;
+    flex-direction: column;
+    gap: 0.85rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    padding: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.spotify-oauth-playback.active {
+    display: flex;
+}
+.oauth-track-display {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.oauth-album-art {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: #181818;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.oauth-album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.oauth-track-details {
+    min-width: 0;
+    flex: 1;
+}
+.oauth-song-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #f8fafc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.oauth-artist-name {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.oauth-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+}
+.oauth-ctrl-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f1f5f9;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.oauth-ctrl-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #1ed760;
+    transform: scale(1.08);
+}
+.oauth-ctrl-btn.play-btn {
+    width: 42px;
+    height: 42px;
+    background: #1ed760;
+    color: #0b1324;
+}
+.oauth-ctrl-btn.play-btn:hover {
+    background: #25ec6e;
+    color: #000;
+    box-shadow: 0 0 16px rgba(30, 215, 96, 0.5);
+}
+
+/* OAuth Config Settings Accordion */
+.spotify-oauth-config-toggle {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-decoration: underline;
+    margin-top: 0.2rem;
+}
+.spotify-oauth-config-panel {
+    display: none;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.85rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    margin-top: 0.5rem;
+}
+.spotify-oauth-config-panel.open {
+    display: flex;
+}
+.spotify-config-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-align: left;
+}
+.spotify-config-field label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+.spotify-config-field input {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.78rem;
+    color: #f8fafc;
+    outline: none;
+}
+.spotify-config-field input:focus {
+    border-color: #1ed760;
+}
+.spotify-redirect-hint {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+.spotify-redirect-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: #38bdf8;
+    cursor: pointer;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+/* Automation Toggles */
+.spotify-auto-options {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.75rem 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.spotify-auto-label {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+.spotify-auto-sub {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    font-weight: normal;
+}
+
+@media(max-width: 600px) {
+    .spotify-stations-grid {
+        grid-template-columns: 1fr;
+    }
+    .spotify-modal {
+        max-height: 94vh;
+        border-radius: 18px;
+    }
+    .spotify-modal-header {
+        padding: 1rem 1.1rem;
+    }
+    .spotify-modal-body {
+        padding: 1rem 1.1rem;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -2294,6 +3000,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 </div>
             </div>
             <div class="home-actions">
+                <button class="btn-icon btn-spotify" id="btn-open-spotify" title="Spotify Focus Music & Playlists">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+    </svg>
+    <span class="spotify-pulse-dot" id="home-spotify-pulse" style="display:none"></span>
+</button>
                 <button class="btn-icon" id="btn-open-target" title="Daily Focus Target (Set daily goal)">🎯</button>
                 <button class="btn-icon" id="btn-toggle-cosmo" title="Cosmor the Blue Minion (Click to summon or toggle companion mode)">🚀</button>
                 <button class="btn-icon" id="btn-open-themes" title="Atmosphere & Backdrops">
@@ -2745,6 +3457,15 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                     <button class="inventory-pill-btn glass" id="btn-focus-cosmo" title="Cosmor the Blue Minion Rocket Assistant">
                         <span>🚀 Cosmor</span>
                     </button>
+                    <button class="inventory-pill-btn glass btn-focus-spotify" id="btn-focus-spotify" title="Spotify Focus Music">
+    <span class="spotify-pill-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+        </svg>
+    </span>
+    <span>Spotify</span>
+    <span class="pill-badge" id="focus-spotify-status-badge">READY</span>
+</button>
                     <button class="inventory-pill-btn glass" id="btn-focus-themes" title="Change Atmosphere">
                         <span>🎨 Atmosphere</span>
                     </button>
@@ -2755,6 +3476,27 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 </div>
             </div>
             <div class="pomo-dots" id="pomo-dots"></div>
+
+            <div class="focus-spotify-hud" id="focus-spotify-hud">
+    <div class="focus-spotify-info">
+        <div class="focus-spotify-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+            </svg>
+        </div>
+        <div class="focus-spotify-meta">
+            <div class="focus-spotify-title" id="focus-hud-title">Lofi Beats & Deep Focus</div>
+            <div class="focus-spotify-sub" id="focus-hud-sub">Spotify Streaming Sanctuary</div>
+        </div>
+        <div class="spotify-equalizer" id="focus-spotify-eq">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+    <div class="focus-spotify-actions">
+        <button class="spotify-hud-btn" id="btn-hud-change-station" title="Switch Station / Playlist">🎧 Change</button>
+        <button class="spotify-hud-btn" id="btn-hud-toggle-embed" title="Toggle Spotify Player Modal">Open</button>
+    </div>
+</div>
 
             <!-- Timer with SVG Progress Ring -->
             <div class="timer-ring-wrap">
@@ -3145,6 +3887,156 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <div class="target-modal-footer">
             <button class="target-btn-cancel" id="target-btn-cancel">Cancel</button>
             <button class="target-btn-save" id="target-btn-save">Save Target</button>
+        </div>
+    </div>
+</div>
+
+<div class="spotify-modal-backdrop" id="spotify-modal-backdrop">
+    <div class="spotify-modal glass" id="spotify-modal">
+        <!-- Header -->
+        <div class="spotify-modal-header">
+            <div class="spotify-modal-title-wrap">
+                <div class="spotify-header-logo">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2>Spotify Music <span class="spotify-powered-badge">Direct Stream</span></h2>
+                    <p>Stream soothing soundscapes, lofi beats, or your own personal playlists while you work.</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" id="spotify-modal-close" title="Close Spotify Modal">✕</button>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="spotify-nav-tabs">
+            <button class="spotify-tab-btn active" id="tab-btn-player" data-tab="player">
+                <span>🎵</span> Focus Player & Stations
+            </button>
+            <button class="spotify-tab-btn" id="tab-btn-connect" data-tab="connect">
+                <span>🔗</span> Connect Spotify Account
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="spotify-modal-body">
+            <!-- TAB 1: Instant Player & Focus Stations -->
+            <div class="spotify-tab-content active" id="tab-content-player">
+                <!-- Spotify Embed Frame -->
+                <div class="spotify-player-frame-wrap" id="spotify-player-frame-wrap">
+                    <iframe id="spotify-embed-iframe"
+                        src="https://open.spotify.com/embed/playlist/37i9dQZF1DX8Uebhn9wzrS?utm_source=generator&theme=0"
+                        width="100%"
+                        height="152"
+                        frameborder="0"
+                        allowfullscreen=""
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <!-- Custom Link Bar -->
+                <div class="spotify-custom-wrap">
+                    <div style="font-size:0.75rem;font-weight:600;color:#cbd5e1;text-align:left">
+                        🔗 Play Any Spotify Link (Playlist, Album, or Track):
+                    </div>
+                    <div class="spotify-input-row">
+                        <input type="text" class="spotify-url-input" id="inp-custom-spotify-url" placeholder="Paste link: https://open.spotify.com/playlist/...">
+                        <button class="spotify-load-btn" id="btn-load-spotify-url">Load & Play</button>
+                    </div>
+                </div>
+
+                <!-- Curated Focus Stations -->
+                <div>
+                    <div class="spotify-stations-title">
+                        <span>🎧 Curated Flow Stations</span>
+                        <span style="font-size:0.68rem;color:#10b981;font-weight:600">Zero Setup Required</span>
+                    </div>
+                    <div class="spotify-stations-grid" id="spotify-stations-grid" style="margin-top:0.6rem">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Auto-Play Setting -->
+                <div class="spotify-auto-options">
+                    <div class="spotify-auto-label">
+                        <span>⚡</span>
+                        <div>
+                            <div>Auto-open Music on Focus Sprint</div>
+                            <div class="spotify-auto-sub">Reminds and readies your Spotify station whenever a timer begins</div>
+                        </div>
+                    </div>
+                    <label class="spatial-switch">
+                        <input type="checkbox" id="toggle-spotify-auto" checked>
+                        <span class="spatial-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- TAB 2: Spotify Account Connect (OAuth with PKCE) -->
+            <div class="spotify-tab-content" id="tab-content-connect">
+                <div class="spotify-connect-card">
+                    <div class="connect-status-header">
+                        <div class="connect-user-wrap">
+                            <div class="connect-avatar" id="oauth-user-avatar">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <div>
+                                <div class="connect-user-name" id="oauth-user-name">Not Connected</div>
+                                <div class="connect-user-sub" id="oauth-user-sub">Connect to control playback and sync your Spotify library</div>
+                            </div>
+                        </div>
+                        <button class="btn-disconnect-spotify" id="btn-oauth-disconnect" style="display:none">Disconnect</button>
+                    </div>
+
+                    <button class="btn-connect-spotify" id="btn-oauth-connect">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                        </svg>
+                        <span>Connect with Spotify</span>
+                    </button>
+                </div>
+
+                <!-- Live Playback Controls (when connected) -->
+                <div class="spotify-oauth-playback" id="spotify-oauth-playback">
+                    <div style="font-size:0.75rem;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:0.04em">Live Now Playing</div>
+                    <div class="oauth-track-display">
+                        <div class="oauth-album-art" id="oauth-album-art">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="#333"><rect width="24" height="24"/></svg>
+                        </div>
+                        <div class="oauth-track-details">
+                            <div class="oauth-song-title" id="oauth-track-title">No Track Active</div>
+                            <div class="oauth-artist-name" id="oauth-track-artist">Open Spotify on any device to play</div>
+                        </div>
+                    </div>
+                    <div class="oauth-controls-row">
+                        <button class="oauth-ctrl-btn" id="btn-oauth-prev" title="Previous Track">⏮</button>
+                        <button class="oauth-ctrl-btn play-btn" id="btn-oauth-playpause" title="Play / Pause">▶</button>
+                        <button class="oauth-ctrl-btn" id="btn-oauth-next" title="Next Track">⏭</button>
+                    </div>
+                </div>
+
+                <!-- Client ID Configuration for Custom Apps -->
+                <div>
+                    <button type="button" class="spotify-oauth-config-toggle" id="btn-toggle-oauth-config">
+                        <span>⚙️ Spotify Developer Client ID Settings</span>
+                        <span id="oauth-toggle-arrow">▼</span>
+                    </button>
+                    <div class="spotify-oauth-config-panel" id="oauth-config-panel">
+                        <div class="spotify-config-field">
+                            <label for="inp-spotify-client-id">Spotify App Client ID:</label>
+                            <input type="text" id="inp-spotify-client-id" placeholder="Paste your 32-character Client ID">
+                        </div>
+                        <div class="spotify-redirect-hint">
+                            Add this Redirect URI in your <a href="https://developer.spotify.com/dashboard" target="_blank" style="color:#1ed760;text-decoration:underline">Spotify Developer Dashboard</a>:
+                            <br>
+                            <span class="spotify-redirect-copy" id="spotify-redirect-uri-text" title="Click to copy redirect URI"></span>
+                        </div>
+                        <button class="spotify-load-btn" id="btn-save-spotify-client-id" style="align-self:flex-start;padding:0.45rem 1rem">Save Client ID</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -4806,6 +5698,628 @@ function exitFS() {
         (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen).call(document).catch(() => {});
     }
 }
+
+/* ══════════════════════════════════════════════════════════
+   SPOTIFY FOCUS ENGINE & CLIENT INTEGRATION
+   ══════════════════════════════════════════════════════════ */
+const SpotifyManager = {
+    STATIONS: [
+        {
+            id: 'lofi',
+            name: 'Lofi Beats & Chill',
+            vibe: 'Mellow beats for deep immersion',
+            icon: '☕',
+            embedUrl: 'https://open.spotify.com/embed/playlist/37i9dQZF1DX8Uebhn9wzrS?utm_source=generator&theme=0',
+            uri: 'spotify:playlist:37i9dQZF1DX8Uebhn9wzrS'
+        },
+        {
+            id: 'deep-focus',
+            name: 'Deep Focus Ambient',
+            vibe: 'Atmospheric post-rock & synth',
+            icon: '🧠',
+            embedUrl: 'https://open.spotify.com/embed/playlist/37i9dQZF1DWZeKCadgRdKQ?utm_source=generator&theme=0',
+            uri: 'spotify:playlist:37i9dQZF1DWZeKCadgRdKQ'
+        },
+        {
+            id: 'classical',
+            name: 'Classical Concentration',
+            vibe: 'Timeless piano & strings for clarity',
+            icon: '🎹',
+            embedUrl: 'https://open.spotify.com/embed/playlist/37i9dQZF1DXbITWG1ZJKYt?utm_source=generator&theme=0',
+            uri: 'spotify:playlist:37i9dQZF1DXbITWG1ZJKYt'
+        },
+        {
+            id: 'synthwave',
+            name: 'Synthwave Cyberflow',
+            vibe: 'Retro futuristic drive for coding',
+            icon: '⚡',
+            embedUrl: 'https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM?utm_source=generator&theme=0',
+            uri: 'spotify:playlist:37i9dQZF1DXdLEN7aqioXM'
+        },
+        {
+            id: 'nature-binaural',
+            name: 'Nature & Alpha Drone',
+            vibe: 'Deep grounding forest & rain frequencies',
+            icon: '🌿',
+            embedUrl: 'https://open.spotify.com/embed/playlist/37i9dQZF1DX4wta20Jg5kf?utm_source=generator&theme=0',
+            uri: 'spotify:playlist:37i9dQZF1DX4wta20Jg5kf'
+        },
+        {
+            id: 'peaceful-piano',
+            name: 'Peaceful Piano Focus',
+            vibe: 'Gentle acoustic solace & flow',
+            icon: '🎼',
+            embedUrl: 'https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator&theme=0',
+            uri: 'spotify:playlist:37i9dQZF1DX4sWSpwq3LiO'
+        }
+    ],
+
+    currentStationId: 'lofi',
+    currentEmbedUrl: 'https://open.spotify.com/embed/playlist/37i9dQZF1DX8Uebhn9wzrS?utm_source=generator&theme=0',
+    currentTitle: 'Lofi Beats & Chill',
+    currentSub: 'Mellow beats for deep immersion',
+    autoOpenOnFocus: true,
+
+    // OAuth configuration
+    clientId: localStorage.getItem('focusr_spotify_client_id') || '44415fa9e93b45138f6153641fb82d61',
+    token: localStorage.getItem('focusr_spotify_access_token') || null,
+    tokenExpiry: parseInt(localStorage.getItem('focusr_spotify_token_expiry') || '0', 10),
+    userProfile: null,
+    pollIntervalId: null,
+    isPlaying: false,
+
+    init() {
+        this.loadSettings();
+        this.renderStations();
+        this.setupEventListeners();
+        this.handleOAuthCallback();
+        this.syncUI();
+
+        if (this.token && Date.now() < this.tokenExpiry) {
+            this.fetchUserProfile();
+            this.startPollingPlayback();
+        }
+    },
+
+    loadSettings() {
+        const savedStation = localStorage.getItem('focusr_spotify_station');
+        if (savedStation) {
+            const found = this.STATIONS.find(s => s.id === savedStation);
+            if (found) {
+                this.currentStationId = found.id;
+                this.currentEmbedUrl = found.embedUrl;
+                this.currentTitle = found.name;
+                this.currentSub = found.vibe;
+            }
+        }
+        const savedEmbed = localStorage.getItem('focusr_spotify_custom_embed');
+        if (savedEmbed) {
+            this.currentEmbedUrl = savedEmbed;
+            this.currentStationId = 'custom';
+            this.currentTitle = localStorage.getItem('focusr_spotify_custom_title') || 'Custom Spotify Stream';
+            this.currentSub = 'Personal playlist loaded';
+        }
+        const auto = localStorage.getItem('focusr_spotify_auto_open');
+        if (auto !== null) {
+            this.autoOpenOnFocus = auto === 'true';
+        }
+    },
+
+    saveSettings() {
+        localStorage.setItem('focusr_spotify_station', this.currentStationId);
+        localStorage.setItem('focusr_spotify_auto_open', String(this.autoOpenOnFocus));
+        if (this.currentStationId === 'custom') {
+            localStorage.setItem('focusr_spotify_custom_embed', this.currentEmbedUrl);
+            localStorage.setItem('focusr_spotify_custom_title', this.currentTitle);
+        }
+    },
+
+    renderStations() {
+        const grid = $('spotify-stations-grid');
+        if (!grid) return;
+
+        grid.innerHTML = this.STATIONS.map(st => {
+            const isActive = st.id === this.currentStationId;
+            return `
+                <div class="station-card ${isActive ? 'active' : ''}" data-station-id="${st.id}">
+                    <span class="station-icon">${st.icon}</span>
+                    <div class="station-info">
+                        <div class="station-name">${st.name}</div>
+                        <div class="station-vibe">${st.vibe}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        grid.querySelectorAll('.station-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const id = card.dataset.stationId;
+                this.selectStation(id);
+                soundClick();
+            });
+        });
+    },
+
+    selectStation(id) {
+        const station = this.STATIONS.find(s => s.id === id);
+        if (!station) return;
+
+        this.currentStationId = station.id;
+        this.currentEmbedUrl = station.embedUrl;
+        this.currentTitle = station.name;
+        this.currentSub = station.vibe;
+        localStorage.removeItem('focusr_spotify_custom_embed');
+
+        this.updateEmbedFrame(station.embedUrl);
+        this.renderStations();
+        this.saveSettings();
+        this.syncUI();
+        showToast(`🎵 Station loaded: ${station.name}`, '🎧', 3500);
+    },
+
+    updateEmbedFrame(embedUrl) {
+        const iframe = $('spotify-embed-iframe');
+        if (iframe) {
+            iframe.src = embedUrl;
+        }
+    },
+
+    parseSpotifyUrl(input) {
+        if (!input) return null;
+        const trimmed = input.trim();
+
+        // Already an embed URL
+        if (trimmed.includes('open.spotify.com/embed/')) {
+            return trimmed;
+        }
+
+        // Standard link matching: https://open.spotify.com/(playlist|track|album|artist|episode|show)/[id]
+        const match = trimmed.match(/open\.spotify\.com\/(playlist|track|album|artist|episode|show)\/([a-zA-Z0-9]+)/);
+        if (match) {
+            const type = match[1];
+            const id = match[2];
+            return `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`;
+        }
+
+        // Spotify URI matching: spotify:(playlist|track|album):[id]
+        const uriMatch = trimmed.match(/spotify:(playlist|track|album|artist):([a-zA-Z0-9]+)/);
+        if (uriMatch) {
+            const type = uriMatch[1];
+            const id = uriMatch[2];
+            return `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`;
+        }
+
+        return null;
+    },
+
+    loadCustomUrl(url) {
+        const embedUrl = this.parseSpotifyUrl(url);
+        if (!embedUrl) {
+            showToast('⚠️ Invalid Spotify URL. Please paste a valid playlist, album, or track link.', '⚠️', 4500);
+            return;
+        }
+
+        this.currentStationId = 'custom';
+        this.currentEmbedUrl = embedUrl;
+        this.currentTitle = 'Custom Spotify Stream';
+        this.currentSub = 'Personal playlist loaded';
+        this.saveSettings();
+        this.updateEmbedFrame(embedUrl);
+        this.renderStations();
+        this.syncUI();
+        showToast('🎧 Custom Spotify Music Loaded!', '🎵', 4000);
+    },
+
+    getRedirectUri() {
+        const url = new URL(window.location.href);
+        url.search = '';
+        url.hash = '';
+        return url.toString().replace(/\/$/, '');
+    },
+
+    // ── OAuth (PKCE) Flow ──
+    async generateCodeVerifier() {
+        const array = new Uint8Array(32);
+        window.crypto.getRandomValues(array);
+        return Array.from(array, dec => ('0' + dec.toString(16)).substr(-2)).join('');
+    },
+
+    async generateCodeChallenge(verifier) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(verifier);
+        const digest = await window.crypto.subtle.digest('SHA-256', data);
+        return btoa(String.fromCharCode.apply(null, new Uint8Array(digest)))
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_')
+            .replace(/=+$/, '');
+    },
+
+    async initiateOAuth() {
+        if (!this.clientId) {
+            showToast('⚠️ Please enter a Spotify Client ID below first.', '⚙️', 4500);
+            const panel = $('oauth-config-panel');
+            if (panel) panel.classList.add('open');
+            return;
+        }
+
+        const verifier = await this.generateCodeVerifier();
+        const challenge = await this.generateCodeChallenge(verifier);
+        sessionStorage.setItem('spotify_code_verifier', verifier);
+
+        const redirectUri = this.getRedirectUri();
+        const scopes = [
+            'user-read-playback-state',
+            'user-modify-playback-state',
+            'user-read-currently-playing',
+            'user-read-private',
+            'user-read-email'
+        ].join(' ');
+
+        const authUrl = new URL('https://accounts.spotify.com/authorize');
+        authUrl.search = new URLSearchParams({
+            response_type: 'code',
+            client_id: this.clientId,
+            scope: scopes,
+            code_challenge_method: 'S256',
+            code_challenge: challenge,
+            redirect_uri: redirectUri
+        }).toString();
+
+        window.location.href = authUrl.toString();
+    },
+
+    async handleOAuthCallback() {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        const error = params.get('error');
+
+        if (error) {
+            showToast(`Spotify connect cancelled: ${error}`, '⚠️', 4000);
+            window.history.replaceState({}, document.title, window.location.pathname);
+            return;
+        }
+
+        if (code) {
+            const verifier = sessionStorage.getItem('spotify_code_verifier');
+            if (!verifier) return;
+
+            try {
+                const redirectUri = this.getRedirectUri();
+                const res = await fetch('https://accounts.spotify.com/api/token', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        client_id: this.clientId,
+                        grant_type: 'authorization_code',
+                        code: code,
+                        redirect_uri: redirectUri,
+                        code_verifier: verifier
+                    })
+                });
+
+                const data = await res.json();
+                if (data.access_token) {
+                    this.token = data.access_token;
+                    this.tokenExpiry = Date.now() + (data.expires_in * 1000);
+                    localStorage.setItem('focusr_spotify_access_token', this.token);
+                    localStorage.setItem('focusr_spotify_token_expiry', String(this.tokenExpiry));
+                    if (data.refresh_token) {
+                        localStorage.setItem('focusr_spotify_refresh_token', data.refresh_token);
+                    }
+                    sessionStorage.removeItem('spotify_code_verifier');
+                    window.history.replaceState({}, document.title, window.location.pathname);
+
+                    showToast('🎉 Spotify Connected Successfully!', '🎧', 4500);
+                    this.fetchUserProfile();
+                    this.startPollingPlayback();
+                    this.syncUI();
+                }
+            } catch (err) {
+                console.warn('Spotify token exchange failed:', err);
+                showToast('Spotify auth error. Using instant player mode.', '⚠️', 4000);
+            }
+        }
+    },
+
+    disconnectOAuth() {
+        this.token = null;
+        this.tokenExpiry = 0;
+        this.userProfile = null;
+        localStorage.removeItem('focusr_spotify_access_token');
+        localStorage.removeItem('focusr_spotify_token_expiry');
+        localStorage.removeItem('focusr_spotify_refresh_token');
+        if (this.pollIntervalId) clearInterval(this.pollIntervalId);
+        this.pollIntervalId = null;
+        this.syncUI();
+        showToast('Spotify disconnected.', 'ℹ️', 3000);
+    },
+
+    async fetchUserProfile() {
+        if (!this.token) return;
+        try {
+            const res = await fetch('https://api.spotify.com/v1/me', {
+                headers: { 'Authorization': `Bearer ${this.token}` }
+            });
+            if (res.status === 401) {
+                this.disconnectOAuth();
+                return;
+            }
+            const profile = await res.json();
+            this.userProfile = profile;
+            this.syncUI();
+        } catch (err) {
+            console.warn('Spotify profile fetch error:', err);
+        }
+    },
+
+    startPollingPlayback() {
+        if (this.pollIntervalId) clearInterval(this.pollIntervalId);
+        this.pollCurrentPlayback();
+        this.pollIntervalId = setInterval(() => {
+            this.pollCurrentPlayback();
+        }, 5000);
+    },
+
+    async pollCurrentPlayback() {
+        if (!this.token) return;
+        try {
+            const res = await fetch('https://api.spotify.com/v1/me/player', {
+                headers: { 'Authorization': `Bearer ${this.token}` }
+            });
+            if (res.status === 204 || res.status > 400) {
+                return;
+            }
+            const data = await res.json();
+            if (data && data.item) {
+                this.isPlaying = !!data.is_playing;
+                const track = data.item;
+                const title = track.name;
+                const artist = track.artists?.map(a => a.name).join(', ') || 'Unknown Artist';
+                const art = track.album?.images?.[0]?.url || '';
+
+                this.currentTitle = title;
+                this.currentSub = artist;
+
+                const trackTitleEl = $('oauth-track-title');
+                const trackArtistEl = $('oauth-track-artist');
+                const albumArtEl = $('oauth-album-art');
+                const playPauseBtn = $('btn-oauth-playpause');
+
+                if (trackTitleEl) trackTitleEl.textContent = title;
+                if (trackArtistEl) trackArtistEl.textContent = artist;
+                if (albumArtEl && art) albumArtEl.innerHTML = `<img src="${art}" alt="${title}">`;
+                if (playPauseBtn) playPauseBtn.textContent = this.isPlaying ? '❚❚' : '▶';
+
+                this.syncUI();
+            }
+        } catch {}
+    },
+
+    async sendPlaybackCommand(endpoint, method = 'POST') {
+        if (!this.token) return;
+        try {
+            await fetch(`https://api.spotify.com/v1/me/player/${endpoint}`, {
+                method: method,
+                headers: { 'Authorization': `Bearer ${this.token}` }
+            });
+            setTimeout(() => this.pollCurrentPlayback(), 300);
+        } catch (err) {
+            console.warn('Spotify command error:', err);
+        }
+    },
+
+    syncUI() {
+        // Pulse dots on headers
+        const homePulse = $('home-spotify-pulse');
+        const focusBtn = $('btn-focus-spotify');
+        const focusStatusBadge = $('focus-spotify-status-badge');
+        const focusHud = $('focus-spotify-hud');
+        const hudTitle = $('focus-hud-title');
+        const hudSub = $('focus-hud-sub');
+
+        if (homePulse) homePulse.style.display = this.isPlaying ? 'block' : 'none';
+        if (focusBtn) {
+            if (this.isPlaying) focusBtn.classList.add('active-playing');
+            else focusBtn.classList.remove('active-playing');
+        }
+        if (focusStatusBadge) {
+            focusStatusBadge.textContent = this.token ? 'SYNCED' : 'STREAM';
+            focusStatusBadge.style.color = '#1ed760';
+        }
+
+        if (hudTitle) hudTitle.textContent = this.currentTitle;
+        if (hudSub) hudSub.textContent = this.currentSub;
+
+        // User profile in OAuth tab
+        const userNameEl = $('oauth-user-name');
+        const userSubEl = $('oauth-user-sub');
+        const userAvatarEl = $('oauth-user-avatar');
+        const connectBtn = $('btn-oauth-connect');
+        const disconnectBtn = $('btn-oauth-disconnect');
+        const oauthPlayback = $('spotify-oauth-playback');
+
+        if (this.token && this.userProfile) {
+            if (userNameEl) userNameEl.textContent = this.userProfile.display_name || 'Spotify Connected';
+            if (userSubEl) userSubEl.textContent = `Plan: ${(this.userProfile.product || 'free').toUpperCase()} · ${this.userProfile.email || ''}`;
+            if (userAvatarEl && this.userProfile.images?.[0]?.url) {
+                userAvatarEl.innerHTML = `<img src="${this.userProfile.images[0].url}" alt="Profile">`;
+            }
+            if (connectBtn) connectBtn.style.display = 'none';
+            if (disconnectBtn) disconnectBtn.style.display = 'block';
+            if (oauthPlayback) oauthPlayback.classList.add('active');
+        } else {
+            if (userNameEl) userNameEl.textContent = 'Not Connected';
+            if (userSubEl) userSubEl.textContent = 'Connect to control playback and sync your Spotify library';
+            if (userAvatarEl) userAvatarEl.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+            if (connectBtn) connectBtn.style.display = 'inline-flex';
+            if (disconnectBtn) disconnectBtn.style.display = 'none';
+            if (oauthPlayback) oauthPlayback.classList.remove('active');
+        }
+    },
+
+    openModal(tab = 'player') {
+        const backdrop = $('spotify-modal-backdrop');
+        if (!backdrop) return;
+
+        this.switchTab(tab);
+        this.updateEmbedFrame(this.currentEmbedUrl);
+
+        // Pre-fill redirect URI text
+        const redirectEl = $('spotify-redirect-uri-text');
+        if (redirectEl) {
+            redirectEl.textContent = this.getRedirectUri();
+        }
+
+        const clientInput = $('inp-spotify-client-id');
+        if (clientInput && this.clientId) {
+            clientInput.value = this.clientId;
+        }
+
+        const autoToggle = $('toggle-spotify-auto');
+        if (autoToggle) {
+            autoToggle.checked = this.autoOpenOnFocus;
+        }
+
+        backdrop.classList.add('active');
+    },
+
+    closeModal() {
+        const backdrop = $('spotify-modal-backdrop');
+        if (backdrop) backdrop.classList.remove('active');
+    },
+
+    switchTab(tab) {
+        document.querySelectorAll('.spotify-tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+        document.querySelectorAll('.spotify-tab-content').forEach(content => {
+            content.classList.toggle('active', content.id === `tab-content-${tab}`);
+        });
+    },
+
+    setupEventListeners() {
+        // Modal open/close
+        const btnHome = $('btn-open-spotify');
+        const btnFocus = $('btn-focus-spotify');
+        const btnClose = $('spotify-modal-close');
+        const backdrop = $('spotify-modal-backdrop');
+
+        if (btnHome) btnHome.addEventListener('click', () => { this.openModal('player'); soundClick(); });
+        if (btnFocus) btnFocus.addEventListener('click', () => { this.openModal('player'); soundClick(); });
+        if (btnClose) btnClose.addEventListener('click', () => this.closeModal());
+        if (backdrop) {
+            backdrop.addEventListener('click', e => {
+                if (e.target === backdrop) this.closeModal();
+            });
+        }
+
+        // HUD buttons
+        const btnHudChange = $('btn-hud-change-station');
+        const btnHudOpen = $('btn-hud-toggle-embed');
+        if (btnHudChange) btnHudChange.addEventListener('click', () => { this.openModal('player'); soundClick(); });
+        if (btnHudOpen) btnHudOpen.addEventListener('click', () => { this.openModal('player'); soundClick(); });
+
+        // Tab buttons
+        document.querySelectorAll('.spotify-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.switchTab(btn.dataset.tab);
+                soundClick();
+            });
+        });
+
+        // Custom URL loader
+        const btnLoadUrl = $('btn-load-spotify-url');
+        const inpUrl = $('inp-custom-spotify-url');
+        if (btnLoadUrl && inpUrl) {
+            btnLoadUrl.addEventListener('click', () => {
+                this.loadCustomUrl(inpUrl.value);
+            });
+            inpUrl.addEventListener('keydown', e => {
+                if (e.key === 'Enter') {
+                    this.loadCustomUrl(inpUrl.value);
+                }
+            });
+        }
+
+        // Auto toggle
+        const toggleAuto = $('toggle-spotify-auto');
+        if (toggleAuto) {
+            toggleAuto.addEventListener('change', e => {
+                this.autoOpenOnFocus = e.target.checked;
+                this.saveSettings();
+                showToast(`Auto-open Spotify: ${this.autoOpenOnFocus ? 'Enabled' : 'Disabled'}`, '🎧', 2500);
+            });
+        }
+
+        // OAuth Connect & Disconnect
+        const btnConnect = $('btn-oauth-connect');
+        const btnDisconnect = $('btn-oauth-disconnect');
+        if (btnConnect) btnConnect.addEventListener('click', () => this.initiateOAuth());
+        if (btnDisconnect) btnDisconnect.addEventListener('click', () => this.disconnectOAuth());
+
+        // OAuth Playback controls
+        const btnPlay = $('btn-oauth-playpause');
+        const btnNext = $('btn-oauth-next');
+        const btnPrev = $('btn-oauth-prev');
+        if (btnPlay) {
+            btnPlay.addEventListener('click', () => {
+                this.sendPlaybackCommand(this.isPlaying ? 'pause' : 'play', 'PUT');
+            });
+        }
+        if (btnNext) btnNext.addEventListener('click', () => this.sendPlaybackCommand('next'));
+        if (btnPrev) btnPrev.addEventListener('click', () => this.sendPlaybackCommand('previous'));
+
+        // Client ID Settings toggle & save
+        const btnToggleConfig = $('btn-toggle-oauth-config');
+        const configPanel = $('oauth-config-panel');
+        if (btnToggleConfig && configPanel) {
+            btnToggleConfig.addEventListener('click', () => {
+                configPanel.classList.toggle('open');
+            });
+        }
+
+        const btnSaveClientId = $('btn-save-spotify-client-id');
+        const inpClientId = $('inp-spotify-client-id');
+        if (btnSaveClientId && inpClientId) {
+            btnSaveClientId.addEventListener('click', () => {
+                const val = inpClientId.value.trim();
+                if (val) {
+                    this.clientId = val;
+                    localStorage.setItem('focusr_spotify_client_id', val);
+                    showToast('✅ Spotify Client ID saved!', '💾', 3000);
+                }
+            });
+        }
+
+        const copyRedirect = $('spotify-redirect-uri-text');
+        if (copyRedirect) {
+            copyRedirect.addEventListener('click', () => {
+                const text = copyRedirect.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('📋 Redirect URI copied to clipboard!', '✅', 3000);
+                }).catch(() => {});
+            });
+        }
+    },
+
+    onSessionStart() {
+        const hud = $('focus-spotify-hud');
+        if (hud) hud.classList.add('visible');
+        this.syncUI();
+
+        if (this.autoOpenOnFocus) {
+            if (window.Cosmo && Cosmo.deliver) {
+                Cosmo.deliver(`🎧 Spotify flow active: ${this.currentTitle}. Click Spotify on top to switch music!`, '🎵', 5000);
+            }
+        }
+    },
+
+    onSessionEnd() {
+        const hud = $('focus-spotify-hud');
+        if (hud) hud.classList.remove('visible');
+    }
+};
+
 
 /* ── Audio ── */
 function playTone(freqs, dur = 0.4, vol = 0.18) {
@@ -7002,6 +8516,7 @@ function renderSessionDebrief(sessionData) {
 }
 
 function finishSession(focusMs) {
+    SpotifyManager.onSessionEnd();
     clearInterval(S.intervalId);
     S.intervalId = null;
     S.running = false;
@@ -7072,6 +8587,7 @@ function finishSession(focusMs) {
 }
 
 function stopSession() {
+    SpotifyManager.onSessionEnd();
     if (!S.running && !S.paused) return;
     clearInterval(S.intervalId);
     S.intervalId = null;
@@ -7255,6 +8771,7 @@ function beginSession() {
 
     // Spawn Ghost Racer Competitor from prediction model
     GhostRacer.initRace(S.targetMs);
+    SpotifyManager.onSessionStart();
 
     navigate('focus');
     enterFS();
@@ -7702,6 +9219,11 @@ document.addEventListener('keydown', e => {
         closeThemeModal();
         return;
     }
+    if (e.code === 'Escape' && $('spotify-modal-backdrop')?.classList.contains('active')) {
+        e.preventDefault();
+        SpotifyManager.closeModal();
+        return;
+    }
 
     if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
 
@@ -7852,6 +9374,7 @@ ringFill.style.strokeDasharray = CIRC;
 window.Cosmor = Cosmo;
 window.Cosmo = Cosmo;
 Cosmo.init();
+SpotifyManager.init();
 checkDailyGoalGreeting();
 
 if (focusCatBadge) {
