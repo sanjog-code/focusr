@@ -1277,6 +1277,43 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 }
 
 /* ══════════════════════════════════════════
+   TAB DESERTION PENALTY SYSTEM
+   ══════════════════════════════════════════ */
+.focus-penalty-pill {
+    display: none;
+    align-items: center;
+    gap: .4rem;
+    padding: .35rem .85rem;
+    border-radius: 980px;
+    background: rgba(244, 63, 94, 0.18);
+    border: 1px solid rgba(244, 63, 94, 0.45);
+    color: #fda4af;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    animation: penalty-pulse 1.8s ease-in-out infinite;
+    box-shadow: 0 0 16px rgba(244, 63, 94, 0.35);
+    user-select: none;
+}
+.focus-penalty-pill.visible {
+    display: inline-flex;
+}
+@keyframes penalty-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 12px rgba(244, 63, 94, 0.3); }
+    50% { transform: scale(1.04); box-shadow: 0 0 22px rgba(244, 63, 94, 0.6); }
+}
+.timer-display.penalty-flash {
+    animation: timer-penalty-shake .65s ease;
+    color: #f43f5e !important;
+    text-shadow: 0 0 24px rgba(244, 63, 94, 0.7);
+}
+@keyframes timer-penalty-shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+
+/* ══════════════════════════════════════════
    COSMO 3D ROCKET ASSISTANT
    ══════════════════════════════════════════ */
 .cosmo-stage {
@@ -1646,7 +1683,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div class="focus-wrap">
         <div class="focus-layout">
             <div class="focus-top-bar">
-                <span class="focus-mode-label" id="focus-label">FOCUS</span>
+                <div style="display:flex;align-items:center;gap:.75rem">
+                    <span class="focus-mode-label" id="focus-label">FOCUS</span>
+                    <span class="focus-penalty-pill" id="focus-penalty-pill">
+                        <span>🚨</span>
+                        <span id="penalty-pill-text">+0m Penalty</span>
+                    </span>
+                </div>
                 <div style="display:flex;align-items:center;gap:.6rem">
                     <button class="inventory-pill-btn glass" id="btn-toggle-ghost-hud" title="Toggle Ghost Racer Track">
                         <span>🏎️ Ghost</span>
@@ -1780,6 +1823,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="c-stat"><span class="c-stat-val" id="c-mode">Timer</span><span class="c-stat-lbl">Mode</span></div>
             <div class="c-stat"><span class="c-stat-val" id="c-pomos">0</span><span class="c-stat-lbl">Pomodoros</span></div>
             <div class="c-stat"><span class="c-stat-val" id="c-bottles">0</span><span class="c-stat-lbl">Bottles</span></div>
+            <div class="c-stat" id="c-penalty-wrap" style="display:none"><span class="c-stat-val" id="c-penalty" style="color:#f43f5e">+0m</span><span class="c-stat-lbl">Desertion Penalty</span></div>
             <div class="c-stat" id="c-ghost-wrap"><span class="c-stat-val" id="c-ghost" style="color:#c084fc">🏆 Won</span><span class="c-stat-lbl">Ghost Rival</span></div>
         </div>
         <p class="complete-quote" id="c-quote"></p>
@@ -2236,6 +2280,13 @@ const S = {
     // Distractions & Focus Lock
     distractions: 0,
 
+    // Tab Desertion Penalty System
+    initialTargetMs: 0,
+    totalPenaltyMs: 0,
+    penaltyCount: 0,
+    desertedAt: 0,
+    stopwatchPenaltyDebt: 0,
+
     // Inventory & Water
     inventory: [],
     lastCompletedHours: 0,
@@ -2257,6 +2308,8 @@ const bottlePct        = $('bottle-pct');
 const bottleSub        = $('bottle-sub');
 const bottleGlow       = $('bottle-glow');
 const focusLabel       = $('focus-label');
+const focusPenaltyPill = $('focus-penalty-pill');
+const penaltyPillText  = $('penalty-pill-text');
 const pomoDots         = $('pomo-dots');
 const btnPause         = $('btn-pause');
 const btnStop          = $('btn-stop');
@@ -2282,6 +2335,26 @@ const sliderBlur         = $('slider-backdrop-blur');
 const sliderOpacity      = $('slider-backdrop-opacity');
 const valBlur            = $('val-backdrop-blur');
 const valOpacity         = $('val-backdrop-opacity');
+
+/* ── Tab Desertion Penalty Helpers ── */
+function fmtPenalty(ms) {
+    const totalSec = Math.max(1, Math.round(ms / 1000));
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    if (m === 0) return `${s}s`;
+    if (s === 0) return `${m}m`;
+    return `${m}m ${s}s`;
+}
+
+function updatePenaltyBadge() {
+    if (!focusPenaltyPill || !penaltyPillText) return;
+    if (S.totalPenaltyMs > 0) {
+        focusPenaltyPill.classList.add('visible');
+        penaltyPillText.textContent = `+${fmtPenalty(S.totalPenaltyMs)} Penalty${S.penaltyCount > 1 ? ` (${S.penaltyCount}x)` : ''}`;
+    } else {
+        focusPenaltyPill.classList.remove('visible');
+    }
+}
 
 /* ── Theme & Atmosphere Controller ── */
 function loadThemeConfig() {
@@ -4647,6 +4720,7 @@ function onPhaseEnd() {
 
 function startPhase(ms) {
     S.targetMs = ms;
+    S.initialTargetMs = ms;
     S.startTime = Date.now();
     S.totalPaused = 0;
     S.paused = false;
@@ -4687,6 +4761,16 @@ function finishSession(focusMs) {
     $('c-pomos').closest('.c-stat').style.display = pomoCount > 0 ? '' : 'none';
     if ($('c-bottles')) $('c-bottles').textContent = S.inventory.length;
     $('c-quote').textContent = `"${pick(MOTIV.completeQuotes)}"`;
+
+    // Desertion Penalty in Complete Screen
+    if ($('c-penalty-wrap')) {
+        if (S.totalPenaltyMs > 0) {
+            $('c-penalty-wrap').style.display = '';
+            $('c-penalty').textContent = `+${fmtPenalty(S.totalPenaltyMs)}${S.penaltyCount > 1 ? ` (${S.penaltyCount}x)` : ''}`;
+        } else {
+            $('c-penalty-wrap').style.display = 'none';
+        }
+    }
 
     // Ghost Rival Race Outcome
     const raceOutcome = GhostRacer.finish(focusMs);
@@ -4840,6 +4924,12 @@ function beginSession() {
 
     syncRingColor();
     updateSkipBtn();
+
+    S.initialTargetMs = S.targetMs;
+    S.totalPenaltyMs = 0;
+    S.penaltyCount = 0;
+    S.stopwatchPenaltyDebt = 0;
+    updatePenaltyBadge();
 
     S.startTime = Date.now();
     S.totalPaused = 0;
@@ -5174,25 +5264,58 @@ window.addEventListener('beforeunload', e => {
     }
 });
 
-// ── Tab Switch / Auto-Pause & Auto-Resume Guard ──
+// ── Tab Switch / Auto-Pause & Tab Desertion Penalty Guard ──
 document.addEventListener('visibilitychange', () => {
     if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
 
     if (document.hidden) {
-        // User switched away to another tab: Auto-pause the clock!
+        // User switched away / deserted the tab! Auto-pause and calculate penalty based on session time
         if (S.running && !S.paused) {
             pauseSession(true);
             S.distractions++;
             soundWarning();
-            document.title = '⏸️ CLOCK PAUSED (Tab Switched) | Focusr';
+
+            // Calculate penalty based on total session time (10% of total session, minimum 30 seconds)
+            let baseSessionMs = 1500000;
+            if (S.mode === 'timer') {
+                baseSessionMs = S.initialTargetMs || S.targetMs || 1500000;
+            } else if (S.mode === 'pomodoro') {
+                baseSessionMs = (S.pomoWork * 60000) || 1500000;
+            } else if (S.mode === 'stopwatch') {
+                const elapsedNow = (S.pausedAt || Date.now()) - S.startTime - S.totalPaused;
+                baseSessionMs = Math.max(600000, elapsedNow);
+            }
+
+            // 10% of total session time, rounded to clean 5-second intervals, min 30s
+            const rawPenalty = baseSessionMs * 0.10;
+            const penaltyMs = Math.max(30000, Math.round(rawPenalty / 5000) * 5000);
+
+            // Add time penalty increment directly to active session duration
+            if (S.mode === 'timer' || S.mode === 'pomodoro') {
+                S.targetMs += penaltyMs;
+            } else {
+                S.stopwatchPenaltyDebt = (S.stopwatchPenaltyDebt || 0) + penaltyMs;
+            }
+            S.totalPenaltyMs = (S.totalPenaltyMs || 0) + penaltyMs;
+            S.penaltyCount = (S.penaltyCount || 0) + 1;
+            S.lastPenaltyAdded = penaltyMs;
+
+            // Penalty widens the gap against Ghost Racer
+            if (GhostRacer.active) {
+                GhostRacer.targetDurationMs += penaltyMs;
+                GhostRacer.ghostProgressMs += Math.round(penaltyMs * 0.35);
+            }
+
+            updatePenaltyBadge();
+            document.title = `🚨 +${fmtPenalty(penaltyMs)} PENALTY (Tab Deserted) | Focusr`;
 
             if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
 
             if ('Notification' in window && Notification.permission === 'granted') {
                 try {
-                    new Notification('⏸️ Focus Clock Auto-Paused!', {
-                        body: 'You switched tabs. Return to Focusr to automatically resume your session!',
-                        tag: 'focus-autopause',
+                    new Notification('🚨 TAB DESERTED — Time Penalty Added!', {
+                        body: `+${fmtPenalty(penaltyMs)} penalty added to session (10% of session time). Total penalty: +${fmtPenalty(S.totalPenaltyMs)}. Return to Focusr!`,
+                        tag: 'focus-penalty',
                         renotify: true
                     });
                 } catch {}
@@ -5201,15 +5324,25 @@ document.addEventListener('visibilitychange', () => {
     } else {
         // User returned to Focusr tab!
         if (S.autoPausedByTab && S.paused) {
-            // Auto-resume the clock!
             resumeSession(true);
             const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
             document.title = `${timerDisp.textContent} ${icon} Focusr`;
             soundResume();
 
-            if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('happy');
+            // Visual penalty shake & crimson flash on the timer display
+            timerDisp.classList.add('penalty-flash');
+            setTimeout(() => timerDisp.classList.remove('penalty-flash'), 1200);
 
-            showToast(`Welcome back! Clock auto-resumed (${S.distractions} tab switch${S.distractions > 1 ? 'es' : ''})`, '▶️', 4500);
+            if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
+
+            // Cosmo alert delivery and toast feedback
+            const penText = S.lastPenaltyAdded ? `+${fmtPenalty(S.lastPenaltyAdded)}` : `+${fmtPenalty(S.totalPenaltyMs)}`;
+            if (window.Cosmo && Cosmo.deliver) {
+                Cosmo.deliver(`🚨 Tab Desertion Penalty! ${penText} added (+${fmtPenalty(S.totalPenaltyMs)} total across ${S.penaltyCount} desertion${S.penaltyCount > 1 ? 's' : ''}). Stay locked in!`, '🚨', 6000);
+            } else {
+                showToast(`🚨 Tab Desertion Penalty: ${penText} added to session!`, '🚨', 5000);
+            }
+            S.lastPenaltyAdded = 0;
         } else {
             const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
             document.title = `${timerDisp.textContent} ${icon} Focusr`;
