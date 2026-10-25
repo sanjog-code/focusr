@@ -1997,7 +1997,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <h1 class="home-title">Focus</h1>
         <div style="display:flex;align-items:center;gap:.65rem">
             <button class="btn-icon" id="btn-open-target" title="Daily Focus Target (Set daily goal)">🎯</button>
-            <button class="btn-icon" id="btn-toggle-cosmo" title="Cosmo 3D Rocket Assistant (Click to summon or toggle companion mode)">🚀</button>
+            <button class="btn-icon" id="btn-toggle-cosmo" title="Cosmor the Blue Minion (Click to summon or toggle companion mode)">🚀</button>
             <button class="btn-icon" id="btn-open-themes" title="Atmosphere & Backdrops">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
             </button>
@@ -2269,8 +2269,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                         <span>🏎️ Ghost</span>
                         <span class="pill-badge" id="ghost-hud-badge">LIVE</span>
                     </button>
-                    <button class="inventory-pill-btn glass" id="btn-focus-cosmo" title="Cosmo 3D Rocket Assistant">
-                        <span>🚀 Cosmo</span>
+                    <button class="inventory-pill-btn glass" id="btn-focus-cosmo" title="Cosmor the Blue Minion Rocket Assistant">
+                        <span>🚀 Cosmor</span>
                     </button>
                     <button class="inventory-pill-btn glass" id="btn-focus-themes" title="Change Atmosphere">
                         <span>🎨 Atmosphere</span>
@@ -2465,8 +2465,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div id="cosmo-bubble" class="cosmo-bubble glass">
         <div class="cosmo-bubble-header">
             <div class="cosmo-badge">
-                <img src="assets/rocket-assistant.jpg" alt="Cosmo" class="cosmo-avatar">
-                <span class="cosmo-name">Cosmo</span>
+                <img src="assets/rocket-assistant.jpg" alt="Cosmor" class="cosmo-avatar">
+                <span class="cosmo-name">Cosmor</span>
                 <span class="cosmo-status-tag" id="cosmo-mode-badge">COURIER</span>
             </div>
             <button class="cosmo-close-btn" id="cosmo-bubble-close" title="Dismiss message">✕</button>
@@ -4395,13 +4395,13 @@ const Cosmo = {
     currentTiltY: 0,
 
     quotes: [
-        "Barrel roll complete! You're unstoppable! 💫",
-        "360° flip! Stay in the flow zone! 🚀",
-        "Mission control reports: 100% focus locked! ⭐",
-        "Cosmo is cheering for you! Let's do this! ✨",
-        "Focus water bottled up! Keep hydrating your mind! 💧",
-        "Clear mind, deep space, high momentum! 🌌",
-        "Rocket thrusters at maximum efficiency! 🔥"
+        "360° loading flip complete! Turbo speed engaged! 🍌🚀",
+        "Cosmor the Blue Minion is riding with you! Let's conquer this! 💙✨",
+        "Loading circle loop executed! Focus locked in! 💫",
+        "Bello! Full throttle ahead! Keep that momentum going! 🍌🔥",
+        "Hydration bottle secured! Keep powering through your session! 💧",
+        "Cosmic thrusters at maximum efficiency! You're unstoppable! 🌌",
+        "360° spin! Zero distractions can catch us now! 🏎️💨"
     ],
 
     init() {
@@ -4497,11 +4497,11 @@ const Cosmo = {
     buildModel() {
         this.rocketGroup = new THREE.Group();
 
-        // Materials
+        // Rocket Materials
         const bodyMat = new THREE.MeshStandardMaterial({
             color: 0xf8fafc,
             roughness: 0.2,
-            metalness: 0.1
+            metalness: 0.12
         });
         const chromeMat = new THREE.MeshStandardMaterial({
             color: 0xd8e2ec,
@@ -4520,7 +4520,54 @@ const Cosmo = {
             metalness: 0.4
         });
 
-        // Fuselage Body
+        // Blue Minion (Cosmor) Materials
+        const minionSkinMat = new THREE.MeshStandardMaterial({
+            color: 0x2563eb, // Vibrant Electric Minion Blue
+            roughness: 0.38,
+            metalness: 0.08
+        });
+        const overallsMat = new THREE.MeshStandardMaterial({
+            color: 0x1e3a8a, // Classic Deep Denim Blue
+            roughness: 0.65,
+            metalness: 0.05
+        });
+        const goggleStrapMat = new THREE.MeshStandardMaterial({
+            color: 0x0f172a, // Dark rubber strap
+            roughness: 0.8,
+            metalness: 0.1
+        });
+        const goggleChromeMat = new THREE.MeshStandardMaterial({
+            color: 0xe2e8f0, // Shiny silver goggle frame
+            roughness: 0.12,
+            metalness: 0.92
+        });
+        const eyeWhiteMat = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            roughness: 0.1
+        });
+        const irisMat = new THREE.MeshStandardMaterial({
+            color: 0x7c2d12, // Warm hazel-brown minion iris
+            roughness: 0.2
+        });
+        const pupilMat = new THREE.MeshBasicMaterial({ color: 0x0a0a0a });
+        const buttonGoldMat = new THREE.MeshStandardMaterial({
+            color: 0xfacc15,
+            metalness: 0.7,
+            roughness: 0.2
+        });
+        const gloveBootMat = new THREE.MeshStandardMaterial({
+            color: 0x0f172a, // Black boots and gloves
+            roughness: 0.45,
+            metalness: 0.25
+        });
+        const mouthMat = new THREE.MeshBasicMaterial({ color: 0x7f1d1d });
+        const toothMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const hairMat = new THREE.MeshStandardMaterial({
+            color: 0x172554, // Deep blue-violet spiky hair tufts
+            roughness: 0.5
+        });
+
+        // 1. Rocket Fuselage Body
         const bodyGeo = new THREE.CylinderGeometry(0.52, 0.72, 2.2, 32);
         const body = new THREE.Mesh(bodyGeo, bodyMat);
         this.rocketGroup.add(body);
@@ -4550,7 +4597,7 @@ const Cosmo = {
         nozzle.position.y = -1.35;
         this.rocketGroup.add(nozzle);
 
-        // 3 Stabilizer Fins
+        // 3 Stabilizer Tail Fins
         const finShape = new THREE.Shape();
         finShape.moveTo(0, 0);
         finShape.lineTo(0.72, -0.45);
@@ -4570,83 +4617,206 @@ const Cosmo = {
             this.rocketGroup.add(fin);
         }
 
-        // Chrome Handlebars
-        const barRiserGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.42, 12);
+        // Chrome Handlebars & Cockpit Riser
+        const barRiserGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.46, 12);
         const riser = new THREE.Mesh(barRiserGeo, chromeMat);
-        riser.position.set(0, 0.8, 0.62);
-        riser.rotation.x = 0.35;
+        riser.position.set(0, 0.78, 0.62);
+        riser.rotation.x = 0.32;
         this.rocketGroup.add(riser);
 
-        const barCrossGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.65, 12);
+        const barCrossGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.72, 12);
         const crossbar = new THREE.Mesh(barCrossGeo, chromeMat);
-        crossbar.position.set(0, 0.98, 0.68);
+        crossbar.position.set(0, 0.96, 0.72);
         crossbar.rotation.z = Math.PI / 2;
         this.rocketGroup.add(crossbar);
 
-        // Astronaut Mascot (Cosmo)
+        // Chrome Footpegs (where Cosmor's boots rest)
+        [-0.56, 0.56].forEach(x => {
+            const pegGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.28, 10);
+            const peg = new THREE.Mesh(pegGeo, chromeMat);
+            peg.rotation.z = Math.PI / 2;
+            peg.position.set(x > 0 ? 0.62 : -0.62, 0.12, 0.22);
+            this.rocketGroup.add(peg);
+        });
+
+        // 2. BLUE MINION (COSMOR) SITTING ON TOP OF THE ROCKET
         this.astronautGroup = new THREE.Group();
-        this.astronautGroup.position.set(0, 0.42, 0.2);
+        this.astronautGroup.position.set(0, 0.52, 0.16);
 
-        // Suit Body
-        const suitGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.62, 20);
-        const suit = new THREE.Mesh(suitGeo, bodyMat);
-        this.astronautGroup.add(suit);
+        // A. Minion Pill / Capsule Body
+        const torsoGeo = new THREE.CylinderGeometry(0.38, 0.38, 0.60, 24);
+        const torso = new THREE.Mesh(torsoGeo, minionSkinMat);
+        torso.position.y = 0.15;
+        this.astronautGroup.add(torso);
 
-        // Helmet
-        const helmetGeo = new THREE.SphereGeometry(0.54, 32, 32);
-        const helmet = new THREE.Mesh(helmetGeo, bodyMat);
-        helmet.position.set(0, 0.58, 0);
-        this.astronautGroup.add(helmet);
+        // Head Dome
+        const headGeo = new THREE.SphereGeometry(0.38, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.5);
+        const head = new THREE.Mesh(headGeo, minionSkinMat);
+        head.position.y = 0.45;
+        this.astronautGroup.add(head);
 
-        // Front Visor with LED face texture
-        const visorGeo = new THREE.SphereGeometry(0.48, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.46);
-        const visorMat = new THREE.MeshStandardMaterial({
-            map: this.faceTexture,
-            color: 0x0a1120,
-            roughness: 0.12,
-            metalness: 0.35,
-            emissive: 0x38bdf8,
-            emissiveMap: this.faceTexture,
-            emissiveIntensity: 0.95
-        });
-        const visor = new THREE.Mesh(visorGeo, visorMat);
-        visor.rotation.x = Math.PI / 2;
-        visor.position.set(0, 0.58, 0.12);
-        this.astronautGroup.add(visor);
+        // Pelvis Dome
+        const pelvisGeo = new THREE.SphereGeometry(0.38, 24, 16, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5);
+        const pelvis = new THREE.Mesh(pelvisGeo, overallsMat);
+        pelvis.position.y = -0.15;
+        this.astronautGroup.add(pelvis);
 
-        // Antennas
-        const antStalkGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.36, 8);
-        const antOrbGeo = new THREE.SphereGeometry(0.065, 16, 16);
-        const orbMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-        [-0.3, 0.3].forEach((x, idx) => {
-            const stalk = new THREE.Mesh(antStalkGeo, chromeMat);
-            stalk.position.set(x, 1.05, -0.05);
-            stalk.rotation.z = idx === 0 ? 0.32 : -0.32;
-            this.astronautGroup.add(stalk);
+        // B. Denim Dungarees / Overalls
+        const bibGeo = new THREE.CylinderGeometry(0.39, 0.395, 0.32, 24);
+        const bib = new THREE.Mesh(bibGeo, overallsMat);
+        bib.position.y = 0.01;
+        this.astronautGroup.add(bib);
 
-            const orb = new THREE.Mesh(antOrbGeo, orbMat);
-            orb.position.set(x * 1.35, 1.22, -0.05);
-            this.astronautGroup.add(orb);
-        });
-
-        // Little Paws / Hands
-        const pawGeo = new THREE.SphereGeometry(0.09, 12, 12);
+        // Overalls Straps & Gold Buttons
         [-0.22, 0.22].forEach(x => {
-            const paw = new THREE.Mesh(pawGeo, bodyMat);
-            paw.position.set(x, 0.52, 0.5);
-            this.astronautGroup.add(paw);
+            const strapGeo = new THREE.BoxGeometry(0.08, 0.46, 0.04);
+            const strap = new THREE.Mesh(strapGeo, overallsMat);
+            strap.position.set(x, 0.24, 0.26);
+            strap.rotation.x = -0.32;
+            this.astronautGroup.add(strap);
+
+            const btnGeo = new THREE.CylinderGeometry(0.038, 0.038, 0.02, 12);
+            const btn = new THREE.Mesh(btnGeo, buttonGoldMat);
+            btn.rotation.x = Math.PI / 2;
+            btn.position.set(x, 0.10, 0.39);
+            this.astronautGroup.add(btn);
         });
 
-        // Life Support Backpack
-        const packGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.48, 16);
-        const pack = new THREE.Mesh(packGeo, bodyMat);
-        pack.position.set(0, 0.32, -0.36);
-        pack.rotation.x = 0.12;
-        this.astronautGroup.add(pack);
+        // Pocket Crest on Bib
+        const pocketGeo = new THREE.BoxGeometry(0.18, 0.12, 0.02);
+        const pocket = new THREE.Mesh(pocketGeo, overallsMat);
+        pocket.position.set(0, 0.02, 0.40);
+        this.astronautGroup.add(pocket);
+
+        // C. Goggle Rubber Strap
+        const strapBandGeo = new THREE.CylinderGeometry(0.395, 0.395, 0.09, 24, 1, true);
+        const strapBand = new THREE.Mesh(strapBandGeo, goggleStrapMat);
+        strapBand.position.y = 0.38;
+        this.astronautGroup.add(strapBand);
+
+        // D. Dual Metallic Chrome Goggles & Expressive Eyes
+        this.eyesGroup = new THREE.Group();
+        this.eyesGroup.position.set(0, 0.38, 0.34);
+
+        const bridgeGeo = new THREE.BoxGeometry(0.08, 0.05, 0.04);
+        const bridge = new THREE.Mesh(bridgeGeo, goggleChromeMat);
+        bridge.position.set(0, 0, 0.04);
+        this.eyesGroup.add(bridge);
+
+        this.pupils = [];
+        this.eyelids = [];
+
+        [-0.17, 0.17].forEach(gx => {
+            const rimGeo = new THREE.TorusGeometry(0.14, 0.038, 14, 28);
+            const rim = new THREE.Mesh(rimGeo, goggleChromeMat);
+            rim.position.set(gx, 0, 0.06);
+            this.eyesGroup.add(rim);
+
+            const eyeGeo = new THREE.SphereGeometry(0.12, 18, 18);
+            const eyeball = new THREE.Mesh(eyeGeo, eyeWhiteMat);
+            eyeball.position.set(gx, 0, 0.04);
+            this.eyesGroup.add(eyeball);
+
+            const irisGeo = new THREE.SphereGeometry(0.065, 16, 16);
+            const iris = new THREE.Mesh(irisGeo, irisMat);
+            iris.position.set(gx, 0, 0.13);
+            this.eyesGroup.add(iris);
+
+            const pupilGeo = new THREE.SphereGeometry(0.035, 14, 14);
+            const pupil = new THREE.Mesh(pupilGeo, pupilMat);
+            pupil.position.set(gx, 0, 0.16);
+            this.eyesGroup.add(pupil);
+            this.pupils.push(pupil);
+
+            const shineGeo = new THREE.SphereGeometry(0.012, 8, 8);
+            const shine = new THREE.Mesh(shineGeo, eyeWhiteMat);
+            shine.position.set(gx - 0.018, 0.02, 0.185);
+            this.eyesGroup.add(shine);
+
+            const lidGeo = new THREE.SphereGeometry(0.135, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.5);
+            const lid = new THREE.Mesh(lidGeo, minionSkinMat);
+            lid.position.set(gx, 0, 0.05);
+            lid.rotation.x = -Math.PI / 2;
+            lid.scale.y = 0.05;
+            this.eyesGroup.add(lid);
+            this.eyelids.push(lid);
+        });
+        this.astronautGroup.add(this.eyesGroup);
+
+        // E. Minion Mouth & Teeth
+        const mouthGeo = new THREE.TorusGeometry(0.11, 0.022, 10, 18, Math.PI * 0.85);
+        const mouth = new THREE.Mesh(mouthGeo, mouthMat);
+        mouth.position.set(0, 0.14, 0.36);
+        mouth.rotation.x = Math.PI / 1.15;
+        this.astronautGroup.add(mouth);
+
+        [-0.04, 0.04].forEach(tx => {
+            const toothGeo = new THREE.BoxGeometry(0.035, 0.025, 0.02);
+            const tooth = new THREE.Mesh(toothGeo, toothMat);
+            tooth.position.set(tx, 0.155, 0.375);
+            this.astronautGroup.add(tooth);
+        });
+
+        // F. Wild Spiky Blue Minion Hair Tufts
+        const hairSpikes = [
+            { x: 0,     y: 0.82, z: 0.00, rx: -0.15, rz: 0.0,   h: 0.28 },
+            { x: -0.10, y: 0.80, z: -0.05, rx: -0.25, rz: -0.35, h: 0.24 },
+            { x: 0.10,  y: 0.80, z: -0.05, rx: -0.25, rz: 0.35,  h: 0.24 },
+            { x: -0.06, y: 0.81, z: 0.07,  rx: 0.20,  rz: -0.20, h: 0.22 },
+            { x: 0.06,  y: 0.81, z: 0.07,  rx: 0.20,  rz: 0.20,  h: 0.22 }
+        ];
+        hairSpikes.forEach(hs => {
+            const spikeGeo = new THREE.ConeGeometry(0.035, hs.h, 6);
+            const spike = new THREE.Mesh(spikeGeo, hairMat);
+            spike.position.set(hs.x, hs.y, hs.z);
+            spike.rotation.set(hs.rx, 0, hs.rz);
+            this.astronautGroup.add(spike);
+        });
+
+        // G. Blue Arms & Black Minion Gloves Grasping the Handlebars
+        [-0.32, 0.32].forEach((ax, idx) => {
+            const armGroup = new THREE.Group();
+            armGroup.position.set(ax, 0.26, 0.15);
+
+            const armGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.34, 12);
+            const arm = new THREE.Mesh(armGeo, minionSkinMat);
+            arm.position.set(0, -0.12, 0.12);
+            arm.rotation.x = 0.85;
+            arm.rotation.z = idx === 0 ? 0.35 : -0.35;
+            armGroup.add(arm);
+
+            const handGeo = new THREE.SphereGeometry(0.085, 12, 12);
+            const hand = new THREE.Mesh(handGeo, gloveBootMat);
+            hand.position.set(idx === 0 ? 0.08 : -0.08, -0.22, 0.28);
+            armGroup.add(hand);
+
+            this.astronautGroup.add(armGroup);
+        });
+
+        // H. Denim Legs & Little Black Boots Resting on Footpegs
+        [-0.30, 0.30].forEach((lx, idx) => {
+            const legGroup = new THREE.Group();
+            legGroup.position.set(lx, -0.16, 0.08);
+
+            const legGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.24, 12);
+            const leg = new THREE.Mesh(legGeo, overallsMat);
+            leg.position.set(0, -0.08, 0.04);
+            leg.rotation.x = 0.45;
+            leg.rotation.z = idx === 0 ? -0.25 : 0.25;
+            legGroup.add(leg);
+
+            const bootGeo = new THREE.BoxGeometry(0.12, 0.09, 0.18);
+            const boot = new THREE.Mesh(bootGeo, gloveBootMat);
+            boot.position.set(0, -0.18, 0.12);
+            boot.rotation.x = 0.15;
+            legGroup.add(boot);
+
+            this.astronautGroup.add(legGroup);
+        });
 
         this.rocketGroup.add(this.astronautGroup);
 
-        // Thruster Jet Cone
+        // 3. Thruster Flame Jets
         const flameCoreGeo = new THREE.ConeGeometry(0.32, 1.2, 16, 1, true);
         flameCoreGeo.translate(0, -0.6, 0);
         flameCoreGeo.rotateX(Math.PI);
@@ -4673,7 +4843,6 @@ const Cosmo = {
         this.flameOuter.position.y = -1.6;
         this.rocketGroup.add(this.flameOuter);
 
-        // Point Light for engine glow
         this.flameLight = new THREE.PointLight(0x38bdf8, 2.5, 6);
         this.flameLight.position.set(0, -1.8, 0);
         this.rocketGroup.add(this.flameLight);
@@ -4792,7 +4961,23 @@ const Cosmo = {
 
     setEyeState(st) {
         this.eyeState = st;
-        this.drawFace(st);
+        if (this.eyelids && this.eyelids.length) {
+            if (st === 'blink') {
+                this.eyelids.forEach(lid => lid.scale.y = 1.0);
+            } else if (st === 'alert') {
+                this.eyelids.forEach(lid => lid.scale.y = 0.0);
+                if (this.pupils) this.pupils.forEach(p => p.scale.set(0.65, 0.65, 0.65));
+            } else if (st === 'star' || st === 'happy') {
+                this.eyelids.forEach(lid => lid.scale.y = 0.06);
+                if (this.pupils) this.pupils.forEach(p => p.scale.set(1.25, 1.25, 1.25));
+            } else {
+                this.eyelids.forEach(lid => lid.scale.y = 0.06);
+                if (this.pupils) this.pupils.forEach(p => p.scale.set(1.0, 1.0, 1.0));
+            }
+        }
+        if (this.drawFace) {
+            try { this.drawFace(st); } catch {}
+        }
     },
 
     deliver(msg, icon = '🚀', duration = 4800) {
@@ -4851,6 +5036,10 @@ const Cosmo = {
         }, 650);
     },
 
+    trickRoll() {
+        this.doTrick();
+    },
+
     doTrick() {
         if (this.state === 'trick') return;
         this.state = 'trick';
@@ -4860,7 +5049,7 @@ const Cosmo = {
 
         const q = this.quotes[Math.floor(Math.random() * this.quotes.length)];
         if (this.bubbleMsg) this.bubbleMsg.textContent = q;
-        if (this.bubbleIcon) this.bubbleIcon.textContent = '✨';
+        if (this.bubbleIcon) this.bubbleIcon.textContent = '🍌';
         if (this.bubble) this.bubble.classList.add('active');
 
         if (this.dismissTimer) clearTimeout(this.dismissTimer);
@@ -4888,9 +5077,9 @@ const Cosmo = {
         const next = this.mode === 'courier' ? 'companion' : 'courier';
         this.setMode(next);
         const label = next === 'companion' 
-            ? '🚀 Cosmo: Desk Companion Mode (Active by your side!)' 
-            : '📦 Cosmo: Courier Mode (Will fly in when delivering!)';
-        this.deliver(label, '🚀', 3800);
+            ? '🚀 Cosmor: Blue Minion Desk Companion Mode (Active by your side!)' 
+            : '📦 Cosmor: Courier Mode (Will fly in when delivering!)';
+        this.deliver(label, '🍌', 3800);
     },
 
     updateThemeColor(colorHex) {
@@ -4912,14 +5101,14 @@ const Cosmo = {
         requestAnimationFrame(this.animate);
         this.time += 0.035;
 
-        // 1. Visor Blinking Logic
-        if (this.time - this.lastBlinkTime > 3.8 && !this.isBlinking) {
+        // 1. Minion Eyelid Blinking Logic
+        if (this.time - this.lastBlinkTime > 3.6 && !this.isBlinking) {
             this.isBlinking = true;
-            this.drawFace('blink');
+            this.setEyeState('blink');
             setTimeout(() => {
                 this.isBlinking = false;
                 this.lastBlinkTime = this.time;
-                this.drawFace(this.eyeState);
+                this.setEyeState(this.eyeState || 'happy');
             }, 140);
         }
 
@@ -4929,14 +5118,46 @@ const Cosmo = {
         this.currentTiltX += (this.targetTiltX - this.currentTiltX) * 0.08;
         this.currentTiltY += (this.targetTiltY - this.currentTiltY) * 0.08;
 
+        // Cosmor pupils look around following cursor
+        if (this.pupils && this.pupils.length) {
+            const lookX = this.currentTiltY * 0.035;
+            const lookY = -this.currentTiltX * 0.035;
+            this.pupils.forEach((p, idx) => {
+                const baseGx = idx === 0 ? -0.17 : 0.17;
+                p.position.x = baseGx + lookX;
+                p.position.y = lookY;
+            });
+        }
+
+        // 3. 360-Degree Loading Screen Circle Flip
         if (this.state === 'trick') {
-            this.trickT += 0.08;
-            this.rocketGroup.rotation.z = -0.22 + (this.trickT * Math.PI * 2);
-            this.rocketGroup.rotation.y = 0.45 + Math.sin(this.trickT * Math.PI) * 0.3;
+            this.trickT += 0.022; // ~1.3s silky continuous circular flip
+            
+            const t = Math.min(1.0, this.trickT);
+            const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+            const angle = ease * Math.PI * 2; // Full 360 degrees
+
+            // Traces a circular loading screen spinner in space
+            const loopRadius = 0.72;
+            const posX = -Math.sin(angle) * loopRadius;
+            const posY = (1 - Math.cos(angle)) * loopRadius;
+
+            this.rocketGroup.position.x = posX;
+            this.rocketGroup.position.y = posY;
+
+            // Rocket nose faces forward along the circular tangent (like a loading loop)
+            this.rocketGroup.rotation.z = -0.22 - angle;
+            this.rocketGroup.rotation.y = 0.45 + Math.sin(angle) * 0.45;
+            this.rocketGroup.rotation.x = Math.sin(angle) * 0.22;
+
+            if (this.flameCore) this.flameCore.scale.set(1.5, 2.5, 1.5);
+            if (this.flameOuter) this.flameOuter.scale.set(1.7, 2.8, 1.7);
+
             if (this.trickT >= 1.0) {
                 this.state = 'hovering';
-                this.rocketGroup.rotation.z = -0.22;
-                this.rocketGroup.rotation.y = 0.45;
+                this.trickT = 0;
+                this.rocketGroup.position.set(0, 0, 0);
+                this.rocketGroup.rotation.set(0, 0.45, -0.22);
                 this.setEyeState('happy');
             }
         } else {
@@ -4945,12 +5166,14 @@ const Cosmo = {
             const hoverRoll = Math.cos(this.time * 1.6) * 0.06;
             const hoverPitch = Math.sin(this.time * 2.6) * 0.04;
 
+            this.rocketGroup.position.x = 0;
             this.rocketGroup.position.y = hoverY;
             this.rocketGroup.rotation.z = -0.22 + hoverRoll + this.currentTiltX * 0.4;
             this.rocketGroup.rotation.y = 0.45 + hoverPitch + this.currentTiltY * 0.6;
+            this.rocketGroup.rotation.x = 0;
         }
 
-        // 3. Flame Jet Pulsing
+        // 4. Flame Jet Pulsing
         const flameNoise = Math.sin(this.time * 18) * 0.15 + (Math.random() - 0.5) * 0.1;
         const throttle = (this.state === 'flying_in' || this.state === 'flying_out' || this.state === 'trick') ? 1.6 : 1.0;
 
@@ -6696,6 +6919,8 @@ refreshHomeStats();
 renderInventoryShelf();
 WaterSim.init();
 ringFill.style.strokeDasharray = CIRC;
+window.Cosmor = Cosmo;
+window.Cosmo = Cosmo;
 Cosmo.init();
 checkDailyGoalGreeting();
 
