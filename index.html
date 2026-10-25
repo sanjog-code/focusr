@@ -51,6 +51,161 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
 * { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
 
+
+/* ═══ ETHICAL SPONSORSHIP & AD SLOTS STYLING ═══ */
+.focusr-ad-slot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 700px;
+    padding: 0.65rem 1rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    margin-top: 1rem;
+}
+.focusr-ad-slot:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+.ad-content-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    min-width: 0;
+}
+.ad-brand-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.ad-copy-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+.ad-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+.ad-brand-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+}
+.ad-badge {
+    font-size: 0.62rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+}
+.ad-tagline {
+    font-size: 0.74rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ad-cta-btn {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--accent);
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(10, 132, 255, 0.1);
+    border: 1px solid rgba(10, 132, 255, 0.25);
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+}
+.ad-cta-btn:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Desk Gear Showcase Modal */
+.desk-gear-modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    z-index: 100; display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s ease;
+}
+.desk-gear-modal-backdrop.active { opacity: 1; visibility: visible; }
+.desk-gear-modal {
+    width: 100%; max-width: 840px; max-height: 88vh; display: flex; flex-direction: column;
+    padding: 2.2rem; background: rgba(18, 18, 28, 0.88); border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 24px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
+    transform: scale(.95) translateY(12px); transition: transform .35s cubic-bezier(.16, 1, .3, 1);
+    overflow: hidden;
+}
+.desk-gear-modal-backdrop.active .desk-gear-modal { transform: scale(1) translateY(0); }
+.desk-gear-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    overflow-y: auto;
+    max-height: 60vh;
+    padding-right: 0.3rem;
+    margin-top: 1.2rem;
+}
+@media (max-width: 650px) {
+    .desk-gear-grid { grid-template-columns: 1fr; }
+}
+.gear-item-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.2rem;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    gap: 0.6rem;
+    transition: all 0.25s ease;
+}
+.gear-item-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+.gear-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.gear-icon { font-size: 1.8rem; }
+.gear-brand { font-size: 0.72rem; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.gear-name { font-size: 0.95rem; font-weight: 700; color: #fff; }
+.gear-desc { font-size: 0.78rem; color: var(--text-dim); line-height: 1.4; flex: 1; }
+.gear-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.4rem; }
+.gear-price { font-size: 0.9rem; font-weight: 700; font-family: var(--font-mono); color: #fff; }
+
 /* ── Spatial Backdrop ── */
 .backdrop-wrapper{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .backdrop-image{
@@ -4103,6 +4258,11 @@ body.oled-true-black .glass {
 
                     <div class="menu-divider"></div>
 
+                    <button class="menu-item-btn" id="menu-item-desk-gear">
+                        <span class="menu-item-icon">⌨️</span>
+                        <span class="menu-item-text">Atelier Desk Setup & Gear</span>
+                        <span class="menu-item-tag" style="background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3)">Curated</span>
+                    </button>
                     <button class="menu-item-btn" id="menu-item-posters">
                         <span class="menu-item-icon">🖼️</span>
                         <span class="menu-item-text">Spatial Posters & Brand Kit</span>
@@ -4338,6 +4498,11 @@ body.oled-true-black .glass {
         <div class="stat"><span class="stat-value" id="qs-streak">0</span><span class="stat-label">Day Streak</span></div>
         <div class="stat"><span class="stat-value" id="qs-pomos">0</span><span class="stat-label">Pomodoros</span></div>
         <div class="stat"><span class="stat-value" id="qs-bottles">0</span><span class="stat-label">Bottles</span></div>
+    </div>
+
+    <!-- Home Footer Sponsor Capsule -->
+    <div class="focusr-ad-slot home-ad-slot" id="home-sponsor-slot">
+        <!-- Rendered by AdManager -->
     </div>
 </section>
 
@@ -4806,6 +4971,11 @@ body.oled-true-black .glass {
                 <span>Share Flow</span>
             </button>
         </div>
+
+        <!-- Post-Session Debrief Sponsor Card -->
+        <div class="focusr-ad-slot debrief-ad-slot" id="debrief-sponsor-slot" style="margin-top:1.5rem">
+            <!-- Rendered by AdManager -->
+        </div>
     </div>
 </section>
 
@@ -5161,6 +5331,77 @@ body.oled-true-black .glass {
                 <div style="display:flex;gap:0.6rem;margin-top:0.4rem">
                     <button class="binaural-btn active" data-ghosthud="live">🏎️ Live Telemetry Track</button>
                     <button class="binaural-btn" data-ghosthud="stealth">🕶️ Stealth Mode (Debrief Only)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══ Atelier Desk Setup & Hardware Showcase Modal ═══ -->
+<div class="desk-gear-modal-backdrop" id="desk-gear-modal-backdrop">
+    <div class="desk-gear-modal glass" id="desk-gear-modal">
+        <div class="theme-modal-header">
+            <div>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <h2>The Atelier Desk Setup</h2>
+                    <span class="pro-pill" style="font-size:0.62rem">CURATED GEAR</span>
+                </div>
+                <p>Hardware, acoustics, and tactile tools handpicked to cultivate deep focus and ergonomic sanctuary.</p>
+            </div>
+            <button class="modal-close-btn" id="desk-gear-modal-close" title="Close Desk Gear">✕</button>
+        </div>
+
+        <div class="desk-gear-grid">
+            <div class="gear-item-card">
+                <div class="gear-header">
+                    <span class="gear-icon">⌨️</span>
+                    <span class="gear-brand">NuPhy</span>
+                </div>
+                <span class="gear-name">NuPhy Air75 v2 Wireless</span>
+                <p class="gear-desc">Ultra-slim low-profile mechanical keyboard with Gateron switches, custom PBT keycaps, and Mac/Windows layout.</p>
+                <div class="gear-footer">
+                    <span class="gear-price">$119.95</span>
+                    <a href="https://nuphy.com" target="_blank" rel="noopener" class="ad-cta-btn">View Gear ↗</a>
+                </div>
+            </div>
+
+            <div class="gear-item-card">
+                <div class="gear-header">
+                    <span class="gear-icon">🎧</span>
+                    <span class="gear-brand">Sony</span>
+                </div>
+                <span class="gear-name">Sony WH-1000XM5 ANC</span>
+                <p class="gear-desc">Industry-leading active noise cancellation with 30-hour battery life and spatial audio tuning for distraction-free coding.</p>
+                <div class="gear-footer">
+                    <span class="gear-price">$398.00</span>
+                    <a href="https://electronics.sony.com" target="_blank" rel="noopener" class="ad-cta-btn">View Gear ↗</a>
+                </div>
+            </div>
+
+            <div class="gear-item-card">
+                <div class="gear-header">
+                    <span class="gear-icon">⌨️</span>
+                    <span class="gear-brand">Keychron</span>
+                </div>
+                <span class="gear-name">Keychron Q1 Pro QMK/VIA</span>
+                <p class="gear-desc">Full CNC aluminum custom mechanical keyboard with double-gasket acoustic mounting and south-facing RGB.</p>
+                <div class="gear-footer">
+                    <span class="gear-price">$199.00</span>
+                    <a href="https://keychron.com" target="_blank" rel="noopener" class="ad-cta-btn">View Gear ↗</a>
+                </div>
+            </div>
+
+            <div class="gear-item-card">
+                <div class="gear-header">
+                    <span class="gear-icon">📖</span>
+                    <span class="gear-brand">Cal Newport</span>
+                </div>
+                <span class="gear-name">Deep Work: Rules for Focused Success</span>
+                <p class="gear-desc">The foundational manifesto on training unbroken concentration and extracting high-value cognitive output in a distracted world.</p>
+                <div class="gear-footer">
+                    <span class="gear-price">$18.99</span>
+                    <a href="https://calnewport.com/books/deep-work" target="_blank" rel="noopener" class="ad-cta-btn">View Book ↗</a>
                 </div>
             </div>
         </div>
@@ -12107,6 +12348,145 @@ tags:
 }
 
 
+
+/* ════════════════════════════════════════════════════════════════
+   FOCUSR ETHICAL SPONSORSHIP & AD MANAGER
+   ════════════════════════════════════════════════════════════════ */
+const AdManager = {
+    sponsors: [
+        {
+            id: 'vercel',
+            brand: 'Vercel',
+            badge: 'Sponsor',
+            tagline: 'Deploy your spatial web apps at the edge with instant zero-config CI/CD.',
+            icon: '▲',
+            url: 'https://vercel.com',
+            cta: 'Try Vercel ↗'
+        },
+        {
+            id: 'nuphy',
+            brand: 'NuPhy Studio',
+            badge: 'Featured Gear',
+            tagline: 'Ultra-slim mechanical keyboards with tactile switches engineered for deep focus.',
+            icon: '⌨️',
+            url: 'https://nuphy.com',
+            cta: 'Explore NuPhy ↗'
+        },
+        {
+            id: 'supabase',
+            brand: 'Supabase',
+            badge: 'Sponsor',
+            tagline: 'The open source Firebase alternative with Postgres, Auth, and Edge Functions.',
+            icon: '⚡',
+            url: 'https://supabase.com',
+            cta: 'Start Free ↗'
+        },
+        {
+            id: 'focusr-pro',
+            brand: 'Focusr Atelier Pro',
+            badge: 'Upgrade',
+            tagline: 'Unlock Binaural Wave Lab, 3D Cosmor Skins, and Swiss Analog Chronometer.',
+            icon: '✦',
+            url: '#pro',
+            cta: 'Go Pro ✦'
+        }
+    ],
+
+    init() {
+        this.bindDeskGearModal();
+        this.renderSlots();
+        this.syncVisibility();
+
+        // Listen for license updates to immediately hide ads when Pro is activated
+        window.addEventListener('focusr:license-updated', () => {
+            this.syncVisibility();
+        });
+    },
+
+    syncVisibility() {
+        const isPro = window.FocusrLicense && FocusrLicense.isPro();
+        const slots = document.querySelectorAll('.focusr-ad-slot');
+        slots.forEach(slot => {
+            slot.style.display = isPro ? 'none' : 'flex';
+        });
+    },
+
+    getRandomSponsor() {
+        const idx = Math.floor(Math.random() * this.sponsors.length);
+        return this.sponsors[idx];
+    },
+
+    renderSlots() {
+        this.renderSlot('home-sponsor-slot');
+        this.renderSlot('debrief-sponsor-slot');
+    },
+
+    renderSlot(elementId) {
+        const container = $(elementId);
+        if (!container) return;
+        const sp = this.getRandomSponsor();
+
+        const isProTrigger = sp.url === '#pro';
+        const linkAttrs = isProTrigger 
+            ? 'href="javascript:void(0)"' 
+            : `href="${sp.url}" target="_blank" rel="noopener"`;
+
+        container.innerHTML = `
+            <a ${linkAttrs} class="ad-content-wrap" id="${elementId}-link">
+                <div class="ad-brand-logo">${sp.icon}</div>
+                <div class="ad-copy-group">
+                    <div class="ad-title-row">
+                        <span class="ad-brand-name">${sp.brand}</span>
+                        <span class="ad-badge">${sp.badge}</span>
+                    </div>
+                    <span class="ad-tagline">${sp.tagline}</span>
+                </div>
+            </a>
+            <a ${linkAttrs} class="ad-cta-btn" id="${elementId}-cta">${sp.cta}</a>
+        `;
+
+        if (isProTrigger) {
+            const openPro = (e) => {
+                e.preventDefault();
+                if (window.PricingModal) PricingModal.open();
+                soundClick();
+            };
+            const linkEl = $(`${elementId}-link`);
+            const ctaEl = $(`${elementId}-cta`);
+            if (linkEl) linkEl.addEventListener('click', openPro);
+            if (ctaEl) ctaEl.addEventListener('click', openPro);
+        }
+    },
+
+    bindDeskGearModal() {
+        const btnOpen = $('menu-item-desk-gear');
+        const modalBackdrop = $('desk-gear-modal-backdrop');
+        const btnClose = $('desk-gear-modal-close');
+
+        if (btnOpen && modalBackdrop) {
+            btnOpen.addEventListener('click', () => {
+                if (window.AccountManager) AccountManager.closeDropdown();
+                modalBackdrop.classList.add('active');
+                soundClick();
+            });
+        }
+        if (btnClose && modalBackdrop) {
+            btnClose.addEventListener('click', () => {
+                modalBackdrop.classList.remove('active');
+                soundClick();
+            });
+        }
+        if (modalBackdrop) {
+            modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) {
+                    modalBackdrop.classList.remove('active');
+                }
+            });
+        }
+    }
+};
+
+
 const FocusrCustomization = {
     config: {
         accent: '#0a84ff',
@@ -12574,6 +12954,7 @@ const FocusrCustomization = {
 
 checkDailyGoalGreeting();
 FocusrCustomization.init();
+AdManager.init();
 
 if (focusCatBadge) {
     focusCatBadge.addEventListener('click', cycleFocusCategory);
