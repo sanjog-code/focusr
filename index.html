@@ -3407,7 +3407,217 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     border-color: #ef4444;
 }
 
-    </style>
+    
+/* ── Focusr Atelier & Monetization Suite ── */
+.highlight-gold{
+    background:linear-gradient(135deg,rgba(251,191,36,0.12),rgba(245,158,11,0.06)) !important;
+    border-color:rgba(251,191,36,0.3) !important;
+}
+.highlight-gold:hover{
+    background:linear-gradient(135deg,rgba(251,191,36,0.2),rgba(245,158,11,0.12)) !important;
+    border-color:rgba(251,191,36,0.5) !important;
+}
+.menu-item-tag.gold{
+    background:rgba(251,191,36,0.2) !important;
+    color:#fbbf24 !important;
+    border:1px solid rgba(251,191,36,0.4) !important;
+}
+.menu-item-tag.pro{
+    background:rgba(99,102,241,0.2) !important;
+    color:#818cf8 !important;
+    border:1px solid rgba(99,102,241,0.4) !important;
+}
+.pro-pill{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.65rem;
+    font-weight:700;
+    padding:2px 6px;
+    border-radius:4px;
+    letter-spacing:0.06em;
+    display:inline-flex;
+    align-items:center;
+    gap:3px;
+    background:linear-gradient(135deg,rgba(251,191,36,0.2),rgba(99,102,241,0.2));
+    color:#fbbf24;
+    border:1px solid rgba(251,191,36,0.35);
+}
+
+/* Pricing Modal */
+.pricing-modal-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,.75);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    z-index:105;display:flex;align-items:center;justify-content:center;
+    padding:1.5rem;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease;
+}
+.pricing-modal-backdrop.active{opacity:1;visibility:visible}
+.pricing-modal{
+    width:100%;max-width:880px;max-height:90vh;display:flex;flex-direction:column;
+    padding:2.2rem 2.5rem;background:rgba(15,19,32,.88);border:1px solid rgba(255,255,255,.14);
+    border-radius:28px;box-shadow:0 30px 90px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.12);
+    transform:scale(.95) translateY(12px);transition:transform .35s cubic-bezier(.16,1,.3,1);
+    overflow-y:auto;overflow-x:hidden;
+}
+.pricing-modal-backdrop.active .pricing-modal{transform:scale(1) translateY(0)}
+
+.pricing-header{
+    text-align:center;margin-bottom:1.6rem;
+}
+.pricing-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;
+    color:#fbbf24;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);
+    padding:4px 12px;border-radius:980px;margin-bottom:0.75rem;letter-spacing:0.08em;
+}
+.pricing-header h2{
+    font-size:1.85rem;font-weight:800;letter-spacing:-0.03em;
+    background:linear-gradient(135deg,#ffffff 40%,#cbd5e1 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    margin-bottom:0.4rem;
+}
+.pricing-header p{
+    font-size:0.92rem;color:var(--text-dim);max-width:620px;margin:0 auto;line-height:1.45;
+}
+
+/* Tabs */
+.pricing-tabs{
+    display:flex;gap:8px;background:rgba(255,255,255,0.04);
+    padding:5px;border-radius:14px;border:1px solid rgba(255,255,255,0.08);
+    max-width:520px;margin:0 auto 1.6rem auto;
+}
+.pricing-tab{
+    flex:1;background:transparent;border:none;color:var(--text-dim);
+    font-size:0.82rem;font-weight:600;padding:8px 12px;border-radius:10px;
+    cursor:pointer;transition:all 0.2s ease;font-family:var(--font);
+    display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.pricing-tab.active{
+    background:rgba(255,255,255,0.1);color:#fff;
+    box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+.pricing-tab .save-pill{
+    font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:700;
+    background:rgba(52,211,153,0.2);color:#34d399;padding:1px 5px;border-radius:4px;
+}
+
+/* Plan Card & Features */
+.pricing-content{
+    display:grid;grid-template-columns:1fr 1.2fr;gap:24px;
+    background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);
+    border-radius:20px;padding:24px;margin-bottom:1.4rem;
+}
+@media (max-width: 768px) {
+    .pricing-content{grid-template-columns:1fr;}
+}
+.plan-summary-box{
+    display:flex;flex-direction:column;justify-content:space-between;
+}
+.plan-price-headline{
+    display:flex;align-items:baseline;gap:6px;margin-bottom:6px;
+}
+.price-currency{font-size:1.4rem;font-weight:700;color:#fff;}
+.price-amount{font-size:2.4rem;font-weight:800;color:#fff;letter-spacing:-0.04em;}
+.price-cadence{font-size:0.85rem;color:var(--text-dim);font-weight:500;}
+.plan-billing-note{font-size:0.8rem;color:var(--text-dim);margin-bottom:1.4rem;}
+
+.btn-checkout-plan{
+    width:100%;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;
+    border:none;border-radius:12px;padding:12px;font-size:0.95rem;font-weight:700;
+    cursor:pointer;transition:all 0.2s ease;display:flex;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 10px 25px rgba(99,102,241,0.35);font-family:var(--font);
+}
+.btn-checkout-plan:hover{
+    transform:translateY(-2px);box-shadow:0 14px 30px rgba(99,102,241,0.5);
+}
+.checkout-guarantee{
+    font-size:0.72rem;color:var(--text-muted);text-align:center;margin-top:10px;
+}
+
+/* Feature Checklist */
+.pricing-features-list{
+    list-style:none;display:flex;flex-direction:column;gap:10px;
+}
+.pricing-feature-item{
+    display:flex;align-items:flex-start;gap:10px;font-size:0.84rem;color:#cbd5e1;line-height:1.4;
+}
+.feature-icon-check{
+    color:#34d399;font-weight:700;font-size:1rem;flex-shrink:0;margin-top:-1px;
+}
+
+/* License Key Box */
+.license-activation-card{
+    background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+    border-radius:16px;padding:16px 20px;
+}
+.license-header-toggle{
+    display:flex;align-items:center;justify-content:space-between;cursor:pointer;
+    font-size:0.84rem;font-weight:600;color:var(--text-dim);
+}
+.license-header-toggle:hover{color:#fff;}
+.license-input-row{
+    display:flex;gap:10px;margin-top:12px;
+}
+.license-input{
+    flex:1;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.12);
+    border-radius:10px;padding:9px 14px;color:#fff;font-family:'JetBrains Mono',monospace;
+    font-size:0.82rem;outline:none;
+}
+.license-input:focus{border-color:#6366f1;}
+.btn-activate{
+    background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+    color:#fff;border-radius:10px;padding:9px 18px;font-size:0.82rem;font-weight:600;
+    cursor:pointer;transition:all 0.2s ease;font-family:var(--font);
+}
+.btn-activate:hover{background:rgba(255,255,255,0.15);}
+.btn-simulate-pro{
+    background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);
+    color:#fbbf24;border-radius:8px;padding:5px 12px;font-size:0.75rem;font-weight:600;
+    cursor:pointer;transition:all 0.2s ease;font-family:var(--font);margin-top:10px;
+}
+.btn-simulate-pro:hover{background:rgba(251,191,36,0.22);}
+.license-feedback{
+    font-size:0.78rem;margin-top:8px;display:none;font-family:'JetBrains Mono',monospace;
+}
+.license-feedback.success{color:#34d399;display:block;}
+.license-feedback.error{color:#fb7185;display:block;}
+
+/* Binaural Wave Lab */
+.binaural-lab-section{
+    margin-top:1.6rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,0.08);
+}
+.binaural-presets{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;
+}
+@media (max-width: 600px) {
+    .binaural-presets{grid-template-columns:repeat(2,1fr);}
+}
+.binaural-btn{
+    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+    border-radius:10px;padding:10px 8px;text-align:center;cursor:pointer;transition:all 0.2s ease;
+    display:flex;flex-direction:column;gap:3px;align-items:center;
+}
+.binaural-btn:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);}
+.binaural-btn.active{
+    background:rgba(99,102,241,0.15);border-color:rgba(99,102,241,0.4);
+    box-shadow:0 0 16px rgba(99,102,241,0.25);
+}
+.binaural-title{font-size:0.8rem;font-weight:700;color:#fff;}
+.binaural-sub{font-size:0.68rem;color:var(--text-dim);}
+
+/* Cosmo Skins in Companion Mode */
+.cosmo-skins-row{
+    display:flex;gap:8px;margin-top:12px;overflow-x:auto;padding-bottom:6px;
+}
+.cosmo-skin-card{
+    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+    border-radius:10px;padding:8px 12px;cursor:pointer;flex-shrink:0;
+    display:flex;align-items:center;gap:8px;font-size:0.8rem;color:#cbd5e1;
+    transition:all 0.2s ease;
+}
+.cosmo-skin-card:hover{border-color:rgba(255,255,255,0.2);}
+.cosmo-skin-card.active{border-color:#38bdf8;background:rgba(56,189,248,0.12);color:#fff;}
+.skin-color-dot{width:12px;height:12px;border-radius:50%;}
+
+</style>
 </head>
 <body>
 
@@ -3454,7 +3664,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                         </div>
                     </div>
 
-                    <button class="menu-item-btn highlight" id="menu-item-login">
+                                        <button class="menu-item-btn highlight-gold" id="menu-item-pricing">
+                        <span class="menu-item-icon">✦</span>
+                        <span class="menu-item-text">Focusr Atelier & Pro</span>
+                        <span class="menu-item-tag gold" id="menu-pro-tag">Upgrade</span>
+                    </button>
+
+<button class="menu-item-btn highlight" id="menu-item-login">
                         <span class="menu-item-icon" id="menu-login-icon">🔗</span>
                         <span class="menu-item-text" id="menu-login-text">Link Device & Account</span>
                         <span class="menu-item-tag" id="menu-login-tag">Optional</span>
@@ -4128,6 +4344,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <!-- Actions Footer -->
         <div class="debrief-actions-bar">
             <button class="btn-primary" id="btn-done">Return to Home</button>
+            <button class="btn-secondary" id="btn-copy-obsidian" title="Copy formatted Obsidian daily note with YAML frontmatter">
+                <span>📓</span>
+                <span>Obsidian Note</span>
+                <span class="pro-pill">PRO</span>
+            </button>
             <button class="btn-secondary" id="btn-copy-debrief" title="Copy full debrief summary to clipboard">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 <span id="btn-copy-debrief-text">Copy Debrief Sheet</span>
@@ -4241,6 +4462,77 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                     <span class="adjust-val" id="val-backdrop-opacity">85%</span>
                 </div>
                 <input type="range" id="slider-backdrop-opacity" min="20" max="100" step="1" value="85">
+            </div>
+        </div>
+
+        
+        <!-- Binaural Wave Lab Section (Pro) -->
+        <div class="binaural-lab-section">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:1.1rem">🧠</span>
+                    <strong style="font-size:0.95rem;color:#fff">Binaural Wave Lab</strong>
+                    <span class="pro-pill">PRO ATELIER</span>
+                </div>
+                <span style="font-size:0.75rem;color:var(--text-dim)" id="binaural-status-label">Headphones Recommended</span>
+            </div>
+            <p style="font-size:0.8rem;color:var(--text-dim);margin-bottom:10px;">
+                Synthesizes precision isochronic frequency differentials between your left and right ears to naturally steer neural oscillation into target flow states.
+            </p>
+            <div class="binaural-presets">
+                <button class="binaural-btn active" data-binaural="off" id="bin-btn-off">
+                    <span class="binaural-title">Off</span>
+                    <span class="binaural-sub">Silent</span>
+                </button>
+                <button class="binaural-btn" data-binaural="alpha" id="bin-btn-alpha">
+                    <span class="binaural-title">Alpha &bull; 10Hz</span>
+                    <span class="binaural-sub">Calm Focus</span>
+                </button>
+                <button class="binaural-btn" data-binaural="theta" id="bin-btn-theta">
+                    <span class="binaural-title">Theta &bull; 6Hz</span>
+                    <span class="binaural-sub">Creative Flow</span>
+                </button>
+                <button class="binaural-btn" data-binaural="gamma" id="bin-btn-gamma">
+                    <span class="binaural-title">Gamma &bull; 40Hz</span>
+                    <span class="binaural-sub">Hyperfocus</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cosmor Companion Skins -->
+        <div class="binaural-lab-section" style="margin-top:1.2rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:1.1rem">🪐</span>
+                    <strong style="font-size:0.95rem;color:#fff">Cosmor 3D Companion Skins</strong>
+                    <span class="pro-pill">PRO ATELIER</span>
+                </div>
+            </div>
+            <div class="cosmo-skins-row" id="cosmo-skins-selector">
+                <div class="cosmo-skin-card active" data-skin="default">
+                    <span class="skin-color-dot" style="background:#2563eb"></span>
+                    <span>Electric Minion</span>
+                </div>
+                <div class="cosmo-skin-card" data-skin="cyberpunk">
+                    <span class="skin-color-dot" style="background:#10b981;box-shadow:0 0 6px #10b981"></span>
+                    <span>Cyberpunk Neon</span>
+                    <span class="pro-pill" style="font-size:0.58rem">PRO</span>
+                </div>
+                <div class="cosmo-skin-card" data-skin="gold">
+                    <span class="skin-color-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></span>
+                    <span>Golden Chronos</span>
+                    <span class="pro-pill" style="font-size:0.58rem">FOUNDER</span>
+                </div>
+                <div class="cosmo-skin-card" data-skin="dark_matter">
+                    <span class="skin-color-dot" style="background:#8b5cf6;box-shadow:0 0 6px #8b5cf6"></span>
+                    <span>Dark Matter</span>
+                    <span class="pro-pill" style="font-size:0.58rem">PRO</span>
+                </div>
+                <div class="cosmo-skin-card" data-skin="bioluminescence">
+                    <span class="skin-color-dot" style="background:#06b6d4;box-shadow:0 0 6px #06b6d4"></span>
+                    <span>Bioluminescence</span>
+                    <span class="pro-pill" style="font-size:0.58rem">PRO</span>
+                </div>
             </div>
         </div>
 
@@ -7384,6 +7676,10 @@ const Cosmo = {
     flameLight: null,
     accentRing: null,
     accentMat: null,
+    bodyMat: null,
+    minionSkinMat: null,
+    overallsMat: null,
+    currentSkin: 'default',
     particleSystem: null,
     particleData: [],
 
@@ -7506,6 +7802,52 @@ const Cosmo = {
         } catch {
             this.setMode('courier');
         }
+
+        try {
+            const savedSkin = localStorage.getItem('focus_cosmo_skin') || 'default';
+            if (savedSkin !== 'default') {
+                this.applySkin(savedSkin);
+            }
+        } catch {}
+    },
+
+    applySkin(skinId) {
+        if (!this.minionSkinMat || !this.overallsMat) return;
+        this.currentSkin = skinId;
+        try { localStorage.setItem('focus_cosmo_skin', skinId); } catch {}
+        
+        switch (skinId) {
+            case 'cyberpunk':
+                this.minionSkinMat.color.setHex(0x10b981);
+                this.overallsMat.color.setHex(0xd946ef);
+                if (this.accentMat) this.accentMat.color.setHex(0x06b6d4);
+                if (this.bodyMat) this.bodyMat.color.setHex(0x0f172a);
+                break;
+            case 'gold':
+                this.minionSkinMat.color.setHex(0xf59e0b);
+                this.overallsMat.color.setHex(0x18181b);
+                if (this.accentMat) this.accentMat.color.setHex(0xfbbf24);
+                if (this.bodyMat) this.bodyMat.color.setHex(0x27272a);
+                break;
+            case 'dark_matter':
+                this.minionSkinMat.color.setHex(0x1e1b4b);
+                this.overallsMat.color.setHex(0x4c1d95);
+                if (this.accentMat) this.accentMat.color.setHex(0xa855f7);
+                if (this.bodyMat) this.bodyMat.color.setHex(0x090a0f);
+                break;
+            case 'bioluminescence':
+                this.minionSkinMat.color.setHex(0x06b6d4);
+                this.overallsMat.color.setHex(0x134e4a);
+                if (this.accentMat) this.accentMat.color.setHex(0x38bdf8);
+                if (this.bodyMat) this.bodyMat.color.setHex(0x082f49);
+                break;
+            default:
+                this.minionSkinMat.color.setHex(0x2563eb);
+                this.overallsMat.color.setHex(0x1e3a8a);
+                if (this.accentMat) this.accentMat.color.setHex(0x38bdf8);
+                if (this.bodyMat) this.bodyMat.color.setHex(0xf8fafc);
+                break;
+        }
     },
 
     buildModel() {
@@ -7545,6 +7887,10 @@ const Cosmo = {
             roughness: 0.65,
             metalness: 0.05
         });
+
+        this.bodyMat = bodyMat;
+        this.minionSkinMat = minionSkinMat;
+        this.overallsMat = overallsMat;
         const goggleStrapMat = new THREE.MeshStandardMaterial({
             color: 0x0f172a, // Dark rubber strap
             roughness: 0.8,
@@ -10385,6 +10731,43 @@ window.Cosmo = Cosmo;
 Cosmo.init();
 SpotifyManager.init();
 AccountManager.init();
+    FocusrLicense.init();
+    PricingModal.init();
+    BinauralEngine.init();
+
+    // Bind Pricing Menu Item
+    const itemPricing = $('menu-item-pricing');
+    if (itemPricing) {
+        itemPricing.addEventListener('click', () => {
+            AccountManager.closeDropdown();
+            PricingModal.open();
+            soundClick();
+        });
+    }
+
+    // Bind Obsidian Debrief Button
+    const btnObsidian = $('btn-copy-obsidian');
+    if (btnObsidian) {
+        btnObsidian.addEventListener('click', copyObsidianDebrief);
+    }
+
+    // Bind Cosmo Skin Selector in Theme Modal
+    const skinCards = document.querySelectorAll('.cosmo-skin-card');
+    skinCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const skinId = card.dataset.skin;
+            if (skinId !== 'default' && !FocusrLicense.isPro()) {
+                showToast('✦ Cosmor Atelier Skins are exclusive to Focusr Pro', '✨', 3500);
+                PricingModal.open();
+                soundClick();
+                return;
+            }
+            if (window.Cosmo && Cosmo.applySkin) Cosmo.applySkin(skinId);
+            skinCards.forEach(c => c.classList.toggle('active', c === card));
+            soundClick();
+            showToast(`🪐 Cosmor skin updated to ${card.querySelector('span:nth-child(2)').textContent}`, '✨', 3000);
+        });
+    });
 checkDailyGoalGreeting();
 
 if (focusCatBadge) {
@@ -10393,5 +10776,98 @@ if (focusCatBadge) {
 
 })();
 </script>
+
+<!-- ═══ Focusr Atelier & Pro Modal ═══ -->
+<div class="pricing-modal-backdrop" id="pricing-modal-backdrop">
+    <div class="pricing-modal glass" id="pricing-modal">
+        <div class="pricing-header">
+            <span class="pricing-badge">✦ FOCUSR ATELIER &bull; PRO SUITE</span>
+            <h2>Elevate Your Deep Work Studio</h2>
+            <p>Support independent local-first craftsmanship and unlock sensory ergonomics, 3D companion skins, neuroscience acoustics, and Obsidian sync.</p>
+        </div>
+
+        <div class="pricing-tabs">
+            <button class="pricing-tab active" data-plan="annual">
+                Annual Pass <span class="save-pill">SAVE 35%</span>
+            </button>
+            <button class="pricing-tab" data-plan="monthly">
+                Monthly
+            </button>
+            <button class="pricing-tab" data-plan="founder">
+                👑 Founder Lifetime
+            </button>
+        </div>
+
+        <div class="pricing-content">
+            <div class="plan-summary-box">
+                <div>
+                    <div class="plan-price-headline" id="plan-price-headline">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount" id="price-amount-display">39</span>
+                        <span class="price-cadence" id="price-cadence-display">/ year</span>
+                    </div>
+                    <div class="plan-billing-note" id="plan-billing-note">
+                        Equivalent to $3.25/month. Billed annually. Cancel anytime.
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn-checkout-plan" id="btn-checkout-plan">
+                        <span>Get Focusr Pro Now</span> <span>↗</span>
+                    </button>
+                    <div class="checkout-guarantee">
+                        🛡️ 14-day money-back guarantee &bull; Instant license key delivery
+                    </div>
+                </div>
+            </div>
+
+            <ul class="pricing-features-list">
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>Cosmor 3D Atelier Skins:</strong> Unlock Cyberpunk Neon, Golden Chronos, Dark Matter, and Bioluminescent companion avatars.</div>
+                </li>
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>Binaural Wave Lab:</strong> Dual-channel stereo sound synthesis targeting Alpha (10Hz), Theta (6Hz), and Gamma (40Hz) brainwave states.</div>
+                </li>
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>Obsidian & Notion Sync:</strong> Single-click markdown frontmatter export directly formatted for PKM daily notes and journals.</div>
+                </li>
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>Liquid Bottle Alchemy:</strong> Unlock hexagonal flasks, alchemical decanters, and custom fluid shader palettes.</div>
+                </li>
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>100% Offline Sovereignty:</strong> Once activated, works forever without tracking cookies or cloud dependency.</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="license-activation-card">
+            <div class="license-header-toggle" id="license-header-toggle">
+                <span>Already have a license key or voucher?</span>
+                <span id="license-toggle-arrow">▼</span>
+            </div>
+            <div id="license-expand-box" style="margin-top:10px;">
+                <div class="license-input-row">
+                    <input type="text" class="license-input" id="input-license-key" placeholder="e.g. FCSR-PRO-8F29-A71C-D310" spellcheck="false" autocomplete="off">
+                    <button class="btn-activate" id="btn-activate-license">Activate</button>
+                </div>
+                <div class="license-feedback" id="license-feedback"></div>
+                <div style="display:flex;gap:10px;align-items:center;margin-top:8px;">
+                    <button class="btn-simulate-pro" id="btn-simulate-pro">⚡ Instant Pro Preview (Test Mode)</button>
+                    <button class="btn-simulate-pro" id="btn-deactivate-pro" style="display:none;background:rgba(251,113,133,0.12);color:#fb7185;border-color:rgba(251,113,133,0.3)">✕ Deactivate</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:1.2rem;">
+            <button class="btn-secondary" id="pricing-modal-close" style="padding:6px 20px;font-size:0.8rem">Close Panel</button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
