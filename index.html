@@ -4994,7 +4994,7 @@ body.oled-true-black .glass {
                         <span id="unfocused-badge-text">AWAY 0:00 (SIREN 2:00)</span>
                     </span>
                 </div>
-                <div style="display:flex;align-items:center;gap:.6rem">
+                <div class="focus-top-bar-controls" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
                     <button class="inventory-pill-btn glass" id="btn-toggle-ghost-hud" title="Toggle Ghost Racer Track">
                         <span>Ghost Telemetry</span>
                         <span class="pill-badge" id="ghost-hud-badge">LIVE</span>
@@ -7035,6 +7035,17 @@ function saveThemeConfig() {
     } catch {}
 }
 
+function getLiquidHue() {
+    if (typeof S !== 'undefined' && S.mode === 'pomodoro' && S.pomoIsBreak) {
+        return S.pomoIsLongBreak ? 35 : 142;
+    }
+    if (window.FocusrCustomization && FocusrCustomization.config && FocusrCustomization.config.accent) {
+        return FocusrCustomization.hexToHue(FocusrCustomization.config.accent);
+    }
+    const activeTheme = typeof getActiveTheme === 'function' ? getActiveTheme() : null;
+    return activeTheme?.liquidHue ?? 198;
+}
+
 function getActiveTheme() {
     return THEMES.find(t => t.id === themeConfig.themeId) || THEMES[0];
 }
@@ -7085,6 +7096,16 @@ function applyTheme(themeId, blurVal, opacityVal, shouldSave = true) {
 
     if (window.Cosmo && Cosmo.updateThemeColor) {
         Cosmo.updateThemeColor(t.accent);
+    }
+
+    // Sync with FocusrCustomization and active session in real-time
+    if (window.FocusrCustomization) {
+        FocusrCustomization.config.accent = t.accent;
+        FocusrCustomization.save();
+        if (FocusrCustomization.syncUI) FocusrCustomization.syncUI();
+    }
+    if (typeof S !== 'undefined' && S.running && typeof setWaterFill === 'function') {
+        setWaterFill(S.waterProgress || 0);
     }
 }
 
@@ -10430,9 +10451,7 @@ const WaterSim = {
         this.drawBottlePath(ctx);
         ctx.clip();
 
-        const activeTheme = getActiveTheme();
-        const baseHue = activeTheme?.liquidHue ?? 198;
-        const hue = S.mode === 'pomodoro' && S.pomoIsBreak ? (S.pomoIsLongBreak ? 35 : 142) : baseHue;
+        const hue = getLiquidHue();
 
         if (this.currentProgress > 0.005) {
             ctx.beginPath();
@@ -10603,12 +10622,7 @@ function setWaterFill(progress) {
         }
     }
 
-    const activeTheme = getActiveTheme();
-    const baseHue = activeTheme?.liquidHue ?? 198;
-    let hue = baseHue;
-    if (S.mode === 'pomodoro' && S.pomoIsBreak) {
-        hue = S.pomoIsLongBreak ? 35 : 142;
-    }
+    const hue = getLiquidHue();
     document.documentElement.style.setProperty('--liquid-hue', hue);
     if (bottleGlow) bottleGlow.style.opacity = 0.15 + (p * 0.25);
 }
@@ -13053,6 +13067,11 @@ const FocusrCustomization = {
         const hue = this.hexToHue(hex);
         document.documentElement.style.setProperty('--liquid-hue', hue);
         this.save();
+
+        // Immediately update live session visual components if running
+        if (typeof S !== 'undefined' && S.running && typeof setWaterFill === 'function') {
+            setWaterFill(S.waterProgress || 0);
+        }
     },
 
     hexToRgba(hex, alpha) {
@@ -13113,6 +13132,19 @@ const FocusrCustomization = {
 
         if (face === 'analog' && !this.chronoLoopRunning) {
             this.startAnalogChronoLoop();
+        }
+        if (face === 'arc') {
+            let total = 1500;
+            let rem = 1500;
+            if (typeof S !== 'undefined' && S.running) {
+                total = S.targetMs > 0 ? Math.floor(S.targetMs / 1000) : 3600;
+                const elapsed = Date.now() - S.startTime - (S.totalPaused || 0);
+                rem = S.mode === 'stopwatch' ? Math.floor(elapsed / 1000) : Math.max(0, Math.floor((S.targetMs - elapsed) / 1000));
+            }
+            this.updateZenArc(rem, total);
+        }
+        if (typeof WaterSim !== 'undefined' && WaterSim.resize) {
+            WaterSim.resize();
         }
         this.save();
     },
