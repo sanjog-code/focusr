@@ -654,6 +654,161 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .theme-palette{display:flex;align-items:center;gap:.4rem;margin-top:.2rem}
 .palette-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,.2)}
 
+/* ══════════════════════════════════════════
+   COSMO 3D ROCKET ASSISTANT
+   ══════════════════════════════════════════ */
+.cosmo-stage {
+    position: fixed;
+    bottom: 1.8rem;
+    right: 2rem;
+    z-index: 9000;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+}
+.cosmo-stage.hidden-offscreen {
+    transform: translate(280px, 280px);
+    opacity: 0;
+    pointer-events: none;
+}
+.cosmo-actor {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    pointer-events: auto;
+    cursor: pointer;
+    user-select: none;
+    touch-action: none;
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.5));
+}
+.cosmo-actor:hover {
+    transform: scale(1.08);
+}
+.cosmo-actor:active {
+    transform: scale(0.95);
+}
+#cosmo-canvas {
+    width: 200px;
+    height: 200px;
+    display: block;
+    outline: none;
+}
+.cosmo-glow {
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-glow, rgba(10, 132, 255, 0.35)) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.5;
+    animation: cosmo-glow-pulse 3s ease-in-out infinite alternate;
+    z-index: -1;
+}
+@keyframes cosmo-glow-pulse {
+    0% { transform: scale(0.85); opacity: 0.35; }
+    100% { transform: scale(1.18); opacity: 0.75; }
+}
+
+/* Cosmo Speech Bubble Card */
+.cosmo-bubble {
+    pointer-events: auto;
+    width: 320px;
+    max-width: calc(100vw - 3rem);
+    padding: 1rem 1.25rem;
+    border-radius: 20px;
+    background: rgba(18, 18, 28, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 24px var(--accent-glow);
+    position: relative;
+    opacity: 0;
+    transform: translateY(14px) scale(0.94);
+    visibility: hidden;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+}
+.cosmo-bubble.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+}
+.cosmo-bubble-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.55rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.cosmo-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.cosmo-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--accent);
+}
+.cosmo-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+}
+.cosmo-status-tag {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    padding: 0.12rem 0.45rem;
+    border-radius: 980px;
+    background: var(--accent-glow);
+    color: var(--accent);
+    text-transform: uppercase;
+}
+.cosmo-close-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--tr);
+}
+.cosmo-close-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+.cosmo-bubble-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+.cosmo-bubble-icon {
+    font-size: 1.35rem;
+    line-height: 1.1;
+    flex-shrink: 0;
+}
+.cosmo-bubble-content {
+    flex: 1;
+}
+.cosmo-bubble-msg {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--text);
+    font-weight: 500;
+}
+
 /* ── Responsive ── */
 @media(max-width:720px){
     .theme-modal{padding:1.4rem;max-height:92vh}
@@ -675,6 +830,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     .focus-info{gap:1rem}
     .toast-msg{white-space:normal}
     .theme-grid{grid-template-columns:1fr}
+    .cosmo-stage{bottom:.8rem;right:.8rem;gap:.5rem}
+    .cosmo-actor{width:150px;height:150px}
+    #cosmo-canvas{width:150px;height:150px}
+    .cosmo-bubble{width:calc(100vw - 2rem);max-width:320px;padding:.85rem 1rem}
 }
     </style>
 </head>
@@ -701,6 +860,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div class="home-header">
         <h1 class="home-title">Focus</h1>
         <div style="display:flex;align-items:center;gap:.65rem">
+            <button class="btn-icon" id="btn-toggle-cosmo" title="Cosmo 3D Rocket Assistant (Click to summon or toggle companion mode)">🚀</button>
             <button class="btn-icon" id="btn-open-themes" title="Atmosphere & Backdrops">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
             </button>
@@ -811,6 +971,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="focus-top-bar">
                 <span class="focus-mode-label" id="focus-label">FOCUS</span>
                 <div style="display:flex;align-items:center;gap:.6rem">
+                    <button class="inventory-pill-btn glass" id="btn-focus-cosmo" title="Cosmo 3D Rocket Assistant">
+                        <span>🚀 Cosmo</span>
+                    </button>
                     <button class="inventory-pill-btn glass" id="btn-focus-themes" title="Change Atmosphere">
                         <span>🎨 Atmosphere</span>
                     </button>
@@ -919,6 +1082,33 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 </div><!-- /app -->
 
+<!-- ═══ Spatial 3D Rocket Assistant (Cosmo) ═══ -->
+<div id="cosmo-stage" class="cosmo-stage hidden-offscreen">
+    <!-- Notification Speech Bubble Card -->
+    <div id="cosmo-bubble" class="cosmo-bubble glass">
+        <div class="cosmo-bubble-header">
+            <div class="cosmo-badge">
+                <img src="assets/rocket-assistant.jpg" alt="Cosmo" class="cosmo-avatar">
+                <span class="cosmo-name">Cosmo</span>
+                <span class="cosmo-status-tag" id="cosmo-mode-badge">COURIER</span>
+            </div>
+            <button class="cosmo-close-btn" id="cosmo-bubble-close" title="Dismiss message">✕</button>
+        </div>
+        <div class="cosmo-bubble-body">
+            <span class="cosmo-bubble-icon" id="cosmo-bubble-icon">🚀</span>
+            <div class="cosmo-bubble-content">
+                <div class="cosmo-bubble-msg" id="cosmo-bubble-msg">Ready to launch deep focus!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D WebGL Canvas for Rocket & Assistant -->
+    <div id="cosmo-actor" class="cosmo-actor" title="Click Cosmo to perform a 360° rocket roll!">
+        <canvas id="cosmo-canvas" width="200" height="200"></canvas>
+        <div class="cosmo-glow"></div>
+    </div>
+</div>
+
 <!-- ═══ Spatial Atmosphere & Backdrop Modal ═══ -->
 <div class="theme-modal-backdrop" id="theme-modal-backdrop">
     <div class="theme-modal glass" id="theme-modal">
@@ -953,6 +1143,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     </div>
 </div>
 
+<script src="assets/three.min.js"></script>
 <script>
 /* ════════════════════════════════════════════════════════════════
    FOCUS APP — Enhanced with Pomodoro Clock & Smart Notifications
@@ -1341,6 +1532,10 @@ function applyTheme(themeId, blurVal, opacityVal, shouldSave = true) {
     if (bGlow) {
         bGlow.style.boxShadow = `0 0 35px ${t.accentGlow}`;
     }
+
+    if (window.Cosmo && Cosmo.updateThemeColor) {
+        Cosmo.updateThemeColor(t.accent);
+    }
 }
 
 function renderThemeGrid() {
@@ -1501,17 +1696,769 @@ function soundWaterDrop(liquidHeightFraction = 0.5) {
     } catch {}
 }
 
+/* ════════════════════════════════════════════════════════════════
+   COSMO — 3D ROCKET ASSISTANT & COURIER ENGINE
+   ════════════════════════════════════════════════════════════════ */
+const CosmoAudio = {
+    ctx: null,
+    getCtx() {
+        if (!this.ctx) {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (AC) this.ctx = new AC();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(() => {});
+        }
+        return this.ctx;
+    },
+    playChirp() {
+        try {
+            const ctx = this.getCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+            const freqs = [523.25, 659.25, 783.99, 1046.50];
+            freqs.forEach((f, idx) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(f, now + idx * 0.07);
+                gain.gain.setValueAtTime(0.08, now + idx * 0.07);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.22);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now + idx * 0.07);
+                osc.stop(now + idx * 0.07 + 0.24);
+            });
+        } catch {}
+    },
+    playTrick() {
+        try {
+            const ctx = this.getCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+            const freqs = [659.25, 880, 1174.66, 1318.51, 1567.98];
+            freqs.forEach((f, idx) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(f, now + idx * 0.06);
+                gain.gain.setValueAtTime(0.1, now + idx * 0.06);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.2);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now + idx * 0.06);
+                osc.stop(now + idx * 0.06 + 0.22);
+            });
+        } catch {}
+    },
+    playWhoosh() {
+        try {
+            const ctx = this.getCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+            const bufferSize = Math.floor(ctx.sampleRate * 0.35);
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+            const noise = ctx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(320, now);
+            filter.frequency.exponentialRampToValueAtTime(1300, now + 0.16);
+            filter.frequency.exponentialRampToValueAtTime(220, now + 0.35);
+            filter.Q.setValueAtTime(3.0, now);
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.001, now);
+            gain.gain.linearRampToValueAtTime(0.12, now + 0.12);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            noise.start(now);
+        } catch {}
+    }
+};
+
+const Cosmo = {
+    canvas: null,
+    stage: null,
+    actor: null,
+    bubble: null,
+    bubbleMsg: null,
+    bubbleIcon: null,
+    modeBadge: null,
+
+    // Three.js elements
+    scene: null,
+    camera: null,
+    renderer: null,
+    rocketGroup: null,
+    astronautGroup: null,
+    flameCore: null,
+    flameOuter: null,
+    flameLight: null,
+    accentRing: null,
+    accentMat: null,
+    particleSystem: null,
+    particleData: [],
+
+    // Visor Dynamic Canvas
+    faceCanvas: null,
+    faceCtx: null,
+    faceTexture: null,
+    eyeState: 'happy',
+    lastBlinkTime: 0,
+    isBlinking: false,
+
+    // States & Mode
+    mode: 'courier', // 'courier' or 'companion'
+    state: 'offscreen', // 'offscreen', 'flying_in', 'hovering', 'flying_out', 'trick'
+    time: 0,
+    trickT: 0,
+    dismissTimer: null,
+
+    // Mouse Parallax
+    targetTiltX: 0,
+    targetTiltY: 0,
+    currentTiltX: 0,
+    currentTiltY: 0,
+
+    quotes: [
+        "Barrel roll complete! You're unstoppable! 💫",
+        "360° flip! Stay in the flow zone! 🚀",
+        "Mission control reports: 100% focus locked! ⭐",
+        "Cosmo is cheering for you! Let's do this! ✨",
+        "Focus water bottled up! Keep hydrating your mind! 💧",
+        "Clear mind, deep space, high momentum! 🌌",
+        "Rocket thrusters at maximum efficiency! 🔥"
+    ],
+
+    init() {
+        this.stage = $('cosmo-stage');
+        this.actor = $('cosmo-actor');
+        this.canvas = $('cosmo-canvas');
+        this.bubble = $('cosmo-bubble');
+        this.bubbleMsg = $('cosmo-bubble-msg');
+        this.bubbleIcon = $('cosmo-bubble-icon');
+        this.modeBadge = $('cosmo-mode-badge');
+
+        if (!this.canvas || typeof THREE === 'undefined') {
+            console.warn('Three.js not found or canvas missing. Cosmo fallback active.');
+            return;
+        }
+
+        // 1. Offscreen Face Canvas
+        this.faceCanvas = document.createElement('canvas');
+        this.faceCanvas.width = 256;
+        this.faceCanvas.height = 256;
+        this.faceCtx = this.faceCanvas.getContext('2d');
+        this.faceTexture = new THREE.CanvasTexture(this.faceCanvas);
+        this.drawFace('happy');
+
+        // 2. Three.js Scene & Camera
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(38, 1, 0.1, 50);
+        this.camera.position.set(0, 0.35, 6.2);
+
+        // 3. Renderer
+        this.renderer = new THREE.WebGLRenderer({
+            canvas: this.canvas,
+            alpha: true,
+            antialias: true,
+            powerPreference: 'high-performance'
+        });
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.renderer.setSize(200, 200, false);
+        this.renderer.setPixelRatio(dpr);
+
+        // 4. Lights
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
+        keyLight.position.set(4, 6, 5);
+        this.scene.add(keyLight);
+
+        const ambLight = new THREE.AmbientLight(0xdbeafe, 0.85);
+        this.scene.add(ambLight);
+
+        const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.7);
+        fillLight.position.set(-4, -2, 2);
+        this.scene.add(fillLight);
+
+        // 5. Build 3D Model
+        this.buildModel();
+
+        // 6. Build Particle System
+        this.initParticles();
+
+        // 7. Event Listeners
+        if (this.actor) {
+            this.actor.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.doTrick();
+            });
+        }
+        const bClose = $('cosmo-bubble-close');
+        if (bClose) {
+            bClose.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.dismissBubble();
+            });
+        }
+
+        window.addEventListener('mousemove', (e) => this.onMouseMove(e), { passive: true });
+
+        // Animation loop
+        this.animate = this.animate.bind(this);
+        requestAnimationFrame(this.animate);
+
+        // Load saved mode
+        try {
+            const saved = localStorage.getItem('focus_cosmo_mode');
+            if (saved === 'companion') {
+                this.setMode('companion');
+            } else {
+                this.setMode('courier');
+            }
+        } catch {
+            this.setMode('courier');
+        }
+    },
+
+    buildModel() {
+        this.rocketGroup = new THREE.Group();
+
+        // Materials
+        const bodyMat = new THREE.MeshStandardMaterial({
+            color: 0xf8fafc,
+            roughness: 0.2,
+            metalness: 0.1
+        });
+        const chromeMat = new THREE.MeshStandardMaterial({
+            color: 0xd8e2ec,
+            roughness: 0.12,
+            metalness: 0.88
+        });
+        const darkAlloyMat = new THREE.MeshStandardMaterial({
+            color: 0x1e293b,
+            roughness: 0.35,
+            metalness: 0.75,
+            side: THREE.DoubleSide
+        });
+        this.accentMat = new THREE.MeshStandardMaterial({
+            color: 0x38bdf8,
+            roughness: 0.25,
+            metalness: 0.4
+        });
+
+        // Fuselage Body
+        const bodyGeo = new THREE.CylinderGeometry(0.52, 0.72, 2.2, 32);
+        const body = new THREE.Mesh(bodyGeo, bodyMat);
+        this.rocketGroup.add(body);
+
+        // Nose Cone
+        const noseGeo = new THREE.ConeGeometry(0.52, 1.1, 32);
+        const nose = new THREE.Mesh(noseGeo, bodyMat);
+        nose.position.y = 1.65;
+        this.rocketGroup.add(nose);
+
+        // Chrome Tip Cap
+        const tipGeo = new THREE.SphereGeometry(0.12, 16, 16);
+        const tip = new THREE.Mesh(tipGeo, chromeMat);
+        tip.position.y = 2.2;
+        this.rocketGroup.add(tip);
+
+        // Accent Ring
+        const ringGeo = new THREE.TorusGeometry(0.64, 0.05, 16, 32);
+        this.accentRing = new THREE.Mesh(ringGeo, this.accentMat);
+        this.accentRing.rotation.x = Math.PI / 2;
+        this.accentRing.position.y = 0.5;
+        this.rocketGroup.add(this.accentRing);
+
+        // Engine Nozzle
+        const nozzleGeo = new THREE.CylinderGeometry(0.58, 0.44, 0.55, 24, 1, true);
+        const nozzle = new THREE.Mesh(nozzleGeo, darkAlloyMat);
+        nozzle.position.y = -1.35;
+        this.rocketGroup.add(nozzle);
+
+        // 3 Stabilizer Fins
+        const finShape = new THREE.Shape();
+        finShape.moveTo(0, 0);
+        finShape.lineTo(0.72, -0.45);
+        finShape.lineTo(0.58, -0.95);
+        finShape.lineTo(0, -0.68);
+        const finGeo = new THREE.ExtrudeGeometry(finShape, {
+            depth: 0.05,
+            bevelEnabled: true,
+            bevelThickness: 0.02,
+            bevelSize: 0.02,
+            bevelSegments: 2
+        });
+        for (let i = 0; i < 3; i++) {
+            const fin = new THREE.Mesh(finGeo, chromeMat);
+            fin.rotation.y = (i * Math.PI * 2) / 3;
+            fin.position.y = -0.45;
+            this.rocketGroup.add(fin);
+        }
+
+        // Chrome Handlebars
+        const barRiserGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.42, 12);
+        const riser = new THREE.Mesh(barRiserGeo, chromeMat);
+        riser.position.set(0, 0.8, 0.62);
+        riser.rotation.x = 0.35;
+        this.rocketGroup.add(riser);
+
+        const barCrossGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.65, 12);
+        const crossbar = new THREE.Mesh(barCrossGeo, chromeMat);
+        crossbar.position.set(0, 0.98, 0.68);
+        crossbar.rotation.z = Math.PI / 2;
+        this.rocketGroup.add(crossbar);
+
+        // Astronaut Mascot (Cosmo)
+        this.astronautGroup = new THREE.Group();
+        this.astronautGroup.position.set(0, 0.42, 0.2);
+
+        // Suit Body
+        const suitGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.62, 20);
+        const suit = new THREE.Mesh(suitGeo, bodyMat);
+        this.astronautGroup.add(suit);
+
+        // Helmet
+        const helmetGeo = new THREE.SphereGeometry(0.54, 32, 32);
+        const helmet = new THREE.Mesh(helmetGeo, bodyMat);
+        helmet.position.set(0, 0.58, 0);
+        this.astronautGroup.add(helmet);
+
+        // Front Visor with LED face texture
+        const visorGeo = new THREE.SphereGeometry(0.48, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.46);
+        const visorMat = new THREE.MeshStandardMaterial({
+            map: this.faceTexture,
+            color: 0x0a1120,
+            roughness: 0.12,
+            metalness: 0.35,
+            emissive: 0x38bdf8,
+            emissiveMap: this.faceTexture,
+            emissiveIntensity: 0.95
+        });
+        const visor = new THREE.Mesh(visorGeo, visorMat);
+        visor.rotation.x = Math.PI / 2;
+        visor.position.set(0, 0.58, 0.12);
+        this.astronautGroup.add(visor);
+
+        // Antennas
+        const antStalkGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.36, 8);
+        const antOrbGeo = new THREE.SphereGeometry(0.065, 16, 16);
+        const orbMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+        [-0.3, 0.3].forEach((x, idx) => {
+            const stalk = new THREE.Mesh(antStalkGeo, chromeMat);
+            stalk.position.set(x, 1.05, -0.05);
+            stalk.rotation.z = idx === 0 ? 0.32 : -0.32;
+            this.astronautGroup.add(stalk);
+
+            const orb = new THREE.Mesh(antOrbGeo, orbMat);
+            orb.position.set(x * 1.35, 1.22, -0.05);
+            this.astronautGroup.add(orb);
+        });
+
+        // Little Paws / Hands
+        const pawGeo = new THREE.SphereGeometry(0.09, 12, 12);
+        [-0.22, 0.22].forEach(x => {
+            const paw = new THREE.Mesh(pawGeo, bodyMat);
+            paw.position.set(x, 0.52, 0.5);
+            this.astronautGroup.add(paw);
+        });
+
+        // Life Support Backpack
+        const packGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.48, 16);
+        const pack = new THREE.Mesh(packGeo, bodyMat);
+        pack.position.set(0, 0.32, -0.36);
+        pack.rotation.x = 0.12;
+        this.astronautGroup.add(pack);
+
+        this.rocketGroup.add(this.astronautGroup);
+
+        // Thruster Jet Cone
+        const flameCoreGeo = new THREE.ConeGeometry(0.32, 1.2, 16, 1, true);
+        flameCoreGeo.translate(0, -0.6, 0);
+        flameCoreGeo.rotateX(Math.PI);
+        const flameCoreMat = new THREE.MeshBasicMaterial({
+            color: 0x38bdf8,
+            transparent: true,
+            opacity: 0.92,
+            blending: THREE.AdditiveBlending
+        });
+        this.flameCore = new THREE.Mesh(flameCoreGeo, flameCoreMat);
+        this.flameCore.position.y = -1.6;
+        this.rocketGroup.add(this.flameCore);
+
+        const flameOuterGeo = new THREE.ConeGeometry(0.48, 1.7, 16, 1, true);
+        flameOuterGeo.translate(0, -0.85, 0);
+        flameOuterGeo.rotateX(Math.PI);
+        const flameOuterMat = new THREE.MeshBasicMaterial({
+            color: 0xf59e0b,
+            transparent: true,
+            opacity: 0.4,
+            blending: THREE.AdditiveBlending
+        });
+        this.flameOuter = new THREE.Mesh(flameOuterGeo, flameOuterMat);
+        this.flameOuter.position.y = -1.6;
+        this.rocketGroup.add(this.flameOuter);
+
+        // Point Light for engine glow
+        this.flameLight = new THREE.PointLight(0x38bdf8, 2.5, 6);
+        this.flameLight.position.set(0, -1.8, 0);
+        this.rocketGroup.add(this.flameLight);
+
+        // Initial orientation
+        this.rocketGroup.rotation.z = -0.22;
+        this.rocketGroup.rotation.y = 0.45;
+        this.scene.add(this.rocketGroup);
+    },
+
+    initParticles() {
+        const count = 42;
+        const pGeo = new THREE.BufferGeometry();
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+        this.particleData = [];
+
+        for (let i = 0; i < count; i++) {
+            positions[i * 3] = 0;
+            positions[i * 3 + 1] = -1.8;
+            positions[i * 3 + 2] = 0;
+            colors[i * 3] = 0.22;
+            colors[i * 3 + 1] = 0.74;
+            colors[i * 3 + 2] = 0.97;
+            this.particleData.push({
+                x: 0, y: -1.8, z: 0,
+                vx: (Math.random() - 0.5) * 0.08,
+                vy: -Math.random() * 0.12 - 0.06,
+                vz: (Math.random() - 0.5) * 0.08,
+                life: Math.random() * 0.8,
+                maxLife: Math.random() * 0.5 + 0.3
+            });
+        }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const pMat = new THREE.PointsMaterial({
+            size: 0.14,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.85,
+            blending: THREE.AdditiveBlending
+        });
+        this.particleSystem = new THREE.Points(pGeo, pMat);
+        this.scene.add(this.particleSystem);
+    },
+
+    drawFace(state) {
+        if (!this.faceCtx) return;
+        const ctx = this.faceCtx;
+        ctx.clearRect(0, 0, 256, 256);
+
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = '#38bdf8';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.fillStyle = '#38bdf8';
+        ctx.lineWidth = 12;
+        ctx.lineCap = 'round';
+
+        if (state === 'blink') {
+            ctx.beginPath(); ctx.moveTo(68, 128); ctx.lineTo(108, 128); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(148, 128); ctx.lineTo(188, 128); ctx.stroke();
+        } else if (state === 'star') {
+            [88, 168].forEach(cx => {
+                ctx.beginPath();
+                ctx.moveTo(cx, 102); ctx.lineTo(cx, 138);
+                ctx.moveTo(cx - 18, 120); ctx.lineTo(cx + 18, 120);
+                ctx.moveTo(cx - 10, 110); ctx.lineTo(cx + 10, 130);
+                ctx.moveTo(cx - 10, 130); ctx.lineTo(cx + 10, 110);
+                ctx.stroke();
+            });
+        } else if (state === 'curious') {
+            [88, 168].forEach(cx => {
+                ctx.beginPath();
+                ctx.arc(cx, 120, 16, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(cx - 5, 115, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#38bdf8';
+            });
+        } else if (state === 'alert') {
+            [88, 168].forEach(cx => {
+                ctx.beginPath();
+                ctx.arc(cx, 120, 20, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(cx, 120, 7, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        } else if (state === 'wink') {
+            ctx.beginPath();
+            ctx.moveTo(70, 110); ctx.lineTo(104, 124); ctx.lineTo(70, 138);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(168, 124, 24, Math.PI * 1.15, Math.PI * 1.85, false);
+            ctx.stroke();
+        } else {
+            // Happy arcs
+            ctx.beginPath();
+            ctx.arc(88, 124, 24, Math.PI * 1.15, Math.PI * 1.85, false);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(168, 124, 24, Math.PI * 1.15, Math.PI * 1.85, false);
+            ctx.stroke();
+        }
+
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.arc(128, 148, 14, 0.25, Math.PI - 0.25, false);
+        ctx.stroke();
+
+        this.faceTexture.needsUpdate = true;
+    },
+
+    setEyeState(st) {
+        this.eyeState = st;
+        this.drawFace(st);
+    },
+
+    deliver(msg, icon = '🚀', duration = 4800) {
+        if (!this.stage) return;
+
+        CosmoAudio.playChirp();
+        this.setEyeState('happy');
+
+        if (this.bubbleMsg) this.bubbleMsg.textContent = msg;
+        if (this.bubbleIcon) this.bubbleIcon.textContent = icon;
+
+        this.flyIn();
+
+        if (this.bubble) this.bubble.classList.add('active');
+
+        if (this.dismissTimer) clearTimeout(this.dismissTimer);
+        this.dismissTimer = setTimeout(() => {
+            this.dismissBubble();
+        }, duration);
+    },
+
+    dismissBubble() {
+        if (this.bubble) this.bubble.classList.remove('active');
+        if (this.dismissTimer) clearTimeout(this.dismissTimer);
+
+        if (this.mode === 'courier') {
+            setTimeout(() => {
+                if (!this.bubble?.classList.contains('active')) {
+                    this.flyOut();
+                }
+            }, 300);
+        }
+    },
+
+    flyIn() {
+        if (!this.stage) return;
+        this.state = 'flying_in';
+        this.stage.classList.remove('hidden-offscreen');
+        CosmoAudio.playWhoosh();
+        setTimeout(() => {
+            if (this.state === 'flying_in') {
+                this.state = 'hovering';
+            }
+        }, 550);
+    },
+
+    flyOut() {
+        if (!this.stage || this.mode === 'companion') return;
+        this.state = 'flying_out';
+        CosmoAudio.playWhoosh();
+        this.stage.classList.add('hidden-offscreen');
+        setTimeout(() => {
+            if (this.state === 'flying_out') {
+                this.state = 'offscreen';
+            }
+        }, 650);
+    },
+
+    doTrick() {
+        if (this.state === 'trick') return;
+        this.state = 'trick';
+        this.trickT = 0;
+        this.setEyeState('star');
+        CosmoAudio.playTrick();
+
+        const q = this.quotes[Math.floor(Math.random() * this.quotes.length)];
+        if (this.bubbleMsg) this.bubbleMsg.textContent = q;
+        if (this.bubbleIcon) this.bubbleIcon.textContent = '✨';
+        if (this.bubble) this.bubble.classList.add('active');
+
+        if (this.dismissTimer) clearTimeout(this.dismissTimer);
+        this.dismissTimer = setTimeout(() => {
+            this.dismissBubble();
+        }, 3600);
+    },
+
+    setMode(newMode) {
+        this.mode = newMode;
+        try { localStorage.setItem('focus_cosmo_mode', newMode); } catch {}
+
+        if (this.modeBadge) {
+            this.modeBadge.textContent = newMode === 'companion' ? 'COMPANION' : 'COURIER';
+        }
+
+        if (newMode === 'companion') {
+            this.flyIn();
+        } else if (this.state === 'hovering' && !this.bubble?.classList.contains('active')) {
+            this.flyOut();
+        }
+    },
+
+    toggleMode() {
+        const next = this.mode === 'courier' ? 'companion' : 'courier';
+        this.setMode(next);
+        const label = next === 'companion' 
+            ? '🚀 Cosmo: Desk Companion Mode (Active by your side!)' 
+            : '📦 Cosmo: Courier Mode (Will fly in when delivering!)';
+        this.deliver(label, '🚀', 3800);
+    },
+
+    updateThemeColor(colorHex) {
+        if (!this.accentRing || !this.accentMat) return;
+        try {
+            this.accentMat.color.set(colorHex);
+            if (this.flameLight) this.flameLight.color.set(colorHex);
+        } catch {}
+    },
+
+    onMouseMove(e) {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        this.targetTiltX = ((e.clientY - cy) / cy) * 0.18;
+        this.targetTiltY = ((e.clientX - cx) / cx) * 0.25;
+    },
+
+    animate() {
+        requestAnimationFrame(this.animate);
+        this.time += 0.035;
+
+        // 1. Visor Blinking Logic
+        if (this.time - this.lastBlinkTime > 3.8 && !this.isBlinking) {
+            this.isBlinking = true;
+            this.drawFace('blink');
+            setTimeout(() => {
+                this.isBlinking = false;
+                this.lastBlinkTime = this.time;
+                this.drawFace(this.eyeState);
+            }, 140);
+        }
+
+        if (!this.rocketGroup) return;
+
+        // 2. Physics & Banking
+        this.currentTiltX += (this.targetTiltX - this.currentTiltX) * 0.08;
+        this.currentTiltY += (this.targetTiltY - this.currentTiltY) * 0.08;
+
+        if (this.state === 'trick') {
+            this.trickT += 0.08;
+            this.rocketGroup.rotation.z = -0.22 + (this.trickT * Math.PI * 2);
+            this.rocketGroup.rotation.y = 0.45 + Math.sin(this.trickT * Math.PI) * 0.3;
+            if (this.trickT >= 1.0) {
+                this.state = 'hovering';
+                this.rocketGroup.rotation.z = -0.22;
+                this.rocketGroup.rotation.y = 0.45;
+                this.setEyeState('happy');
+            }
+        } else {
+            // Hover bobbing
+            const hoverY = Math.sin(this.time * 2.2) * 0.12;
+            const hoverRoll = Math.cos(this.time * 1.6) * 0.06;
+            const hoverPitch = Math.sin(this.time * 2.6) * 0.04;
+
+            this.rocketGroup.position.y = hoverY;
+            this.rocketGroup.rotation.z = -0.22 + hoverRoll + this.currentTiltX * 0.4;
+            this.rocketGroup.rotation.y = 0.45 + hoverPitch + this.currentTiltY * 0.6;
+        }
+
+        // 3. Flame Jet Pulsing
+        const flameNoise = Math.sin(this.time * 18) * 0.15 + (Math.random() - 0.5) * 0.1;
+        const throttle = (this.state === 'flying_in' || this.state === 'flying_out' || this.state === 'trick') ? 1.6 : 1.0;
+
+        if (this.flameCore) {
+            this.flameCore.scale.set(1 + flameNoise * 0.6, throttle * (1 + flameNoise), 1 + flameNoise * 0.6);
+        }
+        if (this.flameOuter) {
+            this.flameOuter.scale.set(1 + flameNoise * 0.8, throttle * (1 + flameNoise * 1.3), 1 + flameNoise * 0.8);
+        }
+        if (this.flameLight) {
+            this.flameLight.intensity = 2.2 + flameNoise * 0.8 + (throttle > 1 ? 2.0 : 0);
+        }
+
+        // 4. Update 3D Particles
+        if (this.particleSystem && this.particleData) {
+            const posAttr = this.particleSystem.geometry.attributes.position;
+            const colAttr = this.particleSystem.geometry.attributes.color;
+            const positions = posAttr.array;
+            const colors = colAttr.array;
+
+            for (let i = 0; i < this.particleData.length; i++) {
+                const p = this.particleData[i];
+                p.life += 0.035;
+
+                if (p.life >= p.maxLife) {
+                    p.life = 0;
+                    p.x = (Math.random() - 0.5) * 0.15;
+                    p.y = -1.6;
+                    p.z = (Math.random() - 0.5) * 0.15;
+                    p.vy = (-Math.random() * 0.12 - 0.08) * throttle;
+                }
+
+                p.x += p.vx;
+                p.y += p.vy;
+                p.z += p.vz;
+
+                positions[i * 3] = p.x;
+                positions[i * 3 + 1] = p.y;
+                positions[i * 3 + 2] = p.z;
+
+                const frac = p.life / p.maxLife;
+                if (frac < 0.3) {
+                    colors[i * 3] = 0.22;
+                    colors[i * 3 + 1] = 0.74;
+                    colors[i * 3 + 2] = 0.97;
+                } else if (frac < 0.7) {
+                    colors[i * 3] = 0.96;
+                    colors[i * 3 + 1] = 0.62;
+                    colors[i * 3 + 2] = 0.04;
+                } else {
+                    colors[i * 3] = 0.45;
+                    colors[i * 3 + 1] = 0.2;
+                    colors[i * 3 + 2] = 0.9;
+                }
+            }
+            posAttr.needsUpdate = true;
+            colAttr.needsUpdate = true;
+        }
+
+        this.renderer.render(this.scene, this.camera);
+    }
+};
+
 /* ── Toast Notifications ── */
-function showToast(msg, icon = '💡', duration = 4200) {
-    const t = document.createElement('div');
-    t.className = 'toast glass';
-    t.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-msg">${msg}</span>`;
-    toastWrap.appendChild(t);
-
-    setTimeout(() => { t.classList.add('exiting'); }, duration - 400);
-    setTimeout(() => { t.remove(); }, duration);
-
-    soundNotification();
+function showToast(msg, icon = '💡', duration = 4800) {
+    if (window.Cosmo && Cosmo.deliver) {
+        Cosmo.deliver(msg, icon, duration);
+    } else {
+        const t = document.createElement('div');
+        t.className = 'toast glass';
+        t.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-msg">${msg}</span>`;
+        toastWrap.appendChild(t);
+        setTimeout(() => { t.classList.add('exiting'); }, duration - 400);
+        setTimeout(() => { t.remove(); }, duration);
+        soundNotification();
+    }
 
     // Browser notification if tab is hidden
     if (document.hidden && 'Notification' in window && Notification.permission === 'granted') {
@@ -2652,6 +3599,12 @@ if (sliderOpacity) {
     });
 }
 
+// Cosmo 3D Assistant Controls
+const btnToggleCosmo = $('btn-toggle-cosmo');
+const btnFocusCosmo = $('btn-focus-cosmo');
+if (btnToggleCosmo) btnToggleCosmo.addEventListener('click', () => Cosmo.toggleMode());
+if (btnFocusCosmo) btnFocusCosmo.addEventListener('click', () => Cosmo.toggleMode());
+
 $('btn-clear').addEventListener('click', () => {
     if (confirm('Clear all focus data and bottled inventory? This cannot be undone.')) {
         S.sessions = [];
@@ -2745,6 +3698,7 @@ refreshHomeStats();
 renderInventoryShelf();
 WaterSim.init();
 ringFill.style.strokeDasharray = CIRC;
+Cosmo.init();
 
 })();
 </script>
