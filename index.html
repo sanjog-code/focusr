@@ -11622,6 +11622,491 @@ AccountManager.init();
    FOCUSR CONSUMER CUSTOMIZATION SUITE (ATELIER V2)
    ═════════════════════════════════════════════════════════════════════ */
 
+
+/* ════════════════════════════════════════════════════════════════
+   FOCUSR ATELIER & LICENSE ENTITLEMENT ENGINE
+   ════════════════════════════════════════════════════════════════ */
+const FocusrLicense = {
+    STORAGE_KEY: 'focusr_license',
+    currentLicense: null,
+    previewMode: false,
+
+    init() {
+        this.loadLicense();
+        this.syncUI();
+    },
+
+    loadLicense() {
+        try {
+            const raw = localStorage.getItem(this.STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (parsed && parsed.key && this.verifyKey(parsed.key)) {
+                    this.currentLicense = parsed;
+                    return;
+                }
+            }
+        } catch {
+            this.currentLicense = null;
+        }
+        this.currentLicense = null;
+    },
+
+    verifyKey(key) {
+        if (!key || typeof key !== 'string') return null;
+        const parts = key.trim().toUpperCase().split('-');
+        if (parts.length !== 5 || parts[0] !== 'FCSR') return null;
+        const [_, tier, s1, s2, chk] = parts;
+        if (!['PRO', 'FOUNDER'].includes(tier)) return null;
+
+        // Mathematical polynomial checksum verification
+        const str = tier + s1 + s2;
+        let hash = 0x5a5a;
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) - hash + str.charCodeAt(i)) & 0xFFFF;
+        }
+        const expectedChk = hash.toString(16).toUpperCase().padStart(4, '0');
+        if (chk !== expectedChk) return null;
+
+        return {
+            valid: true,
+            tier: tier.toLowerCase(),
+            key: key.trim().toUpperCase()
+        };
+    },
+
+    activate(key) {
+        const check = this.verifyKey(key);
+        if (!check) {
+            return { success: false, message: 'Invalid license key format or checksum.' };
+        }
+        this.currentLicense = {
+            key: check.key,
+            tier: check.tier,
+            activatedAt: Date.now(),
+            status: 'active'
+        };
+        try {
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.currentLicense));
+        } catch {}
+        this.previewMode = false;
+        this.syncUI();
+        window.dispatchEvent(new CustomEvent('focusr:license-updated', { detail: this.getLicenseState() }));
+        return { success: true, tier: check.tier };
+    },
+
+    deactivate() {
+        this.currentLicense = null;
+        this.previewMode = false;
+        try { localStorage.removeItem(this.STORAGE_KEY); } catch {}
+        this.syncUI();
+        window.dispatchEvent(new CustomEvent('focusr:license-updated', { detail: this.getLicenseState() }));
+    },
+
+    setPreview(enabled) {
+        this.previewMode = !!enabled;
+        this.syncUI();
+        window.dispatchEvent(new CustomEvent('focusr:license-updated', { detail: this.getLicenseState() }));
+    },
+
+    isPro() {
+        return this.previewMode || (this.currentLicense !== null && this.currentLicense.status === 'active');
+    },
+
+    getTier() {
+        if (this.previewMode) return 'pro';
+        return this.currentLicense ? this.currentLicense.tier : 'free';
+    },
+
+    getLicenseState() {
+        return {
+            isPro: this.isPro(),
+            tier: this.getTier(),
+            key: this.currentLicense ? this.currentLicense.key : null,
+            preview: this.previewMode
+        };
+    },
+
+    syncUI() {
+        const isPro = this.isPro();
+        const tier = this.getTier();
+
+        const tag = $('menu-pro-tag');
+        if (tag) {
+            if (isPro) {
+                tag.textContent = tier === 'founder' ? 'FOUNDER 👑' : 'PRO ✦';
+                tag.className = 'menu-item-tag pro';
+            } else {
+                tag.textContent = 'Upgrade';
+                tag.className = 'menu-item-tag gold';
+            }
+        }
+
+        const dropName = $('dropdown-user-name');
+        const dropStatusText = $('dropdown-sync-text');
+        if (dropName && (!window.AccountManager || !AccountManager.currentUser)) {
+            if (isPro) {
+                dropName.textContent = tier === 'founder' ? '👑 Founder Member' : '✦ Focusr Pro Atelier';
+                if (dropStatusText) dropStatusText.textContent = this.previewMode ? 'Pro Preview Mode' : 'Offline License Active';
+            } else {
+                dropName.textContent = 'Guest Profile';
+                if (dropStatusText) dropStatusText.textContent = 'Local Storage Only';
+            }
+        }
+
+        const btnDeactivate = $('btn-deactivate-pro');
+        if (btnDeactivate) {
+            btnDeactivate.style.display = isPro ? 'inline-block' : 'none';
+        }
+
+        const btnSimulate = $('btn-simulate-pro');
+        if (btnSimulate) {
+            btnSimulate.textContent = this.previewMode ? '✓ Pro Preview Active (Click to End)' : '⚡ Instant Pro Preview (Test Mode)';
+            btnSimulate.style.background = this.previewMode ? 'rgba(52,211,153,0.2)' : 'rgba(251,191,36,0.12)';
+            btnSimulate.style.color = this.previewMode ? '#34d399' : '#fbbf24';
+            btnSimulate.style.borderColor = this.previewMode ? 'rgba(52,211,153,0.4)' : 'rgba(251,191,36,0.3)';
+        }
+    }
+};
+
+/* ── Pricing Modal Controller ── */
+const PricingModal = {
+    backdrop: null,
+    modal: null,
+    activePlan: 'annual',
+
+    plans: {
+        annual: {
+            amount: '39',
+            cadence: '/ year',
+            note: 'Equivalent to $3.25/month. Billed annually. Save 35%.'
+        },
+        monthly: {
+            amount: '4.99',
+            cadence: '/ month',
+            note: 'Flexible month-to-month access. Cancel anytime.'
+        },
+        founder: {
+            amount: '79',
+            cadence: 'one-time',
+            note: '👑 Limited to 1,000 lifetime licenses. Pay once, own Focusr Pro forever.'
+        }
+    },
+
+    init() {
+        this.backdrop = $('pricing-modal-backdrop');
+        this.modal = $('pricing-modal');
+        if (!this.backdrop) return;
+
+        // Close handlers
+        const closeBtn = $('pricing-modal-close');
+        if (closeBtn) closeBtn.addEventListener('click', () => this.close());
+        this.backdrop.addEventListener('click', (e) => {
+            if (e.target === this.backdrop) this.close();
+        });
+
+        // Plan tabs
+        const tabs = this.modal.querySelectorAll('.pricing-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const plan = tab.dataset.plan;
+                if (!plan || !this.plans[plan]) return;
+                this.activePlan = plan;
+                tabs.forEach(t => t.classList.toggle('active', t === tab));
+                this.updatePlanDisplay();
+                soundClick();
+            });
+        });
+
+        // Checkout Button
+        const checkoutBtn = $('btn-checkout-plan');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                this.handleCheckout();
+            });
+        }
+
+        // License Key Activation
+        const btnActivate = $('btn-activate-license');
+        const inputKey = $('input-license-key');
+        const feedback = $('license-feedback');
+
+        if (btnActivate && inputKey) {
+            btnActivate.addEventListener('click', () => {
+                const val = inputKey.value.trim();
+                if (!val) {
+                    if (feedback) {
+                        feedback.textContent = 'Please enter your license key (e.g. FCSR-PRO-8F29-A71C-D310)';
+                        feedback.className = 'license-feedback error';
+                    }
+                    soundWarning();
+                    return;
+                }
+                const res = FocusrLicense.activate(val);
+                if (res.success) {
+                    if (feedback) {
+                        feedback.textContent = `✓ Success! Focusr ${res.tier.toUpperCase()} license activated.`;
+                        feedback.className = 'license-feedback success';
+                    }
+                    soundComplete();
+                    showToast(`✦ Welcome to Focusr ${res.tier.toUpperCase()} Atelier!`, '🎉', 4500);
+                    inputKey.value = '';
+                    setTimeout(() => this.close(), 1200);
+                } else {
+                    if (feedback) {
+                        feedback.textContent = res.message;
+                        feedback.className = 'license-feedback error';
+                    }
+                    soundWarning();
+                }
+            });
+        }
+
+        // Simulate Pro Button
+        const btnSimulate = $('btn-simulate-pro');
+        if (btnSimulate) {
+            btnSimulate.addEventListener('click', () => {
+                if (FocusrLicense.previewMode) {
+                    FocusrLicense.setPreview(false);
+                    showToast('Pro preview ended.', 'ℹ️', 3000);
+                } else {
+                    FocusrLicense.setPreview(true);
+                    showToast('⚡ Pro Atelier Preview activated! Explore all skins & features.', '✨', 4500);
+                    soundComplete();
+                    setTimeout(() => this.close(), 800);
+                }
+            });
+        }
+
+        // Deactivate Pro Button
+        const btnDeactivate = $('btn-deactivate-pro');
+        if (btnDeactivate) {
+            btnDeactivate.addEventListener('click', () => {
+                FocusrLicense.deactivate();
+                showToast('License deactivated.', 'ℹ️', 3000);
+                soundClick();
+            });
+        }
+    },
+
+    updatePlanDisplay() {
+        const info = this.plans[this.activePlan];
+        if (!info) return;
+        const amountEl = $('price-amount-display');
+        const cadenceEl = $('price-cadence-display');
+        const noteEl = $('plan-billing-note');
+        if (amountEl) amountEl.textContent = info.amount;
+        if (cadenceEl) cadenceEl.textContent = info.cadence;
+        if (noteEl) noteEl.textContent = info.note;
+    },
+
+    handleCheckout() {
+        soundClick();
+        const sampleKey = this.activePlan === 'founder' 
+            ? 'FCSR-FOUNDER-GOLD-2026-7C57'
+            : 'FCSR-PRO-8F29-A71C-D310';
+        
+        const inputKey = $('input-license-key');
+        if (inputKey) {
+            inputKey.value = sampleKey;
+            showToast('Sample license key applied. Click Activate!', '🔑', 4000);
+            inputKey.focus();
+        }
+    },
+
+    open() {
+        if (!this.backdrop) return;
+        this.updatePlanDisplay();
+        this.backdrop.classList.add('active');
+        FocusrLicense.syncUI();
+    },
+
+    close() {
+        if (!this.backdrop) return;
+        this.backdrop.classList.remove('active');
+    }
+};
+
+/* ── Binaural Wave Lab Generator ── */
+const BinauralEngine = {
+    ctx: null,
+    oscL: null,
+    oscR: null,
+    panL: null,
+    panR: null,
+    gain: null,
+    activeType: 'off',
+
+    freqs: {
+        alpha: 10,
+        theta: 6,
+        gamma: 40
+    },
+
+    init() {
+        const btns = document.querySelectorAll('.binaural-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.dataset.binaural;
+                if (!type) return;
+                if (type !== 'off' && !FocusrLicense.isPro()) {
+                    showToast('✦ Binaural Wave Lab is a Focusr Pro feature', '✨', 3500);
+                    PricingModal.open();
+                    soundClick();
+                    return;
+                }
+                this.setFrequency(type);
+                btns.forEach(b => b.classList.toggle('active', b === btn));
+                soundClick();
+            });
+        });
+    },
+
+    getCtx() {
+        if (!this.ctx) {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (AC) this.ctx = new AC();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(() => {});
+        }
+        return this.ctx;
+    },
+
+    setFrequency(type) {
+        this.activeType = type;
+        if (type === 'off' || !this.freqs[type]) {
+            this.stop();
+            const lbl = $('binaural-status-label');
+            if (lbl) lbl.textContent = 'Headphones Recommended';
+            return;
+        }
+
+        const delta = this.freqs[type];
+        const baseFreq = 200;
+
+        try {
+            const ctx = this.getCtx();
+            if (!ctx) return;
+
+            if (!this.gain) {
+                this.gain = ctx.createGain();
+                this.gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                this.gain.connect(ctx.destination);
+            }
+
+            if (!this.oscL) {
+                this.oscL = ctx.createOscillator();
+                this.panL = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+                this.oscL.type = 'sine';
+                if (this.panL) {
+                    this.panL.pan.setValueAtTime(-1, ctx.currentTime);
+                    this.oscL.connect(this.panL);
+                    this.panL.connect(this.gain);
+                } else {
+                    this.oscL.connect(this.gain);
+                }
+                this.oscL.start();
+            }
+
+            if (!this.oscR) {
+                this.oscR = ctx.createOscillator();
+                this.panR = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+                this.oscR.type = 'sine';
+                if (this.panR) {
+                    this.panR.pan.setValueAtTime(1, ctx.currentTime);
+                    this.oscR.connect(this.panR);
+                    this.panR.connect(this.gain);
+                } else {
+                    this.oscR.connect(this.gain);
+                }
+                this.oscR.start();
+            }
+
+            this.oscL.frequency.setValueAtTime(baseFreq, ctx.currentTime);
+            this.oscR.frequency.setValueAtTime(baseFreq + delta, ctx.currentTime);
+
+            const lbl = $('binaural-status-label');
+            if (lbl) lbl.textContent = `Active: ${delta}Hz stereo differential`;
+            showToast(`🧠 ${type.toUpperCase()} (${delta}Hz) Binaural Beats Engaged`, '🎧', 3500);
+        } catch (e) {
+            console.warn('Binaural generator error:', e);
+        }
+    },
+
+    stop() {
+        if (this.oscL) {
+            try { this.oscL.stop(); this.oscL.disconnect(); } catch {}
+            this.oscL = null;
+        }
+        if (this.oscR) {
+            try { this.oscR.stop(); this.oscR.disconnect(); } catch {}
+            this.oscR = null;
+        }
+    }
+};
+
+/* ── Obsidian Markdown Debrief Exporter ── */
+function copyObsidianDebrief() {
+    if (!FocusrLicense.isPro()) {
+        showToast('✦ Obsidian & PKM Sync is a Focusr Pro feature', '✨', 3500);
+        PricingModal.open();
+        soundClick();
+        return;
+    }
+
+    const cat = getCategory(S.category);
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const targetMins = Math.round(S.duration / 60) || 25;
+    const actualMins = Math.round(S.elapsed / 60) || targetMins;
+    const purity = S.flowPurity || '98%';
+    const infractions = S.infractionsCount || 0;
+    const friction = $('deb-friction-input')?.value || 'Clean flow, zero friction encountered.';
+    const nextStep = $('deb-next-input')?.value || 'Continue momentum into next milestone.';
+
+    const md = `---
+type: deep-work-session
+date: ${dateStr} ${timeStr}
+category: ${cat.name}
+target_minutes: ${targetMins}
+actual_minutes: ${actualMins}
+flow_purity: "${purity}"
+distraction_infractions: ${infractions}
+status: completed
+source: Focusr Spatial Studio
+tags:
+  - deep-work
+  - focusr
+  - productivity
+---
+
+# ◉ Deep Work Debrief &bull; ${cat.name}
+- **Date & Time**: ${dateStr} at ${timeStr}
+- **Focus Category**: ${cat.icon} ${cat.name}
+- **Duration**: ${actualMins}m (Target: ${targetMins}m)
+- **Flow Purity**: ${purity}
+- **Distraction Breaches**: ${infractions}
+
+### 🧠 Tactical Reflection
+- **Friction / Blocker**: ${friction}
+- **Next High-Leverage Action**: ${nextStep}
+
+---
+*Logged with [Focusr Spatial Studio](https://focusr-seven.vercel.app)*
+`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(md).then(() => {
+            soundComplete();
+            showToast('📓 Copied Obsidian daily note with YAML frontmatter!', '✅', 4000);
+        }).catch(() => {
+            showToast('Clipboard access denied', '⚠️');
+        });
+    }
+}
+
+
 const FocusrCustomization = {
     config: {
         accent: '#0a84ff',
