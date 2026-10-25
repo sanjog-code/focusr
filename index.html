@@ -457,6 +457,38 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .stat-value{font-size:1.65rem;font-weight:700;color:#ffffff;letter-spacing:-.02em}
 .stat-label{font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 
+/* ── Minimalist Spatial Signature Footer ── */
+.home-signature-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    padding-bottom: 1rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    font-weight: 500;
+    user-select: none;
+}
+.home-signature-footer a {
+    color: #f1f5f9;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.home-signature-footer a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 12px var(--accent-glow);
+}
+.home-signature-footer .footer-dot {
+    opacity: 0.4;
+    font-size: 0.6rem;
+}
+
 /* ══════════════════════════════════════════
    SETUP SCREEN
    ══════════════════════════════════════════ */
@@ -4551,6 +4583,12 @@ body.oled-true-black .glass {
     <div class="focusr-ad-slot home-ad-slot" id="home-sponsor-slot">
         <!-- Rendered by AdManager -->
     </div>
+
+    <!-- Spatial Signature Footer -->
+    <footer class="home-signature-footer">
+        <span>developed by</span>
+        <a href="https://github.com/sanjog-code" target="_blank" rel="noopener noreferrer">sanjog-code</a>
+    </footer>
 </section>
 
 <!-- ═══ SETUP ═══ -->
