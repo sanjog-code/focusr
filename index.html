@@ -976,6 +976,307 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 }
 
 /* ══════════════════════════════════════════
+   GHOST RACER TRACK & COMPETITOR HUD
+   ══════════════════════════════════════════ */
+.ghost-racer-card {
+    width: 100%;
+    max-width: 440px;
+    padding: .95rem 1.25rem;
+    margin: .15rem 0 .2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    border-radius: 18px;
+    background: rgba(18, 18, 28, 0.72);
+    border: 1px solid rgba(192, 132, 252, 0.28);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 0 24px rgba(192, 132, 252, 0.06);
+    transition: all var(--tr);
+    position: relative;
+    overflow: hidden;
+}
+.ghost-racer-card.minimized {
+    padding: .5rem 1rem;
+}
+.ghost-racer-card.minimized .ghost-race-track,
+.ghost-racer-card.minimized .ghost-track-footer {
+    display: none;
+}
+.ghost-track-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.ghost-rival-info {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+}
+.ghost-avatar-glow {
+    font-size: 1.35rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.7));
+    animation: ghost-float 2.8s ease-in-out infinite alternate;
+}
+@keyframes ghost-float {
+    0% { transform: translateY(0px) rotate(-3deg); }
+    100% { transform: translateY(-4px) rotate(3deg); }
+}
+.ghost-rival-title {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+}
+.ghost-rival-title span {
+    font-size: .88rem;
+    font-weight: 700;
+    color: #e9d5ff;
+    letter-spacing: -.01em;
+}
+.ghost-speed-badge {
+    font-size: .65rem;
+    font-weight: 700;
+    padding: .12rem .45rem;
+    border-radius: 980px;
+    background: rgba(192, 132, 252, 0.18);
+    border: 1px solid rgba(192, 132, 252, 0.38);
+    color: #d8b4fe;
+}
+.ghost-rival-meta {
+    font-size: .7rem;
+    color: var(--text-dim);
+    display: block;
+    margin-top: .1rem;
+}
+.ghost-split-telemetry {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .1rem;
+}
+.ghost-split-val {
+    font-size: 1.15rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font);
+    line-height: 1;
+    transition: color .3s ease;
+}
+.ghost-split-val.lead {
+    color: #34d399;
+    text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+}
+.ghost-split-val.behind {
+    color: #f43f5e;
+    text-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
+}
+.ghost-split-val.tied {
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+.ghost-split-lbl {
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Dual Race Track */
+.ghost-race-track {
+    position: relative;
+    width: 100%;
+    padding: .65rem .85rem .65rem .6rem;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.52);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    overflow: hidden;
+}
+.track-finish-line {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.15rem;
+    line-height: 1;
+    z-index: 4;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+}
+.track-lane {
+    position: relative;
+    width: calc(100% - 24px);
+    height: 12px;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.track-progress-fill {
+    height: 100%;
+    border-radius: 980px;
+    transition: width .25s ease-out;
+}
+.track-progress-fill.ghost-fill {
+    background: linear-gradient(90deg, rgba(168, 85, 247, 0.25), rgba(216, 180, 254, 0.7));
+    box-shadow: 0 0 12px rgba(192, 132, 252, 0.55);
+}
+.track-progress-fill.player-fill {
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.35), var(--accent));
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+.racer-node {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    z-index: 5;
+    pointer-events: none;
+    transition: left .25s ease-out;
+}
+.racer-node .racer-icon {
+    font-size: 1rem;
+    line-height: 1;
+    display: inline-block;
+}
+.ghost-node .racer-icon {
+    filter: drop-shadow(0 0 8px #c084fc);
+    opacity: 0.95;
+    animation: ghost-pulse 2s infinite alternate;
+}
+@keyframes ghost-pulse {
+    0% { filter: drop-shadow(0 0 6px #c084fc); }
+    100% { filter: drop-shadow(0 0 14px #e9d5ff); }
+}
+.player-node .racer-icon {
+    filter: drop-shadow(0 0 8px var(--accent));
+}
+.racer-tag {
+    font-size: .56rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: .08rem .3rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.ghost-node .racer-tag {
+    background: rgba(192, 132, 252, 0.28);
+    color: #e9d5ff;
+    border: 1px solid rgba(192, 132, 252, 0.45);
+}
+.player-node .racer-tag {
+    background: rgba(56, 189, 248, 0.28);
+    color: #bae6fd;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+}
+
+.ghost-track-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .74rem;
+    min-height: 1.2rem;
+}
+.ghost-status-msg {
+    color: var(--text-dim);
+    font-weight: 500;
+    transition: color .3s ease;
+}
+.ghost-slacking-alert {
+    display: none;
+    font-size: .72rem;
+    font-weight: 700;
+    color: #f43f5e;
+    animation: slacking-pulse 1s infinite alternate;
+}
+.ghost-slacking-alert.active {
+    display: inline-block;
+}
+@keyframes slacking-pulse {
+    0% { opacity: 0.6; transform: scale(0.97); }
+    100% { opacity: 1; transform: scale(1.03); }
+}
+
+/* Home Screen Ghost Card */
+.ghost-home-card {
+    width: 100%;
+    max-width: 700px;
+    padding: 1.2rem 1.6rem;
+    margin-bottom: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(192, 132, 252, 0.24);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    transition: all var(--tr);
+}
+.ghost-home-card:hover {
+    border-color: rgba(192, 132, 252, 0.48);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+}
+.ghost-home-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.ghost-home-title {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+}
+.ghost-home-title h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #f3e8ff;
+}
+.ghost-home-meta {
+    font-size: .78rem;
+    color: var(--text-dim);
+    margin-top: .15rem;
+}
+.ghost-record-pill {
+    padding: .35rem .8rem;
+    border-radius: 980px;
+    background: rgba(192, 132, 252, 0.14);
+    border: 1px solid rgba(192, 132, 252, 0.35);
+    color: #d8b4fe;
+    font-size: .78rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+.ghost-pills-row {
+    display: flex;
+    gap: .55rem;
+    align-items: center;
+}
+.ghost-mode-pill {
+    padding: .4rem .85rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-dim);
+    font-size: .76rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: all var(--tr);
+}
+.ghost-mode-pill:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    transform: translateY(-1px);
+}
+.ghost-mode-pill.active {
+    background: rgba(192, 132, 252, 0.18);
+    border-color: #c084fc;
+    color: #f3e8ff;
+    box-shadow: 0 0 14px rgba(192, 132, 252, 0.35);
+}
+
+/* ══════════════════════════════════════════
    COSMO 3D ROCKET ASSISTANT
    ══════════════════════════════════════════ */
 .cosmo-stage {
@@ -1239,6 +1540,28 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         </div>
     </div>
 
+    <!-- Ghost Racer Rival Card -->
+    <div class="ghost-home-card glass" id="ghost-home-card">
+        <div class="ghost-home-header">
+            <div class="ghost-home-title">
+                <span class="ghost-avatar-glow">🏎️</span>
+                <div>
+                    <h3>Ghost Competitor (AI Prediction Model)</h3>
+                    <span class="ghost-home-meta" id="gh-meta-text">Paced from your Personal Best session, weekly rhythm & average duration</span>
+                </div>
+            </div>
+            <span class="ghost-record-pill" id="gh-record-pill">0W - 0L</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+            <span style="font-size:.78rem;color:var(--text-dim)">Pacing Benchmark:</span>
+            <div class="ghost-pills-row" id="ghost-pills-row">
+                <button class="ghost-mode-pill active" data-mode="pb" title="Paces against your personal best record">🏆 PB Pace (1.0x)</button>
+                <button class="ghost-mode-pill" data-mode="avg" title="Paces against your weekly average speed">⚖️ Weekly Avg</button>
+                <button class="ghost-mode-pill" data-mode="apex" title="Overdrive challenge (+8% faster than PB)">⚡ Apex (+8%)</button>
+            </div>
+        </div>
+    </div>
+
     <div class="quick-stats glass">
         <div class="stat"><span class="stat-value" id="qs-time">0m</span><span class="stat-label">Today</span></div>
         <div class="stat"><span class="stat-value" id="qs-sess">0</span><span class="stat-label">Sessions</span></div>
@@ -1325,6 +1648,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="focus-top-bar">
                 <span class="focus-mode-label" id="focus-label">FOCUS</span>
                 <div style="display:flex;align-items:center;gap:.6rem">
+                    <button class="inventory-pill-btn glass" id="btn-toggle-ghost-hud" title="Toggle Ghost Racer Track">
+                        <span>🏎️ Ghost</span>
+                        <span class="pill-badge" id="ghost-hud-badge">LIVE</span>
+                    </button>
                     <button class="inventory-pill-btn glass" id="btn-focus-cosmo" title="Cosmo 3D Rocket Assistant">
                         <span>🚀 Cosmo</span>
                     </button>
@@ -1360,6 +1687,54 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 <div class="bottle-meta">
                     <span class="bottle-percent" id="bottle-pct">0%</span>
                     <span class="bottle-sub" id="bottle-sub">0.00L</span>
+                </div>
+            </div>
+
+            <!-- ═══ Spatial Ghost Racer Track ═══ -->
+            <div class="ghost-racer-card glass" id="ghost-racer-card">
+                <div class="ghost-track-header">
+                    <div class="ghost-rival-info">
+                        <span class="ghost-avatar-glow">🏎️</span>
+                        <div>
+                            <div class="ghost-rival-title">
+                                <span id="ghost-rival-name">Phantom Self (PB)</span>
+                                <span class="ghost-speed-badge" id="ghost-speed-badge">1.0x Pace</span>
+                            </div>
+                            <span class="ghost-rival-meta" id="ghost-rival-meta">Best: 45m · Avg: 28m · 4.2 sess/wk</span>
+                        </div>
+                    </div>
+                    <div class="ghost-split-telemetry">
+                        <span class="ghost-split-val tied" id="ghost-split-val">±0:00</span>
+                        <span class="ghost-split-lbl" id="ghost-split-lbl">NECK & NECK</span>
+                    </div>
+                </div>
+
+                <!-- Dual Race Track -->
+                <div class="ghost-race-track" id="ghost-race-track">
+                    <div class="track-finish-line" title="Finish Line">🏁</div>
+
+                    <!-- Ghost Lane -->
+                    <div class="track-lane ghost-lane">
+                        <div class="track-progress-fill ghost-fill" id="ghost-track-fill" style="width: 0%"></div>
+                        <div class="racer-node ghost-node" id="ghost-racer-node" style="left: 0%">
+                            <span class="racer-icon">👻</span>
+                            <span class="racer-tag">GHOST</span>
+                        </div>
+                    </div>
+
+                    <!-- Player Lane -->
+                    <div class="track-lane player-lane">
+                        <div class="track-progress-fill player-fill" id="player-track-fill" style="width: 0%"></div>
+                        <div class="racer-node player-node" id="player-racer-node" style="left: 0%">
+                            <span class="racer-icon">🚀</span>
+                            <span class="racer-tag">YOU</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ghost-track-footer">
+                    <span class="ghost-status-msg" id="ghost-status-msg">🏎️ Locked in: Ghost is pacing against your rhythm!</span>
+                    <span class="ghost-slacking-alert" id="ghost-slacking-alert">⚠️ SLACKING DETECTED! Ghost is surging ahead!</span>
                 </div>
             </div>
 
@@ -1405,6 +1780,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="c-stat"><span class="c-stat-val" id="c-mode">Timer</span><span class="c-stat-lbl">Mode</span></div>
             <div class="c-stat"><span class="c-stat-val" id="c-pomos">0</span><span class="c-stat-lbl">Pomodoros</span></div>
             <div class="c-stat"><span class="c-stat-val" id="c-bottles">0</span><span class="c-stat-lbl">Bottles</span></div>
+            <div class="c-stat" id="c-ghost-wrap"><span class="c-stat-val" id="c-ghost" style="color:#c084fc">🏆 Won</span><span class="c-stat-lbl">Ghost Rival</span></div>
         </div>
         <p class="complete-quote" id="c-quote"></p>
         <button class="btn-primary" id="btn-done">Done</button>
@@ -1430,6 +1806,16 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                     </div>
                 </div>
                 <span class="a-card-val" id="a-target-pct" style="margin-bottom:0;color:var(--accent);font-size:1.4rem">0%</span>
+            </div>
+            <div class="a-card glass" id="a-ghost-card" style="grid-column: 1 / -1; display:flex; align-items:center; justify-content:space-between; padding:1.1rem 1.6rem; border-color: rgba(192, 132, 252, 0.28);">
+                <div style="display:flex;align-items:center;gap:.85rem">
+                    <span style="font-size:1.5rem">🏎️</span>
+                    <div style="text-align:left">
+                        <span class="a-card-lbl" style="text-align:left;margin-bottom:.15rem;display:block">Ghost Rival Benchmark</span>
+                        <span id="a-ghost-detail" style="font-size:.9rem;font-weight:600;color:#e9d5ff">PB: 45m · 4.2 sess/wk · Avg: 28m</span>
+                    </div>
+                </div>
+                <span class="a-card-val" id="a-ghost-record" style="margin-bottom:0;color:#c084fc;font-size:1.3rem">0W - 0L</span>
             </div>
         </div>
         <div class="weekly-chart glass">
@@ -2204,6 +2590,335 @@ function updateDailyTargetCard(todayMs) {
     }
     if (bannerEl) {
         bannerEl.classList.toggle('visible', pct >= 100);
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   GHOST RACER PREDICTION MODEL & RACING ENGINE
+   Modeled on classic racing game ghosts (Mario Kart, Gran Turismo).
+   Paced by personal best session, weekly sessions, and average duration.
+   If the user slacks off (pauses or switches tabs), the ghost surges forward!
+   ════════════════════════════════════════════════════════════════ */
+const GHOST_STORAGE_KEY = 'focus_ghost_stats';
+const GHOST_DIFFICULTY_KEY = 'focus_ghost_rival_mode';
+
+const GhostPredictionModel = {
+    defaultModel: {
+        bestDurationMs: 2700000, // 45m default
+        avgDurationMs: 1500000,  // 25m default
+        weeklySessions: 4.2,
+        totalSessions: 0,
+        winRate: 0.5
+    },
+
+    getDifficulty() {
+        try {
+            return localStorage.getItem(GHOST_DIFFICULTY_KEY) || 'pb';
+        } catch {
+            return 'pb';
+        }
+    },
+
+    setDifficulty(mode) {
+        try {
+            localStorage.setItem(GHOST_DIFFICULTY_KEY, mode);
+        } catch {}
+    },
+
+    getGhostStats() {
+        try {
+            const raw = localStorage.getItem(GHOST_STORAGE_KEY);
+            if (raw) return JSON.parse(raw);
+        } catch {}
+        return { wins: 0, losses: 0, streak: 0 };
+    },
+
+    saveGhostStats(stats) {
+        try {
+            localStorage.setItem(GHOST_STORAGE_KEY, JSON.stringify(stats));
+        } catch {}
+    },
+
+    recordRaceOutcome(won, splitMs) {
+        const stats = this.getGhostStats();
+        if (won) {
+            stats.wins = (stats.wins || 0) + 1;
+            stats.streak = (stats.streak || 0) + 1;
+            stats.lastResult = 'win';
+            stats.lastSplit = splitMs;
+        } else {
+            stats.losses = (stats.losses || 0) + 1;
+            stats.streak = 0;
+            stats.lastResult = 'loss';
+            stats.lastSplit = splitMs;
+        }
+        this.saveGhostStats(stats);
+        return stats;
+    },
+
+    computeMetrics() {
+        const sessions = S.sessions || [];
+        if (!sessions.length) {
+            return { ...this.defaultModel, isRookie: true };
+        }
+
+        const durations = sessions.map(s => s.duration).filter(d => d > 30000);
+        if (!durations.length) {
+            return { ...this.defaultModel, isRookie: true };
+        }
+
+        const bestDurationMs = Math.max(...durations);
+        const totalDurationMs = durations.reduce((a, b) => a + b, 0);
+        const avgDurationMs = Math.round(totalDurationMs / durations.length);
+
+        // Group sessions by calendar week
+        const weekSet = new Set();
+        sessions.forEach(s => {
+            if (s.date) {
+                const dt = new Date(s.date);
+                const yr = dt.getFullYear();
+                const firstDay = new Date(yr, 0, 1);
+                const dayOffset = Math.floor((dt - firstDay) / 86400000);
+                const weekNum = Math.ceil((dayOffset + firstDay.getDay() + 1) / 7);
+                weekSet.add(`${yr}-W${weekNum}`);
+            }
+        });
+
+        const activeWeeks = Math.max(1, weekSet.size);
+        const weeklySessions = +(sessions.length / activeWeeks).toFixed(1);
+
+        const stats = this.getGhostStats();
+        const totalRaces = (stats.wins || 0) + (stats.losses || 0);
+        const winRate = totalRaces > 0 ? (stats.wins / totalRaces) : 0.5;
+
+        return {
+            bestDurationMs,
+            avgDurationMs,
+            weeklySessions,
+            totalSessions: sessions.length,
+            winRate,
+            isRookie: false
+        };
+    },
+
+    getPredictedProfile() {
+        const m = this.computeMetrics();
+        const diff = this.getDifficulty();
+
+        let rivalName = 'Phantom Self (PB)';
+        let speedMult = 1.0;
+        let subtitle = `Best: ${fmtShort(m.bestDurationMs)} · Avg: ${fmtShort(m.avgDurationMs)} · ${m.weeklySessions} sess/wk`;
+
+        if (diff === 'avg') {
+            rivalName = 'Weekly Rhythm';
+            speedMult = 0.96;
+            subtitle = `Paced to weekly average (${fmtShort(m.avgDurationMs)})`;
+        } else if (diff === 'apex') {
+            rivalName = 'Apex Shadow';
+            speedMult = 1.08;
+            subtitle = `Overdrive Pace (+8% challenge over PB)`;
+        } else {
+            rivalName = 'Phantom Self (PB)';
+            speedMult = 1.0;
+            subtitle = `Racing your personal best pace (${fmtShort(m.bestDurationMs)})`;
+        }
+
+        return {
+            name: rivalName,
+            diff,
+            speedMult,
+            subtitle,
+            metrics: m
+        };
+    }
+};
+
+const GhostRacer = {
+    active: false,
+    ghostProgressMs: 0,
+    userProgressMs: 0,
+    targetDurationMs: 0,
+    lastTickTime: 0,
+    speedMultiplier: 1.0,
+    userLeadState: 'tied',
+    lastOvertakeNotifTime: 0,
+    slackingBoost: 1.0,
+
+    initRace(sessionTargetMs) {
+        const profile = GhostPredictionModel.getPredictedProfile();
+        this.speedMultiplier = profile.speedMult;
+        this.active = true;
+        this.ghostProgressMs = 0;
+        this.userProgressMs = 0;
+        this.lastTickTime = Date.now();
+        this.userLeadState = 'tied';
+        this.lastOvertakeNotifTime = Date.now();
+        this.slackingBoost = 1.0;
+
+        if (sessionTargetMs > 0) {
+            this.targetDurationMs = sessionTargetMs;
+        } else {
+            const m = profile.metrics;
+            this.targetDurationMs = Math.max(m.bestDurationMs, 3600000);
+        }
+
+        this.updateHUDProfile(profile);
+        this.render(0, 0, false);
+    },
+
+    updateHUDProfile(profile) {
+        if ($('ghost-rival-name')) $('ghost-rival-name').textContent = profile.name;
+        if ($('ghost-speed-badge')) $('ghost-speed-badge').textContent = `${profile.speedMult}x Pace`;
+        if ($('ghost-rival-meta')) $('ghost-rival-meta').textContent = profile.subtitle;
+    },
+
+    tick(userElapsedMs, isPaused, isTabHidden) {
+        if (!this.active) return;
+
+        const now = Date.now();
+        const dt = Math.max(0, now - this.lastTickTime);
+        this.lastTickTime = now;
+
+        this.userProgressMs = userElapsedMs;
+
+        const ghostPct = this.targetDurationMs > 0 ? clamp(this.ghostProgressMs / this.targetDurationMs, 0, 1) : 0;
+        let dynamicCurve = 1.0;
+        if (ghostPct < 0.15) {
+            dynamicCurve = 0.95;
+        } else if (ghostPct > 0.8) {
+            dynamicCurve = 1.05;
+        } else {
+            dynamicCurve = 1.01;
+        }
+
+        // SLACKING DETECTED:
+        // When user is paused or tab is hidden, Ghost accelerates forward!
+        let isSlacking = false;
+        if (isPaused || isTabHidden) {
+            isSlacking = true;
+            this.slackingBoost = 1.35;
+        } else {
+            this.slackingBoost = 1.0;
+        }
+
+        const ghostDelta = dt * this.speedMultiplier * dynamicCurve * this.slackingBoost;
+        this.ghostProgressMs += ghostDelta;
+
+        this.render(this.userProgressMs, this.ghostProgressMs, isSlacking);
+    },
+
+    render(userMs, ghostMs, isSlacking) {
+        const total = this.targetDurationMs || 3600000;
+        const userPct = clamp((userMs / total) * 100, 0, 100);
+        const ghostPct = clamp((ghostMs / total) * 100, 0, 100);
+
+        const playerFill = $('player-track-fill');
+        const ghostFill = $('ghost-track-fill');
+        const playerNode = $('player-racer-node');
+        const ghostNode = $('ghost-racer-node');
+
+        if (playerFill) playerFill.style.width = `${userPct}%`;
+        if (ghostFill) ghostFill.style.width = `${ghostPct}%`;
+
+        if (playerNode) playerNode.style.left = `calc(${userPct}% - 14px)`;
+        if (ghostNode) ghostNode.style.left = `calc(${ghostPct}% - 14px)`;
+
+        const splitMs = userMs - ghostMs;
+        const splitEl = $('ghost-split-val');
+        const splitLbl = $('ghost-split-lbl');
+        const statusMsg = $('ghost-status-msg');
+        const slackingAlert = $('ghost-slacking-alert');
+
+        if (slackingAlert) {
+            slackingAlert.classList.toggle('active', isSlacking);
+        }
+
+        const absSec = Math.abs(Math.round(splitMs / 1000));
+        const mm = Math.floor(absSec / 60);
+        const ss = (absSec % 60).toString().padStart(2, '0');
+        const formattedSplit = `${mm}:${ss}`;
+
+        let currentLead = 'tied';
+        if (splitMs > 2500) {
+            currentLead = 'lead';
+        } else if (splitMs < -2500) {
+            currentLead = 'behind';
+        }
+
+        if (splitEl && splitLbl) {
+            if (currentLead === 'lead') {
+                splitEl.textContent = `+${formattedSplit}`;
+                splitEl.className = 'ghost-split-val lead';
+                splitLbl.textContent = 'YOU LEAD';
+            } else if (currentLead === 'behind') {
+                splitEl.textContent = `-${formattedSplit}`;
+                splitEl.className = 'ghost-split-val behind';
+                splitLbl.textContent = 'GHOST LEADS';
+            } else {
+                splitEl.textContent = `±0:00`;
+                splitEl.className = 'ghost-split-val tied';
+                splitLbl.textContent = 'NECK & NECK';
+            }
+        }
+
+        if (statusMsg) {
+            if (isSlacking) {
+                statusMsg.textContent = `⚠️ Slacking off! Ghost gained +35% surge speed!`;
+                statusMsg.style.color = '#f43f5e';
+            } else if (currentLead === 'lead') {
+                statusMsg.textContent = `🚀 You're leading by ${mm > 0 ? mm + 'm ' : ''}${ss}s! Defend your lead!`;
+                statusMsg.style.color = 'var(--success)';
+            } else if (currentLead === 'behind') {
+                statusMsg.textContent = `👻 Ghost is ahead by ${mm > 0 ? mm + 'm ' : ''}${ss}s! Refocus to overtake!`;
+                statusMsg.style.color = '#c084fc';
+            } else {
+                statusMsg.textContent = `🏎️ Side-by-side! Racing against your personal best rhythm!`;
+                statusMsg.style.color = 'var(--text-dim)';
+            }
+        }
+
+        const now = Date.now();
+        if (this.userLeadState !== currentLead && (now - this.lastOvertakeNotifTime > 14000)) {
+            if (this.userLeadState === 'lead' && currentLead === 'behind') {
+                this.lastOvertakeNotifTime = now;
+                showToast(`👻 Ghost Racer surged ahead! Regain your focus to overtake!`, '🏎️', 4000);
+                if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
+            } else if (this.userLeadState === 'behind' && currentLead === 'lead') {
+                this.lastOvertakeNotifTime = now;
+                showToast(`⚡ You took the lead from the Ghost Racer! High tempo!`, '🚀', 4000);
+                if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('happy');
+            }
+            this.userLeadState = currentLead;
+        }
+    },
+
+    finish(userTotalMs) {
+        if (!this.active) return null;
+        this.active = false;
+        const won = userTotalMs >= this.ghostProgressMs || (this.targetDurationMs > 0 && userTotalMs >= this.targetDurationMs && this.ghostProgressMs < this.targetDurationMs);
+        const splitMs = userTotalMs - this.ghostProgressMs;
+        const stats = GhostPredictionModel.recordRaceOutcome(won, splitMs);
+        return { won, splitMs, stats };
+    }
+};
+
+function updateGhostHomeCard() {
+    const profile = GhostPredictionModel.getPredictedProfile();
+    const stats = GhostPredictionModel.getGhostStats();
+    const m = profile.metrics;
+
+    if ($('gh-meta-text')) {
+        $('gh-meta-text').textContent = `Best: ${fmtShort(m.bestDurationMs)} · Weekly Avg: ${fmtShort(m.avgDurationMs)} · ${m.weeklySessions} sess/wk`;
+    }
+    if ($('gh-record-pill')) {
+        $('gh-record-pill').textContent = `${stats.wins || 0}W - ${stats.losses || 0}L`;
+    }
+
+    const currentDiff = GhostPredictionModel.getDifficulty();
+    if ($('ghost-pills-row')) {
+        $('ghost-pills-row').querySelectorAll('.ghost-mode-pill').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === currentDiff);
+        });
     }
 }
 
@@ -3790,9 +4505,24 @@ function updateFocusInfo(elapsedMs) {
 
 /* ── Timer Engine ── */
 function tick() {
-    if (S.paused) return;
+    if (S.paused) {
+        // Ghost Racer still advances and gets a slacking boost while you are paused!
+        let frozenElapsed = S.pausedAt - S.startTime - S.totalPaused;
+        if (S.mode === 'pomodoro') {
+            frozenElapsed = S.pomoCompletedWork * S.pomoWork * 60000 + (S.pomoIsBreak ? 0 : Math.min(frozenElapsed, S.pomoWork * 60000));
+        }
+        GhostRacer.tick(Math.max(0, frozenElapsed), true, document.hidden);
+        return;
+    }
     const now = Date.now();
     const elapsed = now - S.startTime - S.totalPaused;
+
+    // Advance Ghost Racer alongside active user focus
+    let userFocusElapsed = elapsed;
+    if (S.mode === 'pomodoro') {
+        userFocusElapsed = S.pomoCompletedWork * S.pomoWork * 60000 + (S.pomoIsBreak ? 0 : Math.min(elapsed, S.pomoWork * 60000));
+    }
+    GhostRacer.tick(userFocusElapsed, false, document.hidden);
 
     // Avoid redundant updates within same second for notifications
     const currentSec = Math.floor(elapsed / 1000);
@@ -3958,6 +4688,19 @@ function finishSession(focusMs) {
     if ($('c-bottles')) $('c-bottles').textContent = S.inventory.length;
     $('c-quote').textContent = `"${pick(MOTIV.completeQuotes)}"`;
 
+    // Ghost Rival Race Outcome
+    const raceOutcome = GhostRacer.finish(focusMs);
+    if (raceOutcome) {
+        if ($('c-ghost')) {
+            $('c-ghost').textContent = raceOutcome.won ? '🏆 Won' : '💀 Behind';
+            $('c-ghost').style.color = raceOutcome.won ? '#34d399' : '#c084fc';
+        }
+        if (raceOutcome.won) {
+            showToast(`🏆 Ghost Defeated! Personal record rhythm defended!`, '🏎️', 4500);
+            if (window.Cosmo && Cosmo.trickRoll) Cosmo.trickRoll();
+        }
+    }
+
     navigate('complete');
     refreshHomeStats();
     updateSkipBtn();
@@ -3971,6 +4714,10 @@ function stopSession() {
     const now = Date.now();
     let elapsed = now - S.startTime - S.totalPaused;
     if (S.paused) elapsed = S.pausedAt - S.startTime - S.totalPaused;
+
+    if (GhostRacer.active) {
+        GhostRacer.finish(elapsed);
+    }
 
     S.running = false;
     S.paused = false;
@@ -4106,6 +4853,9 @@ function beginSession() {
     setRing(0);
     WaterSim.resize();
 
+    // Spawn Ghost Racer Competitor from prediction model
+    GhostRacer.initRace(S.targetMs);
+
     navigate('focus');
     enterFS();
 
@@ -4140,6 +4890,9 @@ function refreshHomeStats() {
 
     // Update Daily Target Card
     updateDailyTargetCard(todayMs);
+
+    // Update Ghost Competitor Card
+    updateGhostHomeCard();
 }
 
 function renderAnalytics() {
@@ -4163,6 +4916,17 @@ function renderAnalytics() {
     if ($('a-target-pct')) {
         $('a-target-pct').textContent = `${targetPct}%`;
         $('a-target-pct').style.color = targetPct >= 100 ? 'var(--success)' : 'var(--accent)';
+    }
+
+    // Ghost Rival in Analytics
+    const ghostStats = GhostPredictionModel.getGhostStats();
+    const ghostProf = GhostPredictionModel.getPredictedProfile();
+    const gm = ghostProf.metrics;
+    if ($('a-ghost-detail')) {
+        $('a-ghost-detail').textContent = `PB: ${fmtShort(gm.bestDurationMs)} · Avg: ${fmtShort(gm.avgDurationMs)} · ${gm.weeklySessions} sess/wk`;
+    }
+    if ($('a-ghost-record')) {
+        $('a-ghost-record').textContent = `${ghostStats.wins || 0}W - ${ghostStats.losses || 0}L`;
     }
 
     const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -4329,6 +5093,33 @@ if (targetBtnSave) {
         setDailyTargetMinutes(tempTargetMins);
         closeTargetModal();
         soundClick();
+    });
+}
+
+// Ghost Racer Controls
+const btnToggleGhostHud = $('btn-toggle-ghost-hud');
+const ghostRacerCard = $('ghost-racer-card');
+const ghostHudBadge = $('ghost-hud-badge');
+if (btnToggleGhostHud && ghostRacerCard) {
+    btnToggleGhostHud.addEventListener('click', () => {
+        ghostRacerCard.classList.toggle('minimized');
+        const isMin = ghostRacerCard.classList.contains('minimized');
+        if (ghostHudBadge) ghostHudBadge.textContent = isMin ? 'MIN' : 'LIVE';
+        soundClick();
+    });
+}
+
+const ghostPillsRow = $('ghost-pills-row');
+if (ghostPillsRow) {
+    ghostPillsRow.querySelectorAll('.ghost-mode-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const mode = btn.dataset.mode;
+            GhostPredictionModel.setDifficulty(mode);
+            updateGhostHomeCard();
+            soundClick();
+            const prof = GhostPredictionModel.getPredictedProfile();
+            showToast(`🏎️ Ghost Rival: ${prof.name}`, '🏎️');
+        });
     });
 }
 
