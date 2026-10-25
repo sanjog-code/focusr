@@ -10391,14 +10391,18 @@ const Cosmo = {
     renderer: null,
     rocketGroup: null,
     astronautGroup: null,
+    visorMesh: null,
     flameCore: null,
     flameOuter: null,
     flameLight: null,
     accentRing: null,
     accentMat: null,
-    bodyMat: null,
-    minionSkinMat: null,
-    overallsMat: null,
+    suitMat: null,
+    rocketMat: null,
+    visorMat: null,
+    chromeMat: null,
+    glowMat: null,
+    antennaGlows: [],
     currentSkin: 'default',
     particleSystem: null,
     particleData: [],
@@ -10418,20 +10422,20 @@ const Cosmo = {
     trickT: 0,
     dismissTimer: null,
 
-    // Mouse Parallax
+    // Mouse Parallax & Tracking
     targetTiltX: 0,
     targetTiltY: 0,
     currentTiltX: 0,
     currentTiltY: 0,
 
     quotes: [
-        "Aerodynamic roll complete. Telemetry verified.",
-        "Cosmor Telemetry Copilot active. Ready for deep work flight.",
         "Spatial loop complete. Telemetry locked in.",
-        "Sustained velocity. Maintain deep focus.",
-        "Hydration benchmark reached. Steady momentum.",
-        "Aerodynamic systems nominal. Optimal rhythm.",
-        "Telemetry check complete. Perimeter secure."
+        "Astro-Bot Cosmor active. Ready for deep work flight.",
+        "Telemetry verified. Optimal orbit achieved.",
+        "Sustained focus velocity. Keep the momentum going.",
+        "Deep focus rhythm nominal. All systems go.",
+        "Perimeter secure. Distractions eliminated.",
+        "Clean frequency locked. Clear skies for flow state."
     ],
 
     init() {
@@ -10448,20 +10452,24 @@ const Cosmo = {
             return;
         }
 
-        // 1. Offscreen Face Canvas
+        // 1. Offscreen Visor Canvas & Dynamic Glowing LED Texture
         this.faceCanvas = document.createElement('canvas');
         this.faceCanvas.width = 256;
         this.faceCanvas.height = 256;
         this.faceCtx = this.faceCanvas.getContext('2d');
         this.faceTexture = new THREE.CanvasTexture(this.faceCanvas);
+        this.faceTexture.generateMipmaps = false;
+        this.faceTexture.minFilter = THREE.LinearFilter;
+        this.faceTexture.magFilter = THREE.LinearFilter;
         this.drawFace('happy');
 
-        // 2. Three.js Scene & Camera
+        // 2. Three.js Scene & Framing Camera
         this.scene = new THREE.Scene();
+        // FOV 38 with distance 5.4 provides a safe 3.7-unit vertical frustum for a 2.6-unit model (zero clipping)
         this.camera = new THREE.PerspectiveCamera(38, 1, 0.1, 50);
-        this.camera.position.set(0, 0.35, 6.2);
+        this.camera.position.set(0, 0.1, 5.4);
 
-        // 3. Renderer
+        // 3. Renderer with high performance & transparency
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
             alpha: true,
@@ -10471,23 +10479,29 @@ const Cosmo = {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         this.renderer.setSize(200, 200, false);
         this.renderer.setPixelRatio(dpr);
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.15;
 
-        // 4. Lights
-        const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
-        keyLight.position.set(4, 6, 5);
+        // 4. Studio Lighting Rig (Key, Fill, Rim & Plasma Glow)
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.3);
+        keyLight.position.set(4, 5, 5);
         this.scene.add(keyLight);
 
-        const ambLight = new THREE.AmbientLight(0xdbeafe, 0.85);
+        const ambLight = new THREE.AmbientLight(0xdbeafe, 0.65);
         this.scene.add(ambLight);
 
-        const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.7);
-        fillLight.position.set(-4, -2, 2);
-        this.scene.add(fillLight);
+        const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+        rimLight.position.set(-4, 3, -3);
+        this.scene.add(rimLight);
 
-        // 5. Build 3D Model
+        const bottomFill = new THREE.DirectionalLight(0x0ea5e9, 0.4);
+        bottomFill.position.set(0, -5, 2);
+        this.scene.add(bottomFill);
+
+        // 5. Build Authentic 3D Astro-Bot Model matching reference artwork
         this.buildModel();
 
-        // 6. Build Particle System
+        // 6. Build Spark Particle Emitter
         this.initParticles();
 
         // 7. Event Listeners
@@ -10506,12 +10520,13 @@ const Cosmo = {
         }
 
         window.addEventListener('mousemove', (e) => this.onMouseMove(e), { passive: true });
+        window.addEventListener('resize', () => this.onResize(), { passive: true });
 
         // Animation loop
         this.animate = this.animate.bind(this);
         requestAnimationFrame(this.animate);
 
-        // Load saved mode
+        // Restore saved mode & skin
         try {
             const saved = localStorage.getItem('focus_cosmo_mode');
             if (saved === 'companion') {
@@ -10531,443 +10546,415 @@ const Cosmo = {
         } catch {}
     },
 
+    cycleCompanionMode() {
+        this.toggleMode();
+    },
+
     applySkin(skinId) {
-        if (!this.minionSkinMat || !this.overallsMat) return;
+        if (!this.suitMat || !this.rocketMat || !this.accentMat) return;
         this.currentSkin = skinId;
         try { localStorage.setItem('focus_cosmo_skin', skinId); } catch {}
-        
+
         switch (skinId) {
             case 'cyberpunk':
-                this.minionSkinMat.color.setHex(0x10b981);
-                this.overallsMat.color.setHex(0xd946ef);
-                if (this.accentMat) this.accentMat.color.setHex(0x06b6d4);
-                if (this.bodyMat) this.bodyMat.color.setHex(0x0f172a);
+                this.suitMat.color.setHex(0x0f172a);
+                this.rocketMat.color.setHex(0x181824);
+                this.accentMat.color.setHex(0x00f0ff);
+                this.glowMat.color.setHex(0xd946ef);
+                if (this.visorMat) this.visorMat.emissive.setHex(0x00f0ff);
+                if (this.flameCore) this.flameCore.material.color.setHex(0xa855f7);
+                if (this.flameOuter) this.flameOuter.material.color.setHex(0xec4899);
                 break;
             case 'gold':
-                this.minionSkinMat.color.setHex(0xf59e0b);
-                this.overallsMat.color.setHex(0x18181b);
-                if (this.accentMat) this.accentMat.color.setHex(0xfbbf24);
-                if (this.bodyMat) this.bodyMat.color.setHex(0x27272a);
+                this.suitMat.color.setHex(0xfef3c7);
+                this.rocketMat.color.setHex(0xf59e0b);
+                this.rocketMat.metalness = 0.85;
+                this.rocketMat.roughness = 0.15;
+                this.accentMat.color.setHex(0xfbbf24);
+                this.glowMat.color.setHex(0xf59e0b);
+                if (this.visorMat) this.visorMat.emissive.setHex(0xfbbf24);
+                if (this.flameCore) this.flameCore.material.color.setHex(0xfef08a);
+                if (this.flameOuter) this.flameOuter.material.color.setHex(0xd97706);
                 break;
             case 'dark_matter':
-                this.minionSkinMat.color.setHex(0x1e1b4b);
-                this.overallsMat.color.setHex(0x4c1d95);
-                if (this.accentMat) this.accentMat.color.setHex(0xa855f7);
-                if (this.bodyMat) this.bodyMat.color.setHex(0x090a0f);
+                this.suitMat.color.setHex(0x0a0a14);
+                this.rocketMat.color.setHex(0x12111d);
+                this.accentMat.color.setHex(0xa855f7);
+                this.glowMat.color.setHex(0x9333ea);
+                if (this.visorMat) this.visorMat.emissive.setHex(0xa855f7);
+                if (this.flameCore) this.flameCore.material.color.setHex(0x9333ea);
+                if (this.flameOuter) this.flameOuter.material.color.setHex(0x3b82f6);
                 break;
             case 'bioluminescence':
-                this.minionSkinMat.color.setHex(0x06b6d4);
-                this.overallsMat.color.setHex(0x134e4a);
-                if (this.accentMat) this.accentMat.color.setHex(0x38bdf8);
-                if (this.bodyMat) this.bodyMat.color.setHex(0x082f49);
+                this.suitMat.color.setHex(0x042f2e);
+                this.rocketMat.color.setHex(0x082f49);
+                this.accentMat.color.setHex(0x2dd4bf);
+                this.glowMat.color.setHex(0x38bdf8);
+                if (this.visorMat) this.visorMat.emissive.setHex(0x2dd4bf);
+                if (this.flameCore) this.flameCore.material.color.setHex(0x38bdf8);
+                if (this.flameOuter) this.flameOuter.material.color.setHex(0x0d9488);
                 break;
             default:
-                this.minionSkinMat.color.setHex(0x2563eb);
-                this.overallsMat.color.setHex(0x1e3a8a);
-                if (this.accentMat) this.accentMat.color.setHex(0x38bdf8);
-                if (this.bodyMat) this.bodyMat.color.setHex(0xf8fafc);
+                this.suitMat.color.setHex(0xf8fafc);
+                this.rocketMat.color.setHex(0xf8fafc);
+                this.rocketMat.metalness = 0.15;
+                this.rocketMat.roughness = 0.2;
+                this.accentMat.color.setHex(0x00e5ff);
+                this.glowMat.color.setHex(0x00f0ff);
+                if (this.visorMat) this.visorMat.emissive.setHex(0x00f0ff);
+                if (this.flameCore) this.flameCore.material.color.setHex(0x00e5ff);
+                if (this.flameOuter) this.flameOuter.material.color.setHex(0xff8800);
                 break;
         }
+        this.drawFace(this.eyeState);
     },
 
     buildModel() {
         this.rocketGroup = new THREE.Group();
 
-        // Rocket Materials
-        const bodyMat = new THREE.MeshStandardMaterial({
+        // ── High-Fidelity Materials ──
+        this.rocketMat = new THREE.MeshStandardMaterial({
             color: 0xf8fafc,
             roughness: 0.2,
             metalness: 0.12
         });
-        const chromeMat = new THREE.MeshStandardMaterial({
-            color: 0xd8e2ec,
-            roughness: 0.12,
-            metalness: 0.88
-        });
-        const darkAlloyMat = new THREE.MeshStandardMaterial({
-            color: 0x1e293b,
-            roughness: 0.35,
-            metalness: 0.75,
-            side: THREE.DoubleSide
-        });
-        this.accentMat = new THREE.MeshStandardMaterial({
-            color: 0x38bdf8,
-            roughness: 0.25,
-            metalness: 0.4
-        });
-
-        // Cosmor (Spatial Pilot) Materials
-        const minionSkinMat = new THREE.MeshStandardMaterial({
-            color: 0x2563eb, // Aerodynamic Precision Blue
-            roughness: 0.38,
+        this.suitMat = new THREE.MeshStandardMaterial({
+            color: 0xf8fafc,
+            roughness: 0.32,
             metalness: 0.08
         });
-        const overallsMat = new THREE.MeshStandardMaterial({
-            color: 0x1e3a8a, // Classic Deep Denim Blue
-            roughness: 0.65,
-            metalness: 0.05
-        });
-
-        this.bodyMat = bodyMat;
-        this.minionSkinMat = minionSkinMat;
-        this.overallsMat = overallsMat;
-        const goggleStrapMat = new THREE.MeshStandardMaterial({
-            color: 0x0f172a, // Dark rubber strap
-            roughness: 0.8,
-            metalness: 0.1
-        });
-        const goggleChromeMat = new THREE.MeshStandardMaterial({
-            color: 0xe2e8f0, // Shiny silver goggle frame
+        this.chromeMat = new THREE.MeshStandardMaterial({
+            color: 0xe2e8f0,
             roughness: 0.12,
             metalness: 0.92
         });
-        const eyeWhiteMat = new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            roughness: 0.1
+        const darkTitaniumMat = new THREE.MeshStandardMaterial({
+            color: 0x1e293b,
+            roughness: 0.35,
+            metalness: 0.8
         });
-        const irisMat = new THREE.MeshStandardMaterial({
-            color: 0x7c2d12, // Warm hazel-brown minion iris
-            roughness: 0.2
+        this.accentMat = new THREE.MeshStandardMaterial({
+            color: 0x00e5ff,
+            roughness: 0.2,
+            metalness: 0.45
         });
-        const pupilMat = new THREE.MeshBasicMaterial({ color: 0x0a0a0a });
-        const buttonGoldMat = new THREE.MeshStandardMaterial({
-            color: 0xfacc15,
-            metalness: 0.7,
-            roughness: 0.2
-        });
-        const gloveBootMat = new THREE.MeshStandardMaterial({
-            color: 0x0f172a, // Black boots and gloves
-            roughness: 0.45,
-            metalness: 0.25
-        });
-        const mouthMat = new THREE.MeshBasicMaterial({ color: 0x7f1d1d });
-        const toothMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        const hairMat = new THREE.MeshStandardMaterial({
-            color: 0x172554, // Deep blue-violet spiky hair tufts
-            roughness: 0.5
+        this.glowMat = new THREE.MeshBasicMaterial({
+            color: 0x00f0ff
         });
 
-        // 1. Rocket Fuselage Body
-        const bodyGeo = new THREE.CylinderGeometry(0.52, 0.72, 2.2, 32);
-        const body = new THREE.Mesh(bodyGeo, bodyMat);
-        this.rocketGroup.add(body);
+        // ── 1. RETRO-FUTURISTIC ROCKET FUSELAGE ──
+        // Fuselage centered at y = -0.3
+        const fuselageGeo = new THREE.CylinderGeometry(0.36, 0.46, 1.4, 32);
+        const fuselage = new THREE.Mesh(fuselageGeo, this.rocketMat);
+        fuselage.position.y = -0.3;
+        this.rocketGroup.add(fuselage);
 
-        // Nose Cone
-        const noseGeo = new THREE.ConeGeometry(0.52, 1.1, 32);
-        const nose = new THREE.Mesh(noseGeo, bodyMat);
-        nose.position.y = 1.65;
+        // Rocket Nose Cone & Teal Collar
+        const noseGeo = new THREE.ConeGeometry(0.36, 0.72, 32);
+        const nose = new THREE.Mesh(noseGeo, this.rocketMat);
+        nose.position.y = 0.76;
         this.rocketGroup.add(nose);
 
-        // Chrome Tip Cap
-        const tipGeo = new THREE.SphereGeometry(0.12, 16, 16);
-        const tip = new THREE.Mesh(tipGeo, chromeMat);
-        tip.position.y = 2.2;
-        this.rocketGroup.add(tip);
-
-        // Accent Ring
-        const ringGeo = new THREE.TorusGeometry(0.64, 0.05, 16, 32);
-        this.accentRing = new THREE.Mesh(ringGeo, this.accentMat);
+        const collarGeo = new THREE.TorusGeometry(0.365, 0.035, 16, 32);
+        this.accentRing = new THREE.Mesh(collarGeo, this.accentMat);
         this.accentRing.rotation.x = Math.PI / 2;
-        this.accentRing.position.y = 0.5;
+        this.accentRing.position.y = 0.4;
         this.rocketGroup.add(this.accentRing);
 
-        // Engine Nozzle
-        const nozzleGeo = new THREE.CylinderGeometry(0.58, 0.44, 0.55, 24, 1, true);
-        const nozzle = new THREE.Mesh(nozzleGeo, darkAlloyMat);
-        nozzle.position.y = -1.35;
+        // Chrome Nose Tip
+        const tipGeo = new THREE.ConeGeometry(0.18, 0.35, 24);
+        const tip = new THREE.Mesh(tipGeo, this.chromeMat);
+        tip.position.y = 1.22;
+        this.rocketGroup.add(tip);
+
+        // Main Thruster Nozzle
+        const nozzleGeo = new THREE.CylinderGeometry(0.36, 0.26, 0.32, 24, 1, true);
+        const nozzle = new THREE.Mesh(nozzleGeo, darkTitaniumMat);
+        nozzle.position.y = -1.16;
         this.rocketGroup.add(nozzle);
 
-        // 3 Stabilizer Tail Fins
+        // Chrome Nozzle Ring
+        const nozRingGeo = new THREE.TorusGeometry(0.36, 0.03, 14, 28);
+        const nozRing = new THREE.Mesh(nozRingGeo, this.chromeMat);
+        nozRing.rotation.x = Math.PI / 2;
+        nozRing.position.y = -1.02;
+        this.rocketGroup.add(nozRing);
+
+        // 3 Swept Aerodynamic Stabilizer Wings
         const finShape = new THREE.Shape();
         finShape.moveTo(0, 0);
-        finShape.lineTo(0.72, -0.45);
-        finShape.lineTo(0.58, -0.95);
-        finShape.lineTo(0, -0.68);
+        finShape.lineTo(0.58, -0.35);
+        finShape.lineTo(0.48, -0.75);
+        finShape.lineTo(0, -0.55);
         const finGeo = new THREE.ExtrudeGeometry(finShape, {
-            depth: 0.05,
+            depth: 0.04,
             bevelEnabled: true,
-            bevelThickness: 0.02,
-            bevelSize: 0.02,
+            bevelThickness: 0.015,
+            bevelSize: 0.015,
             bevelSegments: 2
         });
         for (let i = 0; i < 3; i++) {
-            const fin = new THREE.Mesh(finGeo, chromeMat);
+            const fin = new THREE.Mesh(finGeo, this.chromeMat);
             fin.rotation.y = (i * Math.PI * 2) / 3;
             fin.position.y = -0.45;
             this.rocketGroup.add(fin);
         }
 
-        // Chrome Handlebars & Cockpit Riser
-        const barRiserGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.46, 12);
-        const riser = new THREE.Mesh(barRiserGeo, chromeMat);
-        riser.position.set(0, 0.78, 0.62);
-        riser.rotation.x = 0.32;
-        this.rocketGroup.add(riser);
+        // Twin Side Booster Pods
+        [-0.42, 0.42].forEach(bx => {
+            const podGeo = new THREE.CylinderGeometry(0.09, 0.11, 0.52, 16);
+            const pod = new THREE.Mesh(podGeo, this.rocketMat);
+            pod.position.set(bx, -0.45, 0.0);
+            this.rocketGroup.add(pod);
 
-        const barCrossGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.72, 12);
-        const crossbar = new THREE.Mesh(barCrossGeo, chromeMat);
-        crossbar.position.set(0, 0.96, 0.72);
-        crossbar.rotation.z = Math.PI / 2;
-        this.rocketGroup.add(crossbar);
+            const podCapGeo = new THREE.ConeGeometry(0.09, 0.18, 16);
+            const podCap = new THREE.Mesh(podCapGeo, this.accentMat);
+            podCap.position.set(bx, -0.1, 0.0);
+            this.rocketGroup.add(podCap);
 
-        // Chrome Footpegs (where Cosmor's boots rest)
-        [-0.56, 0.56].forEach(x => {
-            const pegGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.28, 10);
-            const peg = new THREE.Mesh(pegGeo, chromeMat);
+            const podRingGeo = new THREE.TorusGeometry(0.095, 0.018, 12, 20);
+            const podRing = new THREE.Mesh(podRingGeo, this.glowMat);
+            podRing.rotation.x = Math.PI / 2;
+            podRing.position.set(bx, -0.71, 0.0);
+            this.rocketGroup.add(podRing);
+        });
+
+        // Chrome Handlebar Console & Grips
+        const stemGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.35, 12);
+        const stem = new THREE.Mesh(stemGeo, this.chromeMat);
+        stem.position.set(0, 0.28, 0.46);
+        stem.rotation.x = 0.25;
+        this.rocketGroup.add(stem);
+
+        const barGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.56, 12);
+        const bar = new THREE.Mesh(barGeo, this.chromeMat);
+        bar.position.set(0, 0.42, 0.54);
+        bar.rotation.z = Math.PI / 2;
+        this.rocketGroup.add(bar);
+
+        [-0.22, 0.22].forEach(gx => {
+            const gripGeo = new THREE.CylinderGeometry(0.034, 0.034, 0.12, 12);
+            const grip = new THREE.Mesh(gripGeo, this.accentMat);
+            grip.position.set(gx, 0.42, 0.54);
+            grip.rotation.z = Math.PI / 2;
+            this.rocketGroup.add(grip);
+        });
+
+        // Footrests
+        [-0.42, 0.42].forEach(fx => {
+            const pegGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.22, 10);
+            const peg = new THREE.Mesh(pegGeo, this.chromeMat);
+            peg.position.set(fx, -0.15, 0.18);
             peg.rotation.z = Math.PI / 2;
-            peg.position.set(x > 0 ? 0.62 : -0.62, 0.12, 0.22);
             this.rocketGroup.add(peg);
         });
 
-        // 2. COSMOR (SPATIAL COPILOT) SITTING ON TOP OF THE ROCKET
+        // ── 2. ASTRO-BOT (SPATIAL COPILOT) ──
         this.astronautGroup = new THREE.Group();
-        this.astronautGroup.position.set(0, 0.52, 0.16);
+        this.astronautGroup.position.set(0, 0.22, 0.12);
 
-        // A. Copilot Capsule Body
-        const torsoGeo = new THREE.CylinderGeometry(0.38, 0.38, 0.60, 24);
-        const torso = new THREE.Mesh(torsoGeo, minionSkinMat);
-        torso.position.y = 0.15;
+        // A. Cute White Space Suit Torso
+        const torsoGeo = new THREE.CylinderGeometry(0.24, 0.22, 0.38, 24);
+        const torso = new THREE.Mesh(torsoGeo, this.suitMat);
+        torso.position.y = 0.0;
         this.astronautGroup.add(torso);
 
-        // Head Dome
-        const headGeo = new THREE.SphereGeometry(0.38, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.5);
-        const head = new THREE.Mesh(headGeo, minionSkinMat);
-        head.position.y = 0.45;
-        this.astronautGroup.add(head);
+        // Chest Telemetry Badge
+        const badgeGeo = new THREE.BoxGeometry(0.12, 0.08, 0.02);
+        const badge = new THREE.Mesh(badgeGeo, this.accentMat);
+        badge.position.set(0, 0.06, 0.24);
+        this.astronautGroup.add(badge);
 
-        // Pelvis Dome
-        const pelvisGeo = new THREE.SphereGeometry(0.38, 24, 16, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5);
-        const pelvis = new THREE.Mesh(pelvisGeo, overallsMat);
-        pelvis.position.y = -0.15;
-        this.astronautGroup.add(pelvis);
+        // B. Large Glossy Spherical Astronaut Helmet
+        const helmetGeo = new THREE.SphereGeometry(0.42, 32, 28);
+        const helmet = new THREE.Mesh(helmetGeo, this.suitMat);
+        helmet.position.set(0, 0.45, 0.02);
+        this.astronautGroup.add(helmet);
 
-        // B. Denim Dungarees / Overalls
-        const bibGeo = new THREE.CylinderGeometry(0.39, 0.395, 0.32, 24);
-        const bib = new THREE.Mesh(bibGeo, overallsMat);
-        bib.position.y = 0.01;
-        this.astronautGroup.add(bib);
+        // Helmet Chrome Visor Bezel
+        const visorBezelGeo = new THREE.TorusGeometry(0.32, 0.032, 16, 32);
+        const visorBezel = new THREE.Mesh(visorBezelGeo, this.chromeMat);
+        visorBezel.position.set(0, 0.45, 0.26);
+        visorBezel.rotation.x = 0.12;
+        this.astronautGroup.add(visorBezel);
 
-        // Overalls Straps & Gold Buttons
-        [-0.22, 0.22].forEach(x => {
-            const strapGeo = new THREE.BoxGeometry(0.08, 0.46, 0.04);
-            const strap = new THREE.Mesh(strapGeo, overallsMat);
-            strap.position.set(x, 0.24, 0.26);
-            strap.rotation.x = -0.32;
-            this.astronautGroup.add(strap);
+        // Helmet Curved Dark Glass Visor with Dynamic Emissive Face Texture
+        const visorGeo = new THREE.SphereGeometry(0.425, 32, 24, 0, Math.PI * 2, 0, Math.PI * 0.42);
+        this.visorMat = new THREE.MeshStandardMaterial({
+            color: 0x050a14,
+            roughness: 0.1,
+            metalness: 0.85,
+            emissive: 0x00f0ff,
+            emissiveMap: this.faceTexture,
+            emissiveIntensity: 1.5,
+            transparent: true,
+            opacity: 0.98
+        });
+        this.visorMesh = new THREE.Mesh(visorGeo, this.visorMat);
+        this.visorMesh.position.set(0, 0.45, 0.03);
+        this.visorMesh.rotation.x = Math.PI / 2.2;
+        this.astronautGroup.add(this.visorMesh);
 
-            const btnGeo = new THREE.CylinderGeometry(0.038, 0.038, 0.02, 12);
-            const btn = new THREE.Mesh(btnGeo, buttonGoldMat);
-            btn.rotation.x = Math.PI / 2;
-            btn.position.set(x, 0.10, 0.39);
-            this.astronautGroup.add(btn);
+        // C. Dual Antenna Comms with Glowing Cyan Beacon Tips
+        this.antennaGlows = [];
+        [-0.24, 0.24].forEach((ax, idx) => {
+            const stalkGeo = new THREE.CylinderGeometry(0.012, 0.012, 0.32, 8);
+            const stalk = new THREE.Mesh(stalkGeo, this.chromeMat);
+            stalk.position.set(ax, 0.82, -0.02);
+            stalk.rotation.z = idx === 0 ? 0.32 : -0.32;
+            stalk.rotation.x = -0.15;
+            this.astronautGroup.add(stalk);
+
+            const glowTipGeo = new THREE.SphereGeometry(0.045, 14, 14);
+            const glowTip = new THREE.Mesh(glowTipGeo, this.glowMat);
+            glowTip.position.set(idx === 0 ? -0.34 : 0.34, 0.96, -0.06);
+            this.astronautGroup.add(glowTip);
+            this.antennaGlows.push(glowTip);
         });
 
-        // Pocket Crest on Bib
-        const pocketGeo = new THREE.BoxGeometry(0.18, 0.12, 0.02);
-        const pocket = new THREE.Mesh(pocketGeo, overallsMat);
-        pocket.position.set(0, 0.02, 0.40);
-        this.astronautGroup.add(pocket);
+        // Helmet Ear Puck Comms
+        [-0.43, 0.43].forEach(ex => {
+            const puckGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.04, 16);
+            const puck = new THREE.Mesh(puckGeo, this.chromeMat);
+            puck.rotation.z = Math.PI / 2;
+            puck.position.set(ex, 0.45, 0.02);
+            this.astronautGroup.add(puck);
 
-        // C. Goggle Rubber Strap
-        const strapBandGeo = new THREE.CylinderGeometry(0.395, 0.395, 0.09, 24, 1, true);
-        const strapBand = new THREE.Mesh(strapBandGeo, goggleStrapMat);
-        strapBand.position.y = 0.38;
-        this.astronautGroup.add(strapBand);
-
-        // D. Dual Metallic Chrome Goggles & Expressive Eyes
-        this.eyesGroup = new THREE.Group();
-        this.eyesGroup.position.set(0, 0.38, 0.34);
-
-        const bridgeGeo = new THREE.BoxGeometry(0.08, 0.05, 0.04);
-        const bridge = new THREE.Mesh(bridgeGeo, goggleChromeMat);
-        bridge.position.set(0, 0, 0.04);
-        this.eyesGroup.add(bridge);
-
-        this.pupils = [];
-        this.eyelids = [];
-
-        [-0.17, 0.17].forEach(gx => {
-            const rimGeo = new THREE.TorusGeometry(0.14, 0.038, 14, 28);
-            const rim = new THREE.Mesh(rimGeo, goggleChromeMat);
-            rim.position.set(gx, 0, 0.06);
-            this.eyesGroup.add(rim);
-
-            const eyeGeo = new THREE.SphereGeometry(0.12, 18, 18);
-            const eyeball = new THREE.Mesh(eyeGeo, eyeWhiteMat);
-            eyeball.position.set(gx, 0, 0.04);
-            this.eyesGroup.add(eyeball);
-
-            const irisGeo = new THREE.SphereGeometry(0.065, 16, 16);
-            const iris = new THREE.Mesh(irisGeo, irisMat);
-            iris.position.set(gx, 0, 0.13);
-            this.eyesGroup.add(iris);
-
-            const pupilGeo = new THREE.SphereGeometry(0.035, 14, 14);
-            const pupil = new THREE.Mesh(pupilGeo, pupilMat);
-            pupil.position.set(gx, 0, 0.16);
-            this.eyesGroup.add(pupil);
-            this.pupils.push(pupil);
-
-            const shineGeo = new THREE.SphereGeometry(0.012, 8, 8);
-            const shine = new THREE.Mesh(shineGeo, eyeWhiteMat);
-            shine.position.set(gx - 0.018, 0.02, 0.185);
-            this.eyesGroup.add(shine);
-
-            const lidGeo = new THREE.SphereGeometry(0.135, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.5);
-            const lid = new THREE.Mesh(lidGeo, minionSkinMat);
-            lid.position.set(gx, 0, 0.05);
-            lid.rotation.x = -Math.PI / 2;
-            lid.scale.y = 0.05;
-            this.eyesGroup.add(lid);
-            this.eyelids.push(lid);
-        });
-        this.astronautGroup.add(this.eyesGroup);
-
-        // E. Minion Mouth & Teeth
-        const mouthGeo = new THREE.TorusGeometry(0.11, 0.022, 10, 18, Math.PI * 0.85);
-        const mouth = new THREE.Mesh(mouthGeo, mouthMat);
-        mouth.position.set(0, 0.14, 0.36);
-        mouth.rotation.x = Math.PI / 1.15;
-        this.astronautGroup.add(mouth);
-
-        [-0.04, 0.04].forEach(tx => {
-            const toothGeo = new THREE.BoxGeometry(0.035, 0.025, 0.02);
-            const tooth = new THREE.Mesh(toothGeo, toothMat);
-            tooth.position.set(tx, 0.155, 0.375);
-            this.astronautGroup.add(tooth);
+            const ringGeo = new THREE.TorusGeometry(0.08, 0.015, 10, 18);
+            const ring = new THREE.Mesh(ringGeo, this.glowMat);
+            ring.rotation.y = Math.PI / 2;
+            ring.position.set(ex > 0 ? ex + 0.02 : ex - 0.02, 0.45, 0.02);
+            this.astronautGroup.add(ring);
         });
 
-        // F. Aerodynamic Antenna / Crest
-        const hairSpikes = [
-            { x: 0,     y: 0.82, z: 0.00, rx: -0.15, rz: 0.0,   h: 0.28 },
-            { x: -0.10, y: 0.80, z: -0.05, rx: -0.25, rz: -0.35, h: 0.24 },
-            { x: 0.10,  y: 0.80, z: -0.05, rx: -0.25, rz: 0.35,  h: 0.24 },
-            { x: -0.06, y: 0.81, z: 0.07,  rx: 0.20,  rz: -0.20, h: 0.22 },
-            { x: 0.06,  y: 0.81, z: 0.07,  rx: 0.20,  rz: 0.20,  h: 0.22 }
-        ];
-        hairSpikes.forEach(hs => {
-            const spikeGeo = new THREE.ConeGeometry(0.035, hs.h, 6);
-            const spike = new THREE.Mesh(spikeGeo, hairMat);
-            spike.position.set(hs.x, hs.y, hs.z);
-            spike.rotation.set(hs.rx, 0, hs.rz);
-            this.astronautGroup.add(spike);
+        // D. Life Support Backpack
+        const packGeo = new THREE.BoxGeometry(0.32, 0.38, 0.16);
+        const pack = new THREE.Mesh(packGeo, this.suitMat);
+        pack.position.set(0, 0.12, -0.24);
+        this.astronautGroup.add(pack);
+
+        // Backpack Cyan Status Light
+        const pLightGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.02, 14);
+        const pLight = new THREE.Mesh(pLightGeo, this.glowMat);
+        pLight.rotation.x = Math.PI / 2;
+        pLight.position.set(0, 0.22, -0.32);
+        this.astronautGroup.add(pLight);
+
+        // E. Astronaut Arms Holding the Handlebar
+        [-0.24, 0.24].forEach((armX, idx) => {
+            const armGeo = new THREE.CylinderGeometry(0.055, 0.055, 0.28, 12);
+            const arm = new THREE.Mesh(armGeo, this.suitMat);
+            arm.position.set(armX, 0.12, 0.14);
+            arm.rotation.x = 0.82;
+            arm.rotation.z = idx === 0 ? 0.28 : -0.28;
+            this.astronautGroup.add(arm);
+
+            const gloveGeo = new THREE.SphereGeometry(0.065, 12, 12);
+            const glove = new THREE.Mesh(gloveGeo, this.chromeMat);
+            glove.position.set(idx === 0 ? -0.16 : 0.16, 0.2, 0.38);
+            this.astronautGroup.add(glove);
         });
 
-        // G. Blue Arms & Black Minion Gloves Grasping the Handlebars
-        [-0.32, 0.32].forEach((ax, idx) => {
-            const armGroup = new THREE.Group();
-            armGroup.position.set(ax, 0.26, 0.15);
+        // F. Astronaut Legs & Boots on Pegs
+        [-0.22, 0.22].forEach((legX, idx) => {
+            const legGeo = new THREE.CylinderGeometry(0.065, 0.065, 0.24, 12);
+            const leg = new THREE.Mesh(legGeo, this.suitMat);
+            leg.position.set(legX, -0.14, 0.08);
+            leg.rotation.x = 0.42;
+            leg.rotation.z = idx === 0 ? -0.2 : 0.2;
+            this.astronautGroup.add(leg);
 
-            const armGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.34, 12);
-            const arm = new THREE.Mesh(armGeo, minionSkinMat);
-            arm.position.set(0, -0.12, 0.12);
-            arm.rotation.x = 0.85;
-            arm.rotation.z = idx === 0 ? 0.35 : -0.35;
-            armGroup.add(arm);
-
-            const handGeo = new THREE.SphereGeometry(0.085, 12, 12);
-            const hand = new THREE.Mesh(handGeo, gloveBootMat);
-            hand.position.set(idx === 0 ? 0.08 : -0.08, -0.22, 0.28);
-            armGroup.add(hand);
-
-            this.astronautGroup.add(armGroup);
-        });
-
-        // H. Denim Legs & Little Black Boots Resting on Footpegs
-        [-0.30, 0.30].forEach((lx, idx) => {
-            const legGroup = new THREE.Group();
-            legGroup.position.set(lx, -0.16, 0.08);
-
-            const legGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.24, 12);
-            const leg = new THREE.Mesh(legGeo, overallsMat);
-            leg.position.set(0, -0.08, 0.04);
-            leg.rotation.x = 0.45;
-            leg.rotation.z = idx === 0 ? -0.25 : 0.25;
-            legGroup.add(leg);
-
-            const bootGeo = new THREE.BoxGeometry(0.12, 0.09, 0.18);
-            const boot = new THREE.Mesh(bootGeo, gloveBootMat);
-            boot.position.set(0, -0.18, 0.12);
-            boot.rotation.x = 0.15;
-            legGroup.add(boot);
-
-            this.astronautGroup.add(legGroup);
+            const bootGeo = new THREE.BoxGeometry(0.1, 0.08, 0.16);
+            const boot = new THREE.Mesh(bootGeo, this.suitMat);
+            boot.position.set(idx === 0 ? -0.26 : 0.26, -0.24, 0.16);
+            this.astronautGroup.add(boot);
         });
 
         this.rocketGroup.add(this.astronautGroup);
 
-        // 3. Thruster Flame Jets
-        const flameCoreGeo = new THREE.ConeGeometry(0.32, 1.2, 16, 1, true);
-        flameCoreGeo.translate(0, -0.6, 0);
+        // ── 3. DUAL-STAGE PLASMA THRUSTER FLAME ──
+        const flameCoreGeo = new THREE.ConeGeometry(0.24, 0.95, 16, 1, true);
+        flameCoreGeo.translate(0, -0.47, 0);
         flameCoreGeo.rotateX(Math.PI);
         const flameCoreMat = new THREE.MeshBasicMaterial({
-            color: 0x38bdf8,
+            color: 0x00e5ff,
             transparent: true,
             opacity: 0.92,
             blending: THREE.AdditiveBlending
         });
         this.flameCore = new THREE.Mesh(flameCoreGeo, flameCoreMat);
-        this.flameCore.position.y = -1.6;
+        this.flameCore.position.y = -1.25;
         this.rocketGroup.add(this.flameCore);
 
-        const flameOuterGeo = new THREE.ConeGeometry(0.48, 1.7, 16, 1, true);
-        flameOuterGeo.translate(0, -0.85, 0);
+        const flameOuterGeo = new THREE.ConeGeometry(0.38, 1.4, 16, 1, true);
+        flameOuterGeo.translate(0, -0.7, 0);
         flameOuterGeo.rotateX(Math.PI);
         const flameOuterMat = new THREE.MeshBasicMaterial({
-            color: 0xf59e0b,
+            color: 0xff8800,
             transparent: true,
-            opacity: 0.4,
+            opacity: 0.45,
             blending: THREE.AdditiveBlending
         });
         this.flameOuter = new THREE.Mesh(flameOuterGeo, flameOuterMat);
-        this.flameOuter.position.y = -1.6;
+        this.flameOuter.position.y = -1.25;
         this.rocketGroup.add(this.flameOuter);
 
-        this.flameLight = new THREE.PointLight(0x38bdf8, 2.5, 6);
-        this.flameLight.position.set(0, -1.8, 0);
+        // Flame Dynamic PointLight
+        this.flameLight = new THREE.PointLight(0x00e5ff, 2.5, 4.5);
+        this.flameLight.position.set(0, -1.5, 0.2);
         this.rocketGroup.add(this.flameLight);
 
-        // Initial orientation
-        this.rocketGroup.rotation.z = -0.22;
-        this.rocketGroup.rotation.y = 0.45;
+        // Scale and add rocket to scene
+        // 0.85 scale gives overall height ~2.7 units, leaving generous padding inside the 3.7-unit camera view
+        this.rocketGroup.scale.set(0.85, 0.85, 0.85);
+        this.rocketGroup.position.set(0, 0, 0);
+        this.rocketGroup.rotation.set(0, 0.42, -0.18);
         this.scene.add(this.rocketGroup);
     },
 
     initParticles() {
-        const count = 42;
+        const count = 90;
         const pGeo = new THREE.BufferGeometry();
         const positions = new Float32Array(count * 3);
         const colors = new Float32Array(count * 3);
         this.particleData = [];
 
         for (let i = 0; i < count; i++) {
-            positions[i * 3] = 0;
-            positions[i * 3 + 1] = -1.8;
-            positions[i * 3 + 2] = 0;
-            colors[i * 3] = 0.22;
-            colors[i * 3 + 1] = 0.74;
-            colors[i * 3 + 2] = 0.97;
+            const x = (Math.random() - 0.5) * 0.15;
+            const y = -1.35 - Math.random() * 0.6;
+            const z = (Math.random() - 0.5) * 0.15;
+
+            positions[i * 3] = x;
+            positions[i * 3 + 1] = y;
+            positions[i * 3 + 2] = z;
+
+            colors[i * 3] = 0.0;
+            colors[i * 3 + 1] = 0.9;
+            colors[i * 3 + 2] = 1.0;
+
             this.particleData.push({
-                x: 0, y: -1.8, z: 0,
-                vx: (Math.random() - 0.5) * 0.08,
-                vy: -Math.random() * 0.12 - 0.06,
-                vz: (Math.random() - 0.5) * 0.08,
+                x, y, z,
+                vx: (Math.random() - 0.5) * 0.02,
+                vy: -Math.random() * 0.08 - 0.04,
+                vz: (Math.random() - 0.5) * 0.02,
                 life: Math.random() * 0.8,
-                maxLife: Math.random() * 0.5 + 0.3
+                maxLife: 0.8 + Math.random() * 0.4
             });
         }
+
         pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
         const pMat = new THREE.PointsMaterial({
-            size: 0.14,
+            size: 0.065,
             vertexColors: true,
             transparent: true,
             opacity: 0.85,
             blending: THREE.AdditiveBlending
         });
+
         this.particleSystem = new THREE.Points(pGeo, pMat);
-        this.scene.add(this.particleSystem);
+        this.rocketGroup.add(this.particleSystem);
     },
 
     drawFace(state) {
@@ -10975,65 +10962,82 @@ const Cosmo = {
         const ctx = this.faceCtx;
         ctx.clearRect(0, 0, 256, 256);
 
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = '#38bdf8';
-        ctx.strokeStyle = '#38bdf8';
-        ctx.fillStyle = '#38bdf8';
-        ctx.lineWidth = 12;
+        // High-clarity glowing cyan LED expression style matching Astro-Bot
+        const glowColor = (this.glowMat && this.glowMat.color) ? '#' + this.glowMat.color.getHexString() : '#00f0ff';
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = glowColor;
+        ctx.strokeStyle = glowColor;
+        ctx.fillStyle = glowColor;
+        ctx.lineWidth = 14;
         ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        const eyeY = 120;
+        const leftX = 82;
+        const rightX = 174;
 
         if (state === 'blink') {
-            ctx.beginPath(); ctx.moveTo(68, 128); ctx.lineTo(108, 128); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(148, 128); ctx.lineTo(188, 128); ctx.stroke();
+            // Horizontal laser dashes
+            ctx.beginPath(); ctx.moveTo(leftX - 22, eyeY); ctx.lineTo(leftX + 22, eyeY); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(rightX - 22, eyeY); ctx.lineTo(rightX + 22, eyeY); ctx.stroke();
         } else if (state === 'star') {
-            [88, 168].forEach(cx => {
+            // Radiant 4-point twinkle stars
+            [leftX, rightX].forEach(cx => {
                 ctx.beginPath();
-                ctx.moveTo(cx, 102); ctx.lineTo(cx, 138);
-                ctx.moveTo(cx - 18, 120); ctx.lineTo(cx + 18, 120);
-                ctx.moveTo(cx - 10, 110); ctx.lineTo(cx + 10, 130);
-                ctx.moveTo(cx - 10, 130); ctx.lineTo(cx + 10, 110);
+                ctx.moveTo(cx, eyeY - 26); ctx.lineTo(cx, eyeY + 26);
+                ctx.moveTo(cx - 26, eyeY); ctx.lineTo(cx + 26, eyeY);
+                ctx.moveTo(cx - 15, eyeY - 15); ctx.lineTo(cx + 15, eyeY + 15);
+                ctx.moveTo(cx - 15, eyeY + 15); ctx.lineTo(cx + 15, eyeY - 15);
                 ctx.stroke();
             });
         } else if (state === 'curious') {
-            [88, 168].forEach(cx => {
+            // Big curious circular eyes with interior pupil
+            [leftX, rightX].forEach(cx => {
                 ctx.beginPath();
-                ctx.arc(cx, 120, 16, 0, Math.PI * 2);
+                ctx.arc(cx, eyeY, 22, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
-                ctx.arc(cx - 5, 115, 5, 0, Math.PI * 2);
+                ctx.arc(cx - 6, eyeY - 6, 7, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.fillStyle = '#38bdf8';
+                ctx.fillStyle = glowColor;
             });
         } else if (state === 'alert') {
-            [88, 168].forEach(cx => {
+            // Concentric tech rings
+            [leftX, rightX].forEach(cx => {
                 ctx.beginPath();
-                ctx.arc(cx, 120, 20, 0, Math.PI * 2);
+                ctx.arc(cx, eyeY, 26, 0, Math.PI * 2);
                 ctx.stroke();
                 ctx.beginPath();
-                ctx.arc(cx, 120, 7, 0, Math.PI * 2);
+                ctx.arc(cx, eyeY, 10, 0, Math.PI * 2);
                 ctx.fill();
             });
         } else if (state === 'wink') {
+            // Wink '>' on left, happy arc '^' on right
             ctx.beginPath();
-            ctx.moveTo(70, 110); ctx.lineTo(104, 124); ctx.lineTo(70, 138);
+            ctx.moveTo(leftX - 18, eyeY - 14);
+            ctx.lineTo(leftX + 16, eyeY);
+            ctx.lineTo(leftX - 18, eyeY + 14);
             ctx.stroke();
+
             ctx.beginPath();
-            ctx.arc(168, 124, 24, Math.PI * 1.15, Math.PI * 1.85, false);
+            ctx.arc(rightX, eyeY + 8, 28, Math.PI * 1.15, Math.PI * 1.85, false);
             ctx.stroke();
         } else {
-            // Happy arcs
+            // Default: Happy smiling upward arcs ^ ^
             ctx.beginPath();
-            ctx.arc(88, 124, 24, Math.PI * 1.15, Math.PI * 1.85, false);
+            ctx.arc(leftX, eyeY + 8, 28, Math.PI * 1.15, Math.PI * 1.85, false);
             ctx.stroke();
+
             ctx.beginPath();
-            ctx.arc(168, 124, 24, Math.PI * 1.15, Math.PI * 1.85, false);
+            ctx.arc(rightX, eyeY + 8, 28, Math.PI * 1.15, Math.PI * 1.85, false);
             ctx.stroke();
         }
 
-        ctx.lineWidth = 6;
+        // Cute smiling mouth curve
+        ctx.lineWidth = 7;
         ctx.beginPath();
-        ctx.arc(128, 148, 14, 0.25, Math.PI - 0.25, false);
+        ctx.arc(128, 156, 16, 0.2, Math.PI - 0.2, false);
         ctx.stroke();
 
         this.faceTexture.needsUpdate = true;
@@ -11041,26 +11045,10 @@ const Cosmo = {
 
     setEyeState(st) {
         this.eyeState = st;
-        if (this.eyelids && this.eyelids.length) {
-            if (st === 'blink') {
-                this.eyelids.forEach(lid => lid.scale.y = 1.0);
-            } else if (st === 'alert') {
-                this.eyelids.forEach(lid => lid.scale.y = 0.0);
-                if (this.pupils) this.pupils.forEach(p => p.scale.set(0.65, 0.65, 0.65));
-            } else if (st === 'star' || st === 'happy') {
-                this.eyelids.forEach(lid => lid.scale.y = 0.06);
-                if (this.pupils) this.pupils.forEach(p => p.scale.set(1.25, 1.25, 1.25));
-            } else {
-                this.eyelids.forEach(lid => lid.scale.y = 0.06);
-                if (this.pupils) this.pupils.forEach(p => p.scale.set(1.0, 1.0, 1.0));
-            }
-        }
-        if (this.drawFace) {
-            try { this.drawFace(st); } catch {}
-        }
+        this.drawFace(st);
     },
 
-    deliver(msg, icon = '', duration = 4800) {
+    deliver(msg, icon = '', duration = 3400) {
         if (!this.stage) return;
 
         CosmoAudio.playChirp();
@@ -11069,7 +11057,9 @@ const Cosmo = {
         if (this.bubbleMsg) this.bubbleMsg.textContent = msg;
         if (this.bubbleIcon) this.bubbleIcon.textContent = icon;
 
-        this.flyIn();
+        if (this.state === 'offscreen') {
+            this.flyIn();
+        }
 
         if (this.bubble) this.bubble.classList.add('active');
 
@@ -11129,7 +11119,7 @@ const Cosmo = {
 
         const q = this.quotes[Math.floor(Math.random() * this.quotes.length)];
         if (this.bubbleMsg) this.bubbleMsg.textContent = q;
-        if (this.bubbleIcon) this.bubbleIcon.textContent = '';
+        if (this.bubbleIcon) this.bubbleIcon.textContent = '✦';
         if (this.bubble) this.bubble.classList.add('active');
 
         if (this.dismissTimer) clearTimeout(this.dismissTimer);
@@ -11159,139 +11149,126 @@ const Cosmo = {
         const label = next === 'companion' 
             ? 'Cosmor: Spatial Telemetry Copilot (Active by your side)' 
             : 'Cosmor: Courier Mode (Delivers telemetry briefings)';
-        this.deliver(label, '', 3800);
+        this.deliver(label, '🚀', 3600);
     },
 
     onResize() {
-        if (!this.renderer) return;
+        if (!this.renderer || !this.canvas) return;
+        const rect = this.canvas.getBoundingClientRect();
+        const w = rect.width || 200;
+        const h = rect.height || 200;
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.renderer.setSize(w, h, false);
         this.renderer.setPixelRatio(dpr);
+        if (this.camera) {
+            this.camera.aspect = w / h;
+            this.camera.updateProjectionMatrix();
+        }
     },
 
     updateThemeColor(colorHex) {
         if (!this.accentRing || !this.accentMat) return;
         try {
             this.accentMat.color.set(colorHex);
+            if (this.glowMat) this.glowMat.color.set(colorHex);
             if (this.flameLight) this.flameLight.color.set(colorHex);
+            this.drawFace(this.eyeState);
         } catch {}
     },
 
     onMouseMove(e) {
         const cx = window.innerWidth / 2;
         const cy = window.innerHeight / 2;
-        this.targetTiltX = ((e.clientY - cy) / cy) * 0.18;
-        this.targetTiltY = ((e.clientX - cx) / cx) * 0.25;
+        this.targetTiltX = ((e.clientY - cy) / cy) * 0.16;
+        this.targetTiltY = ((e.clientX - cx) / cx) * 0.22;
     },
 
     animate() {
         requestAnimationFrame(this.animate);
         this.time += 0.035;
 
-        // 1. Minion Eyelid Blinking Logic
-        if (this.time - this.lastBlinkTime > 3.6 && !this.isBlinking) {
+        // Dynamic blink intervals
+        if (this.time - this.lastBlinkTime > 3.8 && !this.isBlinking && this.state !== 'trick') {
             this.isBlinking = true;
-            this.setEyeState('blink');
+            this.drawFace('blink');
             setTimeout(() => {
                 this.isBlinking = false;
                 this.lastBlinkTime = this.time;
-                this.setEyeState(this.eyeState || 'happy');
-            }, 140);
+                this.drawFace(this.eyeState || 'happy');
+            }, 150);
         }
 
         if (!this.rocketGroup) return;
 
-        // 2. Physics & Banking
+        // Smooth physics-based cursor parallax damping
         this.currentTiltX += (this.targetTiltX - this.currentTiltX) * 0.08;
         this.currentTiltY += (this.targetTiltY - this.currentTiltY) * 0.08;
 
-        // Cosmor pupils look around following cursor
-        if (this.pupils && this.pupils.length) {
-            const lookX = this.currentTiltY * 0.035;
-            const lookY = -this.currentTiltX * 0.035;
-            this.pupils.forEach((p, idx) => {
-                const baseGx = idx === 0 ? -0.17 : 0.17;
-                p.position.x = baseGx + lookX;
-                p.position.y = lookY;
-            });
+        // Gentle antenna tip harmonic bob
+        if (this.antennaGlows && this.antennaGlows.length === 2) {
+            const sway = Math.sin(this.time * 4) * 0.025;
+            this.antennaGlows[0].position.x = -0.34 + sway;
+            this.antennaGlows[1].position.x = 0.34 + sway;
         }
 
-        // 3. True Orbital Loop Flip around Imaginary Center Point
+        // ── 360° Silky Center-Axis Barrel Roll & Buoyant Loop (Zero Frustum Clipping) ──
         if (this.state === 'trick') {
-            this.trickT += 0.018; // ~1.5s silky continuous orbital loop
-            
+            this.trickT += 0.022; // ~1.5s silky continuous roll
             const t = Math.min(1.0, this.trickT);
-            // Smooth ease in-out curve
-            const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-            const phi = ease * Math.PI * 2; // Complete 360 degree orbit
+            // Smooth cubic ease in-out
+            const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            const phi = ease * Math.PI * 2; // Full 360° roll
 
-            // The rocket starts at resting origin (0, 0, 0).
-            // We define an imaginary anchor point / orbit center directly to its right/above:
-            const orbitRadius = 0.68;
-            const centerOffsetX = orbitRadius; 
-            const centerOffsetY = 0.0;
+            // Stay centered around origin (0, 0, 0) with a gentle buoyant arc up (+0.25)
+            const liftY = Math.sin(ease * Math.PI) * 0.25;
+            this.rocketGroup.position.set(0, liftY, 0);
 
-            // Parametric circular orbit around the imaginary dot:
-            // At phi = 0: x = 0, y = 0
-            // As phi goes 0 -> 2pi: the center of the rocket travels around the anchor dot in a perfect circle
-            const posX = centerOffsetX - Math.cos(phi) * orbitRadius;
-            const posY = centerOffsetY + Math.sin(phi) * orbitRadius;
-            const posZ = Math.sin(phi) * 0.15; // Subtle 3D depth flair
+            // True barrel roll around longitudinal axis
+            this.rocketGroup.rotation.z = -0.18 + phi;
+            this.rocketGroup.rotation.y = 0.42 + Math.sin(phi) * 0.25;
+            this.rocketGroup.rotation.x = Math.sin(phi) * 0.18;
 
-            this.rocketGroup.position.x = posX;
-            this.rocketGroup.position.y = posY;
-            this.rocketGroup.position.z = posZ;
-
-            // Rocket nose orientation:
-            // Tangent direction to the orbit circle is given by d/d(phi) of (x, y):
-            // dx = sin(phi), dy = cos(phi). The tangent angle in 2D is atan2(dy, dx) = -phi.
-            // Baseline resting tilt is z = -0.22, y = 0.45.
-            this.rocketGroup.rotation.z = -0.22 + phi;
-            this.rocketGroup.rotation.y = 0.45 + Math.sin(phi) * 0.35;
-            this.rocketGroup.rotation.x = Math.sin(phi) * 0.20;
-
-            if (this.flameCore) this.flameCore.scale.set(1.6, 2.6, 1.6);
-            if (this.flameOuter) this.flameOuter.scale.set(1.8, 3.0, 1.8);
+            if (this.flameCore) this.flameCore.scale.set(1.4, 2.2, 1.4);
+            if (this.flameOuter) this.flameOuter.scale.set(1.6, 2.6, 1.6);
 
             if (this.trickT >= 1.0) {
                 this.state = 'hovering';
                 this.trickT = 0;
                 this.rocketGroup.position.set(0, 0, 0);
-                this.rocketGroup.rotation.set(0, 0.45, -0.22);
+                this.rocketGroup.rotation.set(0, 0.42, -0.18);
                 this.setEyeState('happy');
             }
         } else {
-            // Hover bobbing
-            const hoverY = Math.sin(this.time * 2.2) * 0.12;
-            const hoverRoll = Math.cos(this.time * 1.6) * 0.06;
-            const hoverPitch = Math.sin(this.time * 2.6) * 0.04;
+            // Calm, meditative idle hover bobbing
+            const hoverY = Math.sin(this.time * 2.0) * 0.08;
+            const hoverRoll = Math.cos(this.time * 1.5) * 0.04;
+            const hoverPitch = Math.sin(this.time * 2.2) * 0.03;
 
             this.rocketGroup.position.x = 0;
             this.rocketGroup.position.y = hoverY;
-            this.rocketGroup.rotation.z = -0.22 + hoverRoll + this.currentTiltX * 0.4;
-            this.rocketGroup.rotation.y = 0.45 + hoverPitch + this.currentTiltY * 0.6;
+            this.rocketGroup.rotation.z = -0.18 + hoverRoll + this.currentTiltX * 0.35;
+            this.rocketGroup.rotation.y = 0.42 + hoverPitch + this.currentTiltY * 0.5;
             this.rocketGroup.rotation.x = 0;
         }
 
-        // 4. Flame Jet Pulsing
-        const flameNoise = Math.sin(this.time * 18) * 0.15 + (Math.random() - 0.5) * 0.1;
-        const throttle = (this.state === 'flying_in' || this.state === 'flying_out' || this.state === 'trick') ? 1.6 : 1.0;
+        // Plasma Thruster Flame Dynamics
+        const flameNoise = Math.sin(this.time * 18) * 0.12 + (Math.random() - 0.5) * 0.08;
+        const throttle = (this.state === 'flying_in' || this.state === 'flying_out' || this.state === 'trick') ? 1.5 : 1.0;
 
         if (this.flameCore) {
-            this.flameCore.scale.set(1 + flameNoise * 0.6, throttle * (1 + flameNoise), 1 + flameNoise * 0.6);
+            this.flameCore.scale.set(1 + flameNoise * 0.5, throttle * (1 + flameNoise * 0.8), 1 + flameNoise * 0.5);
         }
         if (this.flameOuter) {
-            this.flameOuter.scale.set(1 + flameNoise * 0.8, throttle * (1 + flameNoise * 1.3), 1 + flameNoise * 0.8);
+            this.flameOuter.scale.set(1 + flameNoise * 0.7, throttle * (1 + flameNoise * 1.1), 1 + flameNoise * 0.7);
         }
         if (this.flameLight) {
-            this.flameLight.intensity = 2.2 + flameNoise * 0.8 + (throttle > 1 ? 2.0 : 0);
+            this.flameLight.intensity = 2.2 + flameNoise * 0.8 + (throttle > 1 ? 1.8 : 0);
         }
 
-        // 4. Update 3D Particles
-        if (this.particleSystem?.geometry?.attributes?.position?.array && this.particleSystem?.geometry?.attributes?.color?.array && this.particleData) {
+        // Trailing Spark Particle Stream
+        if (this.particleSystem?.geometry?.attributes?.position?.array && this.particleData) {
             const posAttr = this.particleSystem.geometry.attributes.position;
-            const colAttr = this.particleSystem.geometry.attributes.color;
             const positions = posAttr.array;
-            const colors = colAttr.array;
 
             for (let i = 0; i < this.particleData.length; i++) {
                 const p = this.particleData[i];
@@ -11299,10 +11276,10 @@ const Cosmo = {
 
                 if (p.life >= p.maxLife) {
                     p.life = 0;
-                    p.x = (Math.random() - 0.5) * 0.15;
-                    p.y = -1.6;
-                    p.z = (Math.random() - 0.5) * 0.15;
-                    p.vy = (-Math.random() * 0.12 - 0.08) * throttle;
+                    p.x = (Math.random() - 0.5) * 0.12;
+                    p.y = -1.25;
+                    p.z = (Math.random() - 0.5) * 0.12;
+                    p.vy = (-Math.random() * 0.1 - 0.05) * throttle;
                 }
 
                 p.x += p.vx;
@@ -11312,24 +11289,8 @@ const Cosmo = {
                 positions[i * 3] = p.x;
                 positions[i * 3 + 1] = p.y;
                 positions[i * 3 + 2] = p.z;
-
-                const frac = p.life / p.maxLife;
-                if (frac < 0.3) {
-                    colors[i * 3] = 0.22;
-                    colors[i * 3 + 1] = 0.74;
-                    colors[i * 3 + 2] = 0.97;
-                } else if (frac < 0.7) {
-                    colors[i * 3] = 0.96;
-                    colors[i * 3 + 1] = 0.62;
-                    colors[i * 3 + 2] = 0.04;
-                } else {
-                    colors[i * 3] = 0.45;
-                    colors[i * 3 + 1] = 0.2;
-                    colors[i * 3 + 2] = 0.9;
-                }
             }
             posAttr.needsUpdate = true;
-            colAttr.needsUpdate = true;
         }
 
         this.renderer.render(this.scene, this.camera);
@@ -11337,7 +11298,7 @@ const Cosmo = {
 };
 
 /* ── Toast Notifications ── */
-function showToast(msg, icon = '', duration = 4800) {
+function showToast(msg, icon = '', duration = 3200) {
     if (window.Cosmo && Cosmo.deliver) {
         Cosmo.deliver(msg, icon, duration);
     } else {
