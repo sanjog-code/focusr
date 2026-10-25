@@ -28,6 +28,16 @@ An Apple spatial & minimalist focus web application featuring customizable Timer
   - Ultra-crisp glassmorphism (`backdrop-filter: blur(40px)`).
   - Floating ambient gradient orbs.
 
+## Presentations, Slide Decks & Growth Assets
+
+A complete catalog of business pitches, product decks, interactive presentations, and marketing posters is documented in [PRESENTATIONS_AND_ASSETS.md](file:///C:/Users/amans/.gemini/antigravity/scratch/focus-app/PRESENTATIONS_AND_ASSETS.md):
+
+- 📊 [**Monetization & Growth Masterplan PPTX (17 Slides)**](https://focusr-seven.vercel.app/assets/Focusr_Monetization_and_Growth_Masterplan.pptx)
+- 🖥️ [**Product Overview & Architecture PPTX (13 Slides)**](https://focusr-seven.vercel.app/assets/Focusr_Comprehensive_Overview.pptx)
+- 🌐 [**Interactive Web Slide Deck (26 Slides)**](https://focusr-seven.vercel.app/deck.html)
+- 🖼️ [**Spatial Marketing Posters & Scannable QR Codes**](https://focusr-seven.vercel.app/posters.html)
+- 📄 [**Written Monetization & Growth Masterplan Document**](file:///C:/Users/amans/.gemini/antigravity/scratch/focus-app/Focusr_Monetization_and_Growth_Masterplan.md)
+
 ## Running Locally
 
 Simply open `index.html` in any modern web browser or run:
@@ -36,3 +46,4 @@ Simply open `index.html` in any modern web browser or run:
 # Windows Standalone Chromeless App Window (Zero Tabs)
 launch-focus-app.bat
 ```
+
