@@ -3918,7 +3918,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
             <span style="font-size:.78rem;color:var(--text-dim)">Pacing Benchmark:</span>
             <div class="ghost-pills-row" id="ghost-pills-row">
-                <button class="ghost-mode-pill active" data-mode="pb" title="Paces against your personal best record">🏆 PB Pace (1.0x)</button>
+                <button class="ghost-mode-pill active" data-mode="ai" title="AI Cognitive Pace: Adapts to your biological stamina, circadian time-of-day, and flow zone">🧠 AI Adaptive</button>
+                <button class="ghost-mode-pill" data-mode="pb" title="Paces against your personal best record">🏆 PB Pace</button>
                 <button class="ghost-mode-pill" data-mode="avg" title="Paces against your weekly average speed">⚖️ Weekly Avg</button>
                 <button class="ghost-mode-pill" data-mode="apex" title="Overdrive challenge (+8% faster than PB)">⚡ Apex (+8%)</button>
             </div>
@@ -4301,6 +4302,23 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="deb-stat-box" id="c-bottle-box" style="display:none">
                 <span class="deb-stat-val" id="c-bottles">0</span>
                 <span class="deb-stat-lbl">Bottles</span>
+            </div>
+        </div>
+
+        <!-- Section: AI Ghost Race Telemetry Analysis -->
+        <div class="debrief-section-card" id="deb-ghost-telemetry-section">
+            <div class="deb-sec-head">
+                <div class="deb-sec-title">
+                    <span class="deb-sec-icon">🏎️</span>
+                    <span>AI Ghost Telemetry & Pacing Analysis</span>
+                </div>
+                <span class="deb-sec-tag" id="deb-ghost-result-tag">AI Analysis</span>
+            </div>
+            <div style="padding:14px 4px 6px 4px;">
+                <canvas id="deb-ghost-telemetry-canvas" width="600" height="150" style="width:100%;height:150px;background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.08);border-radius:12px;display:block;margin-bottom:12px;"></canvas>
+                <div id="deb-ghost-ai-commentary" style="font-size:0.85rem;color:#cbd5e1;line-height:1.55;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.22);border-radius:10px;padding:12px 16px;">
+                    <!-- Dynamically populated AI Tactical Race debrief -->
+                </div>
             </div>
         </div>
 
@@ -6146,6 +6164,9 @@ function updateDailyTargetCard(todayMs) {
 const GHOST_STORAGE_KEY = 'focus_ghost_stats';
 const GHOST_DIFFICULTY_KEY = 'focus_ghost_rival_mode';
 
+/* ════════════════════════════════════════════════════════════════
+   AI GHOST RACER & CIRCADIAN BEHAVIORAL ENGINE
+   ════════════════════════════════════════════════════════════════ */
 const GhostPredictionModel = {
     defaultModel: {
         bestDurationMs: 2700000, // 45m default
@@ -6157,9 +6178,9 @@ const GhostPredictionModel = {
 
     getDifficulty() {
         try {
-            return localStorage.getItem(GHOST_DIFFICULTY_KEY) || 'pb';
+            return localStorage.getItem(GHOST_DIFFICULTY_KEY) || 'ai';
         } catch {
-            return 'pb';
+            return 'ai';
         }
     },
 
@@ -6200,6 +6221,33 @@ const GhostPredictionModel = {
         return stats;
     },
 
+    // Circadian Chronobiology Factor: Models human hormonal & cognitive alertness curves
+    getCircadianFactor(date = new Date()) {
+        const hour = date.getHours() + date.getMinutes() / 60;
+        if (hour >= 8.5 && hour <= 12.0) {
+            return 1.05; // Peak morning prefrontal alertness
+        } else if (hour >= 13.0 && hour <= 15.5) {
+            return 0.94; // Post-lunch circadian dip
+        } else if (hour >= 16.5 && hour <= 19.0) {
+            return 1.03; // Late afternoon second wind
+        } else if (hour >= 22.0 || hour < 5.0) {
+            return 0.89; // Late-night cognitive fatigue
+        }
+        return 1.0;
+    },
+
+    // Category Pace Factor: Cognitive load profile by task type
+    getCategoryPaceFactor(categoryId) {
+        switch (categoryId) {
+            case 'code':  return 1.02; // Sustained analytical endurance
+            case 'write': return 0.97; // Reflective ideation pauses
+            case 'study': return 1.00;
+            case 'read':  return 0.95; // Steady scanning
+            case 'art':   return 0.98; // Visual generative rhythm
+            default:      return 1.00;
+        }
+    },
+
     computeMetrics() {
         const sessions = S.sessions || [];
         if (!sessions.length) {
@@ -6215,7 +6263,6 @@ const GhostPredictionModel = {
         const totalDurationMs = durations.reduce((a, b) => a + b, 0);
         const avgDurationMs = Math.round(totalDurationMs / durations.length);
 
-        // Group sessions by calendar week
         const weekSet = new Set();
         sessions.forEach(s => {
             if (s.date) {
@@ -6248,12 +6295,19 @@ const GhostPredictionModel = {
     getPredictedProfile() {
         const m = this.computeMetrics();
         const diff = this.getDifficulty();
+        const circ = this.getCircadianFactor();
+        const cat = this.getCategoryPaceFactor(S.category);
 
-        let rivalName = 'Phantom Self (PB)';
-        let speedMult = 1.0;
-        let subtitle = `Best: ${fmtShort(m.bestDurationMs)} · Avg: ${fmtShort(m.avgDurationMs)} · ${m.weeklySessions} sess/wk`;
+        let rivalName = 'AI Cognitive Sparring Partner 🧠';
+        let speedMult = +(1.0 * circ * cat).toFixed(2);
+        const circDesc = circ > 1.02 ? 'Morning Peak' : (circ < 0.95 ? 'Circadian Lull' : 'Steady Cadence');
+        let subtitle = `AI Adaptive: Circadian ${Math.round(circ * 100)}% (${circDesc}) &bull; Dynamic Fatigue Horizon`;
 
-        if (diff === 'avg') {
+        if (diff === 'ai') {
+            rivalName = 'AI Cognitive Sparring Partner 🧠';
+            speedMult = +(1.0 * circ * cat).toFixed(2);
+            subtitle = `AI Adaptive: Circadian ${Math.round(circ * 100)}% (${circDesc}) &bull; Flow Zone Rubber-Banding`;
+        } else if (diff === 'avg') {
             rivalName = 'Weekly Rhythm';
             speedMult = 0.96;
             subtitle = `Paced to weekly average (${fmtShort(m.avgDurationMs)})`;
@@ -6272,7 +6326,9 @@ const GhostPredictionModel = {
             diff,
             speedMult,
             subtitle,
-            metrics: m
+            metrics: m,
+            circadian: circ,
+            catFactor: cat
         };
     }
 };
@@ -6287,6 +6343,11 @@ const GhostRacer = {
     userLeadState: 'tied',
     lastOvertakeNotifTime: 0,
     slackingBoost: 1.0,
+    raceStartTime: 0,
+    telemetryHistory: [],
+    lastTelemetrySampleTime: 0,
+    fatigueHorizonFired: false,
+    lastRaceTelemetry: null,
 
     initRace(sessionTargetMs) {
         const profile = GhostPredictionModel.getPredictedProfile();
@@ -6294,10 +6355,15 @@ const GhostRacer = {
         this.active = true;
         this.ghostProgressMs = 0;
         this.userProgressMs = 0;
-        this.lastTickTime = Date.now();
+        this.raceStartTime = Date.now();
+        this.lastTickTime = this.raceStartTime;
+        this.lastTelemetrySampleTime = this.raceStartTime;
         this.userLeadState = 'tied';
-        this.lastOvertakeNotifTime = Date.now();
+        this.lastOvertakeNotifTime = this.raceStartTime;
         this.slackingBoost = 1.0;
+        this.telemetryHistory = [{ t: 0, userMs: 0, ghostMs: 0, splitMs: 0 }];
+        this.fatigueHorizonFired = false;
+        this.lastRaceTelemetry = null;
 
         if (sessionTargetMs > 0) {
             this.targetDurationMs = sessionTargetMs;
@@ -6325,28 +6391,66 @@ const GhostRacer = {
 
         this.userProgressMs = userElapsedMs;
 
-        const ghostPct = this.targetDurationMs > 0 ? clamp(this.ghostProgressMs / this.targetDurationMs, 0, 1) : 0;
-        let dynamicCurve = 1.0;
+        const total = this.targetDurationMs || 3600000;
+        const ghostPct = clamp(this.ghostProgressMs / total, 0, 1);
+        const profile = GhostPredictionModel.getPredictedProfile();
+
+        // 1. Biological Stamina Curve
+        let staminaCurve = 1.0;
         if (ghostPct < 0.15) {
-            dynamicCurve = 0.95;
-        } else if (ghostPct > 0.8) {
-            dynamicCurve = 1.05;
-        } else {
-            dynamicCurve = 1.01;
+            // Cognitive Warmup (0% - 15%)
+            staminaCurve = 0.92 + (ghostPct / 0.15) * 0.08;
+        } else if (ghostPct > 0.45 && ghostPct < 0.70) {
+            // Mid-Session Cognitive Fatigue Trough
+            staminaCurve = 0.96;
+        } else if (ghostPct >= 0.85) {
+            // Final Sprint Second Wind
+            staminaCurve = 1.06;
         }
 
-        // SLACKING DETECTED:
-        // When user is paused or tab is hidden, Ghost accelerates forward!
+        // 2. Dynamic Flow Zone Rubber-Banding (Csikszentmihalyi Flow Channel)
+        let flowRubberBand = 1.0;
+        const splitMs = this.userProgressMs - this.ghostProgressMs;
+        if (profile.diff === 'ai') {
+            if (splitMs > 35000) {
+                // User is leading by >35s: Ghost engages Drafting Overdrive (+7%) to challenge!
+                flowRubberBand = 1.07;
+            } else if (splitMs < -35000) {
+                // User is lagging by >35s: Ghost eases pace (-5%) so user doesn't lose hope
+                flowRubberBand = 0.95;
+            }
+        }
+
+        // 3. Predictive Fatigue Horizon Warning (at ~55% of session)
+        if (profile.diff === 'ai' && !this.fatigueHorizonFired && ghostPct >= 0.52 && ghostPct <= 0.60) {
+            this.fatigueHorizonFired = true;
+            showToast('⚠️ Approaching historical fatigue zone (55%). AI Ghost is pacing up!', '🏎️', 4500);
+            if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
+        }
+
+        // 4. Slacking Detection: Tab blurred or paused
         let isSlacking = false;
         if (isPaused || isTabHidden) {
             isSlacking = true;
-            this.slackingBoost = 1.35;
+            this.slackingBoost = 1.45;
         } else {
             this.slackingBoost = 1.0;
         }
 
-        const ghostDelta = dt * this.speedMultiplier * dynamicCurve * this.slackingBoost;
+        const ghostDelta = dt * this.speedMultiplier * staminaCurve * flowRubberBand * this.slackingBoost;
         this.ghostProgressMs += ghostDelta;
+
+        // Sample Telemetry every 6 seconds for debrief graph
+        if (now - this.lastTelemetrySampleTime >= 6000) {
+            this.lastTelemetrySampleTime = now;
+            const elapsedSec = Math.round((now - this.raceStartTime) / 1000);
+            this.telemetryHistory.push({
+                t: elapsedSec,
+                userMs: Math.round(this.userProgressMs),
+                ghostMs: Math.round(this.ghostProgressMs),
+                splitMs: Math.round(splitMs)
+            });
+        }
 
         this.render(this.userProgressMs, this.ghostProgressMs, isSlacking);
     },
@@ -6407,16 +6511,16 @@ const GhostRacer = {
 
         if (statusMsg) {
             if (isSlacking) {
-                statusMsg.textContent = `⚠️ Slacking off! Ghost gained +35% surge speed!`;
+                statusMsg.textContent = `⚠️ Slacking off! AI Ghost gained +45% surge draft!`;
                 statusMsg.style.color = '#f43f5e';
             } else if (currentLead === 'lead') {
-                statusMsg.textContent = `🚀 You're leading by ${mm > 0 ? mm + 'm ' : ''}${ss}s! Defend your lead!`;
+                statusMsg.textContent = `🚀 You lead AI Ghost by ${mm > 0 ? mm + 'm ' : ''}${ss}s! Defend the Flow Corridor!`;
                 statusMsg.style.color = 'var(--success)';
             } else if (currentLead === 'behind') {
-                statusMsg.textContent = `👻 Ghost is ahead by ${mm > 0 ? mm + 'm ' : ''}${ss}s! Refocus to overtake!`;
+                statusMsg.textContent = `👻 AI Ghost leads by ${mm > 0 ? mm + 'm ' : ''}${ss}s! Lock in to draft and overtake!`;
                 statusMsg.style.color = '#c084fc';
             } else {
-                statusMsg.textContent = `🏎️ Side-by-side! Racing against your personal best rhythm!`;
+                statusMsg.textContent = `🧠 Head-to-head! AI adapting to your circadian stamina rhythm.`;
                 statusMsg.style.color = 'var(--text-dim)';
             }
         }
@@ -6425,11 +6529,11 @@ const GhostRacer = {
         if (this.userLeadState !== currentLead && (now - this.lastOvertakeNotifTime > 14000)) {
             if (this.userLeadState === 'lead' && currentLead === 'behind') {
                 this.lastOvertakeNotifTime = now;
-                showToast(`👻 Ghost Racer surged ahead! Regain your focus to overtake!`, '🏎️', 4000);
+                showToast(`👻 AI Ghost surged ahead! Regain your focus to overtake!`, '🏎️', 4000);
                 if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
             } else if (this.userLeadState === 'behind' && currentLead === 'lead') {
                 this.lastOvertakeNotifTime = now;
-                showToast(`⚡ You took the lead from the Ghost Racer! High tempo!`, '🚀', 4000);
+                showToast(`⚡ You took the lead from the AI Ghost! High tempo!`, '🚀', 4000);
                 if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('happy');
             }
             this.userLeadState = currentLead;
@@ -6437,12 +6541,125 @@ const GhostRacer = {
     },
 
     finish(userTotalMs) {
-        if (!this.active) return null;
+        if (!this.active) return this.lastRaceTelemetry;
         this.active = false;
         const won = userTotalMs >= this.ghostProgressMs || (this.targetDurationMs > 0 && userTotalMs >= this.targetDurationMs && this.ghostProgressMs < this.targetDurationMs);
         const splitMs = userTotalMs - this.ghostProgressMs;
         const stats = GhostPredictionModel.recordRaceOutcome(won, splitMs);
-        return { won, splitMs, stats };
+
+        // Push final point to telemetry
+        this.telemetryHistory.push({
+            t: Math.round((Date.now() - this.raceStartTime) / 1000),
+            userMs: Math.round(userTotalMs),
+            ghostMs: Math.round(this.ghostProgressMs),
+            splitMs: Math.round(splitMs)
+        });
+
+        this.lastRaceTelemetry = {
+            won,
+            splitMs,
+            stats,
+            telemetry: [...this.telemetryHistory],
+            targetMs: this.targetDurationMs,
+            userTotalMs,
+            ghostTotalMs: this.ghostProgressMs,
+            profile: GhostPredictionModel.getPredictedProfile()
+        };
+
+        return this.lastRaceTelemetry;
+    },
+
+    // Renders high-DPI retina split chart in Debrief Sheet
+    renderDebriefTelemetry() {
+        const canvas = $('deb-ghost-telemetry-canvas');
+        const commentaryEl = $('deb-ghost-ai-commentary');
+        const resultTag = $('deb-ghost-result-tag');
+        if (!canvas || !this.lastRaceTelemetry) return;
+
+        const data = this.lastRaceTelemetry;
+        const hist = data.telemetry || [];
+        if (hist.length < 2) return;
+
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const w = canvas.clientWidth || 550;
+        const h = 150;
+
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.scale(dpr, dpr);
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Max/Min split in seconds
+        const splitSecs = hist.map(pt => pt.splitMs / 1000);
+        const maxSplit = Math.max(30, ...splitSecs.map(Math.abs));
+        const maxTime = hist[hist.length - 1].t || 1;
+
+        // Baseline (zero line)
+        const midY = h / 2;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(30, midY);
+        ctx.lineTo(w - 20, midY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Labels
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('+Lead', 6, midY - 14);
+        ctx.fillText('-Lag', 6, midY + 22);
+
+        // Gradient under user line
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, 'rgba(52, 211, 153, 0.25)');
+        grad.addColorStop(0.5, 'rgba(52, 211, 153, 0.05)');
+        grad.addColorStop(1, 'rgba(251, 113, 133, 0.2)');
+
+        // Draw Split Waveform
+        ctx.beginPath();
+        hist.forEach((pt, idx) => {
+            const x = 35 + ((w - 55) * (pt.t / maxTime));
+            const y = midY - ((pt.splitMs / 1000) / maxSplit) * (h * 0.38);
+            if (idx === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = data.won ? '#34d399' : '#c084fc';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Draw Nodes
+        hist.forEach((pt, idx) => {
+            if (idx % 3 === 0 || idx === hist.length - 1) {
+                const x = 35 + ((w - 55) * (pt.t / maxTime));
+                const y = midY - ((pt.splitMs / 1000) / maxSplit) * (h * 0.38);
+                ctx.fillStyle = pt.splitMs >= 0 ? '#34d399' : '#fb7185';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        });
+
+        // AI Tactical Coaching Breakdown
+        if (resultTag) {
+            resultTag.textContent = data.won ? '🏆 AI VICTORY' : '💀 GHOST ADVANTAGE';
+            resultTag.style.color = data.won ? '#34d399' : '#c084fc';
+        }
+
+        if (commentaryEl) {
+            const splitSec = Math.round(data.splitMs / 1000);
+            const circ = data.profile ? Math.round(data.profile.circadian * 100) : 100;
+            const diffName = data.profile ? data.profile.name : 'AI Ghost';
+
+            if (data.won) {
+                commentaryEl.innerHTML = `<strong>🧠 AI Performance Debrief:</strong> You defeated <em>${diffName}</em> with a <strong>+${Math.abs(splitSec)}s final margin</strong>. Circadian baseline was ${circ}%. You maintained superior focus velocity through the mid-session fatigue horizon and executed a flawless final sprint.`;
+            } else {
+                commentaryEl.innerHTML = `<strong>🧠 AI Performance Debrief:</strong> <em>${diffName}</em> gained an advantage of <strong>-${Math.abs(splitSec)}s</strong>. AI telemetry detected pace deceleration around the 55% fatigue horizon. Pacing tip: Engage earlier cognitive warmups and avoid pausing midway to defend against the AI draft.`;
+            }
+        }
     }
 };
 
