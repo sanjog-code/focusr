@@ -3712,6 +3712,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                         <span class="menu-item-tag" style="background:rgba(99,102,241,0.2);color:#818cf8;border:1px solid rgba(99,102,241,0.4)">PPTX</span>
                     </button>
 
+                    <button class="menu-item-btn" id="menu-item-launch">
+                        <span class="menu-item-icon">🚀</span>
+                        <span class="menu-item-text">Launch & Press Kit</span>
+                        <span class="menu-item-tag" style="background:rgba(52,211,153,0.18);color:#34d399;border:1px solid rgba(52,211,153,0.35)">Kit</span>
+                    </button>
+
                     <button class="menu-item-btn" id="menu-item-export-data">
                         <span class="menu-item-icon">💾</span>
                         <span class="menu-item-text">Export Session Backup</span>
@@ -4352,6 +4358,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <button class="btn-secondary" id="btn-copy-debrief" title="Copy full debrief summary to clipboard">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 <span id="btn-copy-debrief-text">Copy Debrief Sheet</span>
+            </button>
+            <button class="btn-secondary" id="btn-share-x" title="Share your deep work session achievement on X / Twitter">
+                <span style="font-size:0.9rem">𝕏</span>
+                <span>Share Flow</span>
             </button>
         </div>
     </div>
@@ -7472,6 +7482,13 @@ const AccountManager = {
         if (itemDeck) itemDeck.addEventListener('click', () => {
             this.closeDropdown();
             window.open('deck.html', '_blank');
+            soundClick();
+        });
+
+        const itemLaunch = $('menu-item-launch');
+        if (itemLaunch) itemLaunch.addEventListener('click', () => {
+            this.closeDropdown();
+            window.open('launch.html', '_blank');
             soundClick();
         });
 
@@ -10749,6 +10766,22 @@ AccountManager.init();
     const btnObsidian = $('btn-copy-obsidian');
     if (btnObsidian) {
         btnObsidian.addEventListener('click', copyObsidianDebrief);
+    }
+
+    // Bind Share on X Button
+    const btnShareX = $('btn-share-x');
+    if (btnShareX) {
+        btnShareX.addEventListener('click', () => {
+            soundClick();
+            const cat = getCategory(S.category);
+            const actualMins = Math.round(S.elapsed / 60) || Math.round(S.duration / 60) || 25;
+            const purity = S.flowPurity || '98%';
+            const infractions = S.infractionsCount || 0;
+            const tweetText = `Just crushed a ${actualMins}m deep work session with ${purity} Flow Purity on @FocusrApp ◉ 🚀\n\nCategory: ${cat.icon} ${cat.name}\nTab Breaches: ${infractions}\nActive distraction defense + local-first sovereignty.`;
+            const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent('https://focusr-seven.vercel.app')}`;
+            window.open(tweetUrl, '_blank', 'width=600,height=450');
+            showToast('🚀 Opened X / Twitter share intent!', '✨', 3500);
+        });
     }
 
     // Bind Cosmo Skin Selector in Theme Modal

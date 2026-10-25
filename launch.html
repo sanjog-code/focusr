@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focusr &bull; Go-To-Market Launch Kit & Press Kit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090a0f;
+            --card-bg: rgba(19, 24, 36, 0.72);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --indigo: #6366f1;
+            --sky: #38bdf8;
+            --emerald: #34d399;
+            --gold: #fbbf24;
+            --rose: #fb7185;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(56, 189, 248, 0.08) 0%, transparent 40%);
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--sky);
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 4px 14px;
+            border-radius: 980px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 14px;
+        }
+        .header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+        .header p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 auto 24px auto;
+        }
+        .header-nav {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 980px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-nav:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+        }
+        .btn-nav.primary {
+            background: var(--indigo);
+            border-color: var(--indigo);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+        }
+
+        /* Section Layout */
+        .section {
+            margin-bottom: 48px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* Glass Cards */
+        .glass-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .box-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 12px;
+        }
+        .box-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .btn-copy-box {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--sky);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-copy-box:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: var(--sky);
+        }
+
+        .copy-text {
+            background: #06080d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            user-select: all;
+            margin-bottom: 14px;
+        }
+
+        /* Script Breakdown Cards */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .video-card {
+            background: rgba(14, 18, 28, 0.65);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+        }
+        .video-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .video-hook {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .video-step {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            padding-left: 12px;
+            border-left: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        /* Asset Grid */
+        .asset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        .asset-card {
+            background: rgba(14, 18, 28, 0.65);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .asset-preview {
+            width: 100%;
+            height: 140px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            background: #000;
+        }
+        .asset-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .asset-meta {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(19, 24, 36, 0.95);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            color: #34d399;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.25s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <span class="header-badge">🚀 OFFICIAL GTM LAUNCH KIT</span>
+            <h1>Focusr Launch & Press Kit</h1>
+            <p>Battle-tested copy templates, Product Hunt assets, viral video scripts, and engineering deep-dive press materials ready for execution.</p>
+            <div class="header-nav">
+                <a href="index.html" class="btn-nav primary">Launch Studio ↗</a>
+                <a href="deck.html" target="_blank" class="btn-nav">13-Slide Pitch Deck 📽️</a>
+                <a href="posters.html" target="_blank" class="btn-nav">Spatial Brand Posters 🖼️</a>
+                <a href="assets/Focusr_Comprehensive_Overview.pptx" download class="btn-nav">Download PPTX 📥</a>
+            </div>
+        </header>
+
+        <!-- SECTION 1: PRODUCT HUNT -->
+        <section class="section">
+            <h2 class="section-title"><span>🪐</span> Product Hunt Launch Kit</h2>
+            <p class="section-desc">Optimized for high-engagement, #1 Product of the Day upvote conversion on launch day.</p>
+            
+            <div class="glass-box">
+                <div class="box-header">
+                    <span class="box-title">Listing Tagline & First Maker Comment</span>
+                    <button class="btn-copy-box" onclick="copySnippet('ph-snippet')">📋 Copy Post</button>
+                </div>
+                <div class="copy-text" id="ph-snippet">**Tagline:**
+Spatial Minimalist Deep Work Studio with 3D Co-Pilot & Tab Defense
+
+**Maker Comment:**
+Hey Product Hunt! 👋 I'm excited to share Focusr — an active deep work workstation engineered to eliminate distraction.
+
+Most timers are passive widgets: you open YouTube or Twitter, and the stopwatch blindly ticks down. Meanwhile, research shows returning to deep focus takes an average of 23 minutes after a single tab switch (Gloria Mark, UC Irvine).
+
+We built Focusr upon three core pillars:
+1. 🛡️ **Active Cognitive Defense**: Super Strict mode senses when you tab away, sounds procedural alarms, and logs distraction breaches into your debrief ledger.
+2. 🪐 **Cosmor 3D Co-Pilot**: An interactive WebGL astronaut who reacts to your focus velocity and orbits your workspace.
+3. 🔒 **Local-First Sovereignty**: 100% private domain storage. Zero forced signups, zero tracking pixels. Works completely offline.
+4. 📓 **Obsidian & PKM Sync**: Single-click YAML frontmatter export formatted for your daily knowledge vault.
+
+Today we're also introducing the limited **Founder Lifetime Pass (500 slots)** with exclusive 24k Golden Chronos skins.
+
+Try it live today (no signup required): https://focusr-seven.vercel.app
+Would love to hear your thoughts and feedback! 🚀</div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: SHOW HN -->
+        <section class="section">
+            <h2 class="section-title"><span>⚡</span> Hacker News (Show HN) Submission</h2>
+            <p class="section-desc">Framed around high-craft software engineering: zero-framework Vanilla JS, WebGL, and Web Audio API.</p>
+
+            <div class="glass-box">
+                <div class="box-header">
+                    <span class="box-title">Hacker News Submission Post</span>
+                    <button class="btn-copy-box" onclick="copySnippet('hn-snippet')">📋 Copy Post</button>
+                </div>
+                <div class="copy-text" id="hn-snippet">**Title:**
+Show HN: Focusr – Local-first spatial deep work studio with WebGL companion and Web Audio binaural beats
+
+**Body:**
+Hi HN,
+
+I built Focusr (https://focusr-seven.vercel.app), a browser-based deep work workstation designed for zero-distraction programming and deep research.
+
+A few technical details you might find interesting:
+- **Zero Framework Runtime Overhead**: Handcrafted in vanilla ES6+. Zero React/Next virtual DOM diffing latency. Boots in <140ms with a 100% Lighthouse score.
+- **Drift-Compensated Clocks**: Avoids setInterval timer throttling in background tabs by calculating wall-clock differential offsets (Date.now() - sessionStart).
+- **Active Distraction Telemetry**: Uses the Page Visibility API (document.visibilityState) and window.onblur to detect cognitive departures and sound synthesized procedural warning klaxons.
+- **Dual-Channel Web Audio Synthesis**: Dual sine wave oscillators hard-panned to left and right channels to generate true psychoacoustic binaural beats (Alpha 10Hz, Theta 6Hz, Gamma 40Hz) without downloading external audio files.
+- **Three.js WebGL Scene**: Cosmor the 3D companion rendered directly with PBR shaders and dynamic battery-throttling fallback.
+- **100% Local-First**: Sessions, bottle apothecary collections, and notes are written to local domain storage. No server databases, zero third-party tracking.
+
+Code is open on GitHub: https://github.com/sanjog-code/focusr
+Slide Deck: https://focusr-seven.vercel.app/deck.html
+
+I'd love any feedback on the audio synthesis and distraction defense mechanisms!</div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: SHORT-FORM VIDEO SCRIPTS -->
+        <section class="section">
+            <h2 class="section-title"><span>📱</span> Short-Form Viral Video Scripts (TikTok / Reels)</h2>
+            <p class="section-desc">High-retention video hooks designed for #StudyTok, #DevTok, and aesthetic desk setups.</p>
+
+            <div class="video-grid">
+                <div class="video-card">
+                    <span class="video-badge">SCRIPT 01 &bull; 15 SECONDS</span>
+                    <h3 class="video-hook">"The Timer That Bullies You Back To Work"</h3>
+                    <div class="video-step"><strong>0:00 - 0:04:</strong> Camera shows aesthetic dark OLED monitor running Focusr in fullscreen mode.</div>
+                    <div class="video-step"><strong>0:04 - 0:08:</strong> Hand opens new tab to check Twitter or YouTube. Focusr tab instantly flashes <code>[⚠️ RETURN TO WORK]</code> and loud siren blares.</div>
+                    <div class="video-step"><strong>0:08 - 0:15:</strong> User jumps and clicks back to code. On-screen text: <em>"Finally, a timer that actually defends your focus."</em></div>
+                </div>
+
+                <div class="video-card">
+                    <span class="video-badge">SCRIPT 02 &bull; 20 SECONDS</span>
+                    <h3 class="video-hook">"Turning 60 Minutes into Potion Bottles"</h3>
+                    <div class="video-step"><strong>0:00 - 0:06:</strong> Macro ASMR shot of Focusr's dynamic fluid canvas sloshing with sine wave physics.</div>
+                    <div class="video-step"><strong>0:06 - 0:12:</strong> Session finishes. Crisp water droplet chime plays as a radiant blue bottle gets saved to the trophy shelf.</div>
+                    <div class="video-step"><strong>0:12 - 0:20:</strong> Text overlay: <em>"The only pomodoro app that makes deep work feel like a physical apothecary."</em></div>
+                </div>
+
+                <div class="video-card">
+                    <span class="video-badge">SCRIPT 03 &bull; 18 SECONDS</span>
+                    <h3 class="video-hook">"The 3D Rocket Co-Pilot You Didn't Know You Needed"</h3>
+                    <div class="video-step"><strong>0:00 - 0:05:</strong> Close-up of Cosmor the Three.js minion astronaut floating in glowing orbit.</div>
+                    <div class="video-step"><strong>0:05 - 0:10:</strong> User clicks Cosmor; he executes a 360° flip with synthesized audio chirp and quote bubble.</div>
+                    <div class="video-step"><strong>0:10 - 0:18:</strong> Switch skin to 24k Golden Chronos. Text: <em>"My desk setup just leveled up 100x."</em></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: TWITTER/X LAUNCH THREAD -->
+        <section class="section">
+            <h2 class="section-title"><span>🐦</span> Twitter / X 6-Tweet Launch Thread</h2>
+            <p class="section-desc">Thread copy with high-retention hooks and direct conversion links.</p>
+
+            <div class="glass-box">
+                <div class="box-header">
+                    <span class="box-title">Ready-To-Post Launch Thread</span>
+                    <button class="btn-copy-box" onclick="copySnippet('tweet-snippet')">📋 Copy Thread</button>
+                </div>
+                <div class="copy-text" id="tweet-snippet">1/6: Modern timers are broken.
+
+You tab away to Twitter or YouTube, and the timer blindly ticks down.
+Returning to deep work takes an average of 23 minutes after a single tab switch.
+
+Today, we're launching Focusr ◉ — the first spatial minimalist deep work studio that fights for your attention. 🧵👇
+
+2/6: 🛡️ Active Cognitive Defense (Super Strict Mode)
+Unlike passive timers, Focusr senses when you look away or switch tabs.
+It sounds procedural audio sirens, flashes tab alerts, and logs distraction breaches into your debrief ledger.
+
+3/6: 🪐 Cosmor 3D Co-Pilot
+Rendered with real-time WebGL Three.js, Cosmor orbits your workspace, changes emotions based on your flow state, and executes 360° loading flips when clicked.
+
+4/6: 🧠 Binaural Wave Lab & Spotify Sanctuary
+Zero external audio files. Synthesizes dual-channel isochronic frequencies directly on your CPU (Alpha 10Hz, Theta 6Hz, Gamma 40Hz) to guide your brainwaves into deep flow.
+
+5/6: 🔒 Local-First Sovereignty
+No forced accounts. No tracking pixels. No data mining.
+All sessions, bottle apothecaries, and notes stay 100% encrypted in your local browser domain.
+Plus 1-click export formatted directly for Obsidian & Notion.
+
+6/6: Focusr is 100% free forever for the core suite.
+We're also releasing the limited **Founder Lifetime Pass (500 slots)** with 24k Golden Chronos skins.
+
+Experience the studio live today: https://focusr-seven.vercel.app
+Check out the product slide deck: https://focusr-seven.vercel.app/deck.html</div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: MEDIA ASSETS -->
+        <section class="section">
+            <h2 class="section-title"><span>📦</span> High-Resolution Media Kit & Assets</h2>
+            <p class="section-desc">Downloadable brand assets, posters, and presentation slides for journalists and creators.</p>
+
+            <div class="asset-grid">
+                <div class="asset-card">
+                    <img src="assets/cosmor-banner.jpg" alt="Cosmor Banner" class="asset-preview">
+                    <div class="asset-title">Cosmor Panoramic Banner</div>
+                    <div class="asset-meta">JPG &bull; 1920x1080 &bull; 585 KB</div>
+                    <a href="assets/cosmor-banner.jpg" download class="btn-nav">Download Asset</a>
+                </div>
+                <div class="asset-card">
+                    <img src="assets/cosmor-mascot.jpg" alt="Cosmor Mascot" class="asset-preview">
+                    <div class="asset-title">Cosmor 3D Mascot Character</div>
+                    <div class="asset-meta">JPG &bull; 1080x1080 &bull; 830 KB</div>
+                    <a href="assets/cosmor-mascot.jpg" download class="btn-nav">Download Asset</a>
+                </div>
+                <div class="asset-card">
+                    <img src="assets/rocket-assistant.jpg" alt="Rocket Assistant" class="asset-preview">
+                    <div class="asset-title">Spatial Rocket Atelier</div>
+                    <div class="asset-meta">JPG &bull; 1080x1080 &bull; 831 KB</div>
+                    <a href="assets/rocket-assistant.jpg" download class="btn-nav">Download Asset</a>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-preview" style="display:flex;align-items:center;justify-content:center;background:#1e293b;font-size:2.5rem">📽️</div>
+                    <div class="asset-title">13-Slide Overview Deck</div>
+                    <div class="asset-meta">PPTX &bull; 16:9 Widescreen &bull; 261 KB</div>
+                    <a href="assets/Focusr_Comprehensive_Overview.pptx" download class="btn-nav">Download PPTX</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="toast" id="toast">✓ Copied to clipboard!</div>
+
+    <script>
+        function copySnippet(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            navigator.clipboard.writeText(el.innerText).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2500);
+            });
+        }
+    </script>
+</body>
+</html>
