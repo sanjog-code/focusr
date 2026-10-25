@@ -1440,6 +1440,183 @@ body.oled-true-black .glass {
     background: rgba(255, 69, 58, 0.15);
 }
 
+
+/* ═════════════════════════════════════════════════════════════════
+   WALLPAPER & ATMOSPHERE MARKETPLACE MODAL (52+ FREE THEMES)
+   ═════════════════════════════════════════════════════════════════ */
+.wallpaper-marketplace-backdrop {
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    z-index: 110; display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s ease;
+}
+.wallpaper-marketplace-backdrop.active { opacity: 1; visibility: visible; }
+.wallpaper-marketplace-modal {
+    width: 100%; max-width: 1080px; height: 90vh; max-height: 860px;
+    display: flex; flex-direction: column; padding: 2rem;
+    background: rgba(14, 16, 24, 0.92); border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 24px; box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85);
+    transform: scale(0.96) translateY(14px); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden; box-sizing: border-box;
+}
+.wallpaper-marketplace-backdrop.active .wallpaper-marketplace-modal {
+    transform: scale(1) translateY(0);
+}
+.market-modal-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 1.25rem; flex-shrink: 0;
+}
+.market-title-wrap h2 {
+    font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.35rem 0;
+    display: flex; align-items: center; gap: 0.65rem; color: #fff;
+}
+.market-total-badge {
+    font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 9999px;
+    background: var(--accent); color: #fff; letter-spacing: 0.04em;
+    box-shadow: 0 0 14px var(--accent-glow);
+}
+.market-title-wrap p {
+    font-size: 0.85rem; color: var(--text-dim); margin: 0;
+}
+.market-search-bar-row {
+    margin-bottom: 1rem; flex-shrink: 0;
+}
+.market-search-input-wrap {
+    position: relative; display: flex; align-items: center;
+}
+.market-search-icon {
+    position: absolute; left: 1rem; pointer-events: none; color: var(--text-dim);
+    display: flex; align-items: center; justify-content: center;
+}
+.market-search-input {
+    width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem;
+    background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px; font-size: 0.9rem; color: #fff; outline: none;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+    font-family: inherit;
+}
+.market-search-input:focus {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: var(--accent);
+    box-shadow: 0 0 16px var(--accent-glow);
+}
+.market-categories-row {
+    display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.75rem;
+    margin-bottom: 0.5rem; flex-shrink: 0; scrollbar-width: none;
+}
+.market-categories-row::-webkit-scrollbar { display: none; }
+.market-cat-pill {
+    padding: 0.45rem 0.9rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 600;
+    white-space: nowrap; border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04); color: var(--text-dim);
+    cursor: pointer; transition: all .2s ease;
+}
+.market-cat-pill:hover {
+    color: #fff; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2);
+}
+.market-cat-pill.active {
+    color: #fff; background: var(--accent); border-color: var(--accent);
+    box-shadow: 0 0 14px var(--accent-glow);
+}
+.market-grid-container {
+    flex: 1; overflow-y: auto; padding-right: 0.5rem; margin-top: 0.5rem;
+}
+.market-grid-container::-webkit-scrollbar { width: 6px; }
+.market-grid-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
+.market-wallpapers-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.15rem; padding-bottom: 1.5rem;
+}
+.market-wallpaper-card {
+    background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+    cursor: pointer; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    position: relative;
+}
+.market-wallpaper-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+.market-wallpaper-card.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+.market-card-thumb-wrap {
+    position: relative; width: 100%; aspect-ratio: 16 / 10;
+    overflow: hidden; background: #0c0e14;
+}
+.market-card-img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .4s ease;
+}
+.market-wallpaper-card:hover .market-card-img {
+    transform: scale(1.06);
+}
+.market-card-free-tag {
+    position: absolute; top: 0.6rem; left: 0.6rem;
+    padding: 0.2rem 0.55rem; border-radius: 6px;
+    font-size: 0.65rem; font-weight: 800; letter-spacing: 0.06em;
+    background: rgba(16, 185, 129, 0.88); color: #fff;
+    backdrop-filter: blur(8px);
+}
+.market-card-active-badge {
+    position: absolute; top: 0.6rem; right: 0.6rem;
+    padding: 0.2rem 0.55rem; border-radius: 6px;
+    font-size: 0.65rem; font-weight: 700;
+    background: var(--accent); color: #fff;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+.market-card-hover-overlay {
+    position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .2s ease;
+}
+.market-wallpaper-card:hover .market-card-hover-overlay { opacity: 1; }
+.market-btn-apply {
+    padding: 0.5rem 1rem; border-radius: 10px; font-size: 0.78rem; font-weight: 700;
+    background: #fff; color: #000; border: none; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    transition: transform .15s ease, background .15s ease;
+}
+.market-btn-apply:hover { transform: scale(1.05); background: #f0f0f0; }
+.market-card-info {
+    padding: 0.85rem; display: flex; flex-direction: column; gap: 0.3rem;
+}
+.market-card-header-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+}
+.market-card-title {
+    font-size: 0.88rem; font-weight: 700; color: #fff; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
+.market-palette-dots {
+    display: flex; gap: 4px; flex-shrink: 0;
+}
+.market-palette-dot {
+    width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.market-card-sub {
+    font-size: 0.74rem; color: var(--text-dim); white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
+.atelier-marketplace-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1.1rem 1.3rem; border-radius: 16px; background: rgba(10, 132, 255, 0.08);
+    border: 1px solid rgba(10, 132, 255, 0.25); margin-bottom: 1.25rem;
+}
+.atelier-market-banner-text strong {
+    display: block; font-size: 0.95rem; color: #fff; margin-bottom: 0.2rem;
+}
+.atelier-market-banner-text span {
+    font-size: 0.8rem; color: var(--text-dim);
+}
+@media (max-width: 640px) {
+    .wallpaper-marketplace-modal { padding: 1.25rem; }
+    .market-wallpapers-grid { grid-template-columns: 1fr; }
+    .atelier-marketplace-banner { flex-direction: column; align-items: flex-start; }
+}
+
 /* ── Theme & Atmosphere Modal ── */
 .theme-modal-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,.68);
@@ -4686,6 +4863,9 @@ body.oled-true-black .glass {
                 </button>
                 <button class="btn-icon" id="btn-open-target" title="Daily Focus Target"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></button>
                 <button class="btn-icon" id="btn-toggle-cosmo" title="Cosmor Spatial Copilot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4.5c1.62-1.63 5-2 5-2"/><path d="M12 15v5s3.03-.55 4.5-2c1.63-1.62 2-5 2-5"/></svg></button>
+                <button class="btn-icon" id="btn-open-marketplace" title="Atmosphere & Wallpaper Marketplace (52+ Free Themes)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </button>
                 <button class="btn-icon" id="btn-open-themes" title="Atmosphere & Backdrops">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
                 </button>
@@ -5393,6 +5573,50 @@ body.oled-true-black .glass {
 </div>
 
 <!-- ═══ Spatial Atmosphere & Backdrop Modal ═══ -->
+<!-- ═══ Wallpaper & Atmosphere Marketplace (52+ Free Themes) ═══ -->
+<div class="wallpaper-marketplace-backdrop" id="wallpaper-marketplace-backdrop">
+    <div class="wallpaper-marketplace-modal glass" id="wallpaper-marketplace-modal">
+        <div class="market-modal-header">
+            <div class="market-title-wrap">
+                <h2>
+                    <span>Atmosphere & Wallpaper Marketplace</span>
+                    <span class="market-total-badge" id="market-total-badge">52 Free</span>
+                </h2>
+                <p>Curated spatial backgrounds, live dynamic liquid hues, and atmospheric depth. Completely free.</p>
+            </div>
+            <button class="modal-close-btn" id="wallpaper-marketplace-close" title="Close Marketplace">✕</button>
+        </div>
+
+        <!-- Search Bar Row -->
+        <div class="market-search-bar-row">
+            <div class="market-search-input-wrap">
+                <span class="market-search-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </span>
+                <input type="text" class="market-search-input" id="market-search-input" placeholder="Search 52 atmospheres by name, vibe, or mood (e.g. rain, nebula, kyoto, cyberpunk)...">
+            </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="market-categories-row" id="market-categories-row">
+            <button class="market-cat-pill active" data-category="all">All Atmospheres (52)</button>
+            <button class="market-cat-pill" data-category="nature">🌿 Sanctuary Nature (10)</button>
+            <button class="market-cat-pill" data-category="cosmic">🌌 Cosmic & Space (10)</button>
+            <button class="market-cat-pill" data-category="cyberpunk">⚡ Cyberpunk & Neon (9)</button>
+            <button class="market-cat-pill" data-category="minimal">◻ Minimalist & Spatial (8)</button>
+            <button class="market-cat-pill" data-category="lofi">☕ Lo-Fi & Cozy (8)</button>
+            <button class="market-cat-pill" data-category="aurora">✨ Aurora & Meshes (7)</button>
+        </div>
+
+        <!-- Wallpapers Grid -->
+        <div class="market-grid-container" id="market-grid-container">
+            <div class="market-wallpapers-grid" id="market-wallpapers-grid">
+                <!-- Dynamically populated by WallpaperMarketplace.renderGrid() -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="theme-modal-backdrop" id="theme-modal-backdrop">
     <div class="theme-modal glass" id="theme-modal">
         <div class="theme-modal-header">
@@ -5416,7 +5640,20 @@ body.oled-true-black .glass {
 
         
         <!-- TAB 1: VISUALS & ATMOSPHERE -->
+        
         <div class="atelier-tab-panel active" id="tab-panel-visuals">
+            <!-- Marketplace Launch Banner -->
+            <div class="atelier-marketplace-banner">
+                <div class="atelier-market-banner-text">
+                    <strong>Wallpaper & Atmosphere Marketplace</strong>
+                    <span>Browse 52+ free high-resolution space, cyberpunk, nature, and lo-fi themes.</span>
+                </div>
+                <button class="atelier-btn-primary" id="btn-atelier-open-marketplace" type="button" style="white-space:nowrap">
+                    <span>Explore 52+ Themes</span>
+                    <span>→</span>
+                </button>
+            </div>
+
             <!-- Custom Accent Color Picker -->
             <div class="accent-picker-section">
                 <div style="display:flex;align-items:center;justify-content:space-between">
@@ -6080,130 +6317,992 @@ const THEME_STORAGE_KEY = 'focus_theme_config';
 /* ── 8 Soothing Environments & Spatial Themes ── */
 const THEMES = [
     {
-        id: 'zen-mist',
-        name: 'Zen Mist',
-        sub: 'Misty Mountain Sanctuary',
-        image: 'backgrounds/zen-mist.jpg',
-        accent: '#38bdf8',
-        accentGlow: 'rgba(56, 189, 248, 0.3)',
-        liquidHue: 198,
-        tint: 'rgba(8, 14, 24, 0.64)',
-        orb1: 'rgba(56, 189, 248, 0.12)',
-        orb2: 'rgba(147, 197, 253, 0.08)',
-        orb3: 'rgba(224, 242, 254, 0.06)',
-        palette: ['#38bdf8', '#0284c7', '#080e18']
+        "id": "zen-bamboo-sanctuary",
+        "name": "Kyoto Bamboo Sanctuary",
+        "sub": "Ethereal Dawn Rays & Moss Pathway",
+        "category": "nature",
+        "image": "backgrounds/zen-bamboo-sanctuary.jpg",
+        "accent": "#10b981",
+        "accentGlow": "rgba(16, 185, 129, 0.32)",
+        "liquidHue": 155,
+        "tint": "rgba(6, 20, 14, 0.62)",
+        "orb1": "rgba(16, 185, 129, 0.14)",
+        "orb2": "rgba(52, 211, 153, 0.08)",
+        "orb3": "rgba(234, 179, 8, 0.06)",
+        "palette": [
+            "#10b981",
+            "#059669",
+            "#06140e"
+        ]
     },
     {
-        id: 'deep-forest',
-        name: 'Deep Forest',
-        sub: 'Emerald Moss & Canopy Light',
-        image: 'backgrounds/deep-forest.jpg',
-        accent: '#34d399',
-        accentGlow: 'rgba(52, 211, 153, 0.3)',
-        liquidHue: 155,
-        tint: 'rgba(5, 18, 12, 0.68)',
-        orb1: 'rgba(52, 211, 153, 0.12)',
-        orb2: 'rgba(16, 185, 129, 0.08)',
-        orb3: 'rgba(110, 231, 183, 0.06)',
-        palette: ['#34d399', '#059669', '#05120c']
+        "id": "zen-mist",
+        "name": "Zen Mist Mountain",
+        "sub": "Silent Misty Mountain Peaks",
+        "category": "nature",
+        "image": "backgrounds/zen-mist.jpg",
+        "accent": "#38bdf8",
+        "accentGlow": "rgba(56, 189, 248, 0.3)",
+        "liquidHue": 198,
+        "tint": "rgba(8, 14, 24, 0.64)",
+        "orb1": "rgba(56, 189, 248, 0.12)",
+        "orb2": "rgba(147, 197, 253, 0.08)",
+        "orb3": "rgba(224, 242, 254, 0.06)",
+        "palette": [
+            "#38bdf8",
+            "#0284c7",
+            "#080e18"
+        ]
     },
     {
-        id: 'nordic-aurora',
-        name: 'Nordic Aurora',
-        sub: 'Boreal Night & Celestial Veil',
-        image: 'backgrounds/nordic-aurora.jpg',
-        accent: '#2dd4bf',
-        accentGlow: 'rgba(45, 212, 191, 0.32)',
-        liquidHue: 172,
-        tint: 'rgba(4, 15, 22, 0.62)',
-        orb1: 'rgba(45, 212, 191, 0.14)',
-        orb2: 'rgba(168, 85, 247, 0.1)',
-        orb3: 'rgba(56, 189, 248, 0.08)',
-        palette: ['#2dd4bf', '#a855f7', '#040f16']
+        "id": "deep-forest",
+        "name": "Deep Forest Canopy",
+        "sub": "Emerald Moss & Filtered Sunbeams",
+        "category": "nature",
+        "image": "backgrounds/deep-forest.jpg",
+        "accent": "#34d399",
+        "accentGlow": "rgba(52, 211, 153, 0.3)",
+        "liquidHue": 155,
+        "tint": "rgba(5, 18, 12, 0.68)",
+        "orb1": "rgba(52, 211, 153, 0.12)",
+        "orb2": "rgba(16, 185, 129, 0.08)",
+        "orb3": "rgba(110, 231, 183, 0.06)",
+        "palette": [
+            "#34d399",
+            "#059669",
+            "#05120c"
+        ]
     },
     {
-        id: 'golden-dunes',
-        name: 'Golden Dunes',
-        sub: 'Warm Sahara Sunset Waves',
-        image: 'backgrounds/golden-dunes.jpg',
-        accent: '#fbbf24',
-        accentGlow: 'rgba(251, 191, 36, 0.32)',
-        liquidHue: 38,
-        tint: 'rgba(24, 14, 6, 0.66)',
-        orb1: 'rgba(251, 191, 36, 0.12)',
-        orb2: 'rgba(249, 115, 22, 0.08)',
-        orb3: 'rgba(217, 119, 6, 0.06)',
-        palette: ['#fbbf24', '#f97316', '#180e06']
+        "id": "rainy-window",
+        "name": "Rainy Kyoto Teahouse",
+        "sub": "Quiet Raindrops on Japanese Glass",
+        "category": "nature",
+        "image": "backgrounds/rainy-window.jpg",
+        "accent": "#818cf8",
+        "accentGlow": "rgba(129, 140, 248, 0.3)",
+        "liquidHue": 235,
+        "tint": "rgba(10, 10, 20, 0.65)",
+        "orb1": "rgba(129, 140, 248, 0.12)",
+        "orb2": "rgba(99, 102, 241, 0.08)",
+        "orb3": "rgba(199, 210, 254, 0.06)",
+        "palette": [
+            "#818cf8",
+            "#4f46e5",
+            "#0a0a14"
+        ]
     },
     {
-        id: 'rainy-window',
-        name: 'Rainy Kyoto',
-        sub: 'Quiet Raindrops on Garden Glass',
-        image: 'backgrounds/rainy-window.jpg',
-        accent: '#60a5fa',
-        accentGlow: 'rgba(96, 165, 250, 0.28)',
-        liquidHue: 210,
-        tint: 'rgba(10, 14, 26, 0.68)',
-        orb1: 'rgba(96, 165, 250, 0.1)',
-        orb2: 'rgba(129, 140, 248, 0.08)',
-        orb3: 'rgba(71, 85, 105, 0.12)',
-        palette: ['#60a5fa', '#818cf8', '#0a0e1a']
+        "id": "golden-dunes",
+        "name": "Golden Sahara Dunes",
+        "sub": "Warm Sunlit Windblown Sand Ridges",
+        "category": "nature",
+        "image": "backgrounds/golden-dunes.jpg",
+        "accent": "#fbbf24",
+        "accentGlow": "rgba(251, 191, 36, 0.32)",
+        "liquidHue": 38,
+        "tint": "rgba(24, 14, 6, 0.66)",
+        "orb1": "rgba(251, 191, 36, 0.12)",
+        "orb2": "rgba(249, 115, 22, 0.08)",
+        "orb3": "rgba(217, 119, 6, 0.06)",
+        "palette": [
+            "#fbbf24",
+            "#f97316",
+            "#180e06"
+        ]
     },
     {
-        id: 'cosmic-nebula',
-        name: 'Cosmic Nebula',
-        sub: 'Deep Starlight & Indigo Dust',
-        image: 'backgrounds/cosmic-nebula.jpg',
-        accent: '#c084fc',
-        accentGlow: 'rgba(192, 132, 252, 0.32)',
-        liquidHue: 275,
-        tint: 'rgba(12, 6, 26, 0.68)',
-        orb1: 'rgba(192, 132, 252, 0.14)',
-        orb2: 'rgba(236, 72, 153, 0.08)',
-        orb3: 'rgba(99, 102, 241, 0.1)',
-        palette: ['#c084fc', '#ec4899', '#0c061a']
+        "id": "ocean-twilight",
+        "name": "Pacific Twilight Waves",
+        "sub": "Deep Indigo Ocean Swell at Sunset",
+        "category": "nature",
+        "image": "backgrounds/ocean-twilight.jpg",
+        "accent": "#38bdf8",
+        "accentGlow": "rgba(56, 189, 248, 0.3)",
+        "liquidHue": 205,
+        "tint": "rgba(6, 12, 24, 0.68)",
+        "orb1": "rgba(56, 189, 248, 0.12)",
+        "orb2": "rgba(14, 165, 233, 0.08)",
+        "orb3": "rgba(59, 130, 246, 0.06)",
+        "palette": [
+            "#38bdf8",
+            "#0284c7",
+            "#060c18"
+        ]
     },
     {
-        id: 'stone-zen',
-        name: 'Stone Zen',
-        sub: 'Raked Sand & River Balance',
-        image: 'backgrounds/stone-zen.jpg',
-        accent: '#a3e635',
-        accentGlow: 'rgba(163, 230, 53, 0.28)',
-        liquidHue: 84,
-        tint: 'rgba(15, 18, 15, 0.7)',
-        orb1: 'rgba(163, 230, 53, 0.09)',
-        orb2: 'rgba(148, 163, 184, 0.08)',
-        orb3: 'rgba(203, 213, 225, 0.05)',
-        palette: ['#a3e635', '#65a30d', '#0f120f']
+        "id": "stone-zen",
+        "name": "Stone Zen Garden",
+        "sub": "Meditative Raked Gravel & Granite",
+        "category": "nature",
+        "image": "backgrounds/stone-zen.jpg",
+        "accent": "#94a3b8",
+        "accentGlow": "rgba(148, 163, 184, 0.28)",
+        "liquidHue": 215,
+        "tint": "rgba(15, 17, 23, 0.72)",
+        "orb1": "rgba(148, 163, 184, 0.1)",
+        "orb2": "rgba(203, 213, 225, 0.06)",
+        "orb3": "rgba(100, 116, 139, 0.05)",
+        "palette": [
+            "#94a3b8",
+            "#64748b",
+            "#0f1117"
+        ]
     },
     {
-        id: 'ocean-twilight',
-        name: 'Ocean Twilight',
-        sub: 'Midnight Tide & Phosphor Crests',
-        image: 'backgrounds/ocean-twilight.jpg',
-        accent: '#06b6d4',
-        accentGlow: 'rgba(6, 182, 212, 0.32)',
-        liquidHue: 186,
-        tint: 'rgba(4, 18, 28, 0.66)',
-        orb1: 'rgba(6, 182, 212, 0.12)',
-        orb2: 'rgba(59, 130, 246, 0.09)',
-        orb3: 'rgba(14, 165, 233, 0.07)',
-        palette: ['#06b6d4', '#3b82f6', '#04121c']
+        "id": "misty-alps",
+        "name": "Swiss Alpine Mist",
+        "sub": "Snow-Capped Granite & Valley Clouds",
+        "category": "nature",
+        "image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#67e8f9",
+        "accentGlow": "rgba(103, 232, 249, 0.32)",
+        "liquidHue": 188,
+        "tint": "rgba(10, 18, 28, 0.65)",
+        "orb1": "rgba(103, 232, 249, 0.12)",
+        "orb2": "rgba(56, 189, 248, 0.08)",
+        "orb3": "rgba(186, 230, 253, 0.05)",
+        "palette": [
+            "#67e8f9",
+            "#06b6d4",
+            "#0a121c"
+        ]
     },
     {
-        id: 'dark-minimal',
-        name: 'Dark Minimal',
-        sub: 'Pure OLED Glass & Subtle Orbs',
-        image: null,
-        accent: '#0a84ff',
-        accentGlow: 'rgba(10, 132, 255, 0.25)',
-        liquidHue: 195,
-        tint: 'rgba(8, 8, 15, 0.95)',
-        orb1: 'rgba(10, 132, 255, 0.07)',
-        orb2: 'rgba(94, 92, 230, 0.05)',
-        orb3: 'rgba(48, 209, 88, 0.035)',
-        palette: ['#0a84ff', '#5e5ce6', '#08080f']
+        "id": "cherry-blossom",
+        "name": "Sakura Night Garden",
+        "sub": "Soft Pink Cherry Blossoms Under Stars",
+        "category": "nature",
+        "image": "https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f472b6",
+        "accentGlow": "rgba(244, 114, 182, 0.34)",
+        "liquidHue": 330,
+        "tint": "rgba(26, 10, 20, 0.64)",
+        "orb1": "rgba(244, 114, 182, 0.14)",
+        "orb2": "rgba(251, 113, 133, 0.09)",
+        "orb3": "rgba(244, 63, 94, 0.06)",
+        "palette": [
+            "#f472b6",
+            "#db2777",
+            "#1a0a14"
+        ]
+    },
+    {
+        "id": "arctic-glacier",
+        "name": "Nordic Blue Glacier",
+        "sub": "Ancient Crystalline Ice Caverns",
+        "category": "nature",
+        "image": "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#38bdf8",
+        "accentGlow": "rgba(56, 189, 248, 0.35)",
+        "liquidHue": 200,
+        "tint": "rgba(4, 16, 28, 0.66)",
+        "orb1": "rgba(56, 189, 248, 0.14)",
+        "orb2": "rgba(14, 165, 233, 0.09)",
+        "orb3": "rgba(186, 230, 253, 0.06)",
+        "palette": [
+            "#38bdf8",
+            "#0284c7",
+            "#04101c"
+        ]
+    },
+    {
+        "id": "cosmic-stellar-void",
+        "name": "Stellar Nebula Void",
+        "sub": "Violet Interstellar Clouds & Stardust",
+        "category": "cosmic",
+        "image": "backgrounds/cosmic-stellar-void.jpg",
+        "accent": "#a855f7",
+        "accentGlow": "rgba(168, 85, 247, 0.35)",
+        "liquidHue": 275,
+        "tint": "rgba(12, 6, 26, 0.65)",
+        "orb1": "rgba(168, 85, 247, 0.16)",
+        "orb2": "rgba(56, 189, 248, 0.12)",
+        "orb3": "rgba(236, 72, 153, 0.08)",
+        "palette": [
+            "#a855f7",
+            "#38bdf8",
+            "#0c061a"
+        ]
+    },
+    {
+        "id": "cosmic-nebula",
+        "name": "Deep Space Nebula",
+        "sub": "Orion Starfield & Gaseous Nursery",
+        "category": "cosmic",
+        "image": "backgrounds/cosmic-nebula.jpg",
+        "accent": "#c084fc",
+        "accentGlow": "rgba(192, 132, 252, 0.32)",
+        "liquidHue": 270,
+        "tint": "rgba(14, 8, 28, 0.65)",
+        "orb1": "rgba(192, 132, 252, 0.14)",
+        "orb2": "rgba(147, 51, 234, 0.1)",
+        "orb3": "rgba(232, 121, 249, 0.06)",
+        "palette": [
+            "#c084fc",
+            "#9333ea",
+            "#0e081c"
+        ]
+    },
+    {
+        "id": "andromeda-galaxy",
+        "name": "Andromeda Spiral",
+        "sub": "Trillion Stars in Celestial Motion",
+        "category": "cosmic",
+        "image": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#818cf8",
+        "accentGlow": "rgba(129, 140, 248, 0.32)",
+        "liquidHue": 240,
+        "tint": "rgba(8, 8, 24, 0.68)",
+        "orb1": "rgba(129, 140, 248, 0.14)",
+        "orb2": "rgba(168, 85, 247, 0.09)",
+        "orb3": "rgba(59, 130, 246, 0.06)",
+        "palette": [
+            "#818cf8",
+            "#6366f1",
+            "#080818"
+        ]
+    },
+    {
+        "id": "pillars-creation",
+        "name": "Pillars of Creation",
+        "sub": "Towering Gas Columns in Eagle Nebula",
+        "category": "cosmic",
+        "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#38bdf8",
+        "accentGlow": "rgba(56, 189, 248, 0.34)",
+        "liquidHue": 205,
+        "tint": "rgba(4, 14, 28, 0.68)",
+        "orb1": "rgba(56, 189, 248, 0.15)",
+        "orb2": "rgba(14, 165, 233, 0.1)",
+        "orb3": "rgba(99, 102, 241, 0.06)",
+        "palette": [
+            "#38bdf8",
+            "#0284c7",
+            "#040e1c"
+        ]
+    },
+    {
+        "id": "lunar-eclipse",
+        "name": "Blood Moon Eclipse",
+        "sub": "Atmospheric Earth Shadow on the Moon",
+        "category": "cosmic",
+        "image": "https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f43f5e",
+        "accentGlow": "rgba(244, 63, 94, 0.35)",
+        "liquidHue": 350,
+        "tint": "rgba(26, 6, 10, 0.68)",
+        "orb1": "rgba(244, 63, 94, 0.15)",
+        "orb2": "rgba(225, 29, 72, 0.1)",
+        "orb3": "rgba(249, 115, 22, 0.06)",
+        "palette": [
+            "#f43f5e",
+            "#be123c",
+            "#1a060a"
+        ]
+    },
+    {
+        "id": "pulsar-core",
+        "name": "Pulsar Magnetosphere",
+        "sub": "High-Energy Relativistic Jet Beam",
+        "category": "cosmic",
+        "image": "https://images.unsplash.com/photo-1543722530-d2c3201371e7?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#06b6d4",
+        "accentGlow": "rgba(6, 182, 212, 0.35)",
+        "liquidHue": 190,
+        "tint": "rgba(4, 18, 24, 0.66)",
+        "orb1": "rgba(6, 182, 212, 0.16)",
+        "orb2": "rgba(14, 165, 233, 0.1)",
+        "orb3": "rgba(99, 102, 241, 0.06)",
+        "palette": [
+            "#06b6d4",
+            "#0891b2",
+            "#041218"
+        ]
+    },
+    {
+        "id": "mars-sol",
+        "name": "Martian Horizon Sol",
+        "sub": "Rusty Iron Dunes & Sunset Blue Halo",
+        "category": "cosmic",
+        "image": "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f97316",
+        "accentGlow": "rgba(249, 115, 22, 0.32)",
+        "liquidHue": 25,
+        "tint": "rgba(26, 10, 4, 0.68)",
+        "orb1": "rgba(249, 115, 22, 0.14)",
+        "orb2": "rgba(234, 88, 12, 0.09)",
+        "orb3": "rgba(56, 189, 248, 0.06)",
+        "palette": [
+            "#f97316",
+            "#c2410c",
+            "#1a0a04"
+        ]
+    },
+    {
+        "id": "solar-corona",
+        "name": "Solar Flare Corona",
+        "sub": "Magnetic Loops & Thermonuclear Fire",
+        "category": "cosmic",
+        "image": "https://images.unsplash.com/photo-1538370965046-79c0d6907d47?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#eab308",
+        "accentGlow": "rgba(234, 179, 8, 0.32)",
+        "liquidHue": 48,
+        "tint": "rgba(24, 16, 4, 0.68)",
+        "orb1": "rgba(234, 179, 8, 0.14)",
+        "orb2": "rgba(249, 115, 22, 0.1)",
+        "orb3": "rgba(239, 68, 68, 0.06)",
+        "palette": [
+            "#eab308",
+            "#ca8a04",
+            "#181004"
+        ]
+    },
+    {
+        "id": "dark-matter-web",
+        "name": "Cosmic Web Filaments",
+        "sub": "Gravitational Scaffolding of the Universe",
+        "category": "cosmic",
+        "image": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#8b5cf6",
+        "accentGlow": "rgba(139, 92, 246, 0.32)",
+        "liquidHue": 260,
+        "tint": "rgba(10, 6, 22, 0.72)",
+        "orb1": "rgba(139, 92, 246, 0.14)",
+        "orb2": "rgba(99, 102, 241, 0.08)",
+        "orb3": "rgba(192, 132, 252, 0.05)",
+        "palette": [
+            "#8b5cf6",
+            "#6d28d9",
+            "#0a0616"
+        ]
+    },
+    {
+        "id": "milkyway-arch",
+        "name": "Milky Way Observatory",
+        "sub": "Galactic Core Over Dark Desert Sky",
+        "category": "cosmic",
+        "image": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#a78bfa",
+        "accentGlow": "rgba(167, 139, 250, 0.32)",
+        "liquidHue": 255,
+        "tint": "rgba(8, 8, 20, 0.68)",
+        "orb1": "rgba(167, 139, 250, 0.14)",
+        "orb2": "rgba(192, 132, 252, 0.09)",
+        "orb3": "rgba(56, 189, 248, 0.06)",
+        "palette": [
+            "#a78bfa",
+            "#7c3aed",
+            "#080814"
+        ]
+    },
+    {
+        "id": "cyberpunk-neo-tokyo",
+        "name": "Neo Tokyo Midnight",
+        "sub": "Rainy Cyber Street & Cyan Neon Glow",
+        "category": "cyberpunk",
+        "image": "backgrounds/cyberpunk-neo-tokyo.jpg",
+        "accent": "#06b6d4",
+        "accentGlow": "rgba(6, 182, 212, 0.35)",
+        "liquidHue": 188,
+        "tint": "rgba(4, 14, 24, 0.65)",
+        "orb1": "rgba(6, 182, 212, 0.16)",
+        "orb2": "rgba(236, 72, 153, 0.12)",
+        "orb3": "rgba(56, 189, 248, 0.08)",
+        "palette": [
+            "#06b6d4",
+            "#ec4899",
+            "#040e18"
+        ]
+    },
+    {
+        "id": "shinjuku-overdrive",
+        "name": "Shinjuku Cyberflow",
+        "sub": "High-Density Neon Hologram Canyon",
+        "category": "cyberpunk",
+        "image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f43f5e",
+        "accentGlow": "rgba(244, 63, 94, 0.35)",
+        "liquidHue": 345,
+        "tint": "rgba(20, 4, 12, 0.66)",
+        "orb1": "rgba(244, 63, 94, 0.16)",
+        "orb2": "rgba(6, 182, 212, 0.1)",
+        "orb3": "rgba(168, 85, 247, 0.06)",
+        "palette": [
+            "#f43f5e",
+            "#06b6d4",
+            "#14040c"
+        ]
+    },
+    {
+        "id": "blade-runner-rain",
+        "name": "Blade Runner Drizzle",
+        "sub": "Retro Noir Cyberpunk Skyscrapers",
+        "category": "cyberpunk",
+        "image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#0ea5e9",
+        "accentGlow": "rgba(14, 165, 233, 0.34)",
+        "liquidHue": 200,
+        "tint": "rgba(6, 14, 22, 0.68)",
+        "orb1": "rgba(14, 165, 233, 0.14)",
+        "orb2": "rgba(244, 63, 94, 0.09)",
+        "orb3": "rgba(168, 85, 247, 0.06)",
+        "palette": [
+            "#0ea5e9",
+            "#f43f5e",
+            "#060e16"
+        ]
+    },
+    {
+        "id": "synthwave-highway",
+        "name": "Synthwave Grid Highway",
+        "sub": "Outrun Palm Trees & Wireframe Horizon",
+        "category": "cyberpunk",
+        "image": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#d946ef",
+        "accentGlow": "rgba(217, 70, 239, 0.35)",
+        "liquidHue": 290,
+        "tint": "rgba(20, 4, 26, 0.68)",
+        "orb1": "rgba(217, 70, 239, 0.16)",
+        "orb2": "rgba(56, 189, 248, 0.12)",
+        "orb3": "rgba(249, 115, 22, 0.08)",
+        "palette": [
+            "#d946ef",
+            "#38bdf8",
+            "#14041a"
+        ]
+    },
+    {
+        "id": "hongkong-neon",
+        "name": "Kowloon Neon Density",
+        "sub": "Overhead Glowing Signs & Humid Night",
+        "category": "cyberpunk",
+        "image": "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#10b981",
+        "accentGlow": "rgba(16, 185, 129, 0.34)",
+        "liquidHue": 158,
+        "tint": "rgba(4, 18, 14, 0.68)",
+        "orb1": "rgba(16, 185, 129, 0.15)",
+        "orb2": "rgba(244, 63, 94, 0.1)",
+        "orb3": "rgba(234, 179, 8, 0.06)",
+        "palette": [
+            "#10b981",
+            "#f43f5e",
+            "#04120e"
+        ]
+    },
+    {
+        "id": "matrix-dataflow",
+        "name": "Matrix Data Stream",
+        "sub": "Cascading Phosphor Digital Rain",
+        "category": "cyberpunk",
+        "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#22c55e",
+        "accentGlow": "rgba(34, 197, 94, 0.36)",
+        "liquidHue": 142,
+        "tint": "rgba(2, 16, 6, 0.72)",
+        "orb1": "rgba(34, 197, 94, 0.16)",
+        "orb2": "rgba(16, 185, 129, 0.1)",
+        "orb3": "rgba(74, 222, 128, 0.06)",
+        "palette": [
+            "#22c55e",
+            "#16a34a",
+            "#021006"
+        ]
+    },
+    {
+        "id": "cyber-arcade",
+        "name": "Holographic Arcade 2084",
+        "sub": "CRT Glow & Retro Gaming Cabinets",
+        "category": "cyberpunk",
+        "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#ec4899",
+        "accentGlow": "rgba(236, 72, 153, 0.35)",
+        "liquidHue": 330,
+        "tint": "rgba(18, 4, 18, 0.68)",
+        "orb1": "rgba(236, 72, 153, 0.15)",
+        "orb2": "rgba(56, 189, 248, 0.1)",
+        "orb3": "rgba(234, 179, 8, 0.06)",
+        "palette": [
+            "#ec4899",
+            "#38bdf8",
+            "#120412"
+        ]
+    },
+    {
+        "id": "tokyo-tower-night",
+        "name": "Tokyo Tower Crimson",
+        "sub": "Illuminated Spire Over City Skyline",
+        "category": "cyberpunk",
+        "image": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#ef4444",
+        "accentGlow": "rgba(239, 68, 68, 0.35)",
+        "liquidHue": 0,
+        "tint": "rgba(22, 6, 6, 0.68)",
+        "orb1": "rgba(239, 68, 68, 0.15)",
+        "orb2": "rgba(249, 115, 22, 0.1)",
+        "orb3": "rgba(168, 85, 247, 0.05)",
+        "palette": [
+            "#ef4444",
+            "#dc2626",
+            "#160606"
+        ]
+    },
+    {
+        "id": "cyber-metro",
+        "name": "Cyber Subway Transit",
+        "sub": "Subterranean Tube With Fluorescent Glow",
+        "category": "cyberpunk",
+        "image": "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f59e0b",
+        "accentGlow": "rgba(245, 158, 11, 0.34)",
+        "liquidHue": 38,
+        "tint": "rgba(20, 14, 4, 0.68)",
+        "orb1": "rgba(245, 158, 11, 0.15)",
+        "orb2": "rgba(234, 88, 12, 0.09)",
+        "orb3": "rgba(6, 182, 212, 0.06)",
+        "palette": [
+            "#f59e0b",
+            "#d97706",
+            "#140e04"
+        ]
+    },
+    {
+        "id": "obsidian-monolith",
+        "name": "Obsidian Monolith",
+        "sub": "Pure Black Titanium Minimalist Glass",
+        "category": "minimal",
+        "image": "",
+        "accent": "#38bdf8",
+        "accentGlow": "rgba(56, 189, 248, 0.28)",
+        "liquidHue": 198,
+        "tint": "rgba(6, 8, 14, 0.88)",
+        "orb1": "rgba(56, 189, 248, 0.08)",
+        "orb2": "rgba(99, 102, 241, 0.06)",
+        "orb3": "rgba(255, 255, 255, 0.03)",
+        "palette": [
+            "#38bdf8",
+            "#0284c7",
+            "#06080e"
+        ]
+    },
+    {
+        "id": "studio-minimal",
+        "name": "Industrial Studio Minimal",
+        "sub": "Brushed Aluminum & Pure Clean Space",
+        "category": "minimal",
+        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#e2e8f0",
+        "accentGlow": "rgba(226, 232, 240, 0.28)",
+        "liquidHue": 215,
+        "tint": "rgba(12, 14, 18, 0.72)",
+        "orb1": "rgba(226, 232, 240, 0.08)",
+        "orb2": "rgba(148, 163, 184, 0.06)",
+        "orb3": "rgba(255, 255, 255, 0.04)",
+        "palette": [
+            "#e2e8f0",
+            "#94a3b8",
+            "#0c0e12"
+        ]
+    },
+    {
+        "id": "brutalist-concrete",
+        "name": "Brutalist Concrete Arch",
+        "sub": "Monolithic Shadows & Architectural Lines",
+        "category": "minimal",
+        "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#94a3b8",
+        "accentGlow": "rgba(148, 163, 184, 0.26)",
+        "liquidHue": 215,
+        "tint": "rgba(16, 18, 22, 0.75)",
+        "orb1": "rgba(148, 163, 184, 0.09)",
+        "orb2": "rgba(203, 213, 225, 0.06)",
+        "orb3": "rgba(71, 85, 105, 0.04)",
+        "palette": [
+            "#94a3b8",
+            "#64748b",
+            "#101216"
+        ]
+    },
+    {
+        "id": "bauhaus-grid",
+        "name": "Bauhaus Spatial Geometry",
+        "sub": "Pure Contrast, Asymmetry & Rhythm",
+        "category": "minimal",
+        "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f59e0b",
+        "accentGlow": "rgba(245, 158, 11, 0.3)",
+        "liquidHue": 38,
+        "tint": "rgba(14, 14, 18, 0.72)",
+        "orb1": "rgba(245, 158, 11, 0.12)",
+        "orb2": "rgba(239, 68, 68, 0.08)",
+        "orb3": "rgba(59, 130, 246, 0.06)",
+        "palette": [
+            "#f59e0b",
+            "#ef4444",
+            "#0e0e12"
+        ]
+    },
+    {
+        "id": "scandinavian-loft",
+        "name": "Nordic Oak & Linen",
+        "sub": "Warm Ash Wood & Sunlight Gradients",
+        "category": "minimal",
+        "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#d97706",
+        "accentGlow": "rgba(217, 119, 6, 0.3)",
+        "liquidHue": 34,
+        "tint": "rgba(20, 16, 12, 0.68)",
+        "orb1": "rgba(217, 119, 6, 0.12)",
+        "orb2": "rgba(245, 158, 11, 0.08)",
+        "orb3": "rgba(251, 191, 36, 0.05)",
+        "palette": [
+            "#d97706",
+            "#b45309",
+            "#14100c"
+        ]
+    },
+    {
+        "id": "titanium-stealth",
+        "name": "Titanium Stealth Lab",
+        "sub": "Matte Carbon Fiber & Aircraft Alloy",
+        "category": "minimal",
+        "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#64748b",
+        "accentGlow": "rgba(100, 116, 139, 0.28)",
+        "liquidHue": 215,
+        "tint": "rgba(8, 10, 14, 0.82)",
+        "orb1": "rgba(100, 116, 139, 0.1)",
+        "orb2": "rgba(148, 163, 184, 0.06)",
+        "orb3": "rgba(255, 255, 255, 0.03)",
+        "palette": [
+            "#64748b",
+            "#475569",
+            "#080a0e"
+        ]
+    },
+    {
+        "id": "frosted-pavilion",
+        "name": "Frosted Glass Pavilion",
+        "sub": "Translucent Acrylic & Diffused Horizon",
+        "category": "minimal",
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#06b6d4",
+        "accentGlow": "rgba(6, 182, 212, 0.3)",
+        "liquidHue": 190,
+        "tint": "rgba(8, 16, 24, 0.68)",
+        "orb1": "rgba(6, 182, 212, 0.12)",
+        "orb2": "rgba(56, 189, 248, 0.08)",
+        "orb3": "rgba(207, 250, 254, 0.05)",
+        "palette": [
+            "#06b6d4",
+            "#0891b2",
+            "#081018"
+        ]
+    },
+    {
+        "id": "pure-zen-obsidian",
+        "name": "Pure OLED Zero",
+        "sub": "Infinite Contrast Absolute True Black",
+        "category": "minimal",
+        "image": "",
+        "accent": "#0a84ff",
+        "accentGlow": "rgba(10, 132, 255, 0.26)",
+        "liquidHue": 210,
+        "tint": "rgba(0, 0, 0, 0.98)",
+        "orb1": "rgba(10, 132, 255, 0.05)",
+        "orb2": "rgba(255, 255, 255, 0.02)",
+        "orb3": "rgba(0, 0, 0, 0)",
+        "palette": [
+            "#0a84ff",
+            "#0066cc",
+            "#000000"
+        ]
+    },
+    {
+        "id": "lofi-coffee-rain",
+        "name": "Midnight Espresso Bar",
+        "sub": "Warm Steam, Rainy Street & Amber Bulbs",
+        "category": "lofi",
+        "image": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f59e0b",
+        "accentGlow": "rgba(245, 158, 11, 0.32)",
+        "liquidHue": 38,
+        "tint": "rgba(22, 14, 8, 0.68)",
+        "orb1": "rgba(245, 158, 11, 0.14)",
+        "orb2": "rgba(217, 119, 6, 0.09)",
+        "orb3": "rgba(251, 191, 36, 0.05)",
+        "palette": [
+            "#f59e0b",
+            "#d97706",
+            "#160e08"
+        ]
+    },
+    {
+        "id": "vinyl-listening-room",
+        "name": "Vinyl Lounge & Turntable",
+        "sub": "Warm Analog Crackle & Rosewood Cabinet",
+        "category": "lofi",
+        "image": "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#fb923c",
+        "accentGlow": "rgba(251, 146, 60, 0.32)",
+        "liquidHue": 28,
+        "tint": "rgba(22, 12, 6, 0.68)",
+        "orb1": "rgba(251, 146, 60, 0.14)",
+        "orb2": "rgba(234, 88, 12, 0.09)",
+        "orb3": "rgba(253, 186, 116, 0.05)",
+        "palette": [
+            "#fb923c",
+            "#ea580c",
+            "#160c06"
+        ]
+    },
+    {
+        "id": "attic-library-study",
+        "name": "Old Attic Book Nook",
+        "sub": "Leatherbound Tomes & Rain on Skylight",
+        "category": "lofi",
+        "image": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#d97706",
+        "accentGlow": "rgba(217, 119, 6, 0.32)",
+        "liquidHue": 34,
+        "tint": "rgba(20, 14, 8, 0.7)",
+        "orb1": "rgba(217, 119, 6, 0.14)",
+        "orb2": "rgba(180, 83, 9, 0.09)",
+        "orb3": "rgba(251, 191, 36, 0.05)",
+        "palette": [
+            "#d97706",
+            "#b45309",
+            "#140e08"
+        ]
+    },
+    {
+        "id": "campfire-stargaze",
+        "name": "Pine Woods Campfire",
+        "sub": "Flickering Embers Under Summer Milky Way",
+        "category": "lofi",
+        "image": "https://images.unsplash.com/photo-1508873696983-2df5293cb325?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f97316",
+        "accentGlow": "rgba(249, 115, 22, 0.34)",
+        "liquidHue": 24,
+        "tint": "rgba(24, 10, 4, 0.68)",
+        "orb1": "rgba(249, 115, 22, 0.15)",
+        "orb2": "rgba(234, 179, 8, 0.1)",
+        "orb3": "rgba(239, 68, 68, 0.06)",
+        "palette": [
+            "#f97316",
+            "#ea580c",
+            "#180a04"
+        ]
+    },
+    {
+        "id": "train-sunset-window",
+        "name": "Shinkansen Dusk Horizon",
+        "sub": "Evening Commute Through Golden Rice Fields",
+        "category": "lofi",
+        "image": "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f43f5e",
+        "accentGlow": "rgba(244, 63, 94, 0.32)",
+        "liquidHue": 345,
+        "tint": "rgba(24, 8, 14, 0.66)",
+        "orb1": "rgba(244, 63, 94, 0.14)",
+        "orb2": "rgba(251, 146, 60, 0.09)",
+        "orb3": "rgba(245, 158, 11, 0.06)",
+        "palette": [
+            "#f43f5e",
+            "#e11d48",
+            "#18080e"
+        ]
+    },
+    {
+        "id": "lofi-bedroom-desk",
+        "name": "Late Night Coding Desk",
+        "sub": "Warm Desk Lamp & Monitor Amber Glow",
+        "category": "lofi",
+        "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#38bdf8",
+        "accentGlow": "rgba(56, 189, 248, 0.32)",
+        "liquidHue": 200,
+        "tint": "rgba(8, 14, 24, 0.68)",
+        "orb1": "rgba(56, 189, 248, 0.14)",
+        "orb2": "rgba(251, 191, 36, 0.09)",
+        "orb3": "rgba(129, 140, 248, 0.05)",
+        "palette": [
+            "#38bdf8",
+            "#0284c7",
+            "#080e18"
+        ]
+    },
+    {
+        "id": "autumn-tea-leaves",
+        "name": "Autumn Maple Tearoom",
+        "sub": "Crimson Japanese Maples & Steaming Tea",
+        "category": "lofi",
+        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#ea580c",
+        "accentGlow": "rgba(234, 88, 12, 0.34)",
+        "liquidHue": 22,
+        "tint": "rgba(26, 10, 6, 0.68)",
+        "orb1": "rgba(234, 88, 12, 0.15)",
+        "orb2": "rgba(220, 38, 38, 0.1)",
+        "orb3": "rgba(245, 158, 11, 0.06)",
+        "palette": [
+            "#ea580c",
+            "#c2410c",
+            "#1a0a06"
+        ]
+    },
+    {
+        "id": "ghibli-summer-cloud",
+        "name": "Summer Wind & Cumulus",
+        "sub": "Nostalgic Coastal Sky & Grassy Hills",
+        "category": "lofi",
+        "image": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#0ea5e9",
+        "accentGlow": "rgba(14, 165, 233, 0.32)",
+        "liquidHue": 198,
+        "tint": "rgba(6, 16, 26, 0.64)",
+        "orb1": "rgba(14, 165, 233, 0.14)",
+        "orb2": "rgba(34, 197, 94, 0.09)",
+        "orb3": "rgba(253, 224, 71, 0.05)",
+        "palette": [
+            "#0ea5e9",
+            "#0284c7",
+            "#06101a"
+        ]
+    },
+    {
+        "id": "nordic-aurora",
+        "name": "Nordic Aurora Borealis",
+        "sub": "Boreal Night & Celestial Emerald Veil",
+        "category": "aurora",
+        "image": "backgrounds/nordic-aurora.jpg",
+        "accent": "#2dd4bf",
+        "accentGlow": "rgba(45, 212, 191, 0.32)",
+        "liquidHue": 172,
+        "tint": "rgba(4, 15, 22, 0.62)",
+        "orb1": "rgba(45, 212, 191, 0.14)",
+        "orb2": "rgba(168, 85, 247, 0.1)",
+        "orb3": "rgba(56, 189, 248, 0.08)",
+        "palette": [
+            "#2dd4bf",
+            "#a855f7",
+            "#040f16"
+        ]
+    },
+    {
+        "id": "bioluminescent-bay",
+        "name": "Bioluminescent Shoreline",
+        "sub": "Glowing Cyan Plankton Breaking on Sand",
+        "category": "aurora",
+        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#06b6d4",
+        "accentGlow": "rgba(6, 182, 212, 0.36)",
+        "liquidHue": 188,
+        "tint": "rgba(4, 14, 24, 0.66)",
+        "orb1": "rgba(6, 182, 212, 0.16)",
+        "orb2": "rgba(56, 189, 248, 0.11)",
+        "orb3": "rgba(168, 85, 247, 0.06)",
+        "palette": [
+            "#06b6d4",
+            "#0891b2",
+            "#040e18"
+        ]
+    },
+    {
+        "id": "prismatic-refraction",
+        "name": "Prismatic Glass Caustic",
+        "sub": "Dispersion Spectrum & Radiant Crystal",
+        "category": "aurora",
+        "image": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#ec4899",
+        "accentGlow": "rgba(236, 72, 153, 0.34)",
+        "liquidHue": 330,
+        "tint": "rgba(16, 8, 20, 0.68)",
+        "orb1": "rgba(236, 72, 153, 0.15)",
+        "orb2": "rgba(56, 189, 248, 0.11)",
+        "orb3": "rgba(234, 179, 8, 0.07)",
+        "palette": [
+            "#ec4899",
+            "#38bdf8",
+            "#100814"
+        ]
+    },
+    {
+        "id": "velvet-lavender-mesh",
+        "name": "Velvet Lavender Fluid",
+        "sub": "Smooth Liquid Silk Mesh Gradient",
+        "category": "aurora",
+        "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#c084fc",
+        "accentGlow": "rgba(192, 132, 252, 0.32)",
+        "liquidHue": 275,
+        "tint": "rgba(14, 6, 24, 0.68)",
+        "orb1": "rgba(192, 132, 252, 0.15)",
+        "orb2": "rgba(147, 51, 234, 0.1)",
+        "orb3": "rgba(244, 114, 182, 0.06)",
+        "palette": [
+            "#c084fc",
+            "#9333ea",
+            "#0e0618"
+        ]
+    },
+    {
+        "id": "solar-amber-gradient",
+        "name": "Solar Amber Flare Mesh",
+        "sub": "Golden Ratio Warm Atmospheric Glow",
+        "category": "aurora",
+        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#f59e0b",
+        "accentGlow": "rgba(245, 158, 11, 0.32)",
+        "liquidHue": 38,
+        "tint": "rgba(22, 14, 6, 0.66)",
+        "orb1": "rgba(245, 158, 11, 0.14)",
+        "orb2": "rgba(239, 68, 68, 0.09)",
+        "orb3": "rgba(251, 191, 36, 0.05)",
+        "palette": [
+            "#f59e0b",
+            "#ef4444",
+            "#160e06"
+        ]
+    },
+    {
+        "id": "emerald-abyss",
+        "name": "Emerald Deep Abyss",
+        "sub": "Deep Oceanic Green & Luminous Shimmer",
+        "category": "aurora",
+        "image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#10b981",
+        "accentGlow": "rgba(16, 185, 129, 0.34)",
+        "liquidHue": 160,
+        "tint": "rgba(4, 18, 14, 0.68)",
+        "orb1": "rgba(16, 185, 129, 0.15)",
+        "orb2": "rgba(6, 182, 212, 0.1)",
+        "orb3": "rgba(52, 211, 153, 0.06)",
+        "palette": [
+            "#10b981",
+            "#059669",
+            "#04120e"
+        ]
+    },
+    {
+        "id": "twilight-spectrum",
+        "name": "Twilight Horizon Ray",
+        "sub": "Violet-Orange Dusk Boundary Layer",
+        "category": "aurora",
+        "image": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1920&q=80",
+        "accent": "#8b5cf6",
+        "accentGlow": "rgba(139, 92, 246, 0.34)",
+        "liquidHue": 265,
+        "tint": "rgba(16, 6, 24, 0.66)",
+        "orb1": "rgba(139, 92, 246, 0.15)",
+        "orb2": "rgba(244, 63, 94, 0.1)",
+        "orb3": "rgba(56, 189, 248, 0.06)",
+        "palette": [
+            "#8b5cf6",
+            "#f43f5e",
+            "#100618"
+        ]
     }
 ];
 
@@ -12931,6 +14030,210 @@ const DiscoveryEngine = {
 };
 
 
+
+/* ═════════════════════════════════════════════════════════════════
+   FOCUSR WALLPAPER & ATMOSPHERE MARKETPLACE CONTROLLER
+   ═════════════════════════════════════════════════════════════════ */
+const WallpaperMarketplace = {
+    activeCategory: 'all',
+    searchQuery: '',
+    previewThemeId: null,
+
+    init() {
+        const btnOpen = $('btn-open-marketplace');
+        const btnAtelier = $('btn-atelier-open-marketplace');
+        const btnClose = $('wallpaper-marketplace-close');
+        const backdrop = $('wallpaper-marketplace-backdrop');
+        const searchInput = $('market-search-input');
+
+        if (btnOpen) btnOpen.addEventListener('click', () => this.open());
+        if (btnAtelier) {
+            btnAtelier.addEventListener('click', () => {
+                const atelierModal = $('theme-modal-backdrop');
+                if (atelierModal) atelierModal.classList.remove('active');
+                this.open();
+            });
+        }
+        if (btnClose) btnClose.addEventListener('click', () => this.close());
+
+        if (backdrop) {
+            backdrop.addEventListener('click', (e) => {
+                if (e.target === backdrop) this.close();
+            });
+        }
+
+        // Keyboard Escape key support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && backdrop && backdrop.classList.contains('active')) {
+                this.close();
+            }
+        });
+
+        // Search Input live filter
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.searchQuery = (e.target.value || '').trim().toLowerCase();
+                this.renderGrid();
+            });
+        }
+
+        // Category filter pills
+        const categoryPills = document.querySelectorAll('.market-cat-pill');
+        categoryPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                categoryPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                this.activeCategory = pill.dataset.category || 'all';
+                this.renderGrid();
+            });
+        });
+
+        console.log('WallpaperMarketplace initialized with 52 themes');
+    },
+
+    open() {
+        const backdrop = $('wallpaper-marketplace-backdrop');
+        if (!backdrop) return;
+        backdrop.classList.add('active');
+        this.renderGrid();
+        const searchInput = $('market-search-input');
+        if (searchInput) {
+            setTimeout(() => searchInput.focus(), 150);
+        }
+    },
+
+    close() {
+        const backdrop = $('wallpaper-marketplace-backdrop');
+        if (!backdrop) return;
+        backdrop.classList.remove('active');
+
+        // Restore original theme if user was previewing
+        if (this.previewThemeId) {
+            const activeTheme = getActiveTheme();
+            const bgImgEl = $('backdrop-image');
+            if (bgImgEl && activeTheme) {
+                if (activeTheme.image) {
+                    bgImgEl.style.backgroundImage = 'url("' + activeTheme.image + '")';
+                    bgImgEl.style.display = 'block';
+                } else {
+                    bgImgEl.style.backgroundImage = 'none';
+                    bgImgEl.style.display = 'none';
+                }
+            }
+            this.previewThemeId = null;
+        }
+    },
+
+    renderGrid() {
+        const container = $('market-wallpapers-grid');
+        if (!container) return;
+
+        const activeId = (themeConfig && themeConfig.themeId) || 'zen-mist';
+
+        const filtered = THEMES.filter(t => {
+            // Category filter
+            if (this.activeCategory !== 'all') {
+                if (t.category !== this.activeCategory) return false;
+            }
+            // Search query filter
+            if (this.searchQuery) {
+                const q = this.searchQuery;
+                const matchName = (t.name || '').toLowerCase().includes(q);
+                const matchSub = (t.sub || '').toLowerCase().includes(q);
+                const matchCategory = (t.category || '').toLowerCase().includes(q);
+                if (!matchName && !matchSub && !matchCategory) return false;
+            }
+            return true;
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-dim)">
+                    <div style="font-size:2rem;margin-bottom:0.5rem">✦</div>
+                    <strong style="display:block;font-size:1rem;color:#fff;margin-bottom:0.25rem">No matching atmospheres found</strong>
+                    <span>Try searching for "kyoto", "nebula", "rain", or select "All Atmospheres".</span>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = filtered.map(t => {
+            const isActive = t.id === activeId;
+            const dots = (t.palette || []).map(c => '<span class="market-palette-dot" style="background:' + c + '"></span>').join('');
+            const thumb = t.image 
+                ? '<img src="' + t.image + '" alt="' + t.name + '" loading="lazy" class="market-card-img">'
+                : '<div class="market-card-fallback-thumb" style="background:' + ((t.palette && t.palette[2]) || '#090a0f') + '">✦</div>';
+
+            return `
+                <div class="market-wallpaper-card ${isActive ? 'active' : ''}" data-theme-id="${t.id}">
+                    <div class="market-card-thumb-wrap">
+                        ${thumb}
+                        <div class="market-card-free-tag">FREE</div>
+                        ${isActive ? '<div class="market-card-active-badge">✓ Active</div>' : ''}
+                        <div class="market-card-hover-overlay">
+                            <button class="market-btn-apply" data-theme-id="${t.id}">
+                                <span>${isActive ? 'Active Atmosphere' : 'Apply Atmosphere'}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="market-card-info">
+                        <div class="market-card-header-row">
+                            <span class="market-card-title">${t.name}</span>
+                            <div class="market-palette-dots">${dots}</div>
+                        </div>
+                        <div class="market-card-sub">${t.sub || ''}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Attach click listeners to cards and apply buttons
+        container.querySelectorAll('.market-wallpaper-card').forEach(card => {
+            const themeId = card.dataset.themeId;
+
+            // Live preview on hover
+            card.addEventListener('mouseenter', () => {
+                const t = THEMES.find(x => x.id === themeId);
+                if (t && t.image) {
+                    this.previewThemeId = themeId;
+                    const bgImgEl = $('backdrop-image');
+                    if (bgImgEl) {
+                        bgImgEl.style.backgroundImage = 'url("' + t.image + '")';
+                        bgImgEl.style.display = 'block';
+                    }
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                if (this.previewThemeId && this.previewThemeId !== activeId) {
+                    const activeTheme = getActiveTheme();
+                    const bgImgEl = $('backdrop-image');
+                    if (bgImgEl) {
+                        if (activeTheme && activeTheme.image) {
+                            bgImgEl.style.backgroundImage = 'url("' + activeTheme.image + '")';
+                            bgImgEl.style.display = 'block';
+                        } else {
+                            bgImgEl.style.backgroundImage = 'none';
+                            bgImgEl.style.display = 'none';
+                        }
+                    }
+                    this.previewThemeId = null;
+                }
+            });
+
+            // Apply atmosphere on click
+            card.addEventListener('click', () => {
+                this.previewThemeId = null;
+                applyTheme(themeId, undefined, undefined, true);
+                soundClick();
+                showToast('Atmosphere "' + (card.querySelector('.market-card-title')?.textContent || themeId) + '" applied!', '', 3000);
+                this.renderGrid();
+            });
+        });
+    }
+};
+
+
 const FocusrCustomization = {
     config: {
         accent: '#0a84ff',
@@ -13521,6 +14824,7 @@ const FocusrCustomization = {
 
 checkDailyGoalGreeting();
 FocusrCustomization.init();
+WallpaperMarketplace.init();
 AdManager.init();
 DiscoveryEngine.init();
 
