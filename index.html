@@ -7,6 +7,49 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#08080f">
     <title>Focusr — Spatial Deep Work Studio</title>
+        <!-- PWA & Mobile Web Capabilities -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="application-name" content="Focusr">
+    <meta name="apple-mobile-web-app-title" content="Focusr">
+
+    <!-- Canonical & SEO Meta -->
+    <link rel="canonical" href="https://focusr-seven.vercel.app/">
+    <meta name="description" content="A local-first spatial deep work studio with AI Ghost Racing, procedural soundscapes, and distraction defense.">
+    <meta name="keywords" content="pomodoro timer, deep work studio, spatial UI, AI ghost racer, binaural beats, obsidian export, focus timer, distraction blocker">
+    <meta name="author" content="Focusr Atelier">
+
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://focusr-seven.vercel.app/">
+    <meta property="og:title" content="Focusr — Spatial Deep Work Studio & AI Ghost Racer">
+    <meta property="og:description" content="Calm, local-first deep work studio featuring Apple visionOS aesthetics, AI Ghost Racing, procedural acoustics, and distraction defense.">
+    <meta property="og:image" content="https://focusr-seven.vercel.app/assets/cosmor-banner.jpg">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://focusr-seven.vercel.app/">
+    <meta name="twitter:title" content="Focusr — Spatial Deep Work Studio & AI Ghost Racer">
+    <meta name="twitter:description" content="A local-first spatial deep work studio with AI Ghost Racing, procedural soundscapes, and distraction defense.">
+    <meta name="twitter:image" content="https://focusr-seven.vercel.app/assets/cosmor-banner.jpg">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Focusr",
+      "operatingSystem": "All",
+      "applicationCategory": "ProductivityApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Spatial deep work studio featuring AI Ghost Racing, procedural soundscapes, and distraction defense.",
+      "url": "https://focusr-seven.vercel.app/"
+    }
+    </script>
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
         <!-- Spatial Atelier Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4965,6 +5008,10 @@ body.oled-true-black .glass {
             <button class="btn-secondary" id="btn-copy-debrief" title="Copy full debrief summary to clipboard">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 <span id="btn-copy-debrief-text">Copy Debrief Sheet</span>
+            </button>
+            <button class="btn-secondary" id="btn-share-challenge" title="Generate Ghost Racer Challenge link for peers">
+                <span>🏎️</span>
+                <span>Challenge Peer</span>
             </button>
             <button class="btn-secondary" id="btn-share-x" title="Share your deep work session achievement on X / Twitter">
                 <span style="font-size:0.9rem">𝕏</span>
@@ -12487,6 +12534,80 @@ const AdManager = {
 };
 
 
+
+/* ════════════════════════════════════════════════════════════════
+   FOCUSR DISCOVERY & DEEP-LINK ENGINE + PWA SERVICE WORKER
+   ════════════════════════════════════════════════════════════════ */
+const DiscoveryEngine = {
+    init() {
+        this.registerServiceWorker();
+        this.parseDeepLinks();
+        this.bindChallengeShare();
+    },
+
+    registerServiceWorker() {
+        if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then((reg) => {
+                    console.log('Focusr PWA ServiceWorker registered:', reg.scope);
+                }).catch((err) => {
+                    console.warn('Focusr PWA ServiceWorker registration failed:', err);
+                });
+            });
+        }
+    },
+
+    parseDeepLinks() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const mode = params.get('mode');
+            const cat = params.get('cat');
+            const challenge = params.get('challenge');
+            const time = params.get('time');
+
+            if (cat && window.setCategory) {
+                setCategory(cat, false);
+            }
+
+            if (mode && ['timer', 'stopwatch', 'pomodoro'].includes(mode)) {
+                setTimeout(() => {
+                    if (window.openSetup) openSetup(mode);
+                }, 300);
+            }
+
+            if (challenge) {
+                setTimeout(() => {
+                    showToast(`🏎️ Ghost Racer Challenge Engaged: Racing against ${challenge.toUpperCase()} benchmark!`, '⚡', 5000);
+                    soundComplete();
+                }, 800);
+            }
+        } catch (e) {
+            console.warn('Deep link parsing error:', e);
+        }
+    },
+
+    bindChallengeShare() {
+        const btnChallenge = $('btn-share-challenge');
+        if (btnChallenge) {
+            btnChallenge.addEventListener('click', () => {
+                const cat = S.category || 'code';
+                const actualMins = Math.round(S.elapsed / 60) || Math.round(S.duration / 60) || 25;
+                const challengeUrl = `${window.location.origin}/?challenge=pb&cat=${cat}&time=${actualMins}`;
+
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(challengeUrl).then(() => {
+                        soundComplete();
+                        showToast('🏎️ Challenge link copied! Send it to a friend or post on X.', '🔗', 4500);
+                    }).catch(() => {
+                        showToast(challengeUrl, '🔗', 6000);
+                    });
+                }
+            });
+        }
+    }
+};
+
+
 const FocusrCustomization = {
     config: {
         accent: '#0a84ff',
@@ -12955,6 +13076,7 @@ const FocusrCustomization = {
 checkDailyGoalGreeting();
 FocusrCustomization.init();
 AdManager.init();
+DiscoveryEngine.init();
 
 if (focusCatBadge) {
     focusCatBadge.addEventListener('click', cycleFocusCategory);
