@@ -60,13 +60,13 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
     --bg:#08080f;
-    --surface:rgba(255,255,255,.04);
-    --surface-hover:rgba(255,255,255,.08);
-    --border:rgba(255,255,255,.08);
-    --border-hover:rgba(255,255,255,.15);
-    --text:#f5f5f7;
-    --text-dim:rgba(255,255,255,.5);
-    --text-muted:rgba(255,255,255,.25);
+    --surface:rgba(13, 17, 28, 0.82);
+    --surface-hover:rgba(22, 28, 44, 0.90);
+    --border:rgba(255, 255, 255, 0.14);
+    --border-hover:rgba(255, 255, 255, 0.28);
+    --text:#f8fafc;
+    --text-dim:rgba(241, 245, 249, 0.82);
+    --text-muted:rgba(203, 213, 225, 0.65);
     --accent:#0a84ff;
     --accent-glow:rgba(10,132,255,.25);
     --danger:#ff453a;
@@ -156,7 +156,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     white-space: nowrap;
 }
 .ad-badge {
-    font-size: 0.62rem;
+    font-size: 0.72rem; font-weight: 700;
     padding: 0.1rem 0.35rem;
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.08);
@@ -259,7 +259,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 }
 .backdrop-overlay{
     position:absolute;inset:0;
-    background:radial-gradient(circle at 50% 35%,rgba(0,0,0,.1) 0%,var(--backdrop-tint) 75%),var(--backdrop-tint);
+    background:radial-gradient(circle at 50% 38%,rgba(8, 10, 18, 0.65) 0%,rgba(8, 10, 18, 0.92) 100%),var(--backdrop-tint);
     transition:background .7s ease;
 }
 
@@ -275,12 +275,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* ── Glass ── */
 .glass{
     background:var(--surface);
-    backdrop-filter:blur(40px) saturate(180%);
-    -webkit-backdrop-filter:blur(40px) saturate(180%);
+    backdrop-filter:blur(36px) saturate(190%);
+    -webkit-backdrop-filter:blur(36px) saturate(190%);
     border:1px solid var(--border);
     border-radius:var(--radius);
     position:relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 .glass::before{content:'';position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(to bottom,rgba(255,255,255,.045),transparent);border-radius:inherit;pointer-events:none}
 @supports not (backdrop-filter:blur(1px)){.glass{background:rgba(18,18,30,.88)}}
@@ -366,13 +366,14 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: transparent;
-    border: none;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-dim);
+    color: #f1f5f9;
+    font-weight: 600;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     cursor: pointer;
@@ -449,12 +450,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .setup-pomo-logo{
     width:36px;height:36px;
 }
-.mode-card h2{font-size:1.05rem;font-weight:600;margin-bottom:.4rem}
-.mode-card p{font-size:.8rem;color:var(--text-dim);line-height:1.4}
+.mode-card h2{font-size:1.15rem;font-weight:700;color:#ffffff;margin-bottom:.4rem;letter-spacing:-.01em}
+.mode-card p{font-size:.85rem;color:var(--text-dim);line-height:1.45;font-weight:500}
 .quick-stats{display:flex;gap:2rem;padding:1.4rem 2.4rem;width:100%;max-width:700px;justify-content:center}
 .stat{display:flex;flex-direction:column;align-items:center;gap:.25rem}
-.stat-value{font-size:1.5rem;font-weight:600}
-.stat-label{font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
+.stat-value{font-size:1.65rem;font-weight:700;color:#ffffff;letter-spacing:-.02em}
+.stat-label{font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 
 /* ══════════════════════════════════════════
    SETUP SCREEN
@@ -534,10 +535,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 .timer-display{
     font-family:var(--font-mono);
-    font-size:clamp(2.4rem,8vw,4.5rem);font-weight:300;letter-spacing:-.02em;
+    font-size:clamp(2.6rem,8.5vw,4.8rem);font-weight:400;letter-spacing:-.02em;
+    color:#ffffff;
     font-variant-numeric:tabular-nums;line-height:1;
     font-feature-settings:"tnum" 1, "zero" 1;
-    text-shadow:0 0 30px var(--accent-glow), 0 0 60px rgba(10,132,255,0.12);
+    text-shadow:0 0 25px var(--accent-glow), 0 2px 20px rgba(0,0,0,0.8);
     transition:opacity .3s ease;user-select:none;
     position:relative;z-index:2;
 }
@@ -850,7 +852,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     border-radius:var(--radius);text-align:left;
     display:flex;flex-direction:column;gap:1.35rem;
     max-height:88vh;overflow-y:auto;
-    box-shadow:0 12px 40px rgba(0,0,0,.45);
+    background:rgba(13, 17, 28, 0.94) !important;
+    border:1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow:0 24px 70px rgba(0,0,0,.75) !important;
     animation:sheet-in .4s cubic-bezier(.16,1,.3,1);
 }
 @keyframes sheet-in{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
@@ -1318,7 +1322,7 @@ body.oled-true-black .glass {
     gap: 0.65rem;
 }
 .cat-item-badge {
-    font-size: 0.68rem;
+    font-size: 0.75rem; font-weight: 600;
     padding: 0.15rem 0.45rem;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.08);
@@ -3146,7 +3150,7 @@ body.oled-true-black .glass {
     text-overflow: ellipsis;
 }
 .station-vibe {
-    font-size: 0.68rem;
+    font-size: 0.75rem; font-weight: 600;
     color: #94a3b8;
     white-space: nowrap;
     overflow: hidden;
@@ -3417,7 +3421,7 @@ body.oled-true-black .glass {
     border-color: #1ed760;
 }
 .spotify-redirect-hint {
-    font-size: 0.68rem;
+    font-size: 0.75rem; font-weight: 600;
     color: #94a3b8;
     line-height: 1.4;
 }
@@ -3454,7 +3458,7 @@ body.oled-true-black .glass {
     color: #f1f5f9;
 }
 .spotify-auto-sub {
-    font-size: 0.68rem;
+    font-size: 0.75rem; font-weight: 600;
     color: #94a3b8;
     font-weight: normal;
 }
@@ -3601,7 +3605,7 @@ body.oled-true-black .glass {
     text-overflow: ellipsis;
 }
 .menu-user-status {
-    font-size: 0.68rem;
+    font-size: 0.75rem; font-weight: 600;
     color: #94a3b8;
     display: flex;
     align-items: center;
@@ -4095,7 +4099,7 @@ body.oled-true-black .glass {
     box-shadow:0 4px 12px rgba(0,0,0,0.3);
 }
 .pricing-tab .save-pill{
-    font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:700;
+    font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:700;font-weight:700;
     background:rgba(52,211,153,0.2);color:#34d399;padding:1px 5px;border-radius:4px;
 }
 
@@ -4201,7 +4205,7 @@ body.oled-true-black .glass {
     box-shadow:0 0 16px rgba(99,102,241,0.25);
 }
 .binaural-title{font-size:0.8rem;font-weight:700;color:#fff;}
-.binaural-sub{font-size:0.68rem;color:var(--text-dim);}
+.binaural-sub{font-size:0.75rem;font-weight:600;color:var(--text-dim);}
 
 /* Cosmo Skins in Companion Mode */
 .cosmo-skins-row{
@@ -5113,7 +5117,7 @@ body.oled-true-black .glass {
             <div>
                 <div style="display:flex;align-items:center;gap:8px">
                     <h2>Atelier Customization Studio</h2>
-                    <span class="pro-pill" style="font-size:0.62rem">PRO STUDIO</span>
+                    <span class="pro-pill" style="font-size:0.72rem;font-weight:700">PRO STUDIO</span>
                 </div>
                 <p>Personalize your workspace aesthetics, chronometer faces, acoustic soundscapes, and focus protocols.</p>
             </div>
@@ -5223,22 +5227,22 @@ body.oled-true-black .glass {
                 <div class="cosmo-skin-card" data-skin="cyberpunk">
                     <span class="skin-color-dot" style="background:#10b981;box-shadow:0 0 6px #10b981"></span>
                     <span>Cyberpunk Neon</span>
-                    <span class="pro-pill" style="font-size:0.58rem">PRO</span>
+                    <span class="pro-pill" style="font-size:0.72rem;font-weight:700">PRO</span>
                 </div>
                 <div class="cosmo-skin-card" data-skin="gold">
                     <span class="skin-color-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></span>
                     <span>Golden Chronos</span>
-                    <span class="pro-pill" style="font-size:0.58rem">FOUNDER</span>
+                    <span class="pro-pill" style="font-size:0.72rem;font-weight:700">FOUNDER</span>
                 </div>
                 <div class="cosmo-skin-card" data-skin="dark_matter">
                     <span class="skin-color-dot" style="background:#8b5cf6;box-shadow:0 0 6px #8b5cf6"></span>
                     <span>Dark Matter</span>
-                    <span class="pro-pill" style="font-size:0.58rem">PRO</span>
+                    <span class="pro-pill" style="font-size:0.72rem;font-weight:700">PRO</span>
                 </div>
                 <div class="cosmo-skin-card" data-skin="bioluminescence">
                     <span class="skin-color-dot" style="background:#06b6d4;box-shadow:0 0 6px #06b6d4"></span>
                     <span>Bioluminescence</span>
-                    <span class="pro-pill" style="font-size:0.58rem">PRO</span>
+                    <span class="pro-pill" style="font-size:0.72rem;font-weight:700">PRO</span>
                 </div>
             </div>
         </div>
@@ -5392,7 +5396,7 @@ body.oled-true-black .glass {
             <div>
                 <div style="display:flex;align-items:center;gap:8px">
                     <h2>The Atelier Desk Setup</h2>
-                    <span class="pro-pill" style="font-size:0.62rem">CURATED GEAR</span>
+                    <span class="pro-pill" style="font-size:0.72rem;font-weight:700">CURATED GEAR</span>
                 </div>
                 <p>Hardware, acoustics, and tactile tools handpicked to cultivate deep focus and ergonomic sanctuary.</p>
             </div>
@@ -5588,7 +5592,7 @@ body.oled-true-black .glass {
                 <div class="sync-actions-card">
                     <div class="sync-actions-title">
                         <span>⚡ Cloud Data Synchronization</span>
-                        <span id="sync-last-time" style="font-size:0.68rem;color:#94a3b8">Just now</span>
+                        <span id="sync-last-time" style="font-size:0.75rem;font-weight:600;color:#94a3b8">Just now</span>
                     </div>
                     <p style="font-size:0.75rem;color:#cbd5e1;margin:0;line-height:1.45">
                         Your focus sessions, streaks, daily goals, and inventory bottles are automatically stored in the cloud sync pool for this account.
@@ -5667,7 +5671,7 @@ body.oled-true-black .glass {
                 <div>
                     <div class="spotify-stations-title">
                         <span>🎧 Curated Flow Stations</span>
-                        <span style="font-size:0.68rem;color:#10b981;font-weight:600">Zero Setup Required</span>
+                        <span style="font-size:0.75rem;font-weight:600;color:#10b981;font-weight:600">Zero Setup Required</span>
                     </div>
                     <div class="spotify-stations-grid" id="spotify-stations-grid" style="margin-top:0.6rem">
                         <!-- Populated by JS -->
