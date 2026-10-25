@@ -2226,6 +2226,16 @@ body.oled-true-black .glass {
     flex-wrap: wrap;
     gap: .45rem;
 }
+.atelier-btn-primary {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    padding: 0.55rem 1.1rem; border-radius: 9999px;
+    background: var(--accent); color: #fff; font-weight: 600; font-size: 0.85rem;
+    border: none; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 12px var(--accent-glow);
+}
+.atelier-btn-primary:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.atelier-btn-primary:active { transform: translateY(0); }
+
 .cat-chip {
     display: inline-flex;
     align-items: center;
@@ -5622,7 +5632,7 @@ body.oled-true-black .glass {
                         <option value="">Sprint</option>
                         <option value="">Reading</option>
                     </select>
-                    <button class="cat-chip active" id="btn-create-custom-cat" style="justify-content:center;height:100%;font-weight:700">Add Category</button>
+                    <button class="atelier-btn-primary active" id="btn-create-custom-cat" style="justify-content:center;height:100%;font-weight:700">Add Category</button>
                 </div>
             </div>
 
@@ -6560,11 +6570,11 @@ function renderCategoryChips() {
     if (categoryChipsHome) categoryChipsHome.innerHTML = html;
     if (categoryChipsSetup) categoryChipsSetup.innerHTML = html;
 
-    // Attach click listeners to all chips
-    document.querySelectorAll('.cat-chip').forEach(btn => {
+    // Attach click listeners to category chips in home and setup
+    document.querySelectorAll('#category-chips-home .cat-chip, #category-chips-setup .cat-chip').forEach(btn => {
         btn.addEventListener('click', () => {
             const catId = btn.dataset.catId;
-            setCategory(catId, true);
+            if (catId) setCategory(catId, true);
             soundClick();
         });
     });
@@ -6619,7 +6629,10 @@ function updatePenaltyBadge() {
 
 /* ── Super Strict Focus Mode Controller ── */
 const SUPER_STRICT_STORAGE_KEY = 'focus_super_strict_enabled';
-const STRICT_IDLE_TIMEOUT_MS   = 35000; // 35 seconds of zero input triggers idle pause
+function getStrictIdleTimeoutMs() {
+    return ((window.FocusrCustomization && FocusrCustomization.config && FocusrCustomization.config.inactivityGrace) || 30) * 1000;
+}
+const STRICT_IDLE_TIMEOUT_MS = 30000;
 
 function isStrictApplicableCategory(catId) {
     // Super Strict anti-slacking works for ALL categories when enabled by user
@@ -6818,7 +6831,7 @@ function isUserNotFocusing() {
     if (S.strictIdlePaused) return true;
     
     // 4. In Super Strict mode with no inputs for >= 35s
-    if (S.strictActive && (Date.now() - S.lastInputTime >= STRICT_IDLE_TIMEOUT_MS)) return true;
+    if (S.strictActive && (Date.now() - S.lastInputTime >= getStrictIdleTimeoutMs())) return true;
     
     return false;
 }
@@ -7117,6 +7130,9 @@ function openThemeModal() {
     if (sliderOpacity) sliderOpacity.value = themeConfig.opacity;
     if (valBlur) valBlur.textContent = `${themeConfig.blur}px`;
     if (valOpacity) valOpacity.textContent = `${themeConfig.opacity}%`;
+    if (window.FocusrCustomization && FocusrCustomization.syncUI) {
+        FocusrCustomization.syncUI();
+    }
     themeModalBackdrop.classList.add('active');
 }
 
@@ -10752,11 +10768,11 @@ function tick() {
     // Super Strict Input & Idle Monitor
     if (S.strictActive && !S.pomoIsBreak) {
         const idleMs = Date.now() - S.lastInputTime;
-        if (idleMs >= STRICT_IDLE_TIMEOUT_MS) {
+        if (idleMs >= getStrictIdleTimeoutMs()) {
             triggerStrictIdlePause();
             return;
         } else {
-            const remSec = Math.max(0, Math.ceil((STRICT_IDLE_TIMEOUT_MS - idleMs) / 1000));
+            const remSec = Math.max(0, Math.ceil((getStrictIdleTimeoutMs() - idleMs) / 1000));
             if (remSec <= 10 && strictBadgeText) {
                 strictBadgeText.textContent = `IDLE IN ${remSec}s`;
                 focusStrictBadge.classList.add('idle-warning');
@@ -10782,6 +10798,10 @@ function tick() {
 
     if (S.mode === 'stopwatch') {
         timerDisp.textContent = fmt(elapsed);
+        if (window.FocusrCustomization && FocusrCustomization.config.clockFace === 'arc') {
+            const elapsedSec = Math.floor(elapsed / 1000);
+            FocusrCustomization.updateZenArc(elapsedSec, 3600);
+        }
 
         // 1 Bottle = 1 Hour (3,600,000 ms)
         const hoursCompleted = Math.floor(elapsed / 3600000);
@@ -10817,6 +10837,11 @@ function tick() {
     }
 
     timerDisp.textContent = fmt(remaining);
+    if (window.FocusrCustomization && FocusrCustomization.config.clockFace === 'arc') {
+        const totalSec = Math.floor(S.targetMs / 1000) || 1500;
+        const remSec = Math.max(0, Math.floor(remaining / 1000));
+        FocusrCustomization.updateZenArc(remSec, totalSec);
+    }
     // Fills in as time elapses:
     const progress = clamp(elapsed / S.targetMs, 0, 1);
     setWaterFill(progress);
@@ -11215,7 +11240,13 @@ function finishSession(focusMs, overrideStrict = null) {
 
     exitFS();
     document.title = 'Focusr';
-    if (S.mode !== 'pomodoro') soundComplete(); // pomo plays its own sound
+    if (S.mode !== 'pomodoro') {
+        if (window.FocusrCustomization && FocusrCustomization.playChime && FocusrCustomization.config.chime) {
+            FocusrCustomization.playChime(FocusrCustomization.config.chime);
+        } else {
+            soundComplete();
+        }
+    }
 
     const pomoCount = S.mode === 'pomodoro' ? S.pomoCompletedWork : 0;
 
@@ -11459,6 +11490,9 @@ function beginSession() {
     // Spawn Ghost Racer Competitor from prediction model
     GhostRacer.initRace(S.targetMs);
     SpotifyManager.onSessionStart();
+    if (window.FocusrCustomization) {
+        FocusrCustomization.setClockFace(FocusrCustomization.config.clockFace);
+    }
 
     navigate('focus');
     enterFS();
@@ -12506,9 +12540,10 @@ const BinauralEngine = {
     },
 
     init() {
-        const btns = document.querySelectorAll('.binaural-btn');
+        const btns = document.querySelectorAll('[data-binaural]');
         btns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const type = btn.dataset.binaural;
                 if (!type) return;
                 if (type !== 'off' && !FocusrLicense.isPro()) {
@@ -12894,6 +12929,7 @@ const FocusrCustomization = {
     },
     audioCtx: null,
     audioNodes: {},
+    chronoLoopRunning: false,
 
     init() {
         this.loadStored();
@@ -12917,6 +12953,46 @@ const FocusrCustomization = {
         try {
             localStorage.setItem('focusr_user_config_v2', JSON.stringify(this.config));
         } catch {}
+    },
+
+    syncUI() {
+        // Tab 1: Visuals & Accent
+        const swatches = document.querySelectorAll('.accent-swatch');
+        swatches.forEach(s => s.classList.toggle('active', s.dataset.color && s.dataset.color.toLowerCase() === (this.config.accent || '').toLowerCase()));
+        const customPicker = $('custom-accent-picker');
+        if (customPicker && this.config.accent && this.config.accent.startsWith('#')) {
+            customPicker.value = this.config.accent;
+        }
+        const oledToggle = $('toggle-oled-mode');
+        if (oledToggle) oledToggle.checked = !!this.config.oled;
+
+        const binBtns = document.querySelectorAll('[data-binaural]');
+        binBtns.forEach(b => b.classList.toggle('active', b.dataset.binaural === (window.BinauralEngine?.activeType || 'off')));
+
+        // Tab 2: Clock Faces
+        const faceCards = document.querySelectorAll('.clock-face-card');
+        faceCards.forEach(c => c.classList.toggle('active', c.dataset.face === (this.config.clockFace || 'digital')));
+
+        // Tab 3: Sound Sanctuary
+        const tracks = ['rain', 'brown', 'campfire', 'drone'];
+        tracks.forEach(tr => {
+            const slider = $(`slider-vol-${tr}`);
+            const label = $(`val-vol-${tr}`);
+            const val = (this.config.soundscape && this.config.soundscape[tr]) || 0;
+            if (slider) slider.value = val;
+            if (label) label.textContent = `${val}%`;
+        });
+        const chimeBtns = document.querySelectorAll('[data-chime]');
+        chimeBtns.forEach(b => b.classList.toggle('active', b.dataset.chime === (this.config.chime || 'bell')));
+
+        // Tab 4: Categories
+        this.renderCategoryManager();
+
+        // Tab 5: Protocols
+        const graceBtns = document.querySelectorAll('[data-grace]');
+        graceBtns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.grace) === (this.config.inactivityGrace || 30)));
+        const ghostBtns = document.querySelectorAll('[data-ghosthud]');
+        ghostBtns.forEach(b => b.classList.toggle('active', b.dataset.ghosthud === (this.config.ghostHud || 'live')));
     },
 
     initTabs() {
@@ -12943,6 +13019,7 @@ const FocusrCustomization = {
                 const color = sw.dataset.color;
                 this.setAccent(color);
                 swatches.forEach(s => s.classList.toggle('active', s === sw));
+                if (customPicker) customPicker.value = color;
                 soundClick();
             });
         });
@@ -12950,7 +13027,7 @@ const FocusrCustomization = {
         if (customPicker) {
             customPicker.addEventListener('input', (e) => {
                 this.setAccent(e.target.value);
-                swatches.forEach(s => s.classList.remove('active'));
+                swatches.forEach(s => s.classList.toggle('active', s.dataset.color && s.dataset.color.toLowerCase() === e.target.value.toLowerCase()));
             });
         }
 
@@ -12966,6 +13043,7 @@ const FocusrCustomization = {
     },
 
     setAccent(hex) {
+        if (!hex) return;
         this.config.accent = hex;
         document.documentElement.style.setProperty('--accent', hex);
         const glow = this.hexToRgba(hex, 0.28);
@@ -13028,6 +13106,11 @@ const FocusrCustomization = {
         if (ana) ana.style.display = face === 'analog' ? 'block' : 'none';
         if (arc) arc.style.display = face === 'arc' ? 'flex' : 'none';
 
+        // Update active class on clock face cards in modal
+        document.querySelectorAll('.clock-face-card').forEach(c => {
+            c.classList.toggle('active', c.dataset.face === face);
+        });
+
         if (face === 'analog' && !this.chronoLoopRunning) {
             this.startAnalogChronoLoop();
         }
@@ -13060,14 +13143,21 @@ const FocusrCustomization = {
             ctx.stroke();
 
             // Progress Arc
-            const total = S.totalSec || 1500;
-            const rem = S.remSec !== undefined ? S.remSec : 1500;
-            const fraction = Math.max(0, Math.min(1, 1 - (rem / total)));
+            let total = 1500;
+            let rem = 1500;
+            if (typeof S !== 'undefined' && S.running) {
+                total = S.targetMs > 0 ? Math.floor(S.targetMs / 1000) : 3600;
+                const elapsed = Date.now() - S.startTime - (S.totalPaused || 0);
+                rem = S.mode === 'stopwatch' ? Math.floor(elapsed / 1000) : Math.max(0, Math.floor((S.targetMs - elapsed) / 1000));
+            }
+            const fraction = (typeof S !== 'undefined' && S.mode === 'stopwatch')
+                ? Math.min(1, rem / 3600)
+                : (total > 0 ? Math.max(0, Math.min(1, 1 - (rem / total))) : 0);
 
             ctx.beginPath();
             ctx.arc(cx, cy, r - 6, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * fraction);
             ctx.lineWidth = 8;
-            ctx.strokeStyle = this.config.accent;
+            ctx.strokeStyle = this.config.accent || '#0a84ff';
             ctx.stroke();
 
             // Hour/Minute Ticks
@@ -13090,7 +13180,7 @@ const FocusrCustomization = {
             ctx.beginPath();
             ctx.moveTo(cx - Math.cos(secAngle) * 20, cy - Math.sin(secAngle) * 20);
             ctx.lineTo(cx + Math.cos(secAngle) * (r - 28), cy + Math.sin(secAngle) * (r - 28));
-            ctx.strokeStyle = this.config.accent;
+            ctx.strokeStyle = this.config.accent || '#0a84ff';
             ctx.lineWidth = 2.5;
             ctx.stroke();
 
@@ -13135,10 +13225,11 @@ const FocusrCustomization = {
             const slider = $(`slider-vol-${tr}`);
             const label = $(`val-vol-${tr}`);
             if (slider) {
-                slider.value = this.config.soundscape[tr] || 0;
+                slider.value = (this.config.soundscape && this.config.soundscape[tr]) || 0;
                 if (label) label.textContent = `${slider.value}%`;
                 slider.addEventListener('input', (e) => {
                     const val = parseInt(e.target.value) || 0;
+                    if (!this.config.soundscape) this.config.soundscape = {};
                     this.config.soundscape[tr] = val;
                     if (label) label.textContent = `${val}%`;
                     this.updateSoundscapeGain(tr, val / 100);
@@ -13148,14 +13239,16 @@ const FocusrCustomization = {
         });
 
         // Chimes
-        const chimeBtns = document.querySelectorAll('#chime-presets-row button');
+        const chimeBtns = document.querySelectorAll('[data-chime]');
         chimeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const chime = btn.dataset.chime;
                 this.config.chime = chime;
                 chimeBtns.forEach(b => b.classList.toggle('active', b === btn));
                 this.playChime(chime);
                 this.save();
+                soundClick();
             });
         });
     },
@@ -13165,7 +13258,7 @@ const FocusrCustomization = {
             this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
         if (this.audioCtx.state === 'suspended') {
-            this.audioCtx.resume();
+            this.audioCtx.resume().catch(() => {});
         }
     },
 
@@ -13182,6 +13275,7 @@ const FocusrCustomization = {
     startSoundscapeNode(track) {
         try {
             const ctx = this.audioCtx;
+            if (!ctx) return;
             const gain = ctx.createGain();
             gain.gain.setValueAtTime(0.001, ctx.currentTime);
             gain.connect(ctx.destination);
@@ -13213,6 +13307,34 @@ const FocusrCustomization = {
                 }
                 src.start();
                 this.audioNodes[track] = { src, gain };
+            } else if (track === 'campfire') {
+                // Procedural organic crackle & rumble synthesis
+                const bufferSize = ctx.sampleRate * 3;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                let last = 0;
+                for (let i = 0; i < bufferSize; i++) {
+                    const white = Math.random() * 2 - 1;
+                    data[i] = (last + (0.015 * white)) / 1.015;
+                    last = data[i];
+                    data[i] *= 1.8;
+
+                    // Organic snap/crackle impulse
+                    if (Math.random() < 0.0006) {
+                        const popLen = Math.floor(ctx.sampleRate * (0.003 + Math.random() * 0.008));
+                        const popAmp = (Math.random() > 0.5 ? 1 : -1) * (0.6 + Math.random() * 0.4);
+                        for (let j = 0; j < popLen && (i + j) < bufferSize; j++) {
+                            const decay = Math.exp(-j / (popLen * 0.3));
+                            data[i + j] += (Math.random() * 2 - 1) * popAmp * decay;
+                        }
+                    }
+                }
+                const src = ctx.createBufferSource();
+                src.buffer = buffer;
+                src.loop = true;
+                src.connect(gain);
+                src.start();
+                this.audioNodes[track] = { src, gain };
             } else if (track === 'drone') {
                 const osc1 = ctx.createOscillator();
                 const osc2 = ctx.createOscillator();
@@ -13224,35 +13346,42 @@ const FocusrCustomization = {
                 osc2.start();
                 this.audioNodes[track] = { src: [osc1, osc2], gain };
             }
-        } catch {}
+        } catch (e) {
+            console.warn('Soundscape synthesizer error:', e);
+        }
     },
 
     playChime(type) {
         if (type === 'silent') {
-            document.body.style.boxShadow = 'inset 0 0 80px rgba(255,255,255,0.4)';
+            document.body.style.boxShadow = 'inset 0 0 90px rgba(255,255,255,0.45)';
             setTimeout(() => document.body.style.boxShadow = '', 1200);
             return;
         }
         if (type === 'bell') {
-            playTone([432, 864, 1296], 1.4, 0.22);
+            playTone([432, 864, 1296, 1728], 2.2, 0.24);
         } else if (type === 'bowl') {
-            playTone([216, 432, 648], 1.8, 0.25);
+            playTone([216, 432, 648], 2.5, 0.26);
         } else if (type === 'rams') {
-            playTone([1200, 1600], 0.2, 0.15);
+            playTone([880, 1174.66, 1760], 0.5, 0.18);
         }
     },
 
     initCategories() {
         this.renderCategoryManager();
         const addBtn = $('btn-create-custom-cat');
-        if (addBtn) {
-            addBtn.addEventListener('click', () => {
+        if (addBtn && !addBtn._listenerBound) {
+            addBtn._listenerBound = true;
+            addBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const nameInput = $('input-new-cat-name');
                 const iconSelect = $('select-new-cat-icon');
                 const name = nameInput ? nameInput.value.trim() : '';
-                const icon = iconSelect ? iconSelect.value : '';
+                const icon = (iconSelect && iconSelect.value) ? iconSelect.value : '✦';
 
-                if (!name) return;
+                if (!name) {
+                    showToast('Please enter a category name', '', 2500);
+                    return;
+                }
                 const id = 'custom-' + Date.now();
                 const color = this.config.accent || '#0a84ff';
 
@@ -13277,6 +13406,7 @@ const FocusrCustomization = {
                 renderCategoryChips();
                 this.renderCategoryManager();
                 if (nameInput) nameInput.value = '';
+                showToast(`Category "${name}" created!`, '', 3000);
                 soundComplete();
             });
         }
@@ -13300,7 +13430,8 @@ const FocusrCustomization = {
         }).join('');
 
         container.querySelectorAll('.cat-delete-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const id = btn.dataset.catId;
                 let stored = [];
                 try { stored = JSON.parse(localStorage.getItem('focusr_custom_categories') || '[]'); } catch {}
@@ -13311,6 +13442,7 @@ const FocusrCustomization = {
                 renderCategoryChips();
                 this.renderCategoryManager();
                 soundClick();
+                showToast('Category removed', '', 2500);
             });
         });
     },
@@ -13318,23 +13450,30 @@ const FocusrCustomization = {
     initProtocols() {
         const graceBtns = document.querySelectorAll('[data-grace]');
         graceBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.config.inactivityGrace = parseInt(btn.dataset.grace) || 30;
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const graceVal = parseInt(btn.dataset.grace) || 30;
+                this.config.inactivityGrace = graceVal;
                 graceBtns.forEach(b => b.classList.toggle('active', b === btn));
                 this.save();
                 soundClick();
+                showToast(`Inactivity grace period set to ${graceVal}s`, '', 3000);
             });
         });
 
         const ghostBtns = document.querySelectorAll('[data-ghosthud]');
         ghostBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 this.config.ghostHud = btn.dataset.ghosthud;
                 ghostBtns.forEach(b => b.classList.toggle('active', b === btn));
-                const hud = $('ghost-racer-hud');
-                if (hud) hud.style.display = this.config.ghostHud === 'stealth' ? 'none' : 'flex';
+                const card = $('ghost-racer-card');
+                if (card) {
+                    card.style.display = this.config.ghostHud === 'stealth' ? 'none' : 'block';
+                }
                 this.save();
                 soundClick();
+                showToast(`Ghost Racer HUD: ${this.config.ghostHud === 'stealth' ? 'Stealth (Hidden)' : 'Live Telemetry'}`, '', 3000);
             });
         });
     },
@@ -13343,6 +13482,7 @@ const FocusrCustomization = {
         if (this.config.accent) this.setAccent(this.config.accent);
         if (this.config.oled) document.body.classList.add('oled-true-black');
         if (this.config.clockFace) this.setClockFace(this.config.clockFace);
+        if (this.syncUI) this.syncUI();
     }
 };
 
