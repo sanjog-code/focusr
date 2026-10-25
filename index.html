@@ -3485,6 +3485,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
                     <div class="menu-divider"></div>
 
+                    <button class="menu-item-btn" id="menu-item-posters">
+                        <span class="menu-item-icon">🖼️</span>
+                        <span class="menu-item-text">Spatial Posters & Brand Kit</span>
+                    </button>
+
                     <button class="menu-item-btn" id="menu-item-export-data">
                         <span class="menu-item-icon">💾</span>
                         <span class="menu-item-text">Export Session Backup</span>
@@ -7151,6 +7156,13 @@ const AccountManager = {
         if (itemAnalytics) itemAnalytics.addEventListener('click', () => {
             this.closeDropdown();
             navigate('analytics');
+            soundClick();
+        });
+
+        const itemPosters = $('menu-item-posters');
+        if (itemPosters) itemPosters.addEventListener('click', () => {
+            this.closeDropdown();
+            window.open('posters.html', '_blank');
             soundClick();
         });
 
