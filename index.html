@@ -1961,6 +1961,26 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     align-items: center;
     gap: .4rem;
 }
+.btn-strict-resume {
+    margin-top: 1rem;
+    padding: .65rem 1.4rem;
+    border-radius: 980px;
+    background: #f43f5e;
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(244, 63, 94, 0.4);
+    transition: all .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+}
+.btn-strict-resume:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.6);
+}
 
 /* ══════════════════════════════════════════
    COSMO 3D ROCKET ASSISTANT
@@ -3589,7 +3609,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                         <span>Super Strict Mode</span>
                         <span class="strict-tag-badge">Anti-Slacking</span>
                     </div>
-                    <div class="strict-sub-text">Active for Code & Essay/PPT — tracks mouse & keystrokes; halts if idle!</div>
+                    <div class="strict-sub-text">Continuous focus guard — tracks mouse & keystrokes; halts timer & alarms if idle!</div>
                 </div>
             </div>
             <label class="spatial-switch">
@@ -3781,7 +3801,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                             <span>Super Strict Mode</span>
                             <span class="strict-tag-badge">Anti-Slacking</span>
                         </div>
-                        <div class="strict-sub-text">Halt timer if idle during Code & Writing</div>
+                        <div class="strict-sub-text">Continuous focus guard — halt timer if idle</div>
                     </div>
                 </div>
                 <label class="spatial-switch">
@@ -4530,10 +4550,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             Zero mouse or keyboard inputs detected for <span id="strict-idle-sec">35</span>s!
         </p>
         <div class="strict-idle-hint">
-            <span>⌨️</span> Move mouse or press any key to resume timer!
+            <span>⌨️</span> Move mouse, tap screen or press any key to resume!
         </div>
         <div style="margin-top:.75rem;font-size:.78rem;color:#fca5a5;background:rgba(239,68,68,0.18);padding:.35rem .75rem;border-radius:980px;display:inline-flex;align-items:center;gap:.35rem;border:1px solid rgba(239,68,68,0.35);">
             <span>🔊</span> Loud siren blares in: <strong id="strict-idle-alarm-rem">2:00</strong>
+        </div>
+        <div>
+            <button type="button" class="btn-strict-resume" id="btn-strict-resume">⚡ Resume Focus</button>
         </div>
     </div>
 </div>
@@ -5104,7 +5127,8 @@ const SUPER_STRICT_STORAGE_KEY = 'focus_super_strict_enabled';
 const STRICT_IDLE_TIMEOUT_MS   = 35000; // 35 seconds of zero input triggers idle pause
 
 function isStrictApplicableCategory(catId) {
-    return catId === 'code' || catId === 'essay-ppt';
+    // Super Strict anti-slacking works for ALL categories when enabled by user
+    return true;
 }
 
 function loadSuperStrict() {
@@ -5139,7 +5163,7 @@ function setSuperStrict(enabled, shouldToast = true) {
     if (shouldToast) {
         showToast(
             S.superStrict 
-                ? '⚡ Super Strict Mode Enabled: Input tracking active for Code & Essay/PPT!' 
+                ? '⚡ Super Strict Mode Enabled: Continuous input guard active!' 
                 : '⚡ Super Strict Mode Disabled',
             '⚡',
             3500
@@ -5173,7 +5197,7 @@ function triggerStrictIdlePause() {
             icon: '⚡',
             title: 'Strict Idle Stall',
             count: 1,
-            detail: 'Keyboard & mouse activity ceased for >30s in Super Strict mode.'
+            detail: 'Keyboard & mouse activity ceased for >35s in Super Strict mode.'
         });
     }
     pauseSession(true);
@@ -5196,13 +5220,14 @@ function triggerStrictIdlePause() {
 
     if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
     if (window.Cosmo && Cosmo.deliver) {
-        Cosmo.deliver('⚡ Idle pause! Move your mouse or type to resume the timer!', '⚡', 4000);
+        Cosmo.deliver('⚡ Idle pause! Move mouse, touch, or type to resume timer!', '⚡', 4000);
     }
 }
 
 function resumeFromStrictIdle() {
     if (!S.strictIdlePaused) return;
     S.strictIdlePaused = false;
+    S.lastInputTime = Date.now();
 
     if (strictIdleOverlay) {
         strictIdleOverlay.classList.remove('visible');
@@ -5225,8 +5250,17 @@ function resumeFromStrictIdle() {
 
 // Global Activity Tracking for Super Strict Mode
 ['mousemove', 'mousedown', 'pointerdown', 'click', 'wheel', 'keydown', 'touchstart'].forEach(evt => {
-    window.addEventListener(evt, onUserInputActivity, { passive: true });
+    window.addEventListener(evt, onUserInputActivity, { passive: true, capture: true });
 });
+
+// Resume button click handler on idle overlay
+const btnStrictResume = $('btn-strict-resume');
+if (btnStrictResume) {
+    btnStrictResume.addEventListener('click', e => {
+        e.stopPropagation();
+        resumeFromStrictIdle();
+    });
+}
 
 /* ════════════════════════════════════════════════════════════════
    LOUD FOCUS ALARM CONTROLLER (Every 2 Minutes When Unfocused)
@@ -9091,6 +9125,14 @@ function startPhase(ms) {
     S.totalPaused = 0;
     S.paused = false;
     S.running = true;
+    S.lastInputTime = Date.now();
+    S.strictIdlePaused = false;
+    if (strictIdleOverlay) strictIdleOverlay.classList.remove('visible');
+    if (focusStrictBadge) {
+        focusStrictBadge.classList.toggle('active', S.strictActive && !S.pomoIsBreak);
+        focusStrictBadge.classList.remove('idle-warning');
+        if (strictBadgeText) strictBadgeText.textContent = 'STRICT';
+    }
     S.milestones.clear();
     S.lastTickSec = -1;
     timerDisp.classList.remove('paused');
@@ -9373,12 +9415,14 @@ function renderSessionDebrief(sessionData) {
     }
 }
 
-function finishSession(focusMs) {
+function finishSession(focusMs, overrideStrict = null) {
     SpotifyManager.onSessionEnd();
     clearInterval(S.intervalId);
     S.intervalId = null;
     S.running = false;
     S.paused = false;
+
+    const sessionWasStrict = overrideStrict !== null ? overrideStrict : S.strictActive;
 
     S.nonFocusStartTime = 0;
     S.lastLoudAlarmTime = 0;
@@ -9420,7 +9464,7 @@ function finishSession(focusMs) {
         duration: focusMs,
         pomodoros: pomoCount,
         completedAt: new Date().toISOString(),
-        strict: S.strictActive,
+        strict: sessionWasStrict,
         inputs: S.totalInputCount,
         penaltyMs: S.totalPenaltyMs || 0,
         penaltyCount: S.penaltyCount || 0,
@@ -9459,6 +9503,7 @@ function stopSession() {
         GhostRacer.slackingBoost = 1.0;
     }
 
+    const wasStrict = S.strictActive;
     S.strictActive = false;
     S.strictIdlePaused = false;
     S.nonFocusStartTime = 0;
@@ -9479,7 +9524,7 @@ function stopSession() {
             focusMs = S.pomoCompletedWork * S.pomoWork * 60000 +
                 (S.pomoIsBreak ? 0 : Math.min(elapsed, S.pomoWork * 60000));
         }
-        finishSession(focusMs);
+        finishSession(focusMs, wasStrict);
         return;
     } else if (elapsed > 5000) {
         addSession({
@@ -9489,7 +9534,7 @@ function stopSession() {
             duration: elapsed,
             pomodoros: 0,
             completedAt: new Date().toISOString(),
-            strict: S.strictActive,
+            strict: wasStrict,
             inputs: S.totalInputCount,
         });
     }
