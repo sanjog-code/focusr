@@ -7233,6 +7233,7 @@ function playTone(freqs, dur = 0.4, vol = 0.18) {
         });
     } catch {}
 }
+function soundClick()        { playTone([880], 0.04, 0.05); }
 function soundComplete()     { playTone([660, 880, 1100], 0.35, 0.15); }
 function soundBreak()        { playTone([523, 659], 0.3, 0.12); }
 function soundResume()       { playTone([440], 0.15, 0.08); }
@@ -8082,6 +8083,12 @@ const Cosmo = {
         this.deliver(label, '🍌', 3800);
     },
 
+    onResize() {
+        if (!this.renderer) return;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.renderer.setPixelRatio(dpr);
+    },
+
     updateThemeColor(colorHex) {
         if (!this.accentRing || !this.accentMat) return;
         try {
@@ -8417,7 +8424,9 @@ const WaterSim = {
         this.dpr = Math.min(window.devicePixelRatio || 1, 2);
         this.canvas.width = this.width * this.dpr;
         this.canvas.height = this.height * this.dpr;
-        this.ctx.scale(this.dpr, this.dpr);
+        if (this.ctx && this.ctx.setTransform) {
+            this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+        }
     },
 
     triggerCorkCap(onDone) {
@@ -9642,7 +9651,11 @@ function beginSession() {
         const h = clamp(parseInt($('inp-h').value) || 0, 0, 23);
         const m = clamp(parseInt($('inp-m').value) || 0, 0, 59);
         const total = (h * 3600 + m * 60) * 1000;
-        if (total <= 0) return;
+        if (total <= 0) {
+            showToast('Please set a focus duration of at least 1 minute.', '⏱️', 3200);
+            soundWarning();
+            return;
+        }
         S.targetMs = total;
         focusLabel.textContent = 'FOCUS';
         focusLabel.classList.remove('is-break', 'is-long-break');
@@ -10039,7 +10052,7 @@ if (btnTargetIncH) btnTargetIncH.addEventListener('click', () => {
     soundClick();
 });
 if (btnTargetDecH) btnTargetDecH.addEventListener('click', () => {
-    if (tempTargetMins > 60) syncTargetModalInputs(tempTargetMins - 60);
+    syncTargetModalInputs(Math.max(5, tempTargetMins - 60));
     soundClick();
 });
 if (btnTargetIncM) btnTargetIncM.addEventListener('click', () => {
@@ -10193,6 +10206,17 @@ let windowDesertionDebounce = null;
 function handleWindowOrTabDesertion(source = 'window') {
     if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
 
+    // Guard: If focus moved into an internal iframe (e.g. Spotify embed player) or an internal modal is open,
+    // this is active in-app interaction, not desertion!
+    if (document.activeElement && (document.activeElement.tagName === 'IFRAME' || document.activeElement.closest?.('.spotify-modal, .theme-modal, .target-modal, .login-modal'))) {
+        return;
+    }
+    const isModalOpen = $('spotify-modal-backdrop')?.classList.contains('active') ||
+                        $('target-modal-backdrop')?.classList.contains('active') ||
+                        $('theme-modal-backdrop')?.classList.contains('active') ||
+                        $('login-modal-backdrop')?.classList.contains('active');
+    if (isModalOpen && !document.hidden) return;
+
     // Check if truly away: document is either hidden or window has lost focus
     const isAway = document.hidden || !document.hasFocus();
     if (!isAway) return;
@@ -10319,6 +10343,15 @@ window.addEventListener('blur', () => {
 window.addEventListener('focus', () => {
     if (windowDesertionDebounce) clearTimeout(windowDesertionDebounce);
     handleWindowOrTabReturn('window');
+});
+
+let windowResizeDebounce = null;
+window.addEventListener('resize', () => {
+    if (windowResizeDebounce) clearTimeout(windowResizeDebounce);
+    windowResizeDebounce = setTimeout(() => {
+        WaterSim.resize();
+        if (window.Cosmo && Cosmo.onResize) Cosmo.onResize();
+    }, 120);
 });
 
 /* ── Init ── */
