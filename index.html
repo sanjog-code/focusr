@@ -1496,6 +1496,197 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 }
 
 /* ══════════════════════════════════════════
+   SUPER STRICT FOCUS MODE (INPUT TRACKING)
+   ══════════════════════════════════════════ */
+.super-strict-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: .85rem;
+    margin-top: .85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 1rem;
+}
+.strict-label-group {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+.strict-badge-icon {
+    font-size: 1.25rem;
+    padding: .4rem .55rem;
+    border-radius: var(--radius-md);
+    background: rgba(234, 179, 8, 0.15);
+    border: 1px solid rgba(234, 179, 8, 0.35);
+    color: #fde047;
+}
+.strict-title-text {
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+}
+.strict-tag-badge {
+    font-size: .68rem;
+    font-weight: 800;
+    padding: .15rem .45rem;
+    border-radius: 980px;
+    background: rgba(234, 179, 8, 0.2);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+.strict-sub-text {
+    font-size: .75rem;
+    color: var(--text-dim);
+    margin-top: .15rem;
+}
+
+/* Glass Switch Toggle */
+.spatial-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+}
+.spatial-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.spatial-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 980px;
+}
+.spatial-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #fff;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+.spatial-switch input:checked + .spatial-slider {
+    background: linear-gradient(135deg, #eab308, #ca8a04);
+    border-color: #fde047;
+    box-shadow: 0 0 16px rgba(234, 179, 8, 0.45);
+}
+.spatial-switch input:checked + .spatial-slider:before {
+    transform: translateX(22px);
+    background-color: #fff;
+}
+
+/* Strict Mode Badge in Focus Top Bar */
+.focus-strict-badge {
+    display: none;
+    align-items: center;
+    gap: .35rem;
+    padding: .35rem .75rem;
+    border-radius: 980px;
+    font-size: .75rem;
+    font-weight: 700;
+    background: rgba(234, 179, 8, 0.16);
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    color: #fef08a;
+    box-shadow: 0 0 12px rgba(234, 179, 8, 0.25);
+    user-select: none;
+    transition: all .3s ease;
+}
+.focus-strict-badge.active {
+    display: inline-flex;
+}
+.focus-strict-badge.idle-warning {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #ef4444;
+    color: #fca5a5;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+    animation: penalty-pulse 1s ease-in-out infinite;
+}
+
+/* Strict Idle Warning Overlay */
+.strict-idle-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 8, 16, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 8500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .35s ease;
+}
+.strict-idle-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.strict-idle-card {
+    background: rgba(20, 20, 32, 0.92);
+    border: 1px solid rgba(239, 68, 68, 0.55);
+    border-radius: var(--radius-xl);
+    padding: 2.2rem 2.4rem;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(239, 68, 68, 0.35);
+    animation: idleCardPulse 2s ease-in-out infinite;
+}
+@keyframes idleCardPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 20px 60px rgba(239, 68, 68, 0.35); }
+    50% { transform: scale(1.02); box-shadow: 0 25px 80px rgba(239, 68, 68, 0.55); }
+}
+.strict-idle-icon {
+    font-size: 3rem;
+    margin-bottom: .85rem;
+    display: inline-block;
+    animation: shakeIcon .8s ease infinite;
+}
+@keyframes shakeIcon {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+}
+.strict-idle-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #fca5a5;
+    margin-bottom: .45rem;
+}
+.strict-idle-desc {
+    font-size: .88rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
+.strict-idle-hint {
+    font-size: .8rem;
+    font-weight: 700;
+    color: #fde047;
+    background: rgba(234, 179, 8, 0.15);
+    border: 1px solid rgba(234, 179, 8, 0.35);
+    padding: .5rem 1rem;
+    border-radius: 980px;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+/* ══════════════════════════════════════════
    COSMO 3D ROCKET ASSISTANT
    ══════════════════════════════════════════ */
 .cosmo-stage {
@@ -1734,6 +1925,22 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <span class="category-active-label" id="home-cat-label">💻 Code</span>
         </div>
         <div class="category-chips" id="category-chips-home"></div>
+        <div class="super-strict-toggle-row">
+            <div class="strict-label-group">
+                <span class="strict-badge-icon">⚡</span>
+                <div>
+                    <div class="strict-title-text">
+                        <span>Super Strict Mode</span>
+                        <span class="strict-tag-badge">Anti-Slacking</span>
+                    </div>
+                    <div class="strict-sub-text">Active for Code & Essay/PPT — tracks mouse & keystrokes; halts if idle!</div>
+                </div>
+            </div>
+            <label class="spatial-switch">
+                <input type="checkbox" id="toggle-super-strict-home">
+                <span class="spatial-slider"></span>
+            </label>
+        </div>
     </div>
 
     <!-- Daily Target Card -->
@@ -1867,6 +2074,22 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <div class="setup-category-wrap">
             <label class="setup-category-title">Focus Category</label>
             <div class="category-chips setup-chips" id="category-chips-setup"></div>
+            <div class="super-strict-toggle-row">
+                <div class="strict-label-group">
+                    <span class="strict-badge-icon">⚡</span>
+                    <div>
+                        <div class="strict-title-text">
+                            <span>Super Strict Mode</span>
+                            <span class="strict-tag-badge">Anti-Slacking</span>
+                        </div>
+                        <div class="strict-sub-text">Halt timer if idle during Code & Writing</div>
+                    </div>
+                </div>
+                <label class="spatial-switch">
+                    <input type="checkbox" id="toggle-super-strict-setup">
+                    <span class="spatial-slider"></span>
+                </label>
+            </div>
         </div>
 
         <div class="setup-start">
@@ -1886,6 +2109,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                         <span id="focus-cat-icon">💻</span>
                         <span id="focus-cat-name">Code</span>
                     </button>
+                    <span class="focus-strict-badge" id="focus-strict-badge">
+                        <span>⚡</span>
+                        <span id="strict-badge-text">STRICT</span>
+                    </span>
                     <span class="focus-penalty-pill" id="focus-penalty-pill">
                         <span>🚨</span>
                         <span id="penalty-pill-text">+0m Penalty</span>
@@ -2026,6 +2253,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="c-stat"><span class="c-stat-val" id="c-pomos">0</span><span class="c-stat-lbl">Pomodoros</span></div>
             <div class="c-stat"><span class="c-stat-val" id="c-bottles">0</span><span class="c-stat-lbl">Bottles</span></div>
             <div class="c-stat" id="c-penalty-wrap" style="display:none"><span class="c-stat-val" id="c-penalty" style="color:#f43f5e">+0m</span><span class="c-stat-lbl">Desertion Penalty</span></div>
+            <div class="c-stat" id="c-strict-wrap" style="display:none"><span class="c-stat-val" id="c-strict" style="color:#fde047">⚡ Strict</span><span class="c-stat-lbl">Strict Mode</span></div>
             <div class="c-stat" id="c-ghost-wrap"><span class="c-stat-val" id="c-ghost" style="color:#c084fc">🏆 Won</span><span class="c-stat-lbl">Ghost Rival</span></div>
         </div>
         <p class="complete-quote" id="c-quote"></p>
@@ -2206,6 +2434,21 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <div class="target-modal-footer">
             <button class="target-btn-cancel" id="target-btn-cancel">Cancel</button>
             <button class="target-btn-save" id="target-btn-save">Save Target</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ Super Strict Idle Warning Overlay ═══ -->
+<div id="strict-idle-overlay" class="strict-idle-overlay">
+    <div class="strict-idle-card">
+        <span class="strict-idle-icon">⚡</span>
+        <div class="strict-idle-title">IDLE DETECTED — CLOCK PAUSED!</div>
+        <p class="strict-idle-desc">
+            Super Strict Mode requires continuous focus on <strong id="strict-idle-cat-name" style="color:#fde047">Code</strong>.
+            Zero mouse or keyboard inputs detected for <span id="strict-idle-sec">35</span>s!
+        </p>
+        <div class="strict-idle-hint">
+            <span>⌨️</span> Move mouse or press any key to resume timer!
         </div>
     </div>
 </div>
@@ -2535,6 +2778,13 @@ const S = {
     // Focus Category
     category: 'code',
 
+    // Super Strict Mode (Input Tracking)
+    superStrict: false,
+    strictActive: false,
+    lastInputTime: 0,
+    totalInputCount: 0,
+    strictIdlePaused: false,
+
     // Tab Desertion Penalty System
     initialTargetMs: 0,
     totalPenaltyMs: 0,
@@ -2599,6 +2849,13 @@ const focusCatBadge      = $('focus-cat-badge');
 const focusCatIcon       = $('focus-cat-icon');
 const focusCatName       = $('focus-cat-name');
 
+// Super Strict Mode DOM refs
+const toggleStrictHome   = $('toggle-super-strict-home');
+const toggleStrictSetup  = $('toggle-super-strict-setup');
+const focusStrictBadge   = $('focus-strict-badge');
+const strictBadgeText    = $('strict-badge-text');
+const strictIdleOverlay  = $('strict-idle-overlay');
+
 /* ── Focus Categories Controller ── */
 function getCategory(id) {
     return CATEGORIES.find(c => c.id === id) || CATEGORIES[4]; // default 'code'
@@ -2645,6 +2902,19 @@ function setCategory(id, shouldToast = true) {
             btn.style.setProperty('--cat-glow', cat.glow);
         }
     });
+
+    // Dynamically adjust Super Strict mode if session is currently active
+    if (S.running) {
+        S.strictActive = !!(S.superStrict && isStrictApplicableCategory(cat.id));
+        if (focusStrictBadge) {
+            focusStrictBadge.classList.toggle('active', S.strictActive);
+            if (!S.strictActive) {
+                focusStrictBadge.classList.remove('idle-warning');
+                if (strictBadgeText) strictBadgeText.textContent = 'STRICT';
+                if (S.strictIdlePaused) resumeFromStrictIdle();
+            }
+        }
+    }
 
     if (shouldToast) {
         showToast(`${cat.icon} Category: ${cat.name}`, cat.icon);
@@ -2723,6 +2993,125 @@ function updatePenaltyBadge() {
         focusPenaltyPill.classList.remove('visible');
     }
 }
+
+/* ── Super Strict Focus Mode Controller ── */
+const SUPER_STRICT_STORAGE_KEY = 'focus_super_strict_enabled';
+const STRICT_IDLE_TIMEOUT_MS   = 35000; // 35 seconds of zero input triggers idle pause
+
+function isStrictApplicableCategory(catId) {
+    return catId === 'code' || catId === 'essay-ppt';
+}
+
+function loadSuperStrict() {
+    try {
+        S.superStrict = localStorage.getItem(SUPER_STRICT_STORAGE_KEY) === 'true';
+    } catch {
+        S.superStrict = false;
+    }
+    syncStrictToggles();
+}
+
+function setSuperStrict(enabled, shouldToast = true) {
+    S.superStrict = !!enabled;
+    try {
+        localStorage.setItem(SUPER_STRICT_STORAGE_KEY, S.superStrict ? 'true' : 'false');
+    } catch {}
+    syncStrictToggles();
+
+    // Dynamically adjust Super Strict mode if session is currently active
+    if (S.running) {
+        S.strictActive = !!(S.superStrict && isStrictApplicableCategory(S.category));
+        if (focusStrictBadge) {
+            focusStrictBadge.classList.toggle('active', S.strictActive);
+            if (!S.strictActive) {
+                focusStrictBadge.classList.remove('idle-warning');
+                if (strictBadgeText) strictBadgeText.textContent = 'STRICT';
+                if (S.strictIdlePaused) resumeFromStrictIdle();
+            }
+        }
+    }
+
+    if (shouldToast) {
+        showToast(
+            S.superStrict 
+                ? '⚡ Super Strict Mode Enabled: Input tracking active for Code & Essay/PPT!' 
+                : '⚡ Super Strict Mode Disabled',
+            '⚡',
+            3500
+        );
+    }
+}
+
+function syncStrictToggles() {
+    if (toggleStrictHome) toggleStrictHome.checked = !!S.superStrict;
+    if (toggleStrictSetup) toggleStrictSetup.checked = !!S.superStrict;
+}
+
+function onUserInputActivity(e) {
+    if (!S.strictActive) return;
+
+    S.lastInputTime = Date.now();
+    S.totalInputCount++;
+
+    if (S.strictIdlePaused) {
+        resumeFromStrictIdle();
+    }
+}
+
+function triggerStrictIdlePause() {
+    if (S.strictIdlePaused || !S.running || S.paused) return;
+    S.strictIdlePaused = true;
+    pauseSession(true);
+    soundWarning();
+
+    if (strictIdleOverlay) {
+        const cat = getCategory(S.category);
+        const catNameEl = $('strict-idle-cat-name');
+        if (catNameEl) catNameEl.textContent = cat.name;
+        strictIdleOverlay.classList.add('visible');
+    }
+
+    if (focusStrictBadge) focusStrictBadge.classList.add('idle-warning');
+    if (strictBadgeText) strictBadgeText.textContent = 'IDLE PAUSED';
+
+    // Boost Ghost racer speed during idle slacking
+    if (GhostRacer.active) {
+        GhostRacer.slackingBoost = 1.6;
+    }
+
+    if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
+    if (window.Cosmo && Cosmo.deliver) {
+        Cosmo.deliver('⚡ Idle pause! Move your mouse or type to resume the timer!', '⚡', 4000);
+    }
+}
+
+function resumeFromStrictIdle() {
+    if (!S.strictIdlePaused) return;
+    S.strictIdlePaused = false;
+
+    if (strictIdleOverlay) {
+        strictIdleOverlay.classList.remove('visible');
+    }
+    if (focusStrictBadge) {
+        focusStrictBadge.classList.remove('idle-warning');
+        if (strictBadgeText) strictBadgeText.textContent = 'STRICT';
+    }
+
+    resumeSession(true);
+    soundResume();
+
+    if (GhostRacer.active) {
+        GhostRacer.slackingBoost = 1.0;
+    }
+
+    if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('happy');
+    showToast('⚡ Inputs detected! Clock resumed.', '⚡', 2500);
+}
+
+// Global Activity Tracking for Super Strict Mode
+['mousemove', 'mousedown', 'pointerdown', 'click', 'wheel', 'keydown', 'touchstart'].forEach(evt => {
+    window.addEventListener(evt, onUserInputActivity, { passive: true });
+});
 
 /* ── Theme & Atmosphere Controller ── */
 function loadThemeConfig() {
@@ -4955,6 +5344,25 @@ function tick() {
         GhostRacer.tick(Math.max(0, frozenElapsed), true, document.hidden);
         return;
     }
+
+    // Super Strict Input & Idle Monitor
+    if (S.strictActive && !S.pomoIsBreak) {
+        const idleMs = Date.now() - S.lastInputTime;
+        if (idleMs >= STRICT_IDLE_TIMEOUT_MS) {
+            triggerStrictIdlePause();
+            return;
+        } else {
+            const remSec = Math.max(0, Math.ceil((STRICT_IDLE_TIMEOUT_MS - idleMs) / 1000));
+            if (remSec <= 10 && strictBadgeText) {
+                strictBadgeText.textContent = `IDLE IN ${remSec}s`;
+                focusStrictBadge.classList.add('idle-warning');
+            } else if (strictBadgeText) {
+                strictBadgeText.textContent = 'STRICT';
+                focusStrictBadge.classList.remove('idle-warning');
+            }
+        }
+    }
+
     const now = Date.now();
     const elapsed = now - S.startTime - S.totalPaused;
 
@@ -5108,6 +5516,10 @@ function finishSession(focusMs) {
     S.running = false;
     S.paused = false;
 
+    if (strictIdleOverlay) strictIdleOverlay.classList.remove('visible');
+    if (focusStrictBadge) focusStrictBadge.classList.remove('idle-warning');
+    if (GhostRacer.active) GhostRacer.slackingBoost = 1.0;
+
     exitFS();
     document.title = 'Focus';
     if (S.mode !== 'pomodoro') soundComplete(); // pomo plays its own sound
@@ -5122,6 +5534,8 @@ function finishSession(focusMs) {
         duration: focusMs,
         pomodoros: pomoCount,
         completedAt: new Date().toISOString(),
+        strict: S.strictActive,
+        inputs: S.totalInputCount,
     });
 
     // Show complete screen
@@ -5143,6 +5557,16 @@ function finishSession(focusMs) {
             $('c-penalty').textContent = `+${fmtPenalty(S.totalPenaltyMs)}${S.penaltyCount > 1 ? ` (${S.penaltyCount}x)` : ''}`;
         } else {
             $('c-penalty-wrap').style.display = 'none';
+        }
+    }
+
+    // Super Strict Mode Stat in Complete Screen
+    if ($('c-strict-wrap')) {
+        if (S.strictActive) {
+            $('c-strict-wrap').style.display = '';
+            $('c-strict').textContent = `⚡ Active (${S.totalInputCount.toLocaleString()} inputs)`;
+        } else {
+            $('c-strict-wrap').style.display = 'none';
         }
     }
 
@@ -5175,7 +5599,13 @@ function stopSession() {
 
     if (GhostRacer.active) {
         GhostRacer.finish(elapsed);
+        GhostRacer.slackingBoost = 1.0;
     }
+
+    S.strictActive = false;
+    S.strictIdlePaused = false;
+    if (strictIdleOverlay) strictIdleOverlay.classList.remove('visible');
+    if (focusStrictBadge) focusStrictBadge.classList.remove('active', 'idle-warning');
 
     S.running = false;
     S.paused = false;
@@ -5196,6 +5626,8 @@ function stopSession() {
             duration: focusMs,
             pomodoros: pomoCount,
             completedAt: new Date().toISOString(),
+            strict: S.strictActive,
+            inputs: S.totalInputCount,
         });
     }
     refreshHomeStats();
@@ -5333,6 +5765,18 @@ function beginSession() {
     if (focusCatBadge) {
         focusCatBadge.style.borderColor = cat.color + '60';
         focusCatBadge.style.boxShadow = `0 0 12px ${cat.glow}`;
+    }
+
+    // Super Strict Mode Activation (only for Code or Essay/PPT)
+    S.strictActive = !!(S.superStrict && isStrictApplicableCategory(S.category));
+    S.lastInputTime = Date.now();
+    S.totalInputCount = 0;
+    S.strictIdlePaused = false;
+    if (strictIdleOverlay) strictIdleOverlay.classList.remove('visible');
+    if (focusStrictBadge) {
+        focusStrictBadge.classList.toggle('active', S.strictActive);
+        focusStrictBadge.classList.remove('idle-warning');
+        if (strictBadgeText) strictBadgeText.textContent = 'STRICT';
     }
 
     // Welcome toast tailored to category
@@ -5645,6 +6089,20 @@ if (ghostPillsRow) {
     });
 }
 
+// Super Strict Mode Toggles
+if (toggleStrictHome) {
+    toggleStrictHome.addEventListener('change', e => {
+        setSuperStrict(e.target.checked);
+        soundClick();
+    });
+}
+if (toggleStrictSetup) {
+    toggleStrictSetup.addEventListener('change', e => {
+        setSuperStrict(e.target.checked);
+        soundClick();
+    });
+}
+
 // ── Focus Lock & Anti-Distraction Key Guard ──
 document.addEventListener('keydown', e => {
     // Close modals on Escape
@@ -5787,6 +6245,7 @@ loadSessions();
 loadInventory();
 loadCategory();
 renderCategoryChips();
+loadSuperStrict();
 loadThemeConfig();
 applyTheme(themeConfig.themeId, themeConfig.blur, themeConfig.opacity, false);
 refreshHomeStats();
