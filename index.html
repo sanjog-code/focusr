@@ -252,15 +252,15 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* ── Spatial Backdrop ── */
 .backdrop-wrapper{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .backdrop-image{
-    position:absolute;inset:-24px;background-size:cover;background-position:center;background-repeat:no-repeat;
-    filter:blur(var(--backdrop-blur));opacity:var(--backdrop-opacity);transform:scale(1.05);
-    transition:background-image .7s cubic-bezier(.25,.46,.45,.94),opacity .35s ease,filter .35s ease;
-    will-change:filter,opacity;
+    position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;
+    filter:blur(var(--backdrop-blur, 0px));opacity:var(--backdrop-opacity, 1);transform:scale(1.02);
+    transition:background-image .5s ease, opacity .35s ease;
+    will-change:opacity;
 }
 .backdrop-overlay{
     position:absolute;inset:0;
-    background:radial-gradient(circle at 50% 38%,rgba(8, 10, 18, 0.65) 0%,rgba(8, 10, 18, 0.92) 100%),var(--backdrop-tint);
-    transition:background .7s ease;
+    background:radial-gradient(circle at 50% 45%, rgba(6, 8, 14, 0.12) 0%, rgba(6, 8, 14, 0.52) 100%), var(--backdrop-tint, rgba(10, 12, 18, 0.35));
+    transition:background .5s ease;
 }
 
 /* ── Background Orbs ── */
@@ -679,7 +679,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* Quick Stats 5-Column Grid */
 .quick-stats {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
     padding: 1.1rem 1.4rem;
     width: 100%;
@@ -5104,23 +5104,21 @@ body.oled-true-black .glass {
                 </div>
             </div>
             <div class="spatial-action-island glass">
+                <button class="btn-icon" id="btn-open-marketplace" title="Atmosphere & Wallpaper Marketplace (52+ Free Themes)" style="position:relative">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span class="marketplace-pill-badge" style="position:absolute;top:-4px;right:-4px;background:var(--accent);color:#fff;font-size:0.6rem;font-weight:800;padding:1px 4px;border-radius:9999px;line-height:1">52</span>
+                </button>
                 <button class="btn-icon btn-spotify" id="btn-open-spotify" title="Spotify Focus Music & Playlists">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
                     </svg>
                     <span class="spotify-pulse-dot" id="home-spotify-pulse" style="display:none"></span>
                 </button>
-                <button class="btn-icon" id="btn-open-target" title="Daily Focus Target"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></button>
-                <button class="btn-icon" id="btn-toggle-cosmo" title="Cosmor Spatial Copilot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4.5c1.62-1.63 5-2 5-2"/><path d="M12 15v5s3.03-.55 4.5-2c1.63-1.62 2-5 2-5"/></svg></button>
-                <button class="btn-icon" id="btn-open-marketplace" title="Atmosphere & Wallpaper Marketplace (52+ Free Themes)">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                </button>
-                <button class="btn-icon" id="btn-open-themes" title="Atmosphere & Backdrops">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-                </button>
-                <button class="btn-icon" id="go-analytics" title="Analytics">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
-                </button>
+                <!-- Secondary actions accessible via the adjacent Menu button -->
+                <button class="btn-icon" id="btn-open-target" style="display:none" title="Daily Focus Target"></button>
+                <button class="btn-icon" id="btn-toggle-cosmo" style="display:none" title="Cosmor Spatial Copilot"></button>
+                <button class="btn-icon" id="btn-open-themes" style="display:none" title="Atmosphere & Backdrops"></button>
+                <button class="btn-icon" id="go-analytics" style="display:none" title="Analytics"></button>
             </div>
         </div>
     </div>
@@ -5188,90 +5186,18 @@ body.oled-true-black .glass {
         </div>
     </div>
 
-    <!-- Quiet Expandable Session Preferences & Guard Drawer -->
-    <details class="minimal-atelier-drawer glass" id="home-preferences-drawer">
-        <summary class="minimal-drawer-trigger">
-            <div class="drawer-trigger-left">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                <span>Focus Guard & Pacing Rules</span>
-            </div>
-            <span class="drawer-trigger-badge">Preferences</span>
-        </summary>
-        <div class="minimal-drawer-body">
-            <div class="super-strict-toggle-row">
-                <div class="strict-label-group">
-                    <span class="strict-badge-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-                    <div>
-                        <div class="strict-title-text">
-                            <span>Super Strict Mode</span>
-                            <span class="strict-tag-badge">Anti-Slacking</span>
-                        </div>
-                        <div class="strict-sub-text">Continuous focus guard — tracks mouse & keystrokes; halts timer & alarms if idle!</div>
-                    </div>
-                </div>
-                <label class="spatial-switch">
-                    <input type="checkbox" id="toggle-super-strict-home">
-                    <span class="spatial-slider"></span>
-                </label>
-            </div>
-            <div class="focus-alarm-toggle-row">
-                <div class="alarm-label-group">
-                    <span class="alarm-badge-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
-                    <div>
-                        <div class="alarm-title-text">
-                            <span>Loud Wake-up Siren</span>
-                            <span class="alarm-tag-badge">Every 2m</span>
-                        </div>
-                        <div class="alarm-sub-text">Plays a loud alarm every 2 minutes whenever you aren't focusing!</div>
-                    </div>
-                </div>
-                <div class="alarm-actions-group">
-                    <button type="button" class="btn-test-alarm" id="btn-test-alarm-home" title="Preview loud alarm sound">Test Siren</button>
-                    <label class="spatial-switch">
-                        <input type="checkbox" id="toggle-loud-alarm-home" checked>
-                        <span class="spatial-slider alarm-slider"></span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Ghost Rival Card inside Drawer -->
-            <div class="ghost-home-card" id="ghost-home-card" style="border:none;background:transparent;padding:0.75rem 0 0;box-shadow:none;">
-                <div class="ghost-home-header">
-                    <div class="ghost-home-title">
-                        <span class="ghost-avatar-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-                        <div>
-                            <h3>Ghost Competitor (Kinetic Pacing)</h3>
-                            <span class="ghost-home-meta" id="gh-meta-text">Paced from your Personal Best session, weekly rhythm & average duration</span>
-                        </div>
-                    </div>
-                    <span class="ghost-record-pill" id="gh-record-pill">0W - 0L</span>
-                </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-top:0.6rem">
-                    <span style="font-size:.78rem;color:var(--text-dim)">Pacing Benchmark:</span>
-                    <div class="ghost-pills-row" id="ghost-pills-row">
-                        <button class="ghost-mode-pill active" data-mode="ai" title="Adaptive Pace: Calibrates to stamina, time-of-day & flow zone">Adaptive</button>
-                        <button class="ghost-mode-pill" data-mode="pb" title="Paces against your personal best record">Personal Best</button>
-                        <button class="ghost-mode-pill" data-mode="avg" title="Paces against your weekly average speed">Weekly Avg</button>
-                        <button class="ghost-mode-pill" data-mode="apex" title="Overdrive challenge (+8% faster than PB)">Apex (+8%)</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </details>
+    
 </div>
 
 <div class="quick-stats glass">
         <div class="stat"><span class="stat-value" id="qs-time">0m</span><span class="stat-label">Today</span></div>
-        <div class="stat"><span class="stat-value" id="qs-sess">0</span><span class="stat-label">Sessions</span></div>
         <div class="stat"><span class="stat-value" id="qs-streak">0</span><span class="stat-label">Day Streak</span></div>
+        <div class="stat"><span class="stat-value" id="qs-sess">0</span><span class="stat-label">Sessions</span></div>
         <div class="stat"><span class="stat-value" id="qs-pomos">0</span><span class="stat-label">Pomodoros</span></div>
-        <div class="stat"><span class="stat-value" id="qs-bottles">0</span><span class="stat-label">Bottles</span></div>
     </div>
 
     <!-- Home Footer Sponsor Capsule -->
-    <div class="focusr-ad-slot home-ad-slot" id="home-sponsor-slot">
-        <!-- Rendered by AdManager -->
-    </div>
+    
 
     <!-- Spatial Signature Footer -->
     <footer class="home-signature-footer">
@@ -7568,9 +7494,9 @@ const THEMES = [
 ];
 
 let themeConfig = {
-    themeId: 'zen-mist',
-    blur: 12,
-    opacity: 85
+    themeId: 'zen-bamboo-sanctuary',
+    blur: 0,
+    opacity: 100
 };
 
 /* ── Focus Categories Definition ── */
@@ -13525,6 +13451,9 @@ loadCategory();
 renderCategoryChips();
 loadSuperStrict();
 loadLoudAlarm();
+if (typeof CustomThemeStorage !== 'undefined' && CustomThemeStorage.init) {
+    CustomThemeStorage.init();
+}
 loadThemeConfig();
 applyTheme(themeConfig.themeId, themeConfig.blur, themeConfig.opacity, false);
 refreshHomeStats();
@@ -14949,6 +14878,7 @@ const WallpaperMarketplace = {
                 soundClick();
                 showToast('Atmosphere "' + (card.querySelector('.market-card-title')?.textContent || themeId) + '" applied!', '', 3000);
                 this.renderGrid();
+                setTimeout(() => this.close(), 240);
             });
         });
     }
@@ -15535,7 +15465,15 @@ const FocusrCustomization = {
     },
 
     applyAll() {
-        if (this.config.accent) this.setAccent(this.config.accent);
+        const activeTheme = (typeof getActiveTheme === 'function') ? getActiveTheme() : null;
+        if (activeTheme && activeTheme.accent) {
+            this.config.accent = activeTheme.accent;
+            document.documentElement.style.setProperty('--accent', activeTheme.accent);
+            document.documentElement.style.setProperty('--accent-glow', activeTheme.accentGlow || this.hexToRgba(activeTheme.accent, 0.28));
+            document.documentElement.style.setProperty('--liquid-hue', activeTheme.liquidHue || this.hexToHue(activeTheme.accent));
+        } else if (this.config.accent) {
+            this.setAccent(this.config.accent);
+        }
         if (this.config.oled) document.body.classList.add('oled-true-black');
         if (this.config.clockFace) this.setClockFace(this.config.clockFace);
         if (this.syncUI) this.syncUI();
