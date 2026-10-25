@@ -392,63 +392,43 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     background: rgba(30, 215, 96, 0.15);
 }
 
-/* ── Home Atelier Dashboard Grid ── */
+/* ── Home Atelier Minimal Layout ── */
 .home-atelier-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
     width: 100%;
     max-width: 700px;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.85rem;
 }
 .home-atelier-grid .category-card,
-.home-atelier-grid .daily-target-card,
-.home-atelier-grid .ghost-home-card {
+.home-atelier-grid .daily-target-card {
     width: 100% !important;
     max-width: 100% !important;
     margin-bottom: 0 !important;
-}
-@media (min-width: 768px) {
-    .home-atelier-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        align-items: stretch;
-    }
-    .home-atelier-grid .category-card {
-        grid-column: 1 / -1;
-        height: auto;
-    }
-    .home-atelier-grid .daily-target-card {
-        grid-column: 1 / 2;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .home-atelier-grid .ghost-home-card {
-        grid-column: 2 / 3;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
 }
 
 .mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;width:100%;max-width:700px;margin-bottom:1.25rem}
 .mode-card{padding:1.35rem 1rem;text-align:center;cursor:pointer;transition:all var(--tr)}
 .mode-card:hover{background:var(--surface-hover);border-color:var(--border-hover);transform:translateY(-4px)}
 .mode-card:active{transform:translateY(0) scale(.97)}
-.mode-icon{font-size:2.4rem;margin-bottom:1rem;display:block}
-.pomo-logo-svg{
-    width:52px;height:52px;display:inline-block;vertical-align:middle;
-    transition:transform .3s ease;
+.mode-icon {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #f1f5f9;
+    transition: all 0.25s ease;
 }
-.mode-card[data-mode="pomodoro"] .mode-icon{
-    display:flex;align-items:center;justify-content:center;
-    height:52px;margin-bottom:1rem;font-size:initial;
-}
-.mode-card[data-mode="pomodoro"]:hover .pomo-logo-svg{
-    transform:scale(1.08);
+.mode-card:hover .mode-icon {
+    background: rgba(255, 255, 255, 0.09);
+    color: var(--accent);
+    transform: scale(1.06);
 }
 .setup-pomo-title-wrap{
     display:flex;align-items:center;justify-content:center;
@@ -464,6 +444,84 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .stat{display:flex;flex-direction:column;align-items:center;gap:.25rem}
 .stat-value{font-size:1.65rem;font-weight:700;color:#ffffff;letter-spacing:-.02em}
 .stat-label{font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+
+/* ── Minimalist Atelier Drawer & Streamlined Cards ── */
+.minimal-atelier-drawer {
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 0.85rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+.minimal-drawer-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1.15rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 500;
+    user-select: none;
+    list-style: none;
+    transition: all 0.2s ease;
+}
+.minimal-drawer-trigger::-webkit-details-marker {
+    display: none;
+}
+.minimal-drawer-trigger:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.035);
+}
+.drawer-trigger-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.drawer-trigger-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-dim);
+}
+.minimal-drawer-body {
+    padding: 0.4rem 1.25rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.home-atelier-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 0.85rem;
+}
+.home-atelier-grid .category-card {
+    border-radius: var(--radius);
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    border: 1px solid var(--border);
+}
+.home-atelier-grid .daily-target-card {
+    border-radius: var(--radius);
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 1px solid var(--border);
+}
+
+
 
 /* ── Minimalist Spatial Signature Footer ── */
 .home-signature-footer {
@@ -4393,147 +4451,51 @@ body.oled-true-black .glass {
     <div class="mode-grid">
         <div class="mode-card glass" data-mode="timer">
             <span class="mode-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="14" r="8"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="14" x2="16" y2="10"/></svg></span>
-            <div><h2>Timer</h2><p>Set a duration and focus</p></div>
+            <div><h2>Timer</h2><p>Countdown sprint</p></div>
         </div>
         <div class="mode-card glass" data-mode="stopwatch">
             <span class="mode-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><polyline points="12 9 12 13 15 15"/><path d="M5 3L2 6"/><path d="M22 6l-3-3"/><path d="M12 2v3"/></svg></span>
-            <div><h2>Stopwatch</h2><p>Track open-ended sessions</p></div>
+            <div><h2>Stopwatch</h2><p>Open flow tracking</p></div>
         </div>
         <div class="mode-card glass" data-mode="pomodoro">
             <span class="mode-icon">
-                <svg class="pomo-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <radialGradient id="pomoCaseGrad" cx="32%" cy="30%" r="68%">
-                            <stop offset="0%" stop-color="#2d3748"/>
-                            <stop offset="60%" stop-color="#1a202c"/>
-                            <stop offset="100%" stop-color="#0f172a"/>
-                        </radialGradient>
-                        <radialGradient id="pomoDialGrad" cx="42%" cy="38%" r="62%">
-                            <stop offset="0%" stop-color="#1e293b"/>
-                            <stop offset="70%" stop-color="#0f172a"/>
-                            <stop offset="100%" stop-color="#020617"/>
-                        </radialGradient>
-                        <linearGradient id="pomoRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#f43f5e"/>
-                            <stop offset="50%" stop-color="#fb7185"/>
-                            <stop offset="100%" stop-color="#f59e0b"/>
-                        </linearGradient>
-                        <linearGradient id="pomoArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#f43f5e"/>
-                            <stop offset="100%" stop-color="#fbbf24"/>
-                        </linearGradient>
-                        <linearGradient id="pomoGlassSheen" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
-                            <stop offset="45%" stop-color="#ffffff" stop-opacity="0.04"/>
-                            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-                        </linearGradient>
-                    </defs>
-                    <!-- Shadow Base -->
-                    <ellipse cx="50" cy="92" rx="32" ry="5" fill="#000000" fill-opacity="0.35"/>
-                    <!-- Chronometer Top Crown & Pushers -->
-                    <rect x="46" y="8" width="8" height="6" rx="2" fill="#64748b" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
-                    <rect x="44.5" y="6" width="11" height="3" rx="1.5" fill="url(#pomoRingGrad)"/>
-                    <rect x="23" y="15" width="5.5" height="4.5" rx="1.5" transform="rotate(-32 23 15)" fill="#475569"/>
-                    <rect x="74" y="12" width="5.5" height="4.5" rx="1.5" transform="rotate(32 74 12)" fill="#475569"/>
-                    <!-- Outer Metallic Case / Bezel -->
-                    <circle cx="50" cy="54" r="38" fill="url(#pomoCaseGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="1.6"/>
-                    <circle cx="50" cy="54" r="35" fill="none" stroke="rgba(244,63,94,0.3)" stroke-width="1.2"/>
-                    <!-- Inner Chrono Dial -->
-                    <circle cx="50" cy="54" r="32" fill="url(#pomoDialGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <!-- Calibrated Radial Hour / Minute Ticks -->
-                    <g stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-linecap="round">
-                        <line x1="50" y1="26" x2="50" y2="30" stroke="#f43f5e" stroke-width="1.8"/>
-                        <line x1="78" y1="54" x2="74" y2="54" stroke="rgba(255,255,255,0.5)"/>
-                        <line x1="50" y1="82" x2="50" y2="78" stroke="rgba(255,255,255,0.5)"/>
-                        <line x1="22" y1="54" x2="26" y2="54" stroke="rgba(255,255,255,0.5)"/>
-                        <!-- 5-min intervals -->
-                        <line x1="64" y1="29.7" x2="62" y2="33.2" stroke="rgba(255,255,255,0.4)"/>
-                        <line x1="74.3" y1="40" x2="70.8" y2="42" stroke="rgba(255,255,255,0.4)"/>
-                        <line x1="74.3" y1="68" x2="70.8" y2="66" stroke="#fbbf24" stroke-width="1.5"/>
-                        <line x1="64" y1="78.3" x2="62" y2="74.8" stroke="rgba(255,255,255,0.4)"/>
-                        <line x1="36" y1="78.3" x2="38" y2="74.8" stroke="rgba(255,255,255,0.4)"/>
-                        <line x1="25.7" y1="68" x2="29.2" y2="66" stroke="rgba(255,255,255,0.4)"/>
-                        <line x1="25.7" y1="40" x2="29.2" y2="42" stroke="rgba(255,255,255,0.4)"/>
-                        <line x1="36" y1="29.7" x2="38" y2="33.2" stroke="rgba(255,255,255,0.4)"/>
-                    </g>
-                    <!-- 25-Minute Work Sprint Focus Arc -->
-                    <path d="M 50 28 A 26 26 0 0 1 72.5 67" fill="none" stroke="url(#pomoArcGrad)" stroke-width="3" stroke-linecap="round"/>
-                    <!-- Chrono Hands -->
-                    <g>
-                        <line x1="50" y1="54" x2="68" y2="42" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="50" y1="54" x2="42" y2="36" stroke="#fb7185" stroke-width="2.2" stroke-linecap="round"/>
-                        <line x1="50" y1="54" x2="58" y2="68" stroke="#fbbf24" stroke-width="1.2" stroke-linecap="round"/>
-                        <!-- Center Hub Pin -->
-                        <circle cx="50" cy="54" r="3.8" fill="#f43f5e"/>
-                        <circle cx="50" cy="54" r="1.6" fill="#ffffff"/>
-                    </g>
-                    <!-- Glass Sheen Refraction Reflection -->
-                    <path d="M 24 40 C 28 28 40 24 58 24 C 44 26 32 34 26 48 Z" fill="url(#pomoGlassSheen)"/>
-                    <text x="50" y="66" text-anchor="middle" fill="#fb7185" font-family="system-ui, -apple-system, sans-serif" font-size="6.5" font-weight="700" letter-spacing="0.5">25m</text>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="14" r="8"/>
+                    <path d="M12 6V2"/>
+                    <path d="M9.5 4.5C10.5 3 13.5 3 14.5 4.5"/>
+                    <path d="M12 10v4l2.5 2"/>
                 </svg>
             </span>
-            <div><h2>Pomodoro</h2><p>Work in focused intervals</p></div>
+            <div><h2>Pomodoro</h2><p>25m interval sprints</p></div>
         </div>
+    </div>
     </div>
 
     <!-- Focus Category Selector -->
         <div class="home-atelier-grid">
+    <!-- Streamlined Minimal Category Selector -->
     <div class="category-card glass" id="category-card">
         <div class="category-card-header">
-            <span class="category-header-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> <span>Focus Category</span></span>
+            <span class="category-header-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> <span>Category</span></span>
             <span class="category-active-label" id="home-cat-label">Code</span>
         </div>
         <div class="category-chips" id="category-chips-home"></div>
-        <div class="super-strict-toggle-row">
-            <div class="strict-label-group">
-                <span class="strict-badge-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-                <div>
-                    <div class="strict-title-text">
-                        <span>Super Strict Mode</span>
-                        <span class="strict-tag-badge">Anti-Slacking</span>
-                    </div>
-                    <div class="strict-sub-text">Continuous focus guard — tracks mouse & keystrokes; halts timer & alarms if idle!</div>
-                </div>
-            </div>
-            <label class="spatial-switch">
-                <input type="checkbox" id="toggle-super-strict-home">
-                <span class="spatial-slider"></span>
-            </label>
-        </div>
-        <div class="focus-alarm-toggle-row">
-            <div class="alarm-label-group">
-                <span class="alarm-badge-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
-                <div>
-                    <div class="alarm-title-text">
-                        <span>Loud Wake-up Siren</span>
-                        <span class="alarm-tag-badge">Every 2m</span>
-                    </div>
-                    <div class="alarm-sub-text">Plays a loud alarm every 2 minutes whenever you aren't focusing!</div>
-                </div>
-            </div>
-            <div class="alarm-actions-group">
-                <button type="button" class="btn-test-alarm" id="btn-test-alarm-home" title="Preview loud alarm sound">Test Siren</button>
-                <label class="spatial-switch">
-                    <input type="checkbox" id="toggle-loud-alarm-home" checked>
-                    <span class="spatial-slider alarm-slider"></span>
-                </label>
-            </div>
-        </div>
     </div>
 
-    <!-- Daily Target Card -->
+    <!-- Minimal Hairline Daily Target Card -->
     <div class="daily-target-card glass" id="daily-target-card">
         <div class="target-card-header">
             <div class="target-card-title">
-                <span class="target-card-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                <span class="target-card-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
                 <div>
-                    <h3>Daily Focus Target</h3>
+                    <h3>Daily Target</h3>
                     <span class="target-card-status" id="dt-status-text">0m of 2h 00m goal (0%)</span>
                 </div>
             </div>
             <div class="target-card-actions">
+                <span class="target-pct-badge" id="dt-pct-badge">0%</span>
                 <button class="target-card-edit-btn" id="btn-edit-target" title="Adjust daily focus goal">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                     <span>Set Goal</span>
                 </button>
             </div>
@@ -4542,42 +4504,86 @@ body.oled-true-black .glass {
             <div class="target-progress-bar">
                 <div class="target-progress-fill" id="dt-progress-fill" style="width: 0%"></div>
             </div>
-            <div class="target-progress-meta">
-                <span class="target-pct-badge" id="dt-pct-badge">0%</span>
-                <span class="target-remaining" id="dt-remaining-text">2h 00m to go</span>
-            </div>
+            <span class="target-remaining" id="dt-remaining-text" style="display:none">2h 00m to go</span>
         </div>
         <div class="target-conquered-banner" id="dt-conquered-banner">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H8v4h8v-4h-1c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span>
-            <span>Daily Goal Achieved — Clean Focus Record</span>
+            <span>Daily Goal Achieved</span>
         </div>
     </div>
 
-    <!-- Ghost Racer Rival Card -->
-    <div class="ghost-home-card glass" id="ghost-home-card">
-        <div class="ghost-home-header">
-            <div class="ghost-home-title">
-                <span class="ghost-avatar-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-                <div>
-                    <h3>Ghost Competitor (Kinetic Pacing Model)</h3>
-                    <span class="ghost-home-meta" id="gh-meta-text">Paced from your Personal Best session, weekly rhythm & average duration</span>
+    <!-- Quiet Expandable Session Preferences & Guard Drawer -->
+    <details class="minimal-atelier-drawer glass" id="home-preferences-drawer">
+        <summary class="minimal-drawer-trigger">
+            <div class="drawer-trigger-left">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Focus Guard & Pacing Rules</span>
+            </div>
+            <span class="drawer-trigger-badge">Preferences</span>
+        </summary>
+        <div class="minimal-drawer-body">
+            <div class="super-strict-toggle-row">
+                <div class="strict-label-group">
+                    <span class="strict-badge-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                    <div>
+                        <div class="strict-title-text">
+                            <span>Super Strict Mode</span>
+                            <span class="strict-tag-badge">Anti-Slacking</span>
+                        </div>
+                        <div class="strict-sub-text">Continuous focus guard — tracks mouse & keystrokes; halts timer & alarms if idle!</div>
+                    </div>
+                </div>
+                <label class="spatial-switch">
+                    <input type="checkbox" id="toggle-super-strict-home">
+                    <span class="spatial-slider"></span>
+                </label>
+            </div>
+            <div class="focus-alarm-toggle-row">
+                <div class="alarm-label-group">
+                    <span class="alarm-badge-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
+                    <div>
+                        <div class="alarm-title-text">
+                            <span>Loud Wake-up Siren</span>
+                            <span class="alarm-tag-badge">Every 2m</span>
+                        </div>
+                        <div class="alarm-sub-text">Plays a loud alarm every 2 minutes whenever you aren't focusing!</div>
+                    </div>
+                </div>
+                <div class="alarm-actions-group">
+                    <button type="button" class="btn-test-alarm" id="btn-test-alarm-home" title="Preview loud alarm sound">Test Siren</button>
+                    <label class="spatial-switch">
+                        <input type="checkbox" id="toggle-loud-alarm-home" checked>
+                        <span class="spatial-slider alarm-slider"></span>
+                    </label>
                 </div>
             </div>
-            <span class="ghost-record-pill" id="gh-record-pill">0W - 0L</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
-            <span style="font-size:.78rem;color:var(--text-dim)">Pacing Benchmark:</span>
-            <div class="ghost-pills-row" id="ghost-pills-row">
-                <button class="ghost-mode-pill active" data-mode="ai" title="Adaptive Pace: Calibrates to stamina, time-of-day & flow zone">Adaptive</button>
-                <button class="ghost-mode-pill" data-mode="pb" title="Paces against your personal best record">Personal Best</button>
-                <button class="ghost-mode-pill" data-mode="avg" title="Paces against your weekly average speed">Weekly Avg</button>
-                <button class="ghost-mode-pill" data-mode="apex" title="Overdrive challenge (+8% faster than PB)">Apex (+8%)</button>
+
+            <!-- Ghost Rival Card inside Drawer -->
+            <div class="ghost-home-card" id="ghost-home-card" style="border:none;background:transparent;padding:0.75rem 0 0;box-shadow:none;">
+                <div class="ghost-home-header">
+                    <div class="ghost-home-title">
+                        <span class="ghost-avatar-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                        <div>
+                            <h3>Ghost Competitor (Kinetic Pacing)</h3>
+                            <span class="ghost-home-meta" id="gh-meta-text">Paced from your Personal Best session, weekly rhythm & average duration</span>
+                        </div>
+                    </div>
+                    <span class="ghost-record-pill" id="gh-record-pill">0W - 0L</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-top:0.6rem">
+                    <span style="font-size:.78rem;color:var(--text-dim)">Pacing Benchmark:</span>
+                    <div class="ghost-pills-row" id="ghost-pills-row">
+                        <button class="ghost-mode-pill active" data-mode="ai" title="Adaptive Pace: Calibrates to stamina, time-of-day & flow zone">Adaptive</button>
+                        <button class="ghost-mode-pill" data-mode="pb" title="Paces against your personal best record">Personal Best</button>
+                        <button class="ghost-mode-pill" data-mode="avg" title="Paces against your weekly average speed">Weekly Avg</button>
+                        <button class="ghost-mode-pill" data-mode="apex" title="Overdrive challenge (+8% faster than PB)">Apex (+8%)</button>
+                    </div>
+                </div>
             </div>
         </div>
-    
-    </div></div>
+    </details>
+</div>
 
-    <div class="quick-stats glass">
+<div class="quick-stats glass">
         <div class="stat"><span class="stat-value" id="qs-time">0m</span><span class="stat-label">Today</span></div>
         <div class="stat"><span class="stat-value" id="qs-sess">0</span><span class="stat-label">Sessions</span></div>
         <div class="stat"><span class="stat-value" id="qs-streak">0</span><span class="stat-label">Day Streak</span></div>
@@ -4625,27 +4631,11 @@ body.oled-true-black .glass {
         <!-- Pomodoro Setup -->
         <div id="setup-pomo" class="setup-panel">
             <div class="setup-pomo-title-wrap">
-                <svg class="pomo-logo-svg setup-pomo-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse cx="50" cy="92" rx="32" ry="5" fill="#000000" fill-opacity="0.35"/>
-                    <rect x="46" y="8" width="8" height="6" rx="2" fill="#64748b" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
-                    <rect x="44.5" y="6" width="11" height="3" rx="1.5" fill="url(#pomoRingGrad)"/>
-                    <circle cx="50" cy="54" r="38" fill="url(#pomoCaseGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="1.6"/>
-                    <circle cx="50" cy="54" r="35" fill="none" stroke="rgba(244,63,94,0.3)" stroke-width="1.2"/>
-                    <circle cx="50" cy="54" r="32" fill="url(#pomoDialGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <g stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-linecap="round">
-                        <line x1="50" y1="26" x2="50" y2="30" stroke="#f43f5e" stroke-width="1.8"/>
-                        <line x1="78" y1="54" x2="74" y2="54" stroke="rgba(255,255,255,0.5)"/>
-                        <line x1="50" y1="82" x2="50" y2="78" stroke="rgba(255,255,255,0.5)"/>
-                        <line x1="22" y1="54" x2="26" y2="54" stroke="rgba(255,255,255,0.5)"/>
-                    </g>
-                    <path d="M 50 28 A 26 26 0 0 1 72.5 67" fill="none" stroke="url(#pomoArcGrad)" stroke-width="3" stroke-linecap="round"/>
-                    <g>
-                        <line x1="50" y1="54" x2="68" y2="42" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="50" y1="54" x2="42" y2="36" stroke="#fb7185" stroke-width="2.2" stroke-linecap="round"/>
-                        <circle cx="50" cy="54" r="3.8" fill="#f43f5e"/>
-                        <circle cx="50" cy="54" r="1.6" fill="#ffffff"/>
-                    </g>
-                    <text x="50" y="66" text-anchor="middle" fill="#fb7185" font-family="system-ui, -apple-system, sans-serif" font-size="6.5" font-weight="700" letter-spacing="0.5">25m</text>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)">
+                    <circle cx="12" cy="14" r="8"/>
+                    <path d="M12 6V2"/>
+                    <path d="M9.5 4.5C10.5 3 13.5 3 14.5 4.5"/>
+                    <path d="M12 10v4l2.5 2"/>
                 </svg>
                 <h2>Pomodoro</h2>
             </div>
