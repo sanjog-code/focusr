@@ -4140,6 +4140,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="a-card glass"><span class="a-card-val" id="a-sess">0</span><span class="a-card-lbl">Sessions</span></div>
             <div class="a-card glass"><span class="a-card-val" id="a-bottles">0</span><span class="a-card-lbl">Bottles Filled</span></div>
             <div class="a-card glass"><span class="a-card-val" id="a-avg">0m</span><span class="a-card-lbl">Avg Session</span></div>
+            <div class="a-card glass"><span class="a-card-val" id="a-long">0m</span><span class="a-card-lbl">Longest Session</span></div>
             <div class="a-card glass" id="a-target-card" style="grid-column: 1 / -1; display:flex; align-items:center; justify-content:space-between; padding:1.1rem 1.6rem;">
                 <div style="display:flex;align-items:center;gap:.85rem">
                     <span style="font-size:1.5rem">🎯</span>
@@ -6193,7 +6194,10 @@ function loadSessions() {
     try { S.sessions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
     catch { S.sessions = []; }
 }
-function saveSessions() { localStorage.setItem(STORAGE_KEY, JSON.stringify(S.sessions)); }
+function saveSessions() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(S.sessions)); }
+    catch (e) { console.warn('Could not save sessions:', e); }
+}
 function addSession(data) { S.sessions.push(data); saveSessions(); }
 
 /* ── Fullscreen & Keyboard Lock ── */
@@ -8197,7 +8201,7 @@ const Cosmo = {
         }
 
         // 4. Update 3D Particles
-        if (this.particleSystem && this.particleData) {
+        if (this.particleSystem?.geometry?.attributes?.position?.array && this.particleSystem?.geometry?.attributes?.color?.array && this.particleData) {
             const posAttr = this.particleSystem.geometry.attributes.position;
             const colAttr = this.particleSystem.geometry.attributes.color;
             const positions = posAttr.array;
@@ -8837,7 +8841,8 @@ function loadInventory() {
     catch { S.inventory = []; }
 }
 function saveInventory() {
-    localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(S.inventory));
+    try { localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(S.inventory)); }
+    catch (e) { console.warn('Could not save inventory:', e); }
 }
 function addBottleToInventory(bottle) {
     if (!bottle.hue) {
@@ -8960,7 +8965,7 @@ function updateFocusInfo(elapsedMs) {
     fiElapsed.textContent = `Elapsed: ${fmt(elapsedMs)}`;
     if (S.mode === 'pomodoro') {
         const phase = S.pomoIsBreak ? (S.pomoIsLongBreak ? 'Long Break' : 'Break') : 'Work';
-        fiDetail.textContent = `Round ${S.pomoCurrent}/${S.pomoRounds} · ${phase} · ${S.pomoCompletedWork} 🍅`;
+        fiDetail.textContent = `Round ${S.pomoCurrent}/${S.pomoRounds} · ${phase} · ${S.pomoCompletedWork} ⏳`;
     } else if (S.mode === 'timer') {
         const pct = Math.round((elapsedMs / S.targetMs) * 100);
         fiDetail.textContent = `${Math.min(pct, 100)}% complete`;
@@ -9058,7 +9063,7 @@ function tick() {
     if (currentSec !== S.lastTickSec) {
         S.lastTickSec = currentSec;
         if (document.visibilityState === 'visible') {
-            const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+            const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '⏳') : '⏱';
             document.title = `${timerDisp.textContent} ${icon} Focusr`;
         }
         checkMilestones(progress, elapsed, remaining);
@@ -9324,7 +9329,7 @@ function renderSessionDebrief(sessionData) {
         $('c-cat').textContent = `${cat.icon} ${cat.shortName || cat.name}`;
         $('c-cat').style.color = cat.color;
     }
-    if ($('c-mode')) $('c-mode').textContent = sessionData.mode === 'pomodoro' ? '🍅 Pomodoro' : (sessionData.mode === 'timer' ? '⏱ Timer' : '⏲ Stopwatch');
+    if ($('c-mode')) $('c-mode').textContent = sessionData.mode === 'pomodoro' ? '⏳ Pomodoro' : (sessionData.mode === 'timer' ? '⏱ Timer' : '⏲ Stopwatch');
 
     // Purity Gauge
     const circ = 263.89;
@@ -9765,11 +9770,11 @@ function renderAnalytics() {
     loadInventory();
     const all = S.sessions;
     const totalMs = all.reduce((a, s) => a + s.duration, 0);
-    $('a-total').textContent = fmtShort(totalMs);
-    $('a-sess').textContent = all.length;
+    if ($('a-total')) $('a-total').textContent = fmtShort(totalMs);
+    if ($('a-sess')) $('a-sess').textContent = all.length;
     if ($('a-bottles')) $('a-bottles').textContent = S.inventory.length;
-    $('a-avg').textContent = all.length ? fmtShort(totalMs / all.length) : '0m';
-    $('a-long').textContent = fmtShort(all.reduce((mx, s) => Math.max(mx, s.duration), 0));
+    if ($('a-avg')) $('a-avg').textContent = all.length ? fmtShort(totalMs / all.length) : '0m';
+    if ($('a-long')) $('a-long').textContent = fmtShort(all.reduce((mx, s) => Math.max(mx, s.duration), 0));
 
     // Daily Target in Analytics
     const targetMins = getDailyTargetMinutes();
@@ -9854,8 +9859,8 @@ function renderAnalytics() {
         const d = new Date(s.completedAt);
         const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const dateStr = s.date === todayStr() ? 'Today' : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
-        const ic = s.mode === 'pomodoro' ? '🍅' : s.mode === 'timer' ? '⏱' : '⏲';
-        const pomoTag = s.pomodoros ? ` · ${s.pomodoros}🍅` : '';
+        const ic = s.mode === 'pomodoro' ? '⏳' : s.mode === 'timer' ? '⏱' : '⏲';
+        const pomoTag = s.pomodoros ? ` · ${s.pomodoros} ⏳` : '';
         const cat = getCategory(s.category || 'work');
         const catTag = `<span class="session-cat-pill" style="border-color:${cat.color}50;color:${cat.color}">${cat.icon} ${cat.shortName || cat.name}</span>`;
         const deb = s.debrief || generateSessionDebrief(s);
@@ -9887,7 +9892,7 @@ document.querySelectorAll('.mode-card').forEach(card => {
     });
 });
 
-$('setup-back').addEventListener('click', () => navigate('home'));
+$('setup-back')?.addEventListener('click', () => navigate('home'));
 
 // Picker buttons
 document.querySelectorAll('.picker-btn').forEach(btn => {
@@ -9911,11 +9916,11 @@ document.querySelectorAll('.adj-btn').forEach(btn => {
     });
 });
 
-btnStart.addEventListener('click', beginSession);
-btnPause.addEventListener('click', togglePause);
-btnStop.addEventListener('click', stopSession);
-btnSkip.addEventListener('click', skipBreak);
-$('btn-done').addEventListener('click', () => navigate('home'));
+btnStart?.addEventListener('click', beginSession);
+btnPause?.addEventListener('click', togglePause);
+btnStop?.addEventListener('click', stopSession);
+btnSkip?.addEventListener('click', skipBreak);
+$('btn-done')?.addEventListener('click', () => navigate('home'));
 
 // Copy Debrief Sheet to Clipboard
 const btnCopyDebrief = $('btn-copy-debrief');
@@ -9946,8 +9951,8 @@ if (btnCopyDebrief) {
         }
     });
 }
-$('go-analytics').addEventListener('click', () => { renderAnalytics(); navigate('analytics'); });
-$('analytics-back').addEventListener('click', () => navigate('home'));
+$('go-analytics')?.addEventListener('click', () => { renderAnalytics(); navigate('analytics'); });
+$('analytics-back')?.addEventListener('click', () => navigate('home'));
 
 if (btnToggleInv) btnToggleInv.addEventListener('click', toggleInventoryShelf);
 if (shelfClose) shelfClose.addEventListener('click', closeInventoryShelf);
@@ -9989,7 +9994,7 @@ if (btnToggleIntro && introDrawer) {
     });
 }
 
-$('btn-clear').addEventListener('click', () => {
+$('btn-clear')?.addEventListener('click', () => {
     if (confirm('Clear all focus data and bottled inventory? This cannot be undone.')) {
         S.sessions = [];
         S.inventory = [];
@@ -10269,7 +10274,7 @@ function handleWindowOrTabReturn(source = 'window') {
 
     if (S.autoPausedByTab && S.paused) {
         resumeSession(true);
-        const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+        const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '⏳') : '⏱';
         document.title = `${timerDisp.textContent} ${icon} Focusr`;
         soundResume();
 
@@ -10288,7 +10293,7 @@ function handleWindowOrTabReturn(source = 'window') {
         }
         S.lastPenaltyAdded = 0;
     } else {
-        const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+        const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '⏳') : '⏱';
         document.title = `${timerDisp.textContent} ${icon} Focusr`;
     }
 }
