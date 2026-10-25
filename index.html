@@ -1545,6 +1545,110 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     margin-top: .15rem;
 }
 
+/* Loud Focus Alarm Toggle Row & Badges */
+.focus-alarm-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: .85rem;
+    margin-top: .85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 1rem;
+}
+.alarm-label-group {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+.alarm-badge-icon {
+    font-size: 1.25rem;
+    padding: .4rem .55rem;
+    border-radius: var(--radius-md);
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #f87171;
+}
+.alarm-title-text {
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+}
+.alarm-tag-badge {
+    font-size: .68rem;
+    font-weight: 800;
+    padding: .15rem .45rem;
+    border-radius: 980px;
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+.alarm-sub-text {
+    font-size: .75rem;
+    color: var(--text-dim);
+    margin-top: .15rem;
+}
+.alarm-actions-group {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    flex-shrink: 0;
+}
+.btn-test-alarm {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--text);
+    padding: .32rem .65rem;
+    border-radius: 980px;
+    font-size: .75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    user-select: none;
+}
+.btn-test-alarm:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #fca5a5;
+    transform: translateY(-1px);
+}
+.btn-test-alarm:active {
+    transform: translateY(0);
+}
+.spatial-switch input:checked + .spatial-slider.alarm-slider {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    border-color: #f87171;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+}
+
+/* Unfocused Badge in Focus Top Bar */
+.focus-unfocused-badge {
+    display: none;
+    align-items: center;
+    gap: .35rem;
+    padding: .35rem .75rem;
+    border-radius: 980px;
+    font-size: .75rem;
+    font-weight: 700;
+    background: rgba(239, 68, 68, 0.22);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #fca5a5;
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
+    user-select: none;
+    transition: all .3s ease;
+}
+.focus-unfocused-badge.active {
+    display: inline-flex;
+    animation: penalty-pulse 1.4s ease-in-out infinite;
+}
+
 /* Glass Switch Toggle */
 .spatial-switch {
     position: relative;
@@ -1941,6 +2045,25 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 <span class="spatial-slider"></span>
             </label>
         </div>
+        <div class="focus-alarm-toggle-row">
+            <div class="alarm-label-group">
+                <span class="alarm-badge-icon">🔊</span>
+                <div>
+                    <div class="alarm-title-text">
+                        <span>Loud Wake-up Siren</span>
+                        <span class="alarm-tag-badge">Every 2m</span>
+                    </div>
+                    <div class="alarm-sub-text">Plays a loud alarm every 2 minutes whenever you aren't focusing!</div>
+                </div>
+            </div>
+            <div class="alarm-actions-group">
+                <button type="button" class="btn-test-alarm" id="btn-test-alarm-home" title="Preview loud alarm sound">Test 🔊</button>
+                <label class="spatial-switch">
+                    <input type="checkbox" id="toggle-loud-alarm-home" checked>
+                    <span class="spatial-slider alarm-slider"></span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <!-- Daily Target Card -->
@@ -2090,6 +2213,25 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                     <span class="spatial-slider"></span>
                 </label>
             </div>
+            <div class="focus-alarm-toggle-row">
+                <div class="alarm-label-group">
+                    <span class="alarm-badge-icon">🔊</span>
+                    <div>
+                        <div class="alarm-title-text">
+                            <span>Loud Wake-up Siren</span>
+                            <span class="alarm-tag-badge">Every 2m</span>
+                        </div>
+                        <div class="alarm-sub-text">Loud noise every 2 min when not focusing</div>
+                    </div>
+                </div>
+                <div class="alarm-actions-group">
+                    <button type="button" class="btn-test-alarm" id="btn-test-alarm-setup" title="Preview loud alarm sound">Test 🔊</button>
+                    <label class="spatial-switch">
+                        <input type="checkbox" id="toggle-loud-alarm-setup" checked>
+                        <span class="spatial-slider alarm-slider"></span>
+                    </label>
+                </div>
+            </div>
         </div>
 
         <div class="setup-start">
@@ -2116,6 +2258,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                     <span class="focus-penalty-pill" id="focus-penalty-pill">
                         <span>🚨</span>
                         <span id="penalty-pill-text">+0m Penalty</span>
+                    </span>
+                    <span class="focus-unfocused-badge" id="focus-unfocused-badge">
+                        <span>🔊</span>
+                        <span id="unfocused-badge-text">AWAY 0:00 (SIREN 2:00)</span>
                     </span>
                 </div>
                 <div style="display:flex;align-items:center;gap:.6rem">
@@ -2449,6 +2595,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         </p>
         <div class="strict-idle-hint">
             <span>⌨️</span> Move mouse or press any key to resume timer!
+        </div>
+        <div style="margin-top:.75rem;font-size:.78rem;color:#fca5a5;background:rgba(239,68,68,0.18);padding:.35rem .75rem;border-radius:980px;display:inline-flex;align-items:center;gap:.35rem;border:1px solid rgba(239,68,68,0.35);">
+            <span>🔊</span> Loud siren blares in: <strong id="strict-idle-alarm-rem">2:00</strong>
         </div>
     </div>
 </div>
@@ -2785,6 +2934,12 @@ const S = {
     totalInputCount: 0,
     strictIdlePaused: false,
 
+    // Loud Wake-up Alarm (Every 2 min when not focusing)
+    loudAlarmEnabled: true,
+    nonFocusStartTime: 0,
+    lastLoudAlarmTime: 0,
+    loudAlarmCount: 0,
+
     // Tab Desertion Penalty System
     initialTargetMs: 0,
     totalPenaltyMs: 0,
@@ -2855,6 +3010,14 @@ const toggleStrictSetup  = $('toggle-super-strict-setup');
 const focusStrictBadge   = $('focus-strict-badge');
 const strictBadgeText    = $('strict-badge-text');
 const strictIdleOverlay  = $('strict-idle-overlay');
+
+// Loud Wake-up Alarm DOM refs
+const toggleAlarmHome     = $('toggle-loud-alarm-home');
+const toggleAlarmSetup    = $('toggle-loud-alarm-setup');
+const btnTestAlarmHome    = $('btn-test-alarm-home');
+const btnTestAlarmSetup   = $('btn-test-alarm-setup');
+const focusUnfocusedBadge = $('focus-unfocused-badge');
+const unfocusedBadgeText  = $('unfocused-badge-text');
 
 /* ── Focus Categories Controller ── */
 function getCategory(id) {
@@ -3112,6 +3275,247 @@ function resumeFromStrictIdle() {
 ['mousemove', 'mousedown', 'pointerdown', 'click', 'wheel', 'keydown', 'touchstart'].forEach(evt => {
     window.addEventListener(evt, onUserInputActivity, { passive: true });
 });
+
+/* ════════════════════════════════════════════════════════════════
+   LOUD FOCUS ALARM CONTROLLER (Every 2 Minutes When Unfocused)
+   ════════════════════════════════════════════════════════════════ */
+const LOUD_ALARM_STORAGE_KEY       = 'focus_loud_alarm_enabled';
+const NON_FOCUS_ALARM_INTERVAL_MS = 120000; // 2 minutes (120 seconds)
+
+function loadLoudAlarm() {
+    try {
+        const stored = localStorage.getItem(LOUD_ALARM_STORAGE_KEY);
+        S.loudAlarmEnabled = stored !== null ? stored === 'true' : true; // Default ON
+    } catch {
+        S.loudAlarmEnabled = true;
+    }
+    syncLoudAlarmToggles();
+}
+
+function setLoudAlarm(enabled, shouldToast = true) {
+    S.loudAlarmEnabled = !!enabled;
+    try {
+        localStorage.setItem(LOUD_ALARM_STORAGE_KEY, S.loudAlarmEnabled ? 'true' : 'false');
+    } catch {}
+    syncLoudAlarmToggles();
+
+    if (!S.loudAlarmEnabled) {
+        if (focusUnfocusedBadge) focusUnfocusedBadge.classList.remove('active');
+        S.nonFocusStartTime = 0;
+        S.lastLoudAlarmTime = 0;
+        S.loudAlarmCount = 0;
+    }
+
+    if (shouldToast) {
+        showToast(
+            S.loudAlarmEnabled 
+                ? '🔊 Loud Wake-up Siren Armed: Plays every 2m if you stop focusing!' 
+                : '🔇 Loud Wake-up Siren Disabled',
+            '🔊',
+            3500
+        );
+    }
+}
+
+function syncLoudAlarmToggles() {
+    if (toggleAlarmHome) toggleAlarmHome.checked = !!S.loudAlarmEnabled;
+    if (toggleAlarmSetup) toggleAlarmSetup.checked = !!S.loudAlarmEnabled;
+}
+
+// Check if user is currently in an unfocused / slacking state
+function isUserNotFocusing() {
+    if (currentScreen !== 'focus' || (!S.running && !S.paused)) return false;
+    
+    // Scheduled Pomodoro break phases are rest periods, not slacking
+    if (S.mode === 'pomodoro' && S.pomoIsBreak) return false;
+    
+    // 1. Tab deserted / hidden in background
+    if (document.hidden) return true;
+    
+    // 2. Timer clock paused during a work/focus phase
+    if (S.paused) return true;
+    
+    // 3. Super Strict mode idle paused
+    if (S.strictIdlePaused) return true;
+    
+    // 4. In Super Strict mode with no inputs for >= 35s
+    if (S.strictActive && (Date.now() - S.lastInputTime >= STRICT_IDLE_TIMEOUT_MS)) return true;
+    
+    return false;
+}
+
+// Synthesize high-intensity, piercing wake-up alarm
+function playLoudWakeupAlarm() {
+    try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        const ctx = (window.CosmoAudio && CosmoAudio.getCtx) ? CosmoAudio.getCtx() : new AC();
+        if (ctx.state === 'suspended') {
+            ctx.resume().catch(() => {});
+        }
+        
+        const now = ctx.currentTime;
+        
+        // Dynamics compressor to maximize volume density without digital clipping
+        const comp = ctx.createDynamicsCompressor();
+        comp.threshold.setValueAtTime(-12, now);
+        comp.knee.setValueAtTime(4, now);
+        comp.ratio.setValueAtTime(12, now);
+        comp.attack.setValueAtTime(0.003, now);
+        comp.release.setValueAtTime(0.15, now);
+        
+        const master = ctx.createGain();
+        master.gain.setValueAtTime(0.92, now);
+        
+        comp.connect(master);
+        master.connect(ctx.destination);
+        
+        // 8 high-energy alternating siren pulses across 1.8 seconds
+        const bursts = [
+            { f1: 880,  f2: 1320, start: 0.00, dur: 0.18 },
+            { f1: 1046, f2: 1568, start: 0.20, dur: 0.18 },
+            { f1: 880,  f2: 1320, start: 0.40, dur: 0.18 },
+            { f1: 1046, f2: 1568, start: 0.60, dur: 0.22 },
+            { f1: 880,  f2: 1320, start: 0.88, dur: 0.18 },
+            { f1: 1046, f2: 1568, start: 1.08, dur: 0.18 },
+            { f1: 880,  f2: 1320, start: 1.28, dur: 0.18 },
+            { f1: 1174, f2: 1760, start: 1.48, dur: 0.32 }
+        ];
+
+        bursts.forEach(b => {
+            const osc1 = ctx.createOscillator();
+            const g1 = ctx.createGain();
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(b.f1, now + b.start);
+            osc1.frequency.linearRampToValueAtTime(b.f1 * 0.95, now + b.start + b.dur);
+            g1.gain.setValueAtTime(0.55, now + b.start);
+            g1.gain.exponentialRampToValueAtTime(0.01, now + b.start + b.dur);
+            osc1.connect(g1);
+            g1.connect(comp);
+            osc1.start(now + b.start);
+            osc1.stop(now + b.start + b.dur);
+
+            const osc2 = ctx.createOscillator();
+            const g2 = ctx.createGain();
+            osc2.type = 'square';
+            osc2.frequency.setValueAtTime(b.f2, now + b.start);
+            osc2.frequency.linearRampToValueAtTime(b.f2 * 0.95, now + b.start + b.dur);
+            g2.gain.setValueAtTime(0.35, now + b.start);
+            g2.gain.exponentialRampToValueAtTime(0.01, now + b.start + b.dur);
+            osc2.connect(g2);
+            g2.connect(comp);
+            osc2.start(now + b.start);
+            osc2.stop(now + b.start + b.dur);
+        });
+    } catch (err) {
+        console.warn('Loud wake-up alarm sound error:', err);
+    }
+}
+
+// Trigger loud wake-up alarm alert
+function triggerLoudAlarm(unfocusedMs = 120000) {
+    playLoudWakeupAlarm();
+
+    if (timerDisp) {
+        timerDisp.classList.add('penalty-flash');
+        setTimeout(() => timerDisp.classList.remove('penalty-flash'), 1800);
+    }
+    if ('vibrate' in navigator) {
+        try { navigator.vibrate([400, 200, 400, 200, 600]); } catch {}
+    }
+
+    const minsAway = Math.max(2, Math.round(unfocusedMs / 60000));
+    document.title = `🚨 WAKE UP! (${minsAway}m NOT FOCUSING) | Focusr`;
+
+    if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
+    if (window.Cosmo && Cosmo.deliver) {
+        Cosmo.deliver(`🚨 WAKE UP! You haven't been focusing for ${minsAway} minutes! Lock back in now!`, '🚨', 6500);
+    } else {
+        showToast(`🚨 WAKE UP! ${minsAway} minutes without focusing! Get back to work!`, '🚨', 5000);
+    }
+
+    if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+            new Notification('🚨 FOCUS ALERT — WAKE UP!', {
+                body: `You haven't been focusing for ${minsAway} minutes! Return to Focusr now!`,
+                tag: 'loud-focus-alarm',
+                renotify: true,
+                requireInteraction: true
+            });
+        } catch {}
+    }
+}
+
+// Monitor non-focus status every second
+function checkNonFocusAlarm() {
+    if (!S.loudAlarmEnabled) {
+        if (focusUnfocusedBadge) focusUnfocusedBadge.classList.remove('active');
+        return;
+    }
+
+    const notFocusing = isUserNotFocusing();
+
+    if (notFocusing) {
+        const now = Date.now();
+        if (!S.nonFocusStartTime) {
+            S.nonFocusStartTime = now;
+            S.lastLoudAlarmTime = now;
+            S.loudAlarmCount = 0;
+        }
+
+        const unfocusedMs = now - S.nonFocusStartTime;
+        const sinceLastAlarmMs = now - S.lastLoudAlarmTime;
+        const remMs = Math.max(0, NON_FOCUS_ALARM_INTERVAL_MS - sinceLastAlarmMs);
+        const remSec = Math.ceil(remMs / 1000);
+
+        if (focusUnfocusedBadge) {
+            focusUnfocusedBadge.classList.add('active');
+            if (unfocusedBadgeText) {
+                const totalUnfocusedSec = Math.floor(unfocusedMs / 1000);
+                const unfocusedMinSec = `${Math.floor(totalUnfocusedSec / 60)}:${(totalUnfocusedSec % 60).toString().padStart(2, '0')}`;
+                const remMinSec = `${Math.floor(remSec / 60)}:${(remSec % 60).toString().padStart(2, '0')}`;
+                unfocusedBadgeText.textContent = `AWAY ${unfocusedMinSec} (SIREN ${remMinSec})`;
+            }
+        }
+
+        const idleAlarmRem = $('strict-idle-alarm-rem');
+        if (idleAlarmRem) {
+            const remMinSec = `${Math.floor(remSec / 60)}:${(remSec % 60).toString().padStart(2, '0')}`;
+            idleAlarmRem.textContent = remMinSec;
+        }
+
+        // Fire loud alarm every 2 minutes of continuous non-focus
+        if (sinceLastAlarmMs >= NON_FOCUS_ALARM_INTERVAL_MS) {
+            triggerLoudAlarm(unfocusedMs);
+            S.lastLoudAlarmTime = now;
+            S.loudAlarmCount = (S.loudAlarmCount || 0) + 1;
+        }
+    } else {
+        // User is focusing! Reset counters
+        if (S.nonFocusStartTime) {
+            S.nonFocusStartTime = 0;
+            S.lastLoudAlarmTime = 0;
+            S.loudAlarmCount = 0;
+        }
+        if (focusUnfocusedBadge) {
+            focusUnfocusedBadge.classList.remove('active');
+        }
+    }
+}
+
+// Background precision heartbeat (inline Web Worker prevents tab sleep throttling)
+try {
+    const workerBlob = new Blob([
+        'setInterval(function() { postMessage("tick"); }, 1000);'
+    ], { type: 'application/javascript' });
+    const workerUrl = URL.createObjectURL(workerBlob);
+    const nonFocusWorker = new Worker(workerUrl);
+    nonFocusWorker.onmessage = function() {
+        checkNonFocusAlarm();
+    };
+} catch {
+    setInterval(checkNonFocusAlarm, 1000);
+}
 
 /* ── Theme & Atmosphere Controller ── */
 function loadThemeConfig() {
@@ -5516,6 +5920,11 @@ function finishSession(focusMs) {
     S.running = false;
     S.paused = false;
 
+    S.nonFocusStartTime = 0;
+    S.lastLoudAlarmTime = 0;
+    S.loudAlarmCount = 0;
+    if (focusUnfocusedBadge) focusUnfocusedBadge.classList.remove('active');
+
     if (strictIdleOverlay) strictIdleOverlay.classList.remove('visible');
     if (focusStrictBadge) focusStrictBadge.classList.remove('idle-warning');
     if (GhostRacer.active) GhostRacer.slackingBoost = 1.0;
@@ -5604,6 +6013,10 @@ function stopSession() {
 
     S.strictActive = false;
     S.strictIdlePaused = false;
+    S.nonFocusStartTime = 0;
+    S.lastLoudAlarmTime = 0;
+    S.loudAlarmCount = 0;
+    if (focusUnfocusedBadge) focusUnfocusedBadge.classList.remove('active');
     if (strictIdleOverlay) strictIdleOverlay.classList.remove('visible');
     if (focusStrictBadge) focusStrictBadge.classList.remove('active', 'idle-warning');
 
@@ -5772,6 +6185,10 @@ function beginSession() {
     S.lastInputTime = Date.now();
     S.totalInputCount = 0;
     S.strictIdlePaused = false;
+    S.nonFocusStartTime = 0;
+    S.lastLoudAlarmTime = 0;
+    S.loudAlarmCount = 0;
+    if (focusUnfocusedBadge) focusUnfocusedBadge.classList.remove('active');
     if (strictIdleOverlay) strictIdleOverlay.classList.remove('visible');
     if (focusStrictBadge) {
         focusStrictBadge.classList.toggle('active', S.strictActive);
@@ -6103,6 +6520,32 @@ if (toggleStrictSetup) {
     });
 }
 
+// Loud Wake-up Siren Toggles & Preview Buttons
+if (toggleAlarmHome) {
+    toggleAlarmHome.addEventListener('change', e => {
+        setLoudAlarm(e.target.checked);
+        soundClick();
+    });
+}
+if (toggleAlarmSetup) {
+    toggleAlarmSetup.addEventListener('change', e => {
+        setLoudAlarm(e.target.checked);
+        soundClick();
+    });
+}
+if (btnTestAlarmHome) {
+    btnTestAlarmHome.addEventListener('click', () => {
+        playLoudWakeupAlarm();
+        showToast('🔊 Playing Loud Focus Alarm Preview at full volume!', '🔊', 3000);
+    });
+}
+if (btnTestAlarmSetup) {
+    btnTestAlarmSetup.addEventListener('click', () => {
+        playLoudWakeupAlarm();
+        showToast('🔊 Playing Loud Focus Alarm Preview at full volume!', '🔊', 3000);
+    });
+}
+
 // ── Focus Lock & Anti-Distraction Key Guard ──
 document.addEventListener('keydown', e => {
     // Close modals on Escape
@@ -6246,6 +6689,7 @@ loadInventory();
 loadCategory();
 renderCategoryChips();
 loadSuperStrict();
+loadLoudAlarm();
 loadThemeConfig();
 applyTheme(themeConfig.themeId, themeConfig.blur, themeConfig.opacity, false);
 refreshHomeStats();
