@@ -1,0 +1,2288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#08080f">
+    <title>Focus</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+    <style>
+/* ── Reset & Root ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+    --bg:#08080f;
+    --surface:rgba(255,255,255,.04);
+    --surface-hover:rgba(255,255,255,.08);
+    --border:rgba(255,255,255,.08);
+    --border-hover:rgba(255,255,255,.15);
+    --text:#f5f5f7;
+    --text-dim:rgba(255,255,255,.5);
+    --text-muted:rgba(255,255,255,.25);
+    --accent:#0a84ff;
+    --accent-glow:rgba(10,132,255,.25);
+    --danger:#ff453a;
+    --success:#30d158;
+    --warning:#ff9f0a;
+    --liquid-hue:195;
+    --radius:20px;
+    --radius-sm:12px;
+    --tr:.3s cubic-bezier(.25,.46,.45,.94);
+    --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+
+/* ── Background Orbs ── */
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0}
+.orb-1{width:650px;height:650px;background:rgba(10,132,255,.07);top:-220px;right:-220px;animation:ob1 28s ease-in-out infinite}
+.orb-2{width:550px;height:550px;background:rgba(94,92,230,.05);bottom:-220px;left:-220px;animation:ob2 34s ease-in-out infinite}
+.orb-3{width:420px;height:420px;background:rgba(48,209,88,.035);top:38%;left:38%;animation:ob3 22s ease-in-out infinite}
+@keyframes ob1{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(-35px,50px) scale(1.06)}75%{transform:translate(25px,-25px) scale(.94)}}
+@keyframes ob2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-35px) scale(1.05)}80%{transform:translate(-20px,30px) scale(.96)}}
+@keyframes ob3{0%,100%{transform:translate(0,0) scale(1)}35%{transform:translate(30px,25px) scale(1.04)}70%{transform:translate(-25px,-30px) scale(.97)}}
+
+/* ── Glass ── */
+.glass{
+    background:var(--surface);
+    backdrop-filter:blur(40px) saturate(180%);
+    -webkit-backdrop-filter:blur(40px) saturate(180%);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    position:relative;
+}
+.glass::before{content:'';position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(to bottom,rgba(255,255,255,.045),transparent);border-radius:inherit;pointer-events:none}
+@supports not (backdrop-filter:blur(1px)){.glass{background:rgba(18,18,30,.88)}}
+
+/* ── Screens ── */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s ease;z-index:1;padding:2rem;overflow-y:auto}
+.screen.active{opacity:1;visibility:visible}
+
+/* ── Buttons ── */
+.btn-primary{
+    display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+    padding:.9rem 2.4rem;border:none;border-radius:980px;
+    background:var(--accent);color:#fff;font-size:1rem;font-weight:600;
+    cursor:pointer;transition:all var(--tr);letter-spacing:.02em;
+    font-family:var(--font);
+}
+.btn-primary:hover{transform:scale(1.04);box-shadow:0 0 30px var(--accent-glow)}
+.btn-primary:active{transform:scale(.97)}
+.btn-primary:disabled{opacity:.4;pointer-events:none}
+.btn-secondary{
+    display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+    padding:.55rem 1.4rem;border:1px solid var(--border);border-radius:980px;
+    background:transparent;color:var(--text-dim);font-size:.8rem;font-weight:500;
+    cursor:pointer;transition:all var(--tr);font-family:var(--font);
+}
+.btn-secondary:hover{background:var(--surface-hover);color:var(--text);border-color:var(--border-hover)}
+.btn-back{
+    position:absolute;top:1.5rem;left:1.5rem;background:none;border:none;
+    color:var(--text-dim);font-size:.95rem;cursor:pointer;
+    font-family:var(--font);transition:color var(--tr);z-index:5;
+}
+.btn-back:hover{color:var(--text)}
+.btn-icon{
+    width:44px;height:44px;border-radius:50%;border:1px solid var(--border);
+    background:var(--surface);color:var(--text-dim);font-size:1rem;
+    cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+    transition:all var(--tr);font-family:var(--font);
+}
+.btn-icon:hover{background:var(--surface-hover);border-color:var(--border-hover);color:var(--text)}
+
+/* ══════════════════════════════════════════
+   HOME SCREEN
+   ══════════════════════════════════════════ */
+.home-header{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:700px;margin-bottom:3rem}
+.home-title{font-size:2rem;font-weight:700;letter-spacing:-.02em}
+.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;width:100%;max-width:700px;margin-bottom:3rem}
+.mode-card{padding:2rem 1.2rem;text-align:center;cursor:pointer;transition:all var(--tr)}
+.mode-card:hover{background:var(--surface-hover);border-color:var(--border-hover);transform:translateY(-4px)}
+.mode-card:active{transform:translateY(0) scale(.97)}
+.mode-icon{font-size:2.4rem;margin-bottom:1rem;display:block}
+.mode-card h2{font-size:1.05rem;font-weight:600;margin-bottom:.4rem}
+.mode-card p{font-size:.8rem;color:var(--text-dim);line-height:1.4}
+.quick-stats{display:flex;gap:2rem;padding:1.4rem 2.4rem;width:100%;max-width:700px;justify-content:center}
+.stat{display:flex;flex-direction:column;align-items:center;gap:.25rem}
+.stat-value{font-size:1.5rem;font-weight:600}
+.stat-label{font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
+
+/* ══════════════════════════════════════════
+   SETUP SCREEN
+   ══════════════════════════════════════════ */
+.setup-wrap{width:100%;max-width:420px}
+.setup-wrap h2{text-align:center;font-size:1.5rem;font-weight:600;margin-bottom:2rem}
+.setup-panel{display:none}
+.setup-panel.active{display:block}
+.duration-picker{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:2.5rem}
+.picker-group{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.picker-group input{
+    width:80px;height:70px;text-align:center;
+    background:rgba(255,255,255,.04);border:1px solid var(--border);
+    border-radius:var(--radius-sm);color:var(--text);
+    font-size:2.2rem;font-weight:300;font-family:var(--font);
+    font-variant-numeric:tabular-nums;outline:none;
+    transition:border-color var(--tr);
+}
+.picker-group input:focus{border-color:var(--accent)}
+.picker-group label{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em}
+.picker-sep{font-size:2rem;font-weight:200;color:var(--text-dim);padding-bottom:1.6rem}
+.picker-btn{
+    width:36px;height:28px;border:none;border-radius:8px;
+    background:var(--surface-hover);color:var(--text-dim);
+    cursor:pointer;font-size:1rem;font-family:var(--font);
+    transition:all var(--tr);display:flex;align-items:center;justify-content:center;
+}
+.picker-btn:hover{background:rgba(255,255,255,.12);color:var(--text)}
+.pomo-settings{display:flex;flex-direction:column;gap:1rem;margin-bottom:2.5rem}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;border-radius:var(--radius-sm);background:rgba(255,255,255,.03)}
+.setting-row label{font-size:.95rem;color:var(--text-dim)}
+.setting-control{display:flex;align-items:center;gap:.8rem}
+.setting-control span{font-size:1.1rem;font-weight:500;font-variant-numeric:tabular-nums;min-width:24px;text-align:center}
+.setting-control .unit{font-size:.8rem;color:var(--text-dim);font-weight:400;min-width:auto}
+.adj-btn{
+    width:32px;height:32px;border-radius:50%;border:1px solid var(--border);
+    background:transparent;color:var(--text-dim);cursor:pointer;
+    font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+    transition:all var(--tr);font-family:var(--font);
+}
+.adj-btn:hover{background:var(--surface-hover);color:var(--text);border-color:var(--border-hover)}
+.setup-start{text-align:center;margin-top:1rem}
+
+/* ══════════════════════════════════════════
+   FOCUS SCREEN
+   ══════════════════════════════════════════ */
+.focus-layout{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;width:100%;height:100%;position:relative}
+.focus-mode-label{
+    font-size:.8rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--text-dim);padding:.35rem 1rem;border-radius:980px;
+    background:rgba(255,255,255,.04);border:1px solid var(--border);
+}
+.focus-mode-label.is-break{color:var(--success);border-color:rgba(48,209,88,.2);background:rgba(48,209,88,.06)}
+.focus-mode-label.is-long-break{color:var(--warning);border-color:rgba(255,159,10,.2);background:rgba(255,159,10,.06)}
+
+/* ── Progress Ring ── */
+.timer-ring-wrap{
+    position:relative;
+    width:clamp(200px,38vmin,280px);
+    height:clamp(200px,38vmin,280px);
+    display:flex;align-items:center;justify-content:center;
+}
+.progress-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:3}
+.ring-fill{
+    fill:none;
+    stroke:hsl(var(--liquid-hue),85%,50%);
+    stroke-width:3.5;
+    stroke-linecap:round;
+    stroke-dasharray:565.49;
+    stroke-dashoffset:0;
+    transition:stroke-dashoffset .15s linear,stroke .3s ease;
+    filter:drop-shadow(0 0 6px hsla(var(--liquid-hue),85%,50%,.35));
+}
+.ring-fill.is-break{stroke:var(--success);filter:drop-shadow(0 0 6px rgba(48,209,88,.35))}
+.ring-fill.is-long-break{stroke:var(--warning);filter:drop-shadow(0 0 6px rgba(255,159,10,.35))}
+
+.timer-display{
+    font-size:clamp(2.4rem,8vw,4.5rem);font-weight:200;letter-spacing:.04em;
+    font-variant-numeric:tabular-nums;line-height:1;
+    transition:opacity .3s ease;user-select:none;
+    position:relative;z-index:2;
+}
+.timer-display.paused{animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* Pomo Dots */
+.pomo-dots{display:flex;gap:.5rem;margin-top:.15rem}
+.pomo-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.12);transition:all var(--tr)}
+.pomo-dot.done{background:var(--accent)}
+.pomo-dot.active{background:var(--accent);box-shadow:0 0 8px var(--accent-glow);transform:scale(1.3)}
+.pomo-dot.break-active{background:var(--success);box-shadow:0 0 8px rgba(48,209,88,.3);transform:scale(1.3)}
+.pomo-dot.long-break-active{background:var(--warning);box-shadow:0 0 8px rgba(255,159,10,.3);transform:scale(1.3)}
+
+/* ── Water Bottle & Dropping Animation ── */
+.water-bottle-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: .1rem 0;
+}
+.water-dispenser-spout{
+    width: 28px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 5;
+    margin-bottom: -4px;
+}
+.spout-nozzle{
+    width: 14px;
+    height: 8px;
+    border-radius: 2px 2px 4px 4px;
+    background: linear-gradient(to bottom, rgba(255,255,255,.3), rgba(255,255,255,.1));
+    border: 1px solid rgba(255,255,255,.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.water-canvas-wrap{
+    position: relative;
+    width: 150px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#water-canvas{
+    width: 150px;
+    height: 240px;
+    display: block;
+    filter: drop-shadow(0 10px 25px rgba(10,132,255,.18));
+}
+.bottle-glow{
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+    height: 35px;
+    border-radius: 50%;
+    background: hsl(var(--liquid-hue), 85%, 50%);
+    filter: blur(28px);
+    opacity: .25;
+    pointer-events: none;
+    transition: opacity .4s ease;
+}
+.bottle-meta{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: .15rem;
+}
+.bottle-percent{
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: .04em;
+    font-variant-numeric: tabular-nums;
+}
+.bottle-sub{
+    font-size: .7rem;
+    color: var(--text-dim);
+    letter-spacing: .02em;
+}
+
+/* ── Top Bar in Focus Screen ── */
+.focus-top-bar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    width: 100%;
+}
+.inventory-pill-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .35rem .85rem;
+    border-radius: 980px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: .78rem;
+    cursor: pointer;
+    transition: all var(--tr);
+    font-family: var(--font);
+}
+.inventory-pill-btn:hover{
+    background: var(--surface-hover);
+    color: var(--text);
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+}
+.pill-badge{
+    background: var(--accent);
+    color: #fff;
+    font-size: .65rem;
+    font-weight: 700;
+    padding: .1rem .4rem;
+    border-radius: 980px;
+}
+
+/* ── Focus Wrapper & Side Inventory Shelf ── */
+.focus-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    gap: 2.2rem;
+}
+.inventory-shelf{
+    width: 270px;
+    height: 85vh;
+    max-height: 560px;
+    display: flex;
+    flex-direction: column;
+    padding: 1.3rem;
+    border-radius: var(--radius);
+    transition: all .35s cubic-bezier(.25,.46,.45,.94);
+    box-shadow: 0 16px 40px rgba(0,0,0,.45);
+    z-index: 10;
+}
+.inventory-shelf.collapsed{
+    display: none;
+}
+.shelf-header{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: .8rem;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.shelf-header h3{
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+.shelf-sub{
+    font-size: .72rem;
+    color: var(--text-dim);
+    display: block;
+    margin-top: .15rem;
+}
+.shelf-close-btn{
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: .9rem;
+    padding: .2rem;
+    transition: color var(--tr);
+}
+.shelf-close-btn:hover{
+    color: var(--text);
+}
+.shelf-stats{
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.2rem;
+}
+.shelf-stat{
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+}
+.s-val{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+.s-lbl{
+    font-size: .65rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+.shelf-rack{
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding-right: .3rem;
+}
+.shelf-rack::-webkit-scrollbar{ width: 4px; }
+.shelf-rack::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.1); border-radius: 4px; }
+
+.bottle-card{
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: .75rem .9rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.06);
+    transition: all var(--tr);
+    animation: bottle-pop .4s cubic-bezier(.175,.885,.32,1.275);
+}
+@keyframes bottle-pop{
+    from{ opacity: 0; transform: scale(.88) translateY(10px); }
+    to{ opacity: 1; transform: scale(1) translateY(0); }
+}
+.bottle-card:hover{
+    background: rgba(255,255,255,.06);
+    border-color: rgba(255,255,255,.12);
+}
+.bottle-icon-wrap{
+    width: 28px;
+    height: 42px;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bottle-icon-wrap svg{
+    width: 100%;
+    height: 100%;
+}
+.bottle-card-title{
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--text);
+}
+.bottle-card-time{
+    font-size: .7rem;
+    color: var(--text-muted);
+    margin-top: .15rem;
+}
+.empty-shelf{
+    text-align: center;
+    color: var(--text-muted);
+    font-size: .78rem;
+    line-height: 1.5;
+    padding: 2.5rem 1rem;
+}
+
+/* Focus Controls */
+.focus-controls{display:flex;gap:1rem;margin-top:.3rem}
+.ctrl-btn{
+    width:52px;height:52px;border-radius:50%;border:1px solid var(--border);
+    background:var(--surface);color:var(--text);font-size:1rem;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:all var(--tr);font-family:var(--font);
+}
+.ctrl-btn:hover{background:var(--surface-hover);border-color:var(--border-hover);transform:scale(1.08)}
+.ctrl-btn:active{transform:scale(.94)}
+.ctrl-btn.stop-btn:hover{border-color:rgba(255,69,58,.3);color:var(--danger)}
+.skip-btn{display:none}
+.skip-btn.visible{display:inline-flex}
+
+/* Focus Info Bar */
+.focus-info{
+    display:flex;gap:2rem;font-size:.7rem;color:var(--text-muted);
+    letter-spacing:.04em;margin-top:.2rem;
+}
+.focus-hint{font-size:.65rem;color:rgba(255,255,255,.15);margin-top:.1rem;letter-spacing:.04em}
+
+/* ══════════════════════════════════════════
+   TOAST NOTIFICATIONS
+   ══════════════════════════════════════════ */
+.toast-wrap{
+    position:fixed;top:1.5rem;left:50%;transform:translateX(-50%);
+    z-index:9999;display:flex;flex-direction:column;gap:.5rem;
+    pointer-events:none;width:max-content;max-width:90vw;
+}
+.toast{
+    display:flex;align-items:center;gap:.75rem;
+    padding:.7rem 1.4rem;border-radius:980px;
+    pointer-events:auto;
+    animation:toast-in .45s cubic-bezier(.175,.885,.32,1.275);
+    box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+.toast.exiting{animation:toast-out .35s ease forwards}
+.toast-icon{font-size:1.15rem;flex-shrink:0;line-height:1}
+.toast-msg{font-size:.82rem;font-weight:500;line-height:1.3;white-space:nowrap}
+@keyframes toast-in{from{opacity:0;transform:translateY(-18px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toast-out{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-12px) scale(.92)}}
+
+/* ══════════════════════════════════════════
+   COMPLETE SCREEN
+   ══════════════════════════════════════════ */
+.complete-card{padding:3rem 3.5rem;text-align:center;max-width:420px;width:100%}
+.complete-check{
+    width:72px;height:72px;border-radius:50%;
+    background:rgba(48,209,88,.1);border:2px solid var(--success);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.8rem;margin:0 auto 1.5rem;
+    animation:pop-in .5s cubic-bezier(.175,.885,.32,1.275);
+}
+@keyframes pop-in{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.complete-card h2{font-size:1.6rem;font-weight:600;margin-bottom:1.5rem}
+.complete-stats{display:flex;gap:2rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
+.c-stat{display:flex;flex-direction:column;gap:.3rem;align-items:center}
+.c-stat-val{font-size:1.6rem;font-weight:500}
+.c-stat-lbl{font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
+.complete-quote{font-size:.85rem;color:var(--text-dim);font-style:italic;margin-bottom:2rem;line-height:1.5;max-width:300px;margin-left:auto;margin-right:auto}
+
+/* ══════════════════════════════════════════
+   ANALYTICS SCREEN
+   ══════════════════════════════════════════ */
+.analytics-scroll{width:100%;max-width:700px;max-height:100%;overflow-y:auto;padding-bottom:2rem}
+.analytics-scroll::-webkit-scrollbar{width:4px}
+.analytics-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+.analytics-scroll h2{font-size:1.5rem;font-weight:600;margin-bottom:1.8rem;text-align:center}
+.a-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.8rem}
+.a-card{padding:1.4rem;text-align:center}
+.a-card-val{font-size:1.7rem;font-weight:600;display:block;margin-bottom:.3rem}
+.a-card-lbl{font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
+.weekly-chart{padding:1.5rem;margin-bottom:1.8rem}
+.weekly-chart h3{font-size:.9rem;font-weight:600;margin-bottom:1.2rem;color:var(--text-dim)}
+.chart-row{display:flex;align-items:flex-end;justify-content:space-around;height:140px}
+.chart-col{display:flex;flex-direction:column;align-items:center;gap:.5rem;flex:1}
+.chart-bar-wrap{width:22px;height:120px;display:flex;align-items:flex-end}
+.chart-bar{
+    width:100%;min-height:2px;border-radius:6px 6px 2px 2px;
+    background:linear-gradient(to top,var(--accent),rgba(10,132,255,.25));
+    transition:height .6s ease;
+}
+.chart-bar.today-bar{background:linear-gradient(to top,var(--success),rgba(48,209,88,.25))}
+.chart-lbl{font-size:.65rem;color:var(--text-muted)}
+.recent-panel{padding:1.5rem}
+.recent-panel h3{font-size:.9rem;font-weight:600;margin-bottom:1rem;color:var(--text-dim)}
+.session-row{display:flex;align-items:center;justify-content:space-between;padding:.7rem .4rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.session-row:last-child{border-bottom:none}
+.session-mode{font-size:.85rem;font-weight:500}
+.session-date{font-size:.72rem;color:var(--text-muted);margin-top:.15rem}
+.session-dur{font-size:.95rem;font-weight:600;color:var(--text-dim)}
+.no-data{text-align:center;color:var(--text-muted);font-size:.85rem;padding:2rem 0}
+.clear-btn{
+    display:block;margin:1.5rem auto 0;background:none;border:1px solid rgba(255,69,58,.2);
+    color:var(--danger);padding:.5rem 1.2rem;border-radius:980px;font-size:.8rem;
+    cursor:pointer;font-family:var(--font);transition:all var(--tr);opacity:.6;
+}
+.clear-btn:hover{opacity:1;background:rgba(255,69,58,.08)}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+    .mode-grid{grid-template-columns:1fr;gap:.8rem;max-width:340px}
+    .mode-card{padding:1.4rem 1rem;display:flex;align-items:center;gap:1rem;text-align:left}
+    .mode-icon{font-size:1.8rem;margin-bottom:0;flex-shrink:0}
+    .quick-stats{gap:1.2rem;padding:1rem 1.5rem}
+    .stat-value{font-size:1.2rem}
+    .liquid-outer{width:90px;height:180px}
+    .a-grid{grid-template-columns:1fr 1fr;gap:.8rem}
+    .complete-card{padding:2rem 1.5rem}
+    .home-header{padding:0 .5rem}
+    .screen{padding:1.2rem}
+    .focus-info{gap:1rem}
+    .toast-msg{white-space:normal}
+}
+    </style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- Toast Container -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<div id="app">
+
+<!-- ═══ HOME ═══ -->
+<section id="s-home" class="screen active">
+    <div class="home-header">
+        <h1 class="home-title">Focus</h1>
+        <button class="btn-icon" id="go-analytics" title="Analytics">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+        </button>
+    </div>
+
+    <div class="mode-grid">
+        <div class="mode-card glass" data-mode="timer">
+            <span class="mode-icon">⏱</span>
+            <div><h2>Timer</h2><p>Set a duration and focus</p></div>
+        </div>
+        <div class="mode-card glass" data-mode="stopwatch">
+            <span class="mode-icon">⏲</span>
+            <div><h2>Stopwatch</h2><p>Track open-ended sessions</p></div>
+        </div>
+        <div class="mode-card glass" data-mode="pomodoro">
+            <span class="mode-icon">🍅</span>
+            <div><h2>Pomodoro</h2><p>Work in focused intervals</p></div>
+        </div>
+    </div>
+
+    <div class="quick-stats glass">
+        <div class="stat"><span class="stat-value" id="qs-time">0m</span><span class="stat-label">Today</span></div>
+        <div class="stat"><span class="stat-value" id="qs-sess">0</span><span class="stat-label">Sessions</span></div>
+        <div class="stat"><span class="stat-value" id="qs-streak">0</span><span class="stat-label">Day Streak</span></div>
+        <div class="stat"><span class="stat-value" id="qs-pomos">0</span><span class="stat-label">Pomodoros</span></div>
+        <div class="stat"><span class="stat-value" id="qs-bottles">0</span><span class="stat-label">Bottles</span></div>
+    </div>
+</section>
+
+<!-- ═══ SETUP ═══ -->
+<section id="s-setup" class="screen">
+    <button class="btn-back" id="setup-back">← Back</button>
+    <div class="setup-wrap glass" style="padding:2.5rem">
+
+        <!-- Timer Setup -->
+        <div id="setup-timer" class="setup-panel">
+            <h2>Set Timer</h2>
+            <div class="duration-picker">
+                <div class="picker-group">
+                    <button class="picker-btn" data-target="inp-h" data-delta="1">+</button>
+                    <input type="number" id="inp-h" value="0" min="0" max="23">
+                    <button class="picker-btn" data-target="inp-h" data-delta="-1">−</button>
+                    <label>Hours</label>
+                </div>
+                <span class="picker-sep">:</span>
+                <div class="picker-group">
+                    <button class="picker-btn" data-target="inp-m" data-delta="1">+</button>
+                    <input type="number" id="inp-m" value="25" min="0" max="59">
+                    <button class="picker-btn" data-target="inp-m" data-delta="-1">−</button>
+                    <label>Minutes</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pomodoro Setup -->
+        <div id="setup-pomo" class="setup-panel">
+            <h2>Pomodoro</h2>
+            <div class="pomo-settings">
+                <div class="setting-row">
+                    <label>Work</label>
+                    <div class="setting-control">
+                        <button class="adj-btn" data-target="pomo-w" data-delta="-5">−</button>
+                        <span id="pomo-w">25</span><span class="unit">min</span>
+                        <button class="adj-btn" data-target="pomo-w" data-delta="5">+</button>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <label>Break</label>
+                    <div class="setting-control">
+                        <button class="adj-btn" data-target="pomo-b" data-delta="-1">−</button>
+                        <span id="pomo-b">5</span><span class="unit">min</span>
+                        <button class="adj-btn" data-target="pomo-b" data-delta="1">+</button>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <label>Long Break</label>
+                    <div class="setting-control">
+                        <button class="adj-btn" data-target="pomo-lb" data-delta="-1">−</button>
+                        <span id="pomo-lb">15</span><span class="unit">min</span>
+                        <button class="adj-btn" data-target="pomo-lb" data-delta="1">+</button>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <label>Rounds</label>
+                    <div class="setting-control">
+                        <button class="adj-btn" data-target="pomo-r" data-delta="-1">−</button>
+                        <span id="pomo-r">4</span>
+                        <button class="adj-btn" data-target="pomo-r" data-delta="1">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-start">
+            <button class="btn-primary" id="btn-start">Start Focus</button>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ FOCUS ═══ -->
+<section id="s-focus" class="screen">
+    <div class="focus-wrap">
+        <div class="focus-layout">
+            <div class="focus-top-bar">
+                <span class="focus-mode-label" id="focus-label">FOCUS</span>
+                <button class="inventory-pill-btn glass" id="btn-toggle-inventory">
+                    <span>📦 Inventory</span>
+                    <span class="pill-badge" id="inv-pill-count">0</span>
+                </button>
+            </div>
+            <div class="pomo-dots" id="pomo-dots"></div>
+
+            <!-- Timer with SVG Progress Ring -->
+            <div class="timer-ring-wrap">
+                <svg class="progress-ring" viewBox="0 0 200 200">
+                    <circle class="ring-bg" cx="100" cy="100" r="90"/>
+                    <circle class="ring-fill" cx="100" cy="100" r="90" id="ring-fill"/>
+                </svg>
+                <div class="timer-display" id="timer-display">25:00</div>
+            </div>
+
+            <!-- Ultra Realistic Water Dropping Bottle -->
+            <div class="water-bottle-container" id="bottle-container">
+                <div class="water-dispenser-spout">
+                    <div class="spout-nozzle"></div>
+                </div>
+                <div class="water-canvas-wrap">
+                    <canvas id="water-canvas" width="150" height="240"></canvas>
+                    <div class="bottle-glow" id="bottle-glow"></div>
+                </div>
+                <div class="bottle-meta">
+                    <span class="bottle-percent" id="bottle-pct">0%</span>
+                    <span class="bottle-sub" id="bottle-sub">0.00L</span>
+                </div>
+            </div>
+
+            <div class="focus-controls">
+                <button class="ctrl-btn" id="btn-pause" title="Pause / Resume">❚❚</button>
+                <button class="ctrl-btn stop-btn" id="btn-stop" title="Stop">■</button>
+                <button class="btn-secondary skip-btn" id="btn-skip">Skip Break →</button>
+            </div>
+            <div class="focus-info" id="focus-info">
+                <span id="fi-elapsed"></span>
+                <span id="fi-detail"></span>
+            </div>
+            <span class="focus-hint">Space to pause · Esc to stop · 🔒 Anti-Distraction Lock Active</span>
+        </div>
+
+        <!-- Spatial Glass Inventory Shelf -->
+        <aside class="inventory-shelf glass" id="inventory-shelf">
+            <div class="shelf-header">
+                <div>
+                    <h3>Focus Bottles</h3>
+                    <span class="shelf-sub">1 Bottle = 1 Hour Bottled</span>
+                </div>
+                <button class="shelf-close-btn" id="shelf-close" title="Close Shelf">✕</button>
+            </div>
+            <div class="shelf-stats">
+                <div class="shelf-stat"><span class="s-val" id="inv-total-bottles">0</span><span class="s-lbl">Bottles</span></div>
+                <div class="shelf-stat"><span class="s-val" id="inv-total-vol">0.0L</span><span class="s-lbl">Focus Water</span></div>
+            </div>
+            <div class="shelf-rack" id="shelf-rack">
+                <!-- Dynamically populated bottle cards -->
+            </div>
+        </aside>
+    </div>
+</section>
+
+<!-- ═══ COMPLETE ═══ -->
+<section id="s-complete" class="screen">
+    <div class="complete-card glass">
+        <div class="complete-check">✓</div>
+        <h2>Session Complete</h2>
+        <div class="complete-stats">
+            <div class="c-stat"><span class="c-stat-val" id="c-dur">25m</span><span class="c-stat-lbl">Duration</span></div>
+            <div class="c-stat"><span class="c-stat-val" id="c-mode">Timer</span><span class="c-stat-lbl">Mode</span></div>
+            <div class="c-stat"><span class="c-stat-val" id="c-pomos">0</span><span class="c-stat-lbl">Pomodoros</span></div>
+            <div class="c-stat"><span class="c-stat-val" id="c-bottles">0</span><span class="c-stat-lbl">Bottles</span></div>
+        </div>
+        <p class="complete-quote" id="c-quote"></p>
+        <button class="btn-primary" id="btn-done">Done</button>
+    </div>
+</section>
+
+<!-- ═══ ANALYTICS ═══ -->
+<section id="s-analytics" class="screen">
+    <button class="btn-back" id="analytics-back">← Back</button>
+    <div class="analytics-scroll">
+        <h2>Focus Analytics</h2>
+        <div class="a-grid">
+            <div class="a-card glass"><span class="a-card-val" id="a-total">0h 0m</span><span class="a-card-lbl">Total Focus</span></div>
+            <div class="a-card glass"><span class="a-card-val" id="a-sess">0</span><span class="a-card-lbl">Sessions</span></div>
+            <div class="a-card glass"><span class="a-card-val" id="a-bottles">0</span><span class="a-card-lbl">Bottles Filled</span></div>
+            <div class="a-card glass"><span class="a-card-val" id="a-avg">0m</span><span class="a-card-lbl">Avg Session</span></div>
+        </div>
+        <div class="weekly-chart glass">
+            <h3>This Week</h3>
+            <div class="chart-row" id="chart-row"></div>
+        </div>
+        <div class="recent-panel glass">
+            <h3>Recent Sessions</h3>
+            <div id="recent-list"></div>
+        </div>
+        <button class="clear-btn" id="btn-clear">Clear All Data</button>
+    </div>
+</section>
+
+</div><!-- /app -->
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   FOCUS APP — Enhanced with Pomodoro Clock & Smart Notifications
+   ════════════════════════════════════════════════════════════════ */
+(() => {
+'use strict';
+
+/* ── Constants ── */
+const CIRC = 2 * Math.PI * 90; // 565.49 — SVG ring circumference
+const STORAGE_KEY = 'focus_sessions';
+
+/* ── Motivational Messages ── */
+const MOTIV = {
+    start: [
+        "Let's go — time to do great work.",
+        "Focus mode: engaged. You've got this.",
+        "Your best work starts now.",
+        "Clear mind, deep focus. Begin.",
+        "Block out the noise. This is your time.",
+    ],
+    p25: [
+        "25% done — solid momentum!",
+        "Quarter of the way there. Keep pushing.",
+        "Great start. The rhythm is building.",
+        "You're locked in. Keep it up.",
+    ],
+    p50: [
+        "Halfway there! You're crushing it.",
+        "50% complete — stay in the zone.",
+        "The hardest part is behind you.",
+        "Half done. Don't break the flow.",
+        "Halfway! Your future self thanks you.",
+    ],
+    p75: [
+        "75% done — the finish line is close!",
+        "Almost there. You can feel it.",
+        "Three quarters down. Sprint to the end.",
+        "You're in the home stretch. Keep going!",
+    ],
+    p90: [
+        "90% — just a little more!",
+        "Final stretch! You've got this.",
+        "Nearly done. Finish what you started.",
+        "So close! Don't slow down now.",
+    ],
+    lastMin: [
+        "Last minute — push through!",
+        "60 seconds to victory!",
+        "Final countdown. Finish strong!",
+        "One more minute. Make it count.",
+    ],
+    roundDone: [
+        "Round complete! You've earned a break.",
+        "Well done — time to recharge.",
+        "Excellent focus! Rest those neurons.",
+        "Pomodoro done! Take a breather.",
+    ],
+    breakOver: [
+        "Break's over — let's go again!",
+        "Refreshed? Back to the zone.",
+        "Round {n} — let's make it count!",
+        "Recharged and ready. Focus time!",
+    ],
+    allDone: [
+        "All rounds complete! Incredible work.",
+        "You crushed it! Session finished.",
+        "Every round conquered. Well done!",
+        "Pomodoro master! Amazing session.",
+    ],
+    sw10: [
+        "{t} of deep focus — amazing!",
+        "You've been locked in for {t}. Keep going!",
+        "{t} and counting. Unstoppable.",
+    ],
+    sw30: [
+        "30 minutes of pure focus. Legendary!",
+        "Half hour milestone. You're on fire!",
+    ],
+    sw60: [
+        "One full hour of focus! Respect.",
+        "60 minutes — you're a focus machine!",
+    ],
+    sw90: [
+        "90 minutes! That's deep work territory.",
+        "1.5 hours of focus — extraordinary!",
+    ],
+    sw120: [
+        "2 hours! You've entered flow state mastery.",
+        "120 minutes — truly impressive dedication.",
+    ],
+    paused: [
+        "Paused — take a breath, then come back stronger.",
+        "Quick pause. Your momentum is waiting.",
+    ],
+    resumed: [
+        "Back in the zone!",
+        "Resumed — let's keep the flow going.",
+    ],
+    completeQuotes: [
+        "The secret of getting ahead is getting started. — Mark Twain",
+        "Focus is a matter of deciding what things you're not going to do. — John Carmack",
+        "It's not that I'm so smart, it's that I stay with problems longer. — Einstein",
+        "Deep work is the superpower of the 21st century. — Cal Newport",
+        "Small daily improvements over time lead to stunning results. — Robin Sharma",
+        "The successful warrior is the average person, with laser-like focus. — Bruce Lee",
+        "You will never reach your destination if you stop and throw stones at every dog that barks. — Churchill",
+        "Concentrate all your thoughts upon the work at hand. — Alexander Graham Bell",
+    ],
+};
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+/* ── State ── */
+const S = {
+    mode: null,
+    running: false,
+    paused: false,
+    startTime: 0,
+    pausedAt: 0,
+    totalPaused: 0,
+    targetMs: 0,
+    intervalId: null,
+
+    // Pomodoro
+    pomoWork: 25,
+    pomoBreak: 5,
+    pomoLongBreak: 15,
+    pomoRounds: 4,
+    pomoCurrent: 1,
+    pomoIsBreak: false,
+    pomoIsLongBreak: false,
+    pomoCompletedWork: 0, // work phases completed this session
+
+    // Notifications
+    milestones: new Set(),
+    swNotified: new Set(),
+    lastTickSec: -1,
+
+    // Distractions & Focus Lock
+    distractions: 0,
+
+    // Inventory & Water
+    inventory: [],
+    lastCompletedHours: 0,
+    waterProgress: 0,
+
+    // Storage
+    sessions: [],
+};
+
+/* ── DOM refs ── */
+const $ = id => document.getElementById(id);
+const screens = {
+    home: $('s-home'), setup: $('s-setup'), focus: $('s-focus'),
+    complete: $('s-complete'), analytics: $('s-analytics'),
+};
+
+const timerDisp        = $('timer-display');
+const bottlePct        = $('bottle-pct');
+const bottleSub        = $('bottle-sub');
+const bottleGlow       = $('bottle-glow');
+const focusLabel       = $('focus-label');
+const pomoDots         = $('pomo-dots');
+const btnPause         = $('btn-pause');
+const btnStop          = $('btn-stop');
+const btnSkip          = $('btn-skip');
+const btnStart         = $('btn-start');
+const ringFill         = $('ring-fill');
+const fiElapsed        = $('fi-elapsed');
+const fiDetail         = $('fi-detail');
+const toastWrap        = $('toast-wrap');
+const inventoryShelf   = $('inventory-shelf');
+const btnToggleInv     = $('btn-toggle-inventory');
+const shelfClose       = $('shelf-close');
+const shelfRack        = $('shelf-rack');
+const invPillCount     = $('inv-pill-count');
+const invTotalBottles  = $('inv-total-bottles');
+const invTotalVol      = $('inv-total-vol');
+
+/* ── Navigation ── */
+let currentScreen = 'home';
+function navigate(name) {
+    screens[currentScreen]?.classList.remove('active');
+    screens[name]?.classList.add('active');
+    currentScreen = name;
+    if (name === 'focus') {
+        WaterSim.resize();
+    }
+}
+
+/* ── Utility ── */
+function fmt(ms) {
+    const total = Math.max(0, Math.ceil(ms / 1000));
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    const mm = String(m).padStart(2, '0');
+    const ss = String(s).padStart(2, '0');
+    return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
+}
+function fmtShort(ms) {
+    const mins = Math.round(ms / 60000);
+    if (mins < 60) return `${mins}m`;
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+/* ── Storage ── */
+function loadSessions() {
+    try { S.sessions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { S.sessions = []; }
+}
+function saveSessions() { localStorage.setItem(STORAGE_KEY, JSON.stringify(S.sessions)); }
+function addSession(data) { S.sessions.push(data); saveSessions(); }
+
+/* ── Fullscreen & Keyboard Lock ── */
+function enterFS() {
+    const el = document.documentElement;
+    const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+    if (rfs) {
+        rfs.call(el).then(() => {
+            if (navigator.keyboard && navigator.keyboard.lock) {
+                navigator.keyboard.lock().catch(() => {});
+            }
+        }).catch(() => {});
+    }
+}
+function exitFS() {
+    if (navigator.keyboard && navigator.keyboard.unlock) {
+        try { navigator.keyboard.unlock(); } catch {}
+    }
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+        (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen).call(document).catch(() => {});
+    }
+}
+
+/* ── Audio ── */
+function playTone(freqs, dur = 0.4, vol = 0.18) {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        freqs.forEach((f, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, ctx.currentTime + i * 0.12);
+            gain.gain.setValueAtTime(vol, ctx.currentTime + i * 0.12);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + dur);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + i * 0.12);
+            osc.stop(ctx.currentTime + i * 0.12 + dur);
+        });
+    } catch {}
+}
+function soundComplete()     { playTone([660, 880, 1100], 0.35, 0.15); }
+function soundBreak()        { playTone([523, 659], 0.3, 0.12); }
+function soundResume()       { playTone([440], 0.15, 0.08); }
+function soundNotification() { playTone([700], 0.12, 0.06); }
+function soundWarning()      { playTone([300, 240, 180], 0.25, 0.2); }
+
+function soundWaterDrop(liquidHeightFraction = 0.5) {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        // Resonant frequency increases slightly as bottle fills (air column shortens)
+        const baseFreq = 620 + (liquidHeightFraction * 420);
+        const endFreq = baseFreq * 1.85;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(baseFreq, now);
+        osc.frequency.exponentialRampToValueAtTime(endFreq, now + 0.055);
+
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.08);
+    } catch {}
+}
+
+/* ── Toast Notifications ── */
+function showToast(msg, icon = '💡', duration = 4200) {
+    const t = document.createElement('div');
+    t.className = 'toast glass';
+    t.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-msg">${msg}</span>`;
+    toastWrap.appendChild(t);
+
+    setTimeout(() => { t.classList.add('exiting'); }, duration - 400);
+    setTimeout(() => { t.remove(); }, duration);
+
+    soundNotification();
+
+    // Browser notification if tab is hidden
+    if (document.hidden && 'Notification' in window && Notification.permission === 'granted') {
+        try { new Notification('Focus', { body: msg, silent: true }); } catch {}
+    }
+}
+
+function requestNotifPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+    }
+}
+
+/* ── Smart Milestone Notifications ── */
+function checkMilestones(pctComplete, elapsedMs, remainingMs) {
+    // pctComplete: 0–1, how much of the phase is DONE
+
+    if (S.mode === 'stopwatch') {
+        checkStopwatchMilestones(elapsedMs);
+        return;
+    }
+
+    const remainSec = Math.ceil(remainingMs / 1000);
+
+    if (pctComplete >= 0.25 && !S.milestones.has('25')) {
+        S.milestones.add('25');
+        showToast(pick(MOTIV.p25), '💪');
+    }
+    if (pctComplete >= 0.50 && !S.milestones.has('50')) {
+        S.milestones.add('50');
+        showToast(pick(MOTIV.p50), '🔥');
+    }
+    if (pctComplete >= 0.75 && !S.milestones.has('75')) {
+        S.milestones.add('75');
+        showToast(pick(MOTIV.p75), '⚡');
+    }
+    if (pctComplete >= 0.90 && !S.milestones.has('90')) {
+        S.milestones.add('90');
+        showToast(pick(MOTIV.p90), '🏁');
+    }
+    if (remainSec <= 60 && remainSec > 0 && !S.milestones.has('last')) {
+        S.milestones.add('last');
+        showToast(pick(MOTIV.lastMin), '⏳');
+    }
+}
+
+function checkStopwatchMilestones(elapsedMs) {
+    const mins = Math.floor(elapsedMs / 60000);
+
+    // Special milestones
+    if (mins >= 120 && !S.swNotified.has(120)) {
+        S.swNotified.add(120); showToast(pick(MOTIV.sw120), '👑');
+    } else if (mins >= 90 && !S.swNotified.has(90)) {
+        S.swNotified.add(90); showToast(pick(MOTIV.sw90), '🧠');
+    } else if (mins >= 60 && !S.swNotified.has(60)) {
+        S.swNotified.add(60); showToast(pick(MOTIV.sw60), '🏆');
+    } else if (mins >= 30 && !S.swNotified.has(30)) {
+        S.swNotified.add(30); showToast(pick(MOTIV.sw30), '🔥');
+    } else if (mins > 0 && mins % 10 === 0 && !S.swNotified.has(mins)) {
+        S.swNotified.add(mins);
+        const msg = pick(MOTIV.sw10).replace('{t}', fmtShort(elapsedMs));
+        showToast(msg, '⏲');
+    }
+}
+
+/* ── Progress Ring ── */
+function setRing(pct) {
+    // pct: 0–1 (fraction filled)
+    const offset = CIRC * (1 - clamp(pct, 0, 1));
+    ringFill.style.strokeDashoffset = offset;
+}
+
+/* ── Water Dropping Rate Engine ── */
+function getDripConfig() {
+    if (!S.running || S.paused) return { active: false, interval: 999999, isStream: false, speed: 4 };
+
+    let totalDurationMs = S.targetMs;
+    if (S.mode === 'stopwatch') {
+        totalDurationMs = 3600000; // 1 hour per bottle
+    }
+
+    // Adapt rate depending upon total duration:
+    if (totalDurationMs <= 180000) {
+        // Fast/short session (<= 3 min): rapid continuous stream of water
+        return { active: true, interval: 140, isStream: true, speed: 7.2 };
+    } else if (totalDurationMs <= 600000) {
+        // 5 - 10 min: rapid droplets
+        return { active: true, interval: 420, isStream: false, speed: 6.2 };
+    } else if (totalDurationMs <= 1500000) {
+        // 15 - 25 min: steady rhythmic droplets
+        return { active: true, interval: 950, isStream: false, speed: 5.5 };
+    } else if (totalDurationMs <= 3600000) {
+        // 25 - 60 min (standard Pomodoro / 1h stopwatch): meditative periodic drops
+        return { active: true, interval: 1600, isStream: false, speed: 5.0 };
+    } else {
+        // > 1 hour
+        return { active: true, interval: 2200, isStream: false, speed: 4.8 };
+    }
+}
+
+/* ── Ultra-Realistic Water Simulation Engine (Canvas) ── */
+const WaterSim = {
+    canvas: null,
+    ctx: null,
+    width: 150,
+    height: 240,
+    dpr: window.devicePixelRatio || 1,
+
+    targetProgress: 0,
+    currentProgress: 0,
+
+    nodesCount: 30,
+    nodes: [],
+    springK: 0.026,
+    damping: 0.94,
+    spread: 0.22,
+
+    droplets: [],
+    lastDropTime: 0,
+    splashes: [],
+    bubbles: [],
+
+    corkProgress: 0, // 0 (unplugged) to 1 (plugged)
+    isCapping: false,
+    shimmerProgress: 0,
+
+    init() {
+        this.canvas = $('water-canvas');
+        if (!this.canvas) return;
+        this.ctx = this.canvas.getContext('2d');
+        this.resize();
+
+        // Initialize wave surface grid along the bottom
+        this.nodes = [];
+        const x1 = 26, x2 = 124;
+        const step = (x2 - x1) / (this.nodesCount - 1);
+        for (let i = 0; i < this.nodesCount; i++) {
+            this.nodes.push({
+                x: x1 + i * step,
+                y: 228,
+                targetY: 228,
+                vy: 0
+            });
+        }
+
+        this.loop = this.loop.bind(this);
+        requestAnimationFrame(this.loop);
+    },
+
+    resize() {
+        if (!this.canvas) return;
+        this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.canvas.width = this.width * this.dpr;
+        this.canvas.height = this.height * this.dpr;
+        this.ctx.scale(this.dpr, this.dpr);
+    },
+
+    triggerCorkCap(onDone) {
+        this.isCapping = true;
+        this.corkProgress = 0;
+        this.shimmerProgress = 0;
+        const start = performance.now();
+        const anim = (t) => {
+            const elapsed = t - start;
+            this.corkProgress = Math.min(elapsed / 500, 1);
+            this.shimmerProgress = Math.min(elapsed / 1100, 1);
+            if (elapsed < 1300) {
+                requestAnimationFrame(anim);
+            } else {
+                this.isCapping = false;
+                this.corkProgress = 0;
+                this.shimmerProgress = 0;
+                if (onDone) onDone();
+            }
+        };
+        requestAnimationFrame(anim);
+    },
+
+    getSurfaceY(x) {
+        if (!this.nodes.length) return 228;
+        if (x <= this.nodes[0].x) return this.nodes[0].y;
+        if (x >= this.nodes[this.nodes.length - 1].x) return this.nodes[this.nodes.length - 1].y;
+        for (let i = 0; i < this.nodes.length - 1; i++) {
+            if (x >= this.nodes[i].x && x <= this.nodes[i + 1].x) {
+                const t = (x - this.nodes[i].x) / (this.nodes[i + 1].x - this.nodes[i].x);
+                return this.nodes[i].y + t * (this.nodes[i + 1].y - this.nodes[i].y);
+            }
+        }
+        return 228;
+    },
+
+    splashImpact(x, vy) {
+        let closestIdx = 0;
+        let minDist = 999;
+        for (let i = 0; i < this.nodes.length; i++) {
+            const dist = Math.abs(this.nodes[i].x - x);
+            if (dist < minDist) {
+                minDist = dist;
+                closestIdx = i;
+            }
+        }
+
+        const impact = Math.min(vy * 0.75, 7.5);
+        this.nodes[closestIdx].vy += impact;
+        if (closestIdx > 0) this.nodes[closestIdx - 1].vy += impact * 0.55;
+        if (closestIdx < this.nodes.length - 1) this.nodes[closestIdx + 1].vy += impact * 0.55;
+
+        soundWaterDrop(this.currentProgress);
+
+        // Splash particles
+        const count = 4 + Math.floor(Math.random() * 4);
+        const surfY = this.nodes[closestIdx].y;
+        for (let i = 0; i < count; i++) {
+            this.splashes.push({
+                x: x + (Math.random() - 0.5) * 8,
+                y: surfY - 1,
+                vx: (Math.random() - 0.5) * 3.2,
+                vy: -(1.4 + Math.random() * 3.2),
+                radius: 1.1 + Math.random() * 1.5,
+                alpha: 0.95
+            });
+        }
+
+        // Bubbles underwater
+        if (this.currentProgress > 0.05) {
+            const bubbleCount = 2 + Math.floor(Math.random() * 3);
+            for (let i = 0; i < bubbleCount; i++) {
+                this.bubbles.push({
+                    x: x + (Math.random() - 0.5) * 12,
+                    y: surfY + 4 + Math.random() * 10,
+                    vy: 0.45 + Math.random() * 0.75,
+                    wobble: Math.random() * 10,
+                    radius: 0.8 + Math.random() * 1.3
+                });
+            }
+        }
+    },
+
+    update(now) {
+        if (!S.running && !this.isCapping) {
+            for (let i = 0; i < this.nodes.length; i++) {
+                const node = this.nodes[i];
+                const diff = node.targetY - node.y;
+                node.vy += diff * 0.02;
+                node.vy *= 0.94;
+                node.y += node.vy;
+            }
+            return;
+        }
+
+        this.currentProgress += (this.targetProgress - this.currentProgress) * 0.08;
+
+        // Equilibrium water surface: fills from y = 228 (0%) to y = 78 (100%)
+        const yBottom = 228;
+        const yTop = 78;
+        const targetSurfaceY = yBottom - (this.currentProgress * (yBottom - yTop));
+
+        for (let i = 0; i < this.nodes.length; i++) {
+            this.nodes[i].targetY = targetSurfaceY;
+        }
+
+        const cfg = getDripConfig();
+        this.dropInterval = cfg.interval;
+
+        // Droplet spawning from nozzle (x: 75, y: 24)
+        if (cfg.active && now - this.lastDropTime > this.dropInterval) {
+            this.lastDropTime = now;
+            this.droplets.push({
+                x: 75 + (Math.random() - 0.5) * 1.5,
+                y: 24,
+                vy: cfg.speed * 0.48,
+                radius: cfg.isStream ? 2.8 : (3.5 + Math.random() * 0.7),
+                isStream: cfg.isStream
+            });
+            if (cfg.isStream) {
+                this.droplets.push({
+                    x: 75,
+                    y: 18,
+                    vy: cfg.speed * 0.42,
+                    radius: 1.6,
+                    isStream: true
+                });
+            }
+        }
+
+        // Droplet physics
+        const gravity = 0.45;
+        for (let i = this.droplets.length - 1; i >= 0; i--) {
+            const d = this.droplets[i];
+            d.vy += gravity;
+            d.y += d.vy;
+
+            const surfAtX = this.getSurfaceY(d.x);
+            if (d.y >= surfAtX - 2) {
+                this.splashImpact(d.x, d.vy);
+                this.droplets.splice(i, 1);
+            } else if (d.y > 245) {
+                this.droplets.splice(i, 1);
+            }
+        }
+
+        // Spring wave physics
+        for (let i = 0; i < this.nodes.length; i++) {
+            const node = this.nodes[i];
+            const force = -this.springK * (node.y - node.targetY);
+            node.vy = (node.vy + force) * this.damping;
+            node.y += node.vy;
+        }
+
+        // Wave propagation
+        const leftDeltas = new Float32Array(this.nodes.length);
+        const rightDeltas = new Float32Array(this.nodes.length);
+        for (let j = 0; j < 4; j++) {
+            for (let i = 0; i < this.nodes.length; i++) {
+                if (i > 0) {
+                    leftDeltas[i] = this.spread * (this.nodes[i].y - this.nodes[i - 1].y);
+                    this.nodes[i - 1].vy += leftDeltas[i];
+                }
+                if (i < this.nodes.length - 1) {
+                    rightDeltas[i] = this.spread * (this.nodes[i].y - this.nodes[i + 1].y);
+                    this.nodes[i + 1].vy += rightDeltas[i];
+                }
+            }
+            for (let i = 0; i < this.nodes.length; i++) {
+                if (i > 0) this.nodes[i - 1].y += leftDeltas[i];
+                if (i < this.nodes.length - 1) this.nodes[i + 1].y += rightDeltas[i];
+            }
+        }
+
+        // Splash particles
+        for (let i = this.splashes.length - 1; i >= 0; i--) {
+            const p = this.splashes[i];
+            p.x += p.vx;
+            p.vy += gravity * 0.65;
+            p.y += p.vy;
+            p.alpha -= 0.035;
+            if (p.alpha <= 0 || p.y > 238) {
+                this.splashes.splice(i, 1);
+            }
+        }
+
+        // Micro-bubbles
+        for (let i = this.bubbles.length - 1; i >= 0; i--) {
+            const b = this.bubbles[i];
+            b.y -= b.vy;
+            b.x += Math.sin(now * 0.005 + b.wobble) * 0.35;
+            const surfY = this.getSurfaceY(b.x);
+            if (b.y <= surfY + 3) {
+                this.bubbles.splice(i, 1);
+            }
+        }
+    },
+
+    drawBottlePath(ctx) {
+        // Beautiful contour flask: neck (60 to 90, y: 35 to 60), rounded body (22 to 128, y: 90 to 232)
+        ctx.beginPath();
+        ctx.moveTo(60, 36);
+        ctx.lineTo(60, 60);
+        ctx.bezierCurveTo(60, 75, 22, 85, 22, 102);
+        ctx.lineTo(22, 212);
+        ctx.bezierCurveTo(22, 234, 38, 236, 75, 236);
+        ctx.bezierCurveTo(112, 236, 128, 234, 128, 212);
+        ctx.lineTo(128, 102);
+        ctx.bezierCurveTo(128, 85, 90, 75, 90, 60);
+        ctx.lineTo(90, 36);
+        ctx.closePath();
+    },
+
+    render() {
+        const ctx = this.ctx;
+        if (!ctx) return;
+        ctx.clearRect(0, 0, this.width, this.height);
+
+        // 1. Spout Tip at top
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+        ctx.beginPath();
+        ctx.moveTo(71, 12);
+        ctx.lineTo(79, 12);
+        ctx.lineTo(76.5, 18);
+        ctx.lineTo(73.5, 18);
+        ctx.closePath();
+        ctx.fill();
+
+        // 2. Liquid clipped to inner bottle
+        ctx.save();
+        this.drawBottlePath(ctx);
+        ctx.clip();
+
+        const hue = S.mode === 'pomodoro' && S.pomoIsBreak ? (S.pomoIsLongBreak ? 35 : 142) : 198;
+
+        if (this.currentProgress > 0.005) {
+            ctx.beginPath();
+            ctx.moveTo(this.nodes[0].x, this.nodes[0].y);
+
+            for (let i = 1; i < this.nodes.length - 1; i++) {
+                const xc = (this.nodes[i].x + this.nodes[i + 1].x) / 2;
+                const yc = (this.nodes[i].y + this.nodes[i + 1].y) / 2;
+                ctx.quadraticCurveTo(this.nodes[i].x, this.nodes[i].y, xc, yc);
+            }
+            const last = this.nodes[this.nodes.length - 1];
+            ctx.lineTo(last.x, last.y);
+            ctx.lineTo(135, 245);
+            ctx.lineTo(15, 245);
+            ctx.closePath();
+
+            const waterGrad = ctx.createLinearGradient(0, 60, 0, 236);
+            waterGrad.addColorStop(0, `hsla(${hue}, 92%, 56%, 0.88)`);
+            waterGrad.addColorStop(0.5, `hsla(${hue}, 88%, 46%, 0.92)`);
+            waterGrad.addColorStop(1, `hsla(${hue}, 95%, 34%, 0.96)`);
+            ctx.fillStyle = waterGrad;
+            ctx.fill();
+
+            // Water meniscus surface highlight
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.lineWidth = 2.2;
+            ctx.stroke();
+
+            // Sub-surface caustics
+            const causticGrad = ctx.createLinearGradient(30, 0, 120, 0);
+            causticGrad.addColorStop(0, 'rgba(255,255,255,0.18)');
+            causticGrad.addColorStop(0.3, 'rgba(255,255,255,0.02)');
+            causticGrad.addColorStop(0.7, 'rgba(255,255,255,0.06)');
+            causticGrad.addColorStop(1, 'rgba(255,255,255,0.14)');
+            ctx.fillStyle = causticGrad;
+            ctx.fill();
+
+            // Render micro bubbles
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+            for (let i = 0; i < this.bubbles.length; i++) {
+                const b = this.bubbles[i];
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        ctx.restore();
+
+        // 3. Falling droplets
+        for (let i = 0; i < this.droplets.length; i++) {
+            const d = this.droplets[i];
+            ctx.save();
+            ctx.translate(d.x, d.y);
+
+            ctx.fillStyle = `hsla(${hue}, 95%, 65%, 0.94)`;
+            ctx.beginPath();
+            ctx.moveTo(0, -d.radius * 1.4);
+            ctx.bezierCurveTo(d.radius * 1.1, -d.radius * 0.3, d.radius * 1.1, d.radius, 0, d.radius);
+            ctx.bezierCurveTo(-d.radius * 1.1, d.radius, -d.radius * 1.1, -d.radius * 0.3, 0, -d.radius * 1.4);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.beginPath();
+            ctx.arc(-d.radius * 0.3, -d.radius * 0.3, d.radius * 0.35, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // 4. Splash particles
+        for (let i = 0; i < this.splashes.length; i++) {
+            const p = this.splashes[i];
+            ctx.fillStyle = `hsla(${hue}, 90%, 65%, ${p.alpha})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // 5. Glass Bottle Frame & Reflections
+        ctx.save();
+        this.drawBottlePath(ctx);
+
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+        ctx.lineWidth = 2.4;
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Specular sheen along the left edge
+        ctx.beginPath();
+        ctx.moveTo(26, 108);
+        ctx.lineTo(26, 210);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+        ctx.lineWidth = 2.2;
+        ctx.stroke();
+
+        // Subtle specular on right
+        ctx.beginPath();
+        ctx.moveTo(124, 108);
+        ctx.lineTo(124, 210);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        ctx.restore();
+
+        // 6. Cork Stopper (Upon sealing)
+        if (this.corkProgress > 0) {
+            ctx.save();
+            const corkY = 12 + this.corkProgress * 24;
+            ctx.fillStyle = '#b88655';
+            ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.roundRect(61, corkY, 28, 20, [3, 3, 2, 2]);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(255,255,255,0.25)';
+            ctx.fillRect(63, corkY + 2, 24, 3);
+            ctx.restore();
+        }
+
+        // 7. Shimmer Sweep
+        if (this.shimmerProgress > 0 && this.shimmerProgress < 1) {
+            ctx.save();
+            this.drawBottlePath(ctx);
+            ctx.clip();
+            const sweepX = -30 + this.shimmerProgress * 200;
+            const shimGrad = ctx.createLinearGradient(sweepX, 0, sweepX + 45, 0);
+            shimGrad.addColorStop(0, 'rgba(255,255,255,0)');
+            shimGrad.addColorStop(0.5, 'rgba(255,255,255,0.5)');
+            shimGrad.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = shimGrad;
+            ctx.fillRect(0, 0, this.width, this.height);
+            ctx.restore();
+        }
+    },
+
+    loop(now) {
+        this.update(now);
+        this.render();
+        requestAnimationFrame(this.loop);
+    }
+};
+
+/* ── Water Fill Setter ── */
+function setWaterFill(progress) {
+    const p = clamp(progress, 0, 1);
+    S.waterProgress = p;
+    WaterSim.targetProgress = p;
+
+    const pct = Math.round(p * 100);
+    if (bottlePct) bottlePct.textContent = pct + '%';
+
+    if (bottleSub) {
+        if (S.mode === 'stopwatch') {
+            const liters = (p * 1.0).toFixed(2);
+            bottleSub.textContent = `${liters}L / 1.0L`;
+        } else {
+            const targetMins = S.targetMs / 60000;
+            const liters = (p * (targetMins / 60)).toFixed(2);
+            bottleSub.textContent = `${liters}L`;
+        }
+    }
+
+    let hue = 198;
+    if (S.mode === 'pomodoro' && S.pomoIsBreak) {
+        hue = S.pomoIsLongBreak ? 35 : 142;
+    }
+    document.documentElement.style.setProperty('--liquid-hue', hue);
+    if (bottleGlow) bottleGlow.style.opacity = 0.15 + (p * 0.25);
+}
+
+/* ── Inventory & Bottle Shelf System ── */
+const INVENTORY_STORAGE_KEY = 'focus_bottles';
+function loadInventory() {
+    try { S.inventory = JSON.parse(localStorage.getItem(INVENTORY_STORAGE_KEY)) || []; }
+    catch { S.inventory = []; }
+}
+function saveInventory() {
+    localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(S.inventory));
+}
+function addBottleToInventory(bottle) {
+    S.inventory.push(bottle);
+    saveInventory();
+    renderInventoryShelf();
+    refreshHomeStats();
+}
+
+function renderInventoryShelf() {
+    loadInventory();
+    const count = S.inventory.length;
+    if (invPillCount) invPillCount.textContent = count;
+    if (invTotalBottles) invTotalBottles.textContent = count;
+    if (invTotalVol) invTotalVol.textContent = (count * 1.0).toFixed(1) + 'L';
+
+    if (!shelfRack) return;
+
+    if (count === 0) {
+        shelfRack.innerHTML = `
+            <div class="empty-shelf">
+                <span style="font-size:2rem;display:block;margin-bottom:.5rem">🏺</span>
+                <p>No bottles filled yet.<br>Every 1 hour in Stopwatch bottles 1.0L of pure focus water!</p>
+            </div>
+        `;
+        return;
+    }
+
+    const list = [...S.inventory].reverse();
+    shelfRack.innerHTML = list.map((b, idx) => {
+        const bottleNum = b.hour || (count - idx);
+        return `
+            <div class="bottle-card glass">
+                <div class="bottle-icon-wrap">
+                    <svg viewBox="0 0 32 48" fill="none">
+                        <path d="M12 4h8v6c0 3 8 5 8 9v23c0 3-3 4-12 4s-12-1-12-4V19c0-4 8-6 8-9V4z" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+                        <path d="M5 24c3-1 7 1 11-0.5s7-1 11 0v18c0 2-2 3-11 3s-11-1-11-3V24z" fill="hsl(198, 90%, 50%)" opacity="0.85"/>
+                        <rect x="13" y="1" width="6" height="5" rx="1" fill="#b88655" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+                        <path d="M7 26v14" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="bottle-card-info">
+                    <div class="bottle-card-title">Hour ${bottleNum} Bottle</div>
+                    <div class="bottle-card-time">${b.date === todayStr() ? 'Today' : b.date}, ${b.time} · 1h 00m</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function toggleInventoryShelf() {
+    if (!inventoryShelf) return;
+    inventoryShelf.classList.toggle('collapsed');
+}
+function openInventoryShelf() {
+    if (!inventoryShelf) return;
+    inventoryShelf.classList.remove('collapsed');
+}
+function closeInventoryShelf() {
+    if (!inventoryShelf) return;
+    inventoryShelf.classList.add('collapsed');
+}
+
+function onStopwatchHourBottled(hourNumber) {
+    WaterSim.triggerCorkCap(() => {
+        WaterSim.targetProgress = 0;
+        WaterSim.currentProgress = 0;
+    });
+
+    const bottleRecord = {
+        id: Date.now(),
+        hour: hourNumber,
+        mode: 'stopwatch',
+        duration: 3600000,
+        date: todayStr(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    addBottleToInventory(bottleRecord);
+    showToast(`🍾 Hour ${hourNumber} Bottled! Transferred to your focus inventory.`, '💧', 6000);
+    openInventoryShelf();
+}
+
+/* ── Pomodoro Dots ── */
+function renderPomoDots() {
+    if (S.mode !== 'pomodoro') { pomoDots.innerHTML = ''; return; }
+    let html = '';
+    for (let i = 1; i <= S.pomoRounds; i++) {
+        let cls = 'pomo-dot';
+        if (i < S.pomoCurrent || (i === S.pomoCurrent && S.pomoIsBreak)) {
+            if (i <= S.pomoCompletedWork) cls += ' done';
+        }
+        if (i === S.pomoCurrent && !S.pomoIsBreak) cls += ' active';
+        if (i === S.pomoCurrent && S.pomoIsBreak) {
+            cls += S.pomoIsLongBreak ? ' long-break-active' : ' break-active';
+        }
+        html += `<div class="${cls}"></div>`;
+    }
+    pomoDots.innerHTML = html;
+}
+
+/* ── Ring Color Sync ── */
+function syncRingColor() {
+    ringFill.classList.remove('is-break', 'is-long-break');
+    if (S.pomoIsBreak) {
+        ringFill.classList.add(S.pomoIsLongBreak ? 'is-long-break' : 'is-break');
+    }
+}
+
+/* ── Skip Break Button ── */
+function updateSkipBtn() {
+    btnSkip.classList.toggle('visible', S.pomoIsBreak && (S.running || S.paused));
+}
+
+/* ── Focus Info Bar ── */
+function updateFocusInfo(elapsedMs) {
+    fiElapsed.textContent = `Elapsed: ${fmt(elapsedMs)}`;
+    if (S.mode === 'pomodoro') {
+        const phase = S.pomoIsBreak ? (S.pomoIsLongBreak ? 'Long Break' : 'Break') : 'Work';
+        fiDetail.textContent = `Round ${S.pomoCurrent}/${S.pomoRounds} · ${phase} · ${S.pomoCompletedWork} 🍅`;
+    } else if (S.mode === 'timer') {
+        const pct = Math.round((elapsedMs / S.targetMs) * 100);
+        fiDetail.textContent = `${Math.min(pct, 100)}% complete`;
+    } else {
+        fiDetail.textContent = 'Open session';
+    }
+}
+
+/* ── Timer Engine ── */
+function tick() {
+    if (S.paused) return;
+    const now = Date.now();
+    const elapsed = now - S.startTime - S.totalPaused;
+
+    // Avoid redundant updates within same second for notifications
+    const currentSec = Math.floor(elapsed / 1000);
+
+    if (S.mode === 'stopwatch') {
+        timerDisp.textContent = fmt(elapsed);
+
+        // 1 Bottle = 1 Hour (3,600,000 ms)
+        const hoursCompleted = Math.floor(elapsed / 3600000);
+        const msInHour = elapsed % 3600000;
+        const progress = Math.min(msInHour / 3600000, 1.0);
+
+        if (hoursCompleted > S.lastCompletedHours) {
+            S.lastCompletedHours = hoursCompleted;
+            onStopwatchHourBottled(hoursCompleted);
+        }
+
+        setWaterFill(progress);
+        setRing(progress);
+        updateFocusInfo(elapsed);
+        if (currentSec !== S.lastTickSec) {
+            S.lastTickSec = currentSec;
+            if (document.visibilityState === 'visible') {
+                document.title = `${timerDisp.textContent} ⏲ Focus`;
+            }
+            checkStopwatchMilestones(elapsed);
+        }
+        return;
+    }
+
+    const remaining = S.targetMs - elapsed;
+    if (remaining <= 0) {
+        timerDisp.textContent = fmt(0);
+        setWaterFill(1.0);
+        setRing(1.0);
+        onPhaseEnd();
+        return;
+    }
+
+    timerDisp.textContent = fmt(remaining);
+    // Fills in as time elapses:
+    const progress = clamp(elapsed / S.targetMs, 0, 1);
+    setWaterFill(progress);
+    setRing(progress);
+    updateFocusInfo(elapsed);
+
+    if (currentSec !== S.lastTickSec) {
+        S.lastTickSec = currentSec;
+        if (document.visibilityState === 'visible') {
+            const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+            document.title = `${timerDisp.textContent} ${icon} Focus`;
+        }
+        checkMilestones(1 - fraction, elapsed, remaining);
+    }
+}
+
+function onPhaseEnd() {
+    clearInterval(S.intervalId);
+    S.intervalId = null;
+    S.running = false;
+
+    if (S.mode === 'pomodoro') {
+        if (!S.pomoIsBreak) {
+            // Work phase completed
+            S.pomoCompletedWork++;
+
+            if (S.pomoCurrent >= S.pomoRounds) {
+                // All rounds complete
+                showToast(pick(MOTIV.allDone), '🎉');
+                finishSession(S.pomoWork * 60000 * S.pomoRounds);
+                return;
+            }
+
+            // Determine break type: long break every 4 completed work phases
+            const isLong = S.pomoCompletedWork % 4 === 0;
+            S.pomoIsBreak = true;
+            S.pomoIsLongBreak = isLong;
+            const breakMs = (isLong ? S.pomoLongBreak : S.pomoBreak) * 60000;
+
+            soundBreak();
+            showToast(pick(MOTIV.roundDone), '☕');
+
+            focusLabel.textContent = isLong ? 'LONG BREAK' : 'BREAK';
+            focusLabel.classList.add(isLong ? 'is-long-break' : 'is-break');
+            focusLabel.classList.remove(isLong ? 'is-break' : 'is-long-break');
+            syncRingColor();
+            updateSkipBtn();
+            startPhase(breakMs);
+            renderPomoDots();
+            return;
+        } else {
+            // Break done → next work round
+            S.pomoIsBreak = false;
+            S.pomoIsLongBreak = false;
+            S.pomoCurrent++;
+
+            const msg = pick(MOTIV.breakOver).replace('{n}', S.pomoCurrent);
+            soundResume();
+            showToast(msg, '🚀');
+
+            focusLabel.textContent = 'FOCUS';
+            focusLabel.classList.remove('is-break', 'is-long-break');
+            syncRingColor();
+            updateSkipBtn();
+            startPhase(S.pomoWork * 60000);
+            renderPomoDots();
+            return;
+        }
+    }
+
+    // Timer mode complete
+    soundComplete();
+    finishSession(S.targetMs);
+}
+
+function startPhase(ms) {
+    S.targetMs = ms;
+    S.startTime = Date.now();
+    S.totalPaused = 0;
+    S.paused = false;
+    S.running = true;
+    S.milestones.clear();
+    S.lastTickSec = -1;
+    timerDisp.classList.remove('paused');
+    btnPause.innerHTML = '❚❚';
+    setWaterFill(0);
+    setRing(0);
+    S.intervalId = setInterval(tick, 50);
+}
+
+function finishSession(focusMs) {
+    clearInterval(S.intervalId);
+    S.intervalId = null;
+    S.running = false;
+    S.paused = false;
+
+    exitFS();
+    document.title = 'Focus';
+    if (S.mode !== 'pomodoro') soundComplete(); // pomo plays its own sound
+
+    const pomoCount = S.mode === 'pomodoro' ? S.pomoCompletedWork : 0;
+
+    addSession({
+        date: todayStr(),
+        mode: S.mode,
+        duration: focusMs,
+        pomodoros: pomoCount,
+        completedAt: new Date().toISOString(),
+    });
+
+    // Show complete screen
+    $('c-dur').textContent = fmtShort(focusMs);
+    $('c-mode').textContent = S.mode === 'pomodoro' ? 'Pomodoro' : S.mode === 'timer' ? 'Timer' : 'Stopwatch';
+    $('c-pomos').textContent = pomoCount;
+    $('c-pomos').closest('.c-stat').style.display = pomoCount > 0 ? '' : 'none';
+    if ($('c-bottles')) $('c-bottles').textContent = S.inventory.length;
+    $('c-quote').textContent = `"${pick(MOTIV.completeQuotes)}"`;
+
+    navigate('complete');
+    refreshHomeStats();
+    updateSkipBtn();
+}
+
+function stopSession() {
+    if (!S.running && !S.paused) return;
+    clearInterval(S.intervalId);
+    S.intervalId = null;
+
+    const now = Date.now();
+    let elapsed = now - S.startTime - S.totalPaused;
+    if (S.paused) elapsed = S.pausedAt - S.startTime - S.totalPaused;
+
+    S.running = false;
+    S.paused = false;
+    exitFS();
+    document.title = 'Focus';
+
+    if (elapsed > 5000) {
+        let focusMs = elapsed;
+        const pomoCount = S.mode === 'pomodoro' ? S.pomoCompletedWork : 0;
+        if (S.mode === 'pomodoro') {
+            focusMs = S.pomoCompletedWork * S.pomoWork * 60000 +
+                (S.pomoIsBreak ? 0 : Math.min(elapsed, S.pomoWork * 60000));
+        }
+        addSession({
+            date: todayStr(),
+            mode: S.mode,
+            duration: focusMs,
+            pomodoros: pomoCount,
+            completedAt: new Date().toISOString(),
+        });
+    }
+    refreshHomeStats();
+    updateSkipBtn();
+    navigate('home');
+}
+
+function skipBreak() {
+    if (!S.pomoIsBreak) return;
+    clearInterval(S.intervalId);
+    S.intervalId = null;
+
+    S.pomoIsBreak = false;
+    S.pomoIsLongBreak = false;
+    S.pomoCurrent++;
+
+    const msg = pick(MOTIV.breakOver).replace('{n}', S.pomoCurrent);
+    showToast(msg, '🚀');
+
+    focusLabel.textContent = 'FOCUS';
+    focusLabel.classList.remove('is-break', 'is-long-break');
+    syncRingColor();
+    updateSkipBtn();
+    startPhase(S.pomoWork * 60000);
+    renderPomoDots();
+}
+
+function togglePause() {
+    if (!S.running && !S.paused) return;
+    if (S.paused) {
+        S.totalPaused += Date.now() - S.pausedAt;
+        S.paused = false;
+        S.running = true;
+        timerDisp.classList.remove('paused');
+        btnPause.innerHTML = '❚❚';
+        showToast(pick(MOTIV.resumed), '▶️');
+    } else {
+        S.pausedAt = Date.now();
+        S.paused = true;
+        timerDisp.classList.add('paused');
+        btnPause.innerHTML = '▶';
+        showToast(pick(MOTIV.paused), '⏸️');
+    }
+}
+
+/* ── Start Session ── */
+function beginSession() {
+    requestNotifPermission();
+    S.milestones.clear();
+    S.swNotified.clear();
+    S.lastTickSec = -1;
+    S.pomoCompletedWork = 0;
+    S.distractions = 0;
+
+    if (S.mode === 'timer') {
+        const h = clamp(parseInt($('inp-h').value) || 0, 0, 23);
+        const m = clamp(parseInt($('inp-m').value) || 0, 0, 59);
+        const total = (h * 3600 + m * 60) * 1000;
+        if (total <= 0) return;
+        S.targetMs = total;
+        focusLabel.textContent = 'FOCUS';
+        focusLabel.classList.remove('is-break', 'is-long-break');
+    } else if (S.mode === 'pomodoro') {
+        S.pomoWork = clamp(parseInt($('pomo-w').textContent) || 25, 5, 120);
+        S.pomoBreak = clamp(parseInt($('pomo-b').textContent) || 5, 1, 30);
+        S.pomoLongBreak = clamp(parseInt($('pomo-lb').textContent) || 15, 5, 60);
+        S.pomoRounds = clamp(parseInt($('pomo-r').textContent) || 4, 1, 12);
+        S.pomoCurrent = 1;
+        S.pomoIsBreak = false;
+        S.pomoIsLongBreak = false;
+        S.targetMs = S.pomoWork * 60000;
+        focusLabel.textContent = 'FOCUS';
+        focusLabel.classList.remove('is-break', 'is-long-break');
+        renderPomoDots();
+    } else {
+        S.targetMs = 0;
+        focusLabel.textContent = 'STOPWATCH';
+        focusLabel.classList.remove('is-break', 'is-long-break');
+    }
+
+    syncRingColor();
+    updateSkipBtn();
+
+    S.startTime = Date.now();
+    S.totalPaused = 0;
+    S.paused = false;
+    S.running = true;
+    timerDisp.classList.remove('paused');
+    btnPause.innerHTML = '❚❚';
+
+    S.lastCompletedHours = 0;
+    setWaterFill(0);
+    setRing(0);
+    WaterSim.resize();
+
+    navigate('focus');
+    enterFS();
+
+    S.intervalId = setInterval(tick, 50);
+
+    // Welcome toast (slight delay so screen transition finishes)
+    setTimeout(() => showToast(pick(MOTIV.start), '🎯'), 600);
+}
+
+/* ── Analytics ── */
+function refreshHomeStats() {
+    loadSessions();
+    loadInventory();
+    const today = todayStr();
+    const todaySess = S.sessions.filter(s => s.date === today);
+    const todayMs = todaySess.reduce((a, s) => a + s.duration, 0);
+    const todayPomos = todaySess.reduce((a, s) => a + (s.pomodoros || 0), 0);
+
+    $('qs-time').textContent = fmtShort(todayMs);
+    $('qs-sess').textContent = todaySess.length;
+    $('qs-pomos').textContent = todayPomos;
+    if ($('qs-bottles')) $('qs-bottles').textContent = S.inventory.length;
+
+    let streak = 0;
+    const d = new Date();
+    while (true) {
+        const ds = d.toISOString().slice(0, 10);
+        if (S.sessions.some(s => s.date === ds)) { streak++; d.setDate(d.getDate() - 1); }
+        else break;
+    }
+    $('qs-streak').textContent = streak;
+}
+
+function renderAnalytics() {
+    loadSessions();
+    loadInventory();
+    const all = S.sessions;
+    const totalMs = all.reduce((a, s) => a + s.duration, 0);
+    $('a-total').textContent = fmtShort(totalMs);
+    $('a-sess').textContent = all.length;
+    if ($('a-bottles')) $('a-bottles').textContent = S.inventory.length;
+    $('a-avg').textContent = all.length ? fmtShort(totalMs / all.length) : '0m';
+    $('a-long').textContent = fmtShort(all.reduce((mx, s) => Math.max(mx, s.duration), 0));
+
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const chartData = [];
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(); d.setDate(d.getDate() - i);
+        const ds = d.toISOString().slice(0, 10);
+        const ms = all.filter(s => s.date === ds).reduce((a, s) => a + s.duration, 0);
+        chartData.push({ label: days[d.getDay()], ms, isToday: i === 0 });
+    }
+    const maxMs = Math.max(...chartData.map(c => c.ms), 1);
+    $('chart-row').innerHTML = chartData.map(c => {
+        const h = Math.max(2, (c.ms / maxMs) * 110);
+        const cls = c.isToday ? 'chart-bar today-bar' : 'chart-bar';
+        return `<div class="chart-col"><div class="chart-bar-wrap"><div class="${cls}" style="height:${h}px"></div></div><span class="chart-lbl">${c.label}</span></div>`;
+    }).join('');
+
+    const recent = [...all].reverse().slice(0, 10);
+    const list = $('recent-list');
+    if (!recent.length) { list.innerHTML = '<p class="no-data">No sessions yet. Start focusing!</p>'; return; }
+    list.innerHTML = recent.map(s => {
+        const d = new Date(s.completedAt);
+        const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const dateStr = s.date === todayStr() ? 'Today' : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+        const ic = s.mode === 'pomodoro' ? '🍅' : s.mode === 'timer' ? '⏱' : '⏲';
+        const pomoTag = s.pomodoros ? ` · ${s.pomodoros}🍅` : '';
+        return `<div class="session-row"><div><div class="session-mode">${ic} ${s.mode.charAt(0).toUpperCase() + s.mode.slice(1)}${pomoTag}</div><div class="session-date">${dateStr}, ${timeStr}</div></div><span class="session-dur">${fmtShort(s.duration)}</span></div>`;
+    }).join('');
+}
+
+/* ── Event Handlers ── */
+
+// Mode selection
+document.querySelectorAll('.mode-card').forEach(card => {
+    card.addEventListener('click', () => {
+        S.mode = card.dataset.mode;
+        if (S.mode === 'stopwatch') { beginSession(); return; }
+        document.querySelectorAll('.setup-panel').forEach(p => p.classList.remove('active'));
+        (S.mode === 'pomodoro' ? $('setup-pomo') : $('setup-timer')).classList.add('active');
+        navigate('setup');
+    });
+});
+
+$('setup-back').addEventListener('click', () => navigate('home'));
+
+// Picker buttons
+document.querySelectorAll('.picker-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const inp = $(btn.dataset.target);
+        const d = parseInt(btn.dataset.delta);
+        const max = btn.dataset.target === 'inp-h' ? 23 : 59;
+        inp.value = clamp(parseInt(inp.value || 0) + d, 0, max);
+    });
+});
+
+// Pomodoro adjusters
+document.querySelectorAll('.adj-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const el = $(btn.dataset.target);
+        const d = parseInt(btn.dataset.delta);
+        let v = parseInt(el.textContent) + d;
+        const limits = { 'pomo-w': [5, 120], 'pomo-b': [1, 30], 'pomo-lb': [5, 60], 'pomo-r': [1, 12] };
+        const [lo, hi] = limits[btn.dataset.target] || [1, 99];
+        el.textContent = clamp(v, lo, hi);
+    });
+});
+
+btnStart.addEventListener('click', beginSession);
+btnPause.addEventListener('click', togglePause);
+btnStop.addEventListener('click', stopSession);
+btnSkip.addEventListener('click', skipBreak);
+$('btn-done').addEventListener('click', () => navigate('home'));
+$('go-analytics').addEventListener('click', () => { renderAnalytics(); navigate('analytics'); });
+$('analytics-back').addEventListener('click', () => navigate('home'));
+
+if (btnToggleInv) btnToggleInv.addEventListener('click', toggleInventoryShelf);
+if (shelfClose) shelfClose.addEventListener('click', closeInventoryShelf);
+
+$('btn-clear').addEventListener('click', () => {
+    if (confirm('Clear all focus data and bottled inventory? This cannot be undone.')) {
+        S.sessions = [];
+        S.inventory = [];
+        saveSessions();
+        saveInventory();
+        renderAnalytics();
+        renderInventoryShelf();
+        refreshHomeStats();
+    }
+});
+
+// ── Focus Lock & Anti-Distraction Key Guard ──
+document.addEventListener('keydown', e => {
+    if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
+
+    const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+    const key = e.key.toLowerCase();
+
+    // Prevent accidental tab opening, window opening, and tab navigation
+    if (isCtrlOrCmd && ['t', 'n', 'w', 'r', 'l', 'k', 'e', 'o'].includes(key)) {
+        e.preventDefault();
+        e.stopPropagation();
+        soundWarning();
+        showToast('Focus Lock: Opening other tabs is blocked!', '🔒', 3200);
+        return false;
+    }
+
+    // Prevent accidental reload or address navigation
+    if (e.key === 'F5' || (isCtrlOrCmd && key === 'r')) {
+        e.preventDefault();
+        e.stopPropagation();
+        showToast('Session in progress — reload locked', '🔒', 2500);
+        return false;
+    }
+
+    // Session controls
+    if (e.code === 'Space') { e.preventDefault(); togglePause(); }
+    if (e.code === 'Escape') { e.preventDefault(); stopSession(); }
+    if (e.code === 'KeyS' && S.pomoIsBreak) { e.preventDefault(); skipBreak(); }
+}, true);
+
+// ── Tab Exit & Close Prevention Guard ──
+window.addEventListener('beforeunload', e => {
+    if (S.running) {
+        e.preventDefault();
+        e.returnValue = 'Focus session in progress! Leaving will reset your session.';
+        return e.returnValue;
+    }
+});
+
+// ── Tab Switch / Distraction Detector ──
+document.addEventListener('visibilitychange', () => {
+    if (currentScreen !== 'focus' || !S.running) return;
+
+    if (document.hidden) {
+        S.distractions++;
+        soundWarning();
+        document.title = '⚠️ RETURN TO FOCUS! | Focus';
+
+        if ('Notification' in window && Notification.permission === 'granted') {
+            try {
+                new Notification('⚠️ Stay Focused!', {
+                    body: 'You switched to another tab. Stay locked in to keep your streak!',
+                    tag: 'focus-distract',
+                    renotify: true
+                });
+            } catch {}
+        }
+    } else {
+        const icon = S.mode === 'pomodoro' ? (S.pomoIsBreak ? '☕' : '🍅') : '⏱';
+        document.title = `${timerDisp.textContent} ${icon} Focus`;
+        soundResume();
+        showToast(`⚠️ Distraction detected! (${S.distractions} tab switch${S.distractions > 1 ? 'es' : ''}) Stay in the zone.`, '👀', 5000);
+    }
+});
+
+/* ── Init ── */
+loadSessions();
+loadInventory();
+refreshHomeStats();
+renderInventoryShelf();
+WaterSim.init();
+ringFill.style.strokeDasharray = CIRC;
+
+})();
+</script>
+</body>
+</html>
