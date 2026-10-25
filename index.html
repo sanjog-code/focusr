@@ -392,26 +392,35 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     background: rgba(30, 215, 96, 0.15);
 }
 
-/* ── Home Atelier Minimal Layout ── */
-.home-atelier-grid {
-    display: flex;
-    flex-direction: column;
+/* ═════════════════════════════════════════════════════════════════
+   SPATIAL HOME DASHBOARD: COHESIVE DUAL-CARD GRID & METRICS
+   ═════════════════════════════════════════════════════════════════ */
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.85rem;
     width: 100%;
     max-width: 700px;
     margin-bottom: 0.85rem;
 }
-.home-atelier-grid .category-card,
-.home-atelier-grid .daily-target-card {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-bottom: 0 !important;
+.mode-card {
+    padding: 1.25rem 0.95rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: all var(--tr);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-
-.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;width:100%;max-width:700px;margin-bottom:1.25rem}
-.mode-card{padding:1.35rem 1rem;text-align:center;cursor:pointer;transition:all var(--tr)}
-.mode-card:hover{background:var(--surface-hover);border-color:var(--border-hover);transform:translateY(-4px)}
-.mode-card:active{transform:translateY(0) scale(.97)}
+.mode-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+.mode-card:active { transform: translateY(0) scale(.98); }
 .mode-icon {
     width: 44px;
     height: 44px;
@@ -430,26 +439,199 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     color: var(--accent);
     transform: scale(1.06);
 }
-.setup-pomo-title-wrap{
-    display:flex;align-items:center;justify-content:center;
-    gap:.8rem;margin-bottom:2rem;
+.mode-card h2 {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: .35rem;
+    letter-spacing: -0.01em;
 }
-.setup-pomo-title-wrap h2{margin-bottom:0 !important}
-.setup-pomo-logo{
-    width:36px;height:36px;
+.mode-card p {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.4;
+    font-weight: 500;
 }
-.mode-card h2{font-size:1.15rem;font-weight:700;color:#ffffff;margin-bottom:.4rem;letter-spacing:-.01em}
-.mode-card p{font-size:.85rem;color:var(--text-dim);line-height:1.45;font-weight:500}
-.quick-stats{display:flex;flex-wrap:wrap;gap:1.5rem;padding:1.1rem 1.6rem;width:100%;max-width:700px;justify-content:space-around;margin-bottom:1.25rem}
-.stat{display:flex;flex-direction:column;align-items:center;gap:.25rem}
-.stat-value{font-size:1.65rem;font-weight:700;color:#ffffff;letter-spacing:-.02em}
-.stat-label{font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 
-/* ── Minimalist Atelier Drawer & Streamlined Cards ── */
-.minimal-atelier-drawer {
+/* ── Balanced 2-Column Focus Dashboard: Category & Daily Target ── */
+.home-atelier-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
     width: 100%;
     max-width: 700px;
     margin-bottom: 0.85rem;
+}
+
+.home-atelier-grid .category-card,
+.home-atelier-grid .daily-target-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100%;
+    margin: 0 !important;
+    padding: 1.15rem 1.25rem !important;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    border: 1px solid var(--border);
+    transition: all var(--tr);
+}
+.home-atelier-grid .category-card:hover,
+.home-atelier-grid .daily-target-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Category Card refinement */
+.category-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.65rem;
+}
+.category-header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+}
+.category-active-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 0.15rem 0.55rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+}
+#category-chips-home {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+}
+#category-chips-home .cat-chip {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.76rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-dim);
+    transition: all var(--tr);
+    flex: 1 1 auto;
+    text-align: center;
+}
+#category-chips-home .cat-chip:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+#category-chips-home .cat-chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* Daily Target Card refinement */
+.target-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.65rem;
+}
+.target-card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.target-card-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+}
+.target-card-title h3 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+}
+.target-card-status {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 0.1rem;
+}
+.target-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+.target-pct-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    color: #fff;
+}
+.target-card-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all var(--tr);
+}
+.target-card-edit-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.target-progress-bar-wrap {
+    margin-top: 0.4rem;
+}
+.target-progress-bar {
+    width: 100%;
+    height: 6px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+.target-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+    transition: width 0.4s ease;
+}
+
+/* Preferences Drawer Spans Full Width Across Grid */
+.home-atelier-grid .minimal-atelier-drawer {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important;
     border-radius: var(--radius);
     border: 1px solid rgba(255, 255, 255, 0.08);
     overflow: hidden;
@@ -459,7 +641,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.7rem 1.15rem;
+    padding: 0.75rem 1.15rem;
     cursor: pointer;
     font-size: 0.8rem;
     color: var(--text-dim);
@@ -490,38 +672,45 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     color: var(--text-dim);
 }
 .minimal-drawer-body {
-    padding: 0.4rem 1.25rem 1rem;
+    padding: 0.5rem 1.25rem 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.home-atelier-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
+/* Quick Stats 5-Column Grid */
+.quick-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    padding: 1.1rem 1.4rem;
     width: 100%;
     max-width: 700px;
     margin-bottom: 0.85rem;
-}
-.home-atelier-grid .category-card {
     border-radius: var(--radius);
-    padding: 0.85rem 1.25rem;
-    margin-bottom: 0 !important;
+    box-sizing: border-box;
+    align-items: center;
+}
+.stat {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    border: 1px solid var(--border);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.25rem;
 }
-.home-atelier-grid .daily-target-card {
-    border-radius: var(--radius);
-    padding: 0.85rem 1.25rem;
-    margin-bottom: 0 !important;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    border: 1px solid var(--border);
+.stat-value {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
 }
-
-
+.stat-label {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 600;
+}
 
 /* ── Minimalist Spatial Signature Footer ── */
 .home-signature-footer {
@@ -3172,70 +3361,69 @@ body.oled-true-black .glass {
         font-size: 0.78rem;
     }
 
-    /* ── Atelier Grid & Streamlined Cards ── */
+    /* ── Atelier Grid & Streamlined Cards on Mobile ── */
     .home-atelier-grid {
-        width: 100%;
-        max-width: 100%;
-        gap: 0.75rem;
-        margin-bottom: 0.85rem;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        gap: 0.75rem !important;
+        margin-bottom: 0.85rem !important;
     }
-    .category-card {
-        padding: 0.75rem 1rem;
-        border-radius: 16px;
+    .home-atelier-grid .category-card,
+    .home-atelier-grid .daily-target-card {
+        padding: 0.85rem 1.1rem !important;
+        border-radius: 16px !important;
     }
-    .category-chips {
-        gap: 0.35rem;
-    }
-    .cat-chip {
-        padding: 0.38rem 0.6rem;
-        font-size: 0.75rem;
-        min-width: 72px;
-        border-radius: 10px;
-    }
-    .daily-target-card {
-        padding: 0.75rem 1rem;
-        border-radius: 16px;
+    #category-chips-home .cat-chip {
+        padding: 0.35rem 0.55rem !important;
+        font-size: 0.74rem !important;
     }
     .target-card-header h3 {
-        font-size: 0.88rem;
+        font-size: 0.86rem !important;
     }
     .target-card-status {
-        font-size: 0.72rem;
+        font-size: 0.7rem !important;
     }
     .target-card-edit-btn {
-        padding: 0.3rem 0.65rem;
-        font-size: 0.72rem;
+        padding: 0.25rem 0.55rem !important;
+        font-size: 0.7rem !important;
     }
-    .minimal-atelier-drawer {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 16px;
+    .home-atelier-grid .minimal-atelier-drawer {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 16px !important;
     }
     .minimal-drawer-trigger {
-        padding: 0.65rem 0.95rem;
-        font-size: 0.76rem;
+        padding: 0.65rem 0.95rem !important;
+        font-size: 0.76rem !important;
     }
     .minimal-drawer-body {
-        padding: 0.35rem 0.85rem 0.85rem;
+        padding: 0.35rem 0.85rem 0.85rem !important;
     }
     .strict-title-text, .alarm-title-text {
-        font-size: 0.78rem;
+        font-size: 0.78rem !important;
     }
     .strict-sub-text, .alarm-sub-text {
-        font-size: 0.68rem;
+        font-size: 0.68rem !important;
     }
 
     /* ── Quick Stats Grid on Mobile ── */
     .quick-stats {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 0.75rem 0.5rem;
-        gap: 0.5rem;
-        width: 100%;
-        max-width: 100%;
-        border-radius: 16px;
-        margin-bottom: 0.85rem;
+        display: grid !important;
+        grid-template-columns: repeat(5, 1fr) !important;
+        padding: 0.85rem 0.4rem !important;
+        gap: 0.25rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 16px !important;
+        margin-bottom: 0.85rem !important;
+    }
+    .stat-value {
+        font-size: 1.15rem !important;
+    }
+    .stat-label {
+        font-size: 0.6rem !important;
+        letter-spacing: 0.04em !important;
     }
     .stat {
         min-width: 56px;
