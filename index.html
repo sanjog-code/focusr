@@ -651,23 +651,152 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 @keyframes toast-out{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-12px) scale(.92)}}
 
 /* ══════════════════════════════════════════
-   COMPLETE SCREEN
+   COMPLETE SCREEN & SESSION DEBRIEF SHEET
    ══════════════════════════════════════════ */
 .complete-card{padding:3rem 3.5rem;text-align:center;max-width:420px;width:100%}
-.complete-check{
-    width:72px;height:72px;border-radius:50%;
-    background:rgba(48,209,88,.1);border:2px solid var(--success);
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.8rem;margin:0 auto 1.5rem;
-    animation:pop-in .5s cubic-bezier(.175,.885,.32,1.275);
+.debrief-sheet{
+    width:100%;max-width:680px;padding:2.2rem 2.4rem;
+    border-radius:var(--radius);text-align:left;
+    display:flex;flex-direction:column;gap:1.35rem;
+    max-height:88vh;overflow-y:auto;
+    box-shadow:0 12px 40px rgba(0,0,0,.45);
+    animation:sheet-in .4s cubic-bezier(.16,1,.3,1);
 }
-@keyframes pop-in{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
-.complete-card h2{font-size:1.6rem;font-weight:600;margin-bottom:1.5rem}
-.complete-stats{display:flex;gap:2rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
-.c-stat{display:flex;flex-direction:column;gap:.3rem;align-items:center}
-.c-stat-val{font-size:1.6rem;font-weight:500}
-.c-stat-lbl{font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
-.complete-quote{font-size:.85rem;color:var(--text-dim);font-style:italic;margin-bottom:2rem;line-height:1.5;max-width:300px;margin-left:auto;margin-right:auto}
+@keyframes sheet-in{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.debrief-sheet::-webkit-scrollbar{width:5px}
+.debrief-sheet::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px}
+
+.debrief-header{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    gap:1.5rem;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.08);
+    padding-bottom:1.2rem;
+}
+.debrief-title-group{display:flex;flex-direction:column;gap:.35rem;flex:1;min-width:240px}
+.debrief-badge-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.debrief-pill-tag{
+    font-size:.7rem;font-weight:600;padding:.2rem .55rem;border-radius:9999px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--text);
+}
+.debrief-timestamp{font-size:.72rem;color:var(--text-muted)}
+.debrief-title{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;margin:0;color:var(--text)}
+.debrief-subtitle{font-size:.82rem;color:var(--text-dim);line-height:1.4;margin:0}
+
+/* Purity Dial Meter */
+.purity-meter-wrap{
+    display:flex;flex-direction:column;align-items:center;gap:.4rem;flex-shrink:0;
+}
+.purity-dial{position:relative;width:82px;height:82px}
+.purity-svg{width:100%;height:100%;transform:rotate(-90deg)}
+.purity-track{fill:none;stroke:rgba(255,255,255,.08);stroke-width:8}
+.purity-fill{
+    fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;
+    stroke-dasharray:263.89;stroke-dashoffset:0;
+    transition:stroke-dashoffset .8s ease,stroke .5s ease;
+}
+.purity-content{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+}
+.purity-val{font-size:1.15rem;font-weight:700;line-height:1}
+.purity-lbl{font-size:.56rem;text-transform:uppercase;color:var(--text-dim);letter-spacing:.05em}
+.purity-grade-badge{
+    font-size:.7rem;font-weight:700;padding:.18rem .6rem;border-radius:980px;
+    background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3);
+}
+
+/* Stats Strip */
+.debrief-stats-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.75rem;
+}
+.deb-stat-box{
+    background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+    border-radius:var(--radius-sm);padding:.85rem .75rem;text-align:center;
+    display:flex;flex-direction:column;gap:.25rem;
+}
+.deb-stat-val{font-size:1.25rem;font-weight:600}
+.deb-stat-lbl{font-size:.68rem;text-transform:uppercase;color:var(--text-dim);letter-spacing:.06em}
+
+/* Section Cards */
+.debrief-section-card{
+    background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);
+    border-radius:var(--radius);padding:1.1rem 1.25rem;
+    display:flex;flex-direction:column;gap:.85rem;
+}
+.deb-sec-head{display:flex;align-items:center;justify-content:space-between;gap:.8rem}
+.deb-sec-title{display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:var(--text)}
+.deb-sec-icon{font-size:1.1rem}
+.deb-sec-tag{
+    font-size:.68rem;padding:.2rem .5rem;border-radius:6px;
+    background:rgba(255,255,255,.05);color:var(--text-dim);border:1px solid rgba(255,255,255,.08);
+}
+
+/* Inconsistencies List */
+.inconsistencies-list{display:flex;flex-direction:column;gap:.55rem}
+.incon-item{
+    display:flex;align-items:flex-start;gap:.75rem;padding:.65rem .85rem;
+    border-radius:var(--radius-sm);background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.05);
+}
+.incon-item.has-alert{border-color:rgba(244,63,94,.25);background:rgba(244,63,94,.04)}
+.incon-item.is-pristine{border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.04)}
+.incon-icon-wrap{font-size:1.2rem;line-height:1;margin-top:.1rem;flex-shrink:0}
+.incon-body{display:flex;flex-direction:column;gap:.15rem}
+.incon-title-row{display:flex;align-items:center;gap:.5rem}
+.incon-name{font-size:.82rem;font-weight:600;color:var(--text)}
+.incon-count-pill{
+    font-size:.65rem;padding:.1rem .4rem;border-radius:4px;
+    background:rgba(244,63,94,.2);color:#fb7185;font-weight:600;
+}
+.incon-detail{font-size:.76rem;color:var(--text-dim);line-height:1.4}
+
+/* Cosmor Pep Talk */
+.cosmo-pep-card{
+    background:linear-gradient(135deg,rgba(37,99,235,.08) 0%,rgba(168,85,247,.05) 100%);
+    border-color:rgba(59,130,246,.25);
+}
+.cosmo-pep-avatar{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:50%;background:#2563eb;
+    box-shadow:0 0 10px rgba(37,99,235,.5);font-size:.9rem;
+}
+.cosmo-tag{background:rgba(37,99,235,.2);color:#93c5fd;border-color:rgba(59,130,246,.3)}
+.cosmo-pep-speech-bubble{
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);
+    border-radius:12px;padding:1rem 1.15rem;font-size:.86rem;line-height:1.55;
+    color:#e0f2fe;font-style:italic;position:relative;
+}
+
+/* Suggestions List */
+.suggestions-list{display:flex;flex-direction:column;gap:.55rem}
+.sugg-item{
+    display:flex;align-items:flex-start;gap:.75rem;padding:.7rem .85rem;
+    border-radius:var(--radius-sm);background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.05);
+}
+.sugg-num{
+    display:flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:50%;
+    background:rgba(255,255,255,.08);color:var(--accent);
+    font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:.1rem;
+}
+.sugg-text{font-size:.78rem;color:var(--text-dim);line-height:1.45}
+.sugg-text strong{color:var(--text);font-weight:600}
+
+/* Actions Bar */
+.debrief-actions-bar{
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    flex-wrap:wrap;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.08);
+}
+.btn-secondary{
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    color:var(--text);font-size:.82rem;font-weight:500;font-family:var(--font);
+    padding:.7rem 1.3rem;border-radius:var(--radius-sm);cursor:pointer;
+    display:inline-flex;align-items:center;gap:.5rem;transition:all var(--tr);
+}
+.btn-secondary:hover{
+    background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);
+    transform:translateY(-1px);
+}
 
 /* ══════════════════════════════════════════
    ANALYTICS SCREEN
@@ -696,6 +825,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .recent-panel h3{font-size:.9rem;font-weight:600;margin-bottom:1rem;color:var(--text-dim)}
 .session-row{display:flex;align-items:center;justify-content:space-between;padding:.7rem .4rem;border-bottom:1px solid rgba(255,255,255,.04)}
 .session-row:last-child{border-bottom:none}
+.session-row-clickable{transition:background var(--tr),transform var(--tr);border-radius:var(--radius-sm)}
+.session-row-clickable:hover{background:rgba(255,255,255,.05);transform:translateX(3px)}
 .session-mode{font-size:.85rem;font-weight:500}
 .session-date{font-size:.72rem;color:var(--text-muted);margin-top:.15rem}
 .session-dur{font-size:.95rem;font-weight:600;color:var(--text-dim)}
@@ -2102,6 +2233,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     .liquid-outer{width:90px;height:180px}
     .a-grid{grid-template-columns:1fr 1fr;gap:.8rem}
     .complete-card{padding:2rem 1.5rem}
+    .debrief-sheet{padding:1.4rem 1.15rem;max-height:92vh}
+    .debrief-header{flex-direction:column;align-items:stretch;gap:1rem}
+    .purity-meter-wrap{flex-direction:row;justify-content:space-between;width:100%}
     .home-header{padding:0 .5rem}
     .home-hero{gap:1rem;margin-bottom:1.8rem}
     .intro-main-row{flex-direction:column;align-items:stretch;gap:.75rem}
@@ -2726,23 +2860,115 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     </div>
 </section>
 
-<!-- ═══ COMPLETE ═══ -->
+<!-- ═══ COMPLETE / SESSION RETROSPECTIVE SHEET ═══ -->
 <section id="s-complete" class="screen">
-    <div class="complete-card glass">
-        <div class="complete-check">✓</div>
-        <h2>Session Complete</h2>
-        <div class="complete-stats">
-            <div class="c-stat"><span class="c-stat-val" id="c-dur">25m</span><span class="c-stat-lbl">Duration</span></div>
-            <div class="c-stat"><span class="c-stat-val" id="c-cat">💻 Code</span><span class="c-stat-lbl">Category</span></div>
-            <div class="c-stat"><span class="c-stat-val" id="c-mode">Timer</span><span class="c-stat-lbl">Mode</span></div>
-            <div class="c-stat"><span class="c-stat-val" id="c-pomos">0</span><span class="c-stat-lbl">Pomodoros</span></div>
-            <div class="c-stat"><span class="c-stat-val" id="c-bottles">0</span><span class="c-stat-lbl">Bottles</span></div>
-            <div class="c-stat" id="c-penalty-wrap" style="display:none"><span class="c-stat-val" id="c-penalty" style="color:#f43f5e">+0m</span><span class="c-stat-lbl">Desertion Penalty</span></div>
-            <div class="c-stat" id="c-strict-wrap" style="display:none"><span class="c-stat-val" id="c-strict" style="color:#fde047">⚡ Strict</span><span class="c-stat-lbl">Strict Mode</span></div>
-            <div class="c-stat" id="c-ghost-wrap"><span class="c-stat-val" id="c-ghost" style="color:#c084fc">🏆 Won</span><span class="c-stat-lbl">Ghost Rival</span></div>
+    <div class="debrief-sheet glass" id="debrief-sheet">
+        <!-- Sheet Header -->
+        <div class="debrief-header">
+            <div class="debrief-title-group">
+                <div class="debrief-badge-row">
+                    <span class="debrief-pill-tag" id="c-cat">💻 Code</span>
+                    <span class="debrief-pill-tag" id="c-mode">Timer</span>
+                    <span class="debrief-timestamp" id="deb-time">Just now</span>
+                </div>
+                <h2 class="debrief-title">Session Retrospective</h2>
+                <p class="debrief-subtitle">Deep work telemetry, flow consistency audit, and copilot debrief</p>
+            </div>
+            <!-- Circular Flow Purity Meter -->
+            <div class="purity-meter-wrap" id="deb-purity-wrap">
+                <div class="purity-dial">
+                    <svg class="purity-svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="42" class="purity-track"/>
+                        <circle cx="50" cy="50" r="42" class="purity-fill" id="deb-purity-ring"/>
+                    </svg>
+                    <div class="purity-content">
+                        <span class="purity-val" id="deb-purity-num">100%</span>
+                        <span class="purity-lbl">Flow Purity</span>
+                    </div>
+                </div>
+                <div class="purity-grade-badge" id="deb-grade-badge">Grade S</div>
+            </div>
         </div>
-        <p class="complete-quote" id="c-quote"></p>
-        <button class="btn-primary" id="btn-done">Done</button>
+
+        <!-- Telemetry Stats Strip -->
+        <div class="debrief-stats-grid">
+            <div class="deb-stat-box">
+                <span class="deb-stat-val" id="c-dur">25m</span>
+                <span class="deb-stat-lbl">Focus Time</span>
+            </div>
+            <div class="deb-stat-box" id="c-penalty-wrap">
+                <span class="deb-stat-val" id="c-penalty" style="color:#f43f5e">0m</span>
+                <span class="deb-stat-lbl">Desertions</span>
+            </div>
+            <div class="deb-stat-box" id="c-strict-wrap">
+                <span class="deb-stat-val" id="c-strict" style="color:#60a5fa">--</span>
+                <span class="deb-stat-lbl">Active Inputs</span>
+            </div>
+            <div class="deb-stat-box" id="c-ghost-wrap">
+                <span class="deb-stat-val" id="c-ghost" style="color:#c084fc">🏆 Won</span>
+                <span class="deb-stat-lbl">Ghost Rival</span>
+            </div>
+            <div class="deb-stat-box" id="c-pomo-box">
+                <span class="deb-stat-val" id="c-pomos">0</span>
+                <span class="deb-stat-lbl">Pomodoros</span>
+            </div>
+            <div class="deb-stat-box" id="c-bottle-box" style="display:none">
+                <span class="deb-stat-val" id="c-bottles">0</span>
+                <span class="deb-stat-lbl">Bottles</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Inconsistencies & Slacking Log -->
+        <div class="debrief-section-card">
+            <div class="deb-sec-head">
+                <div class="deb-sec-title">
+                    <span class="deb-sec-icon" id="deb-incon-icon">📋</span>
+                    <span>Inconsistencies & Friction Audit</span>
+                </div>
+                <span class="deb-sec-tag" id="deb-incon-count-tag">0 Disruptions</span>
+            </div>
+            <div class="inconsistencies-list" id="deb-inconsistencies-list">
+                <!-- Dynamically populated inconsistency items or pristine flow notice -->
+            </div>
+        </div>
+
+        <!-- Section 2: Cosmor's Copilot Pep Talk -->
+        <div class="debrief-section-card cosmo-pep-card">
+            <div class="deb-sec-head">
+                <div class="deb-sec-title">
+                    <span class="cosmo-pep-avatar">🚀</span>
+                    <span>Cosmor's Copilot Pep Talk</span>
+                </div>
+                <span class="deb-sec-tag cosmo-tag">Blue Minion Morale</span>
+            </div>
+            <div class="cosmo-pep-speech-bubble" id="deb-pep-talk">
+                "BANANA! Fantastic mission, pilot! You stayed locked in the zone and conquered this focus orbit!"
+            </div>
+            <p class="complete-quote" id="c-quote" style="display:none"></p>
+        </div>
+
+        <!-- Section 3: Targeted Suggestions to Do Better -->
+        <div class="debrief-section-card">
+            <div class="deb-sec-head">
+                <div class="deb-sec-title">
+                    <span class="deb-sec-icon">💡</span>
+                    <span>Actionable Recommendations for Next Session</span>
+                </div>
+                <span class="deb-sec-tag">Tactical Coaching</span>
+            </div>
+            <div class="suggestions-list" id="deb-suggestions-list">
+                <!-- Dynamically populated 3 concrete suggestions -->
+            </div>
+        </div>
+
+        <!-- Actions Footer -->
+        <div class="debrief-actions-bar">
+            <button class="btn-primary" id="btn-done">Return to Home</button>
+            <button class="btn-secondary" id="btn-copy-debrief" title="Copy full debrief summary to clipboard">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span id="btn-copy-debrief-text">Copy Debrief Sheet</span>
+            </button>
+        </div>
     </div>
 </section>
 
@@ -3293,6 +3519,12 @@ const S = {
 
     // Storage
     sessions: [],
+
+    // Inconsistencies & Debrief Tracking
+    inconsistencies: [],
+    manualPauseCount: 0,
+    strictIdleCount: 0,
+    lastDebrief: null,
 };
 
 /* ── DOM refs ── */
@@ -3563,6 +3795,16 @@ function onUserInputActivity(e) {
 function triggerStrictIdlePause() {
     if (S.strictIdlePaused || !S.running || S.paused) return;
     S.strictIdlePaused = true;
+    S.strictIdleCount = (S.strictIdleCount || 0) + 1;
+    if (S.inconsistencies) {
+        S.inconsistencies.push({
+            type: 'idle_stall',
+            icon: '⚡',
+            title: 'Strict Idle Stall',
+            count: 1,
+            detail: 'Keyboard & mouse activity ceased for >30s in Super Strict mode.'
+        });
+    }
     pauseSession(true);
     soundWarning();
 
@@ -3764,6 +4006,16 @@ function triggerLoudAlarm(unfocusedMs = 120000) {
     }
 
     const minsAway = Math.max(2, Math.round(unfocusedMs / 60000));
+    S.loudAlarmCount = (S.loudAlarmCount || 0) + 1;
+    if (S.inconsistencies) {
+        S.inconsistencies.push({
+            type: 'siren',
+            icon: '🔊',
+            title: 'Wake-Up Siren Alert',
+            count: 1,
+            detail: `Loud awakening alarm sounded (${minsAway}m without active focus).`
+        });
+    }
     document.title = `🚨 WAKE UP! (${minsAway}m NOT FOCUSING) | Focusr`;
 
     if (window.Cosmo && Cosmo.setEyeState) Cosmo.setEyeState('alert');
@@ -6476,6 +6728,279 @@ function startPhase(ms) {
     S.intervalId = setInterval(tick, 50);
 }
 
+/* ── Performance Debrief, Inconsistencies & Pep Talk Engine ── */
+function generateSessionDebrief(sessionData) {
+    const {
+        duration = 0,
+        category = 'code',
+        mode = 'timer',
+        penaltyMs = 0,
+        penaltyCount = 0,
+        strict = false,
+        inputs = 0,
+        strictIdleCount = 0,
+        loudAlarmCount = 0,
+        manualPauseCount = 0,
+        ghostWon = true,
+        inconsistencies = []
+    } = sessionData;
+
+    // 1. Calculate Flow Purity Score
+    let purity = 100;
+    purity -= Math.min(40, penaltyCount * 12);
+    purity -= Math.min(25, strictIdleCount * 8);
+    purity -= Math.min(20, loudAlarmCount * 10);
+    purity -= Math.min(15, Math.max(0, manualPauseCount - 1) * 5);
+    if (!ghostWon) purity -= 6;
+    if (ghostWon && penaltyCount === 0 && strictIdleCount === 0) purity = Math.min(100, purity + 4);
+    purity = Math.max(20, Math.min(100, purity));
+
+    // Grade Mapping
+    let grade = 'S';
+    let gradeColor = '#34d399';
+    let gradeLabel = 'Flawless Flow';
+    if (purity >= 95) {
+        grade = 'S'; gradeColor = '#34d399'; gradeLabel = 'Flawless Flow';
+    } else if (purity >= 85) {
+        grade = 'A'; gradeColor = '#60a5fa'; gradeLabel = 'Deep Flow';
+    } else if (purity >= 74) {
+        grade = 'B'; gradeColor = '#fbbf24'; gradeLabel = 'Solid Effort';
+    } else if (purity >= 60) {
+        grade = 'C'; gradeColor = '#f97316'; gradeLabel = 'Frictional';
+    } else {
+        grade = 'D'; gradeColor = '#f43f5e'; gradeLabel = 'Turbulent';
+    }
+
+    const cat = getCategory(category);
+    const catName = cat ? cat.name : 'Focus';
+
+    // 2. Pep Talk Generation
+    let pepTalk = '';
+    if (grade === 'S') {
+        const sQuotes = [
+            `BANANA! Absolute cockpit masterclass! Zero distractions, razor-sharp ${catName} momentum, and textbook focus purity. You made deep work look effortless!`,
+            `Holy cosmos! That was pristine flow state execution. You defended your cognitive perimeter and crushed your ${catName} session like a true champion. Keep soaring!`,
+            `Perfection in orbit! You locked in, left distractions in the dust, and banked pure deep work. Treat yourself to a sip of water and carry this elite energy forward!`
+        ];
+        pepTalk = pick(sQuotes);
+    } else if (grade === 'A') {
+        const aQuotes = [
+            `Outstanding flight, pilot! You maintained strong focus during this ${catName} sprint with only micro-ripples. Your mental endurance is noticeably leveling up!`,
+            `Bello! Strong, disciplined session on the books. A few stray winds tried to tug at you, but you kept the rocket steady. Great rhythm!`,
+            `High-octane work! You kept your momentum hot and logged meaningful progress in ${catName}. Next time, let's aim for that 100% spotless run!`
+        ];
+        pepTalk = pick(aQuotes);
+    } else if (grade === 'B') {
+        const bQuotes = [
+            `Solid effort, pilot! We hit a couple of speed bumps with tab or pause disruptions, but you stayed with the mission and crossed the finish line. That builds grit!`,
+            `Good resilience! Distractions tried to steal your cockpit controls, but you refused to give up the run. Every rep compounds your focus muscle!`,
+            `You banked genuine focus time! A few friction spots showed up, but recognizing them is the first step to eliminating them. Shake it off and let's optimize!`
+        ];
+        pepTalk = pick(bQuotes);
+    } else {
+        const cQuotes = [
+            `Hey pilot, turbulence happens to everyone! Today had some friction with tab hops and stalls, but you showed up and put time on the clock. That still counts!`,
+            `Don't get discouraged — deep focus is an endurance sport. Clear your desk, take three slow breaths, and let's reload with an uncluttered cockpit next round!`,
+            `Turbulence detected, but data gathered! Use today's friction points as a roadmap: eliminate the #1 tab temptation, lock your window, and come back stronger!`
+        ];
+        pepTalk = pick(cQuotes);
+    }
+
+    // 3. Suggestions Generation
+    const suggestions = [];
+
+    // Suggestion 1: Telemetry-informed friction tip
+    if (penaltyCount > 0) {
+        suggestions.push({
+            strong: 'Eliminate Tab Friction:',
+            text: `You switched tabs ${penaltyCount} time${penaltyCount > 1 ? 's' : ''}. Research shows cognitive re-orientation takes up to 20 minutes. Press F11 for Full-Screen or close messaging/social tabs before launching.`
+        });
+    } else if (strictIdleCount > 0) {
+        suggestions.push({
+            strong: 'Overcome Starting Stalls:',
+            text: `Hands froze for >30s during strict focus. Before hitting start, write down your immediate 3 micro-actions on paper so you never pause wondering what to type next.`
+        });
+    } else if (loudAlarmCount > 0) {
+        suggestions.push({
+            strong: 'Arousal & Energy Reset:',
+            text: `Awakening alarms were needed to pull attention back. Keep a cold glass of water nearby and adjust lighting; mental fatigue often masquerades as distraction.`
+        });
+    } else if (!ghostWon) {
+        suggestions.push({
+            strong: 'Pacing vs Ghost Rival:',
+            text: `Ghost Racer pulled ahead in the final stretch. Avoid front-loading all energy in minute 1; maintain an even, sustainable cadence throughout.`
+        });
+    } else {
+        suggestions.push({
+            strong: 'Progressive Flow Overload:',
+            text: `Pristine execution! Your focus capacity handled this session easily. Consider adding +5 minutes to your next timer to expand your deep-work ceiling.`
+        });
+    }
+
+    // Suggestion 2: Category-specific tactical strategy
+    if (category === 'code') {
+        suggestions.push({
+            strong: 'Tactical Code Flow:',
+            text: 'Draft the function signature, comment spec, and test case before writing implementations. Clarity on the "what" prevents mid-session rabbit holes.'
+        });
+    } else if (category === 'essay') {
+        suggestions.push({
+            strong: 'Stream-of-Consciousness Drafting:',
+            text: 'Mute your internal editor during writing sprints. Refuse to backspace or format until the timer rings; polish only in a dedicated revision phase.'
+        });
+    } else if (category === 'study') {
+        suggestions.push({
+            strong: 'Active Recall Checkpoint:',
+            text: 'Close notes for 60 seconds and jot down the core concepts from memory. Retrieval practice produces 3x longer retention than passive re-reading.'
+        });
+    } else if (category === 'research') {
+        suggestions.push({
+            strong: 'Scratchpad Capture:',
+            text: 'Keep a single plain text scratchpad open side-by-side to paste key snippets directly instead of branching into 25 browser tabs.'
+        });
+    } else if (category === 'meditate') {
+        suggestions.push({
+            strong: 'Breath Anchorage:',
+            text: 'When thoughts arise, gently label them ("thinking", "planning") without judgment and return awareness to the sensation of breath at the upper lip.'
+        });
+    } else {
+        suggestions.push({
+            strong: 'Eat the Frog:',
+            text: 'Direct your initial 15 minutes of work exclusively toward the single highest-leverage, most intimidating task before checking communication.'
+        });
+    }
+
+    // Suggestion 3: Recovery & Consolidation tip
+    suggestions.push({
+        strong: 'Consolidation & Recovery:',
+        text: 'Step away from all screens for 3 to 5 minutes now. Let your default mode network consolidate neural gains while looking at distant objects.'
+    });
+
+    return {
+        purity,
+        grade,
+        gradeColor,
+        gradeLabel,
+        inconsistencies,
+        pepTalk,
+        suggestions
+    };
+}
+
+function renderSessionDebrief(sessionData) {
+    const debrief = sessionData.debrief || generateSessionDebrief(sessionData);
+    S.lastDebrief = debrief;
+
+    // Time & tags
+    if ($('deb-time')) $('deb-time').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const cat = getCategory(sessionData.category);
+    if ($('c-cat')) {
+        $('c-cat').textContent = `${cat.icon} ${cat.shortName || cat.name}`;
+        $('c-cat').style.color = cat.color;
+    }
+    if ($('c-mode')) $('c-mode').textContent = sessionData.mode === 'pomodoro' ? '🍅 Pomodoro' : (sessionData.mode === 'timer' ? '⏱ Timer' : '⏲ Stopwatch');
+
+    // Purity Gauge
+    const circ = 263.89;
+    const offset = circ * (1 - debrief.purity / 100);
+    const ring = $('deb-purity-ring');
+    if (ring) {
+        ring.style.strokeDashoffset = offset;
+        ring.style.stroke = debrief.gradeColor;
+    }
+    if ($('deb-purity-num')) {
+        $('deb-purity-num').textContent = `${debrief.purity}%`;
+        $('deb-purity-num').style.color = debrief.gradeColor;
+    }
+    if ($('deb-grade-badge')) {
+        $('deb-grade-badge').textContent = `Grade ${debrief.grade} · ${debrief.gradeLabel}`;
+        $('deb-grade-badge').style.color = debrief.gradeColor;
+        $('deb-grade-badge').style.borderColor = `${debrief.gradeColor}55`;
+        $('deb-grade-badge').style.background = `${debrief.gradeColor}18`;
+    }
+
+    // Telemetry Stat Strip
+    if ($('c-dur')) $('c-dur').textContent = fmtShort(sessionData.duration);
+    if ($('c-penalty')) {
+        const penMs = sessionData.penaltyMs || 0;
+        const penCount = sessionData.penaltyCount || 0;
+        $('c-penalty').textContent = penCount > 0 ? `+${fmtPenalty(penMs)} (${penCount}x)` : '0m (Clean)';
+        $('c-penalty').style.color = penCount > 0 ? '#f43f5e' : '#34d399';
+    }
+    if ($('c-strict')) {
+        if (sessionData.strict) {
+            $('c-strict').textContent = (sessionData.inputs || 0).toLocaleString();
+        } else {
+            $('c-strict').textContent = 'N/A';
+        }
+    }
+    if ($('c-ghost')) {
+        if (sessionData.ghostOutcome) {
+            $('c-ghost').textContent = sessionData.ghostOutcome.won ? '🏆 Won' : '💀 Behind';
+            $('c-ghost').style.color = sessionData.ghostOutcome.won ? '#34d399' : '#c084fc';
+        } else {
+            $('c-ghost').textContent = 'Solo';
+            $('c-ghost').style.color = 'var(--text-dim)';
+        }
+    }
+    if ($('c-pomos')) $('c-pomos').textContent = sessionData.pomodoros || 0;
+
+    // Render Section 1: Inconsistencies List
+    const inconListEl = $('deb-inconsistencies-list');
+    const inconCountTag = $('deb-incon-count-tag');
+    const inconIconEl = $('deb-incon-icon');
+
+    const issues = debrief.inconsistencies || [];
+    if (inconCountTag) {
+        inconCountTag.textContent = issues.length > 0 ? `${issues.length} Disruption${issues.length > 1 ? 's' : ''}` : '✨ 0 Disruptions';
+        inconCountTag.style.color = issues.length > 0 ? '#fb7185' : '#34d399';
+    }
+    if (inconIconEl) inconIconEl.textContent = issues.length > 0 ? '⚠️' : '✨';
+
+    if (inconListEl) {
+        if (issues.length === 0) {
+            inconListEl.innerHTML = `
+                <div class="incon-item is-pristine">
+                    <span class="incon-icon-wrap">🌟</span>
+                    <div class="incon-body">
+                        <div class="incon-title-row">
+                            <span class="incon-name" style="color:#34d399">Flawless Cognitive Continuum</span>
+                        </div>
+                        <div class="incon-detail">Zero tab desertions, zero idle halts, unbroken focus cadence! Your working memory remained completely undisturbed throughout this entire session.</div>
+                    </div>
+                </div>
+            `;
+        } else {
+            inconListEl.innerHTML = issues.map(iss => `
+                <div class="incon-item has-alert">
+                    <span class="incon-icon-wrap">${iss.icon || '⚠️'}</span>
+                    <div class="incon-body">
+                        <div class="incon-title-row">
+                            <span class="incon-name">${iss.title}</span>
+                            ${iss.count ? `<span class="incon-count-pill">${iss.count}x</span>` : ''}
+                        </div>
+                        <div class="incon-detail">${iss.detail}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // Render Section 2: Cosmor Pep Talk
+    if ($('deb-pep-talk')) $('deb-pep-talk').textContent = `"${debrief.pepTalk}"`;
+
+    // Render Section 3: Suggestions List
+    const suggListEl = $('deb-suggestions-list');
+    if (suggListEl) {
+        suggListEl.innerHTML = debrief.suggestions.map((sugg, idx) => `
+            <div class="sugg-item">
+                <span class="sugg-num">${idx + 1}</span>
+                <div class="sugg-text"><strong>${sugg.strong}</strong> ${sugg.text}</div>
+            </div>
+        `).join('');
+    }
+}
+
 function finishSession(focusMs) {
     clearInterval(S.intervalId);
     S.intervalId = null;
@@ -6496,9 +7021,26 @@ function finishSession(focusMs) {
     if (S.mode !== 'pomodoro') soundComplete(); // pomo plays its own sound
 
     const pomoCount = S.mode === 'pomodoro' ? S.pomoCompletedWork : 0;
-    const cat = getCategory(S.category);
 
-    addSession({
+    // Ghost Rival Race Outcome
+    const raceOutcome = GhostRacer.finish(focusMs);
+    if (raceOutcome) {
+        if (raceOutcome.won) {
+            showToast(`🏆 Ghost Defeated! Personal record rhythm defended!`, '🏎️', 4500);
+            if (window.Cosmo && Cosmo.trickRoll) Cosmo.trickRoll();
+        } else {
+            if (S.inconsistencies) {
+                S.inconsistencies.push({
+                    type: 'ghost_lag',
+                    icon: '🏎️',
+                    title: 'Ghost Rival Pace Lag',
+                    detail: 'Fell behind historical personal record pace in mid/late sprint.'
+                });
+            }
+        }
+    }
+
+    const sessionData = {
         date: todayStr(),
         mode: S.mode,
         category: S.category,
@@ -6507,52 +7049,22 @@ function finishSession(focusMs) {
         completedAt: new Date().toISOString(),
         strict: S.strictActive,
         inputs: S.totalInputCount,
-    });
+        penaltyMs: S.totalPenaltyMs || 0,
+        penaltyCount: S.penaltyCount || 0,
+        strictIdleCount: S.strictIdleCount || 0,
+        loudAlarmCount: S.loudAlarmCount || 0,
+        manualPauseCount: S.manualPauseCount || 0,
+        ghostOutcome: raceOutcome,
+        ghostWon: raceOutcome ? raceOutcome.won : true,
+        inconsistencies: [...(S.inconsistencies || [])]
+    };
 
-    // Show complete screen
-    $('c-dur').textContent = fmtShort(focusMs);
-    $('c-mode').textContent = S.mode === 'pomodoro' ? 'Pomodoro' : S.mode === 'timer' ? 'Timer' : 'Stopwatch';
-    if ($('c-cat')) {
-        $('c-cat').textContent = `${cat.icon} ${cat.shortName || cat.name}`;
-        $('c-cat').style.color = cat.color;
-    }
-    $('c-pomos').textContent = pomoCount;
-    $('c-pomos').closest('.c-stat').style.display = pomoCount > 0 ? '' : 'none';
-    if ($('c-bottles')) $('c-bottles').textContent = S.inventory.length;
-    $('c-quote').textContent = `"${pick(MOTIV.completeQuotes)}"`;
+    const debrief = generateSessionDebrief(sessionData);
+    sessionData.debrief = debrief;
 
-    // Desertion Penalty in Complete Screen
-    if ($('c-penalty-wrap')) {
-        if (S.totalPenaltyMs > 0) {
-            $('c-penalty-wrap').style.display = '';
-            $('c-penalty').textContent = `+${fmtPenalty(S.totalPenaltyMs)}${S.penaltyCount > 1 ? ` (${S.penaltyCount}x)` : ''}`;
-        } else {
-            $('c-penalty-wrap').style.display = 'none';
-        }
-    }
+    addSession(sessionData);
 
-    // Super Strict Mode Stat in Complete Screen
-    if ($('c-strict-wrap')) {
-        if (S.strictActive) {
-            $('c-strict-wrap').style.display = '';
-            $('c-strict').textContent = `⚡ Active (${S.totalInputCount.toLocaleString()} inputs)`;
-        } else {
-            $('c-strict-wrap').style.display = 'none';
-        }
-    }
-
-    // Ghost Rival Race Outcome
-    const raceOutcome = GhostRacer.finish(focusMs);
-    if (raceOutcome) {
-        if ($('c-ghost')) {
-            $('c-ghost').textContent = raceOutcome.won ? '🏆 Won' : '💀 Behind';
-            $('c-ghost').style.color = raceOutcome.won ? '#34d399' : '#c084fc';
-        }
-        if (raceOutcome.won) {
-            showToast(`🏆 Ghost Defeated! Personal record rhythm defended!`, '🏎️', 4500);
-            if (window.Cosmo && Cosmo.trickRoll) Cosmo.trickRoll();
-        }
-    }
+    renderSessionDebrief(sessionData);
 
     navigate('complete');
     refreshHomeStats();
@@ -6587,24 +7099,27 @@ function stopSession() {
     exitFS();
     document.title = 'Focusr';
 
-    if (elapsed > 5000) {
+    if (elapsed >= 60000) {
         let focusMs = elapsed;
-        const pomoCount = S.mode === 'pomodoro' ? S.pomoCompletedWork : 0;
         if (S.mode === 'pomodoro') {
             focusMs = S.pomoCompletedWork * S.pomoWork * 60000 +
                 (S.pomoIsBreak ? 0 : Math.min(elapsed, S.pomoWork * 60000));
         }
+        finishSession(focusMs);
+        return;
+    } else if (elapsed > 5000) {
         addSession({
             date: todayStr(),
             mode: S.mode,
             category: S.category,
-            duration: focusMs,
-            pomodoros: pomoCount,
+            duration: elapsed,
+            pomodoros: 0,
             completedAt: new Date().toISOString(),
             strict: S.strictActive,
             inputs: S.totalInputCount,
         });
     }
+
     refreshHomeStats();
     updateSkipBtn();
     navigate('home');
@@ -6638,6 +7153,15 @@ function pauseSession(isAutoTab = false) {
     timerDisp.classList.add('paused');
     btnPause.innerHTML = '▶';
     if (!isAutoTab) {
+        S.manualPauseCount = (S.manualPauseCount || 0) + 1;
+        if (S.inconsistencies) {
+            S.inconsistencies.push({
+                type: 'manual_pause',
+                icon: '⏸️',
+                title: 'Manual Pause',
+                detail: 'Timer paused manually during focus sprint.'
+            });
+        }
         showToast(pick(MOTIV.paused), '⏸️');
     }
 }
@@ -6711,6 +7235,10 @@ function beginSession() {
     S.totalPenaltyMs = 0;
     S.penaltyCount = 0;
     S.stopwatchPenaltyDebt = 0;
+    S.inconsistencies = [];
+    S.manualPauseCount = 0;
+    S.strictIdleCount = 0;
+    S.loudAlarmCount = 0;
     updatePenaltyBadge();
 
     S.startTime = Date.now();
@@ -6890,7 +7418,7 @@ function renderAnalytics() {
     const recent = [...all].reverse().slice(0, 10);
     const list = $('recent-list');
     if (!recent.length) { list.innerHTML = '<p class="no-data">No sessions yet. Start focusing!</p>'; return; }
-    list.innerHTML = recent.map(s => {
+    list.innerHTML = recent.map((s, idx) => {
         const d = new Date(s.completedAt);
         const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const dateStr = s.date === todayStr() ? 'Today' : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
@@ -6898,8 +7426,20 @@ function renderAnalytics() {
         const pomoTag = s.pomodoros ? ` · ${s.pomodoros}🍅` : '';
         const cat = getCategory(s.category || 'work');
         const catTag = `<span class="session-cat-pill" style="border-color:${cat.color}50;color:${cat.color}">${cat.icon} ${cat.shortName || cat.name}</span>`;
-        return `<div class="session-row"><div><div class="session-mode" style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">${ic} ${s.mode.charAt(0).toUpperCase() + s.mode.slice(1)}${pomoTag} ${catTag}</div><div class="session-date">${dateStr}, ${timeStr}</div></div><span class="session-dur">${fmtShort(s.duration)}</span></div>`;
+        const deb = s.debrief || generateSessionDebrief(s);
+        return `<div class="session-row session-row-clickable" data-idx="${idx}" style="cursor:pointer" title="Click to view full retrospective debrief"><div><div class="session-mode" style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">${ic} ${s.mode.charAt(0).toUpperCase() + s.mode.slice(1)}${pomoTag} ${catTag} <span style="font-size:.66rem;font-weight:700;color:${deb.gradeColor};background:${deb.gradeColor}18;border:1px solid ${deb.gradeColor}44;padding:.12rem .4rem;border-radius:4px">Grade ${deb.grade} (${deb.purity}%)</span></div><div class="session-date">${dateStr}, ${timeStr}</div></div><div style="display:flex;align-items:center;gap:.6rem"><span class="session-dur">${fmtShort(s.duration)}</span><span style="font-size:.8rem;color:var(--text-muted)" title="Open Retrospective Sheet">📋</span></div></div>`;
     }).join('');
+
+    list.querySelectorAll('.session-row-clickable').forEach(row => {
+        row.addEventListener('click', () => {
+            const idx = parseInt(row.dataset.idx);
+            const targetSession = recent[idx];
+            if (targetSession) {
+                renderSessionDebrief(targetSession);
+                navigate('complete');
+            }
+        });
+    });
 }
 
 /* ── Event Handlers ── */
@@ -6944,6 +7484,36 @@ btnPause.addEventListener('click', togglePause);
 btnStop.addEventListener('click', stopSession);
 btnSkip.addEventListener('click', skipBreak);
 $('btn-done').addEventListener('click', () => navigate('home'));
+
+// Copy Debrief Sheet to Clipboard
+const btnCopyDebrief = $('btn-copy-debrief');
+if (btnCopyDebrief) {
+    btnCopyDebrief.addEventListener('click', () => {
+        if (!S.lastDebrief) return;
+        const d = S.lastDebrief;
+        const text = `📊 FOCUSR SESSION RETROSPECTIVE\n` +
+            `• Category: ${(S.category || 'focus').toUpperCase()}\n` +
+            `• Flow Purity: ${d.purity}% (Grade ${d.grade} · ${d.gradeLabel})\n` +
+            `• Disruptions: ${d.inconsistencies.length === 0 ? '0 (Flawless Flow)' : d.inconsistencies.map(i => `${i.title}: ${i.detail}`).join('; ')}\n` +
+            `• Cosmor's Pep Talk: "${d.pepTalk}"\n\n` +
+            `💡 Recommendations for Next Session:\n` +
+            d.suggestions.map((s, idx) => `${idx + 1}. ${s.strong} ${s.text}`).join('\n') +
+            `\n\nGenerated with Focusr Spatial Studio (focusr-app.vercel.app)`;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                const lbl = $('btn-copy-debrief-text');
+                if (lbl) lbl.textContent = '✓ Copied to Clipboard!';
+                showToast('Full debrief copied to clipboard!', '📋');
+                setTimeout(() => { if (lbl) lbl.textContent = 'Copy Debrief Sheet'; }, 2500);
+            }).catch(() => {
+                showToast('Could not access clipboard', '⚠️');
+            });
+        } else {
+            showToast('Clipboard API unavailable in this browser', '⚠️');
+        }
+    });
+}
 $('go-analytics').addEventListener('click', () => { renderAnalytics(); navigate('analytics'); });
 $('analytics-back').addEventListener('click', () => navigate('home'));
 
@@ -7205,6 +7775,16 @@ document.addEventListener('visibilitychange', () => {
             S.totalPenaltyMs = (S.totalPenaltyMs || 0) + penaltyMs;
             S.penaltyCount = (S.penaltyCount || 0) + 1;
             S.lastPenaltyAdded = penaltyMs;
+
+            if (S.inconsistencies) {
+                S.inconsistencies.push({
+                    type: 'desertion',
+                    icon: '🚨',
+                    title: 'Tab Desertion',
+                    count: 1,
+                    detail: `Deserted focus tab (+${fmtPenalty(penaltyMs)} penalty added to session clock).`
+                });
+            }
 
             // Penalty widens the gap against Ghost Racer
             if (GhostRacer.active) {
