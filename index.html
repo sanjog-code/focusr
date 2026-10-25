@@ -4275,6 +4275,10 @@ body.oled-true-black .glass {
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: var(--text);
     cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-menu-trigger:hover, .btn-menu-trigger.active {
@@ -5024,7 +5028,7 @@ body.oled-true-black .glass {
         </div>
         <div class="home-actions">
             <div class="home-menu-wrap" id="home-menu-wrap">
-                <button class="btn-menu-trigger" id="btn-toggle-main-menu" title="Menu & Account Link" aria-expanded="false" onclick="if(window.AccountManager) AccountManager.toggleDropdown();">
+                <button class="btn-menu-trigger" id="btn-toggle-main-menu" title="Menu & Account Link" aria-expanded="false">
                     <span class="menu-avatar-badge" id="menu-avatar-badge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                     <span style="font-size:0.8rem;font-weight:600;padding-left:0.15rem" id="menu-trigger-label">Menu</span>
                     <svg class="menu-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -10096,7 +10100,15 @@ const AccountManager = {
         if (backdrop) backdrop.classList.remove('active');
     },
 
-    toggleDropdown() {
+    _lastToggleTime: 0,
+    toggleDropdown(e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const now = Date.now();
+        if (now - this._lastToggleTime < 220) {
+            return; // Guard against rapid duplicate touch+click firing
+        }
+        this._lastToggleTime = now;
+
         const menu = $('focusr-dropdown-menu');
         const trigger = $('btn-toggle-main-menu');
         if (!menu || !trigger) return;
@@ -10124,20 +10136,25 @@ const AccountManager = {
 
     setupEventListeners() {
         const trigger = $('btn-toggle-main-menu');
-        if (trigger) {
-            trigger.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.toggleDropdown();
-            });
+        if (trigger && !trigger._listenerBound) {
+            trigger._listenerBound = true;
+            const onToggle = (e) => {
+                if (e && e.stopPropagation) e.stopPropagation();
+                this.toggleDropdown(e);
+            };
+            trigger.addEventListener('click', onToggle);
+            trigger.addEventListener('touchend', onToggle, { passive: true });
         }
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
+        // Close dropdown when clicking or tapping outside
+        const onOutside = (e) => {
             const wrap = $('home-menu-wrap');
             if (wrap && !wrap.contains(e.target)) {
                 this.closeDropdown();
             }
-        });
+        };
+        document.addEventListener('click', onOutside);
+        document.addEventListener('touchend', onOutside, { passive: true });
 
         // Dropdown Items
         const itemLogin = $('menu-item-login');
