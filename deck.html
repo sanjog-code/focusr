@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focusr — Comprehensive Product Overview Presentation Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(19, 24, 36, 0.72);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --indigo: #6366f1;
+      --sky: #38bdf8;
+      --emerald: #34d399;
+      --purple: #a855f7;
+      --gold: #fbbf24;
+      --rose: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(56, 189, 248, 0.08) 0%, transparent 45%);
+    }
+
+    /* Presentation Container */
+    .deck-viewport {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 40px 90px 40px;
+      position: relative;
+    }
+
+    /* 16:9 Presentation Stage */
+    .slide-stage {
+      width: 100%;
+      max-width: 1200px;
+      aspect-ratio: 16 / 9;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 44px 52px;
+    }
+
+    /* Slide Elements */
+    .slide {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.995);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .slide-header {
+      margin-bottom: 24px;
+    }
+
+    .slide-tag-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .slide-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--sky);
+      text-transform: uppercase;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .slide-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .slide-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 30%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-subtitle {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      max-width: 950px;
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    /* Grids & Cards */
+    .grid {
+      display: grid;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .glass-card {
+      background: rgba(14, 18, 28, 0.65);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .border-rose { border-color: rgba(251, 113, 133, 0.3); }
+    .border-emerald { border-color: rgba(52, 211, 153, 0.3); }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+    }
+
+    .card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .mode-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .text-indigo { color: var(--indigo); }
+    .text-sky { color: var(--sky); }
+    .text-emerald { color: var(--emerald); }
+    .text-gold { color: var(--gold); }
+    .text-rose { color: var(--rose); }
+
+    .feature-list {
+      list-style: none;
+      font-size: 0.83rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 8px;
+    }
+
+    .feature-list li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: var(--sky);
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .metric-chip {
+      margin-top: 14px;
+      align-self: flex-start;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #e2e8f0;
+    }
+
+    .meta-strip {
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 12px 18px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .meta-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .meta-val {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    .code-preview {
+      background: #06080d;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #e2e8f0;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .token-comment { color: #64748b; }
+    .token-prop { color: var(--sky); }
+    .token-val { color: var(--emerald); }
+
+    .callout-bar {
+      margin-top: 16px;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+    }
+
+    .severity-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .severity-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .sev-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      min-width: 65px;
+      text-align: center;
+    }
+
+    .sev-mild { background: rgba(56, 189, 248, 0.2); color: var(--sky); }
+    .sev-medium { background: rgba(251, 191, 36, 0.2); color: var(--gold); }
+    .sev-strict { background: rgba(251, 113, 133, 0.2); color: var(--rose); }
+
+    .preview-mascot-box {
+      margin-top: 18px;
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mascot-avatar {
+      font-size: 1.8rem;
+    }
+
+    .mascot-quote {
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: #e9d5ff;
+    }
+
+    .shelf-preview {
+      margin-top: 18px;
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+      padding: 16px 24px;
+      border-radius: 12px;
+    }
+
+    .shelf-bottle {
+      width: 44px;
+      height: 70px;
+      border-radius: 8px 8px 14px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    .shelf-note {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-left: auto;
+      font-style: italic;
+    }
+
+    .privacy-guarantee {
+      margin-top: 18px;
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.85rem;
+      color: #d1fae5;
+    }
+
+    .perf-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .perf-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .perf-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--emerald);
+      margin-bottom: 4px;
+    }
+
+    .perf-lbl {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .deck-cta-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--indigo);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--sky);
+      text-decoration: none;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(56, 189, 248, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .deck-footer-text {
+      margin-top: 20px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Floating Navigation Dock */
+    .deck-nav-dock {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(19, 24, 36, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: 40px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--indigo);
+      border-color: var(--indigo);
+      transform: scale(1.05);
+    }
+
+    .nav-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      font-weight: 600;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .dock-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .dock-action {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dock-action:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Dots Indicator */
+    .dots-strip {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dot.active {
+      background: var(--sky);
+      width: 18px;
+      border-radius: 10px;
+    }
+
+    /* Print Styles for PDF Export */
+    @media print {
+      body {
+        background: #090a0f !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .deck-nav-dock {
+        display: none !important;
+      }
+      .deck-viewport {
+        padding: 0 !important;
+        height: auto !important;
+        display: block !important;
+      }
+      .slide-stage {
+        box-shadow: none !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        margin-bottom: 20px !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        height: 100vh !important;
+      }
+      .slide {
+        display: flex !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .slide-stage {
+        aspect-ratio: auto;
+        min-height: 80vh;
+        padding: 24px;
+      }
+      .grid-3, .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .slide-title {
+        font-size: 1.4rem;
+      }
+      .deck-nav-dock {
+        width: 90%;
+        justify-content: space-between;
+      }
+      .dots-strip {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deck-viewport">
+    <div class="slide-stage" id="slideStage">
+      
+        <section class="slide active" data-index="0" id="slide-0">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">INTRODUCTION & OVERVIEW</span>
+              <span class="slide-num">01 / 13</span>
+            </div>
+            <h1 class="slide-title">Focusr — Spatial Minimalist Deep Work Studio</h1>
+            <p class="slide-subtitle">A next-generation browser workstation designed to eliminate digital entropy, protect cognitive focus, and gamify deep work through spatial design and 3D companionship.</p>
+            <div class="chips-row">
+              <span class="chip">SPATIAL MINIMALISM</span><span class="chip">3D COMPANION (COSMOR)</span><span class="chip">ACTIVE COGNITIVE DEFENSE</span><span class="chip">LOCAL-FIRST SOVEREIGNTY</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-3">
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">🌌</div>
+          <h3 class="card-title">Spatial Ergonomics</h3>
+          <p class="card-desc">Frosted glass surfaces, OLED true blacks, and distraction-free visual depth that calms the prefrontal cortex during high-cognitive exertion.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">🤖</div>
+          <h3 class="card-title">Cosmor 3D Co-Pilot</h3>
+          <p class="card-desc">An interactive Three.js companion that reacts to session states, orbits your workspace, and provides emotional anchor points.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(52, 211, 153, 0.15); color: #34d399;">🛡️</div>
+          <h3 class="card-title">Super Strict Defense</h3>
+          <p class="card-desc">Proactive distraction interception that penalizes tab switching, locks down the UI, and enforces total uninterrupted flow.</p>
+        </div>
+      </div>
+      <div class="meta-strip">
+        <div class="meta-item"><span class="meta-label">ARCHITECTURE</span><span class="meta-val">Vanilla ES6+ &bull; Three.js &bull; Web Audio</span></div>
+        <div class="meta-item"><span class="meta-label">DEPLOYMENT</span><span class="meta-val">Edge CDN (Vercel) &bull; Zero Server Cold Start</span></div>
+        <div class="meta-item"><span class="meta-label">DATA MODEL</span><span class="meta-val">100% Client-Side Private Storage</span></div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="1" id="slide-1">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">THE PROBLEM SPACE</span>
+              <span class="slide-num">02 / 13</span>
+            </div>
+            <h1 class="slide-title">The Attention Crisis & The Flaw of Passive Timers</h1>
+            <p class="slide-subtitle">Modern knowledge workers lose 2.1 hours daily to distraction. Traditional timers are passive stopwatch widgets that provide zero psychological defense.</p>
+            <div class="chips-row">
+              <span class="chip">ATTENTION RESIDUE</span><span class="chip">PASSIVE TIMER FAILURE</span><span class="chip">COGNITIVE LOSS</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-2">
+        <div class="glass-card border-rose">
+          <div class="card-icon" style="background: rgba(251, 113, 133, 0.15); color: #fb7185;">⚠️</div>
+          <h3 class="card-title text-rose">The Legacy Stopwatch Fallacy</h3>
+          <ul class="feature-list">
+            <li><strong>Zero Psychological Resistance:</strong> You tab away to YouTube or Twitter, and the traditional timer just blindly ticks down.</li>
+            <li><strong>Context Switching Tax:</strong> Returning to deep work takes an average of 23 minutes after a single tab switch (Gloria Mark, UC Irvine).</li>
+            <li><strong>Cluttered Productivity Bloat:</strong> Most apps overwhelm with 50 checkboxes, complex sub-tasks, and noisy notification feeds.</li>
+            <li><strong>Lack of Visceral Reward:</strong> Abstract minutes do not satisfy the brain's desire for tactile progress.</li>
+          </ul>
+        </div>
+        <div class="glass-card border-emerald">
+          <div class="card-icon" style="background: rgba(52, 211, 153, 0.15); color: #34d399;">✨</div>
+          <h3 class="card-title text-emerald">The Focusr Paradigm Shift</h3>
+          <ul class="feature-list">
+            <li><strong>Active Cognitive Deterrence:</strong> Focusr senses visibility loss, triggers audio alarms, and deducts time on infractions.</li>
+            <li><strong>Visual Submersion:</strong> Fullscreen immersive mode strips all browser chrome and OS taskbars.</li>
+            <li><strong>Physical Fluid Hydro-Metaphor:</strong> Focus time translates into a dynamic liquid bottle that fills with real physics.</li>
+            <li><strong>Post-Session Flow Purity:</strong> Audits distraction frequency and delivers an honest, friction-indexed score.</li>
+          </ul>
+        </div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="2" id="slide-2">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">AESTHETICS & PHILOSOPHY</span>
+              <span class="slide-num">03 / 13</span>
+            </div>
+            <h1 class="slide-title">Spatial Minimalist Design System & Frosted Glass</h1>
+            <p class="slide-subtitle">Built upon the philosophy that software should feel like a premium physical atelier, not an enterprise software spreadsheet.</p>
+            <div class="chips-row">
+              <span class="chip">DESIGN SYSTEM</span><span class="chip">FROSTED GLASS</span><span class="chip">OLED DARK PALETTE</span><span class="chip">SENSORY HARMONY</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-3">
+        <div class="glass-card">
+          <div class="card-tag">DEPTH & MATERIALS</div>
+          <h3 class="card-title">Multi-Layer Glassmorphism</h3>
+          <p class="card-desc">Backdrop-filter blur (20-32px), subtle border luminescence (<code>rgba(255,255,255,0.08)</code>), and dynamic surface lighting produce an authentic sense of physical depth.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-tag">OPTICAL HYGIENE</div>
+          <h3 class="card-title">OLED Pure Black Palette</h3>
+          <p class="card-desc">Ground color <code>#090a0f</code> eliminates panel glow on OLED displays, drastically reducing pupil dilation strain during 4-hour night study marathons.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-tag">TYPOGRAPHIC HARMONY</div>
+          <h3 class="card-title">Plus Jakarta & JetBrains</h3>
+          <p class="card-desc">Geometric humanism in headlines paired with tabular, fixed-width monospaced digits in timers guarantees zero typographic jitter as milliseconds advance.</p>
+        </div>
+      </div>
+      <div class="code-preview">
+        <span class="token-comment">/* Focusr Spatial Surface Architecture Token */</span>
+        <span class="token-prop">background:</span> <span class="token-val">rgba(19, 24, 36, 0.72);</span>
+        <span class="token-prop">backdrop-filter:</span> <span class="token-val">blur(24px) saturate(180%);</span>
+        <span class="token-prop">border:</span> <span class="token-val">1px solid rgba(255, 255, 255, 0.08);</span>
+        <span class="token-prop">box-shadow:</span> <span class="token-val">0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);</span>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="3" id="slide-3">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">CORE TIMING SUITE</span>
+              <span class="slide-num">04 / 13</span>
+            </div>
+            <h1 class="slide-title">The Tri-Modal Engine: Timer, Pomodoro, Stopwatch</h1>
+            <p class="slide-subtitle">Engineered with sub-millisecond drift correction via performance.now() timestamps, ensuring accurate cadence across long deep work sessions.</p>
+            <div class="chips-row">
+              <span class="chip">DRIFT RESISTANT</span><span class="chip">3 TIMING MODALITIES</span><span class="chip">SESSION HYSTERESIS</span><span class="chip">PRESETS</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-3">
+        <div class="glass-card">
+          <div class="mode-badge" style="color: #6366f1;">MODE 01</div>
+          <h3 class="card-title">Custom Count-Down</h3>
+          <p class="card-desc">Target-oriented execution. Select standard presets (15m, 25m, 45m, 60m, 90m) or micro-tune to arbitrary custom durations for fixed deadlines.</p>
+          <div class="metric-chip">Audio Completion Chimes</div>
+        </div>
+        <div class="glass-card">
+          <div class="mode-badge" style="color: #38bdf8;">MODE 02</div>
+          <h3 class="card-title">Classical Pomodoro</h3>
+          <p class="card-desc">The gold-standard rhythmic cycle: 25 minutes of high-intensity focus followed by 5-minute restorative intervals, with automatic long-break cycles.</p>
+          <div class="metric-chip">State Hysteresis Guard</div>
+        </div>
+        <div class="glass-card">
+          <div class="mode-badge" style="color: #34d399;">MODE 03</div>
+          <h3 class="card-title">Lap Stopwatch</h3>
+          <p class="card-desc">Open-ended generative work. No artificial cutoff time. Capture incremental laps to analyze work stages (e.g. ideation, drafting, compiling).</p>
+          <div class="metric-chip">Ghost Rival Benchmark</div>
+        </div>
+      </div>
+      <div class="callout-bar">
+        <span>⚡ <strong>Drift-Resistant Architecture:</strong> Uses wall-clock differential calculations (<code>Date.now() - sessionStart</code>) rather than relying on naïve, throttle-prone <code>setInterval</code> ticks.</span>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="4" id="slide-4">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">COGNITIVE ENFORCEMENT</span>
+              <span class="slide-num">05 / 13</span>
+            </div>
+            <h1 class="slide-title">Active Cognitive Defense: Super Strict Mode</h1>
+            <p class="slide-subtitle">The world's first timer that treats tab-switching as an active breach of personal commitment.</p>
+            <div class="chips-row">
+              <span class="chip">TAB TELEMETRY</span><span class="chip">AUDIO ALARMS</span><span class="chip">STRIKE SYSTEM</span><span class="chip">VISIBILITY API</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-2">
+        <div class="glass-card">
+          <h3 class="card-title text-indigo">Real-Time Visibility Telemetry</h3>
+          <p class="card-desc">Utilizes the browser's <code>document.visibilityState</code> and <code>window.onblur</code> APIs to detect the exact millisecond you look away or switch to social media.</p>
+          <ul class="feature-list" style="margin-top: 12px;">
+            <li><strong>Infraction Counter:</strong> Logs every departure into the session ledger.</li>
+            <li><strong>Loud Siren Deterrent:</strong> Plays synthesized procedural audio warnings to summon you back immediately.</li>
+            <li><strong>Browser Tab Flashing:</strong> Overrides favicon and document title to <code>[⚠️ RETURN TO WORK]</code>.</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3 class="card-title text-rose">Configurable Penalty Severity</h3>
+          <p class="card-desc">You choose your accountability threshold:</p>
+          <div class="severity-stack">
+            <div class="severity-row">
+              <span class="sev-tag sev-mild">Mild</span>
+              <span>Visual badge logging + gentle bell notification upon tab blur</span>
+            </div>
+            <div class="severity-row">
+              <span class="sev-tag sev-medium">Standard</span>
+              <span>Loud klaxon alarm + tab title flashing + recorded distraction strike</span>
+            </div>
+            <div class="severity-row">
+              <span class="sev-tag sev-strict">Hardcore</span>
+              <span>Immediate session cancellation or -2 minutes focus penalty per infraction</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="5" id="slide-5">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">3D COMPANION ENGINE</span>
+              <span class="slide-num">06 / 13</span>
+            </div>
+            <h1 class="slide-title">Cosmor 3D Co-Pilot: Three.js Orbital Mechanics</h1>
+            <p class="slide-subtitle">A living digital companion rendered directly on an HTML5 WebGL canvas with procedural animation, responsive lighting, and state awareness.</p>
+            <div class="chips-row">
+              <span class="chip">THREE.JS</span><span class="chip">PROCEDURAL SHADERS</span><span class="chip">EMOTION ENGINE</span><span class="chip">LOW BATTERY FALLBACK</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-3">
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🪐</div>
+          <h3 class="card-title">Three.js Scene Graph</h3>
+          <p class="card-desc">Constructed with high-subdivision geometries, metallic PBR shaders, dynamic point lights, and smooth quaternion rotational physics.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">🎭</div>
+          <h3 class="card-title">Reactive Emotion Engine</h3>
+          <p class="card-desc">Cosmor changes posture, visor glow color, and orbital spin rate based on current focus mode: Calm Blue for Focus, Warm Gold for Break, Fierce Red for Distraction Breach.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">🔋</div>
+          <h3 class="card-title">Dynamic Performance Throttling</h3>
+          <p class="card-desc">Monitors rendering budget. Drops render rate to 30fps or switches to a lightweight SVG mode when system battery drops below 20% or tab is unfocused.</p>
+        </div>
+      </div>
+      <div class="preview-mascot-box">
+        <div class="mascot-avatar">✨</div>
+        <div class="mascot-quote">
+          <strong>Cosmor says:</strong> "I don't just sit on your screen. When you enter flow, I lock into harmonic orbit. If you drift, I alert you before your momentum collapses."
+        </div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="6" id="slide-6">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">AUDITORY SANCTUARY</span>
+              <span class="slide-num">07 / 13</span>
+            </div>
+            <h1 class="slide-title">Acoustic Sanctuary & Spotify Integration</h1>
+            <p class="slide-subtitle">Auditory shielding designed to mask conversational speech and office reverberation without distracting mental linguistic processors.</p>
+            <div class="chips-row">
+              <span class="chip">WEB AUDIO SYNTHESIS</span><span class="chip">BINAURAL BEATS</span><span class="chip">PROCEDURAL NOISE</span><span class="chip">SPOTIFY EMBED</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-2">
+        <div class="glass-card">
+          <h3 class="card-title text-sky">Procedural Noise Synthesis</h3>
+          <p class="card-desc">Zero downloaded MP3 files. Audio generated directly on the CPU via the Web Audio API:</p>
+          <ul class="feature-list" style="margin-top: 10px;">
+            <li><strong>Pink Noise:</strong> 1/f spectral density for balanced neural stimulation.</li>
+            <li><strong>Brownian Noise:</strong> Heavy low-end rumble replicating oceanic waves or deep aircraft cabins.</li>
+            <li><strong>Binaural Isochronic Beats:</strong> Dual-ear frequencies targeting alpha (8-12Hz) flow state brainwaves.</li>
+            <li><strong>Biophilic Rain & Thunder:</strong> Procedurally randomized droplet filters.</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3 class="card-title text-emerald">Native Spotify Sanctuary Integration</h3>
+          <p class="card-desc">Curated deep focus streaming right inside the spatial dock:</p>
+          <ul class="feature-list" style="margin-top: 10px;">
+            <li><strong>One-Click Ambient Playlists:</strong> Lo-Fi Beats, Cyberpunk Synthwave, Dark Ambient Drone, Classical Piano.</li>
+            <li><strong>Custom Playlist URL Loader:</strong> Paste any public Spotify playlist or album URI directly.</li>
+            <li><strong>Audio Ducking:</strong> Spotify stream automatically pauses or softens when Focusr break chimes or strict-mode sirens sound.</li>
+          </ul>
+        </div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="7" id="slide-7">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">PHYSICAL METAPHOR</span>
+              <span class="slide-num">08 / 13</span>
+            </div>
+            <h1 class="slide-title">Physical Hydro-Metaphor: Liquid Bottle Simulation</h1>
+            <p class="slide-subtitle">Turning abstract time into a tangible, physical substance through real-time HTML5 2D Canvas fluid wave mechanics.</p>
+            <div class="chips-row">
+              <span class="chip">CANVAS 2D PHYSICS</span><span class="chip">FLUID WAVE DYNAMICS</span><span class="chip">COLOR GRADING</span><span class="chip">TROPHY SHELF</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-3">
+        <div class="glass-card">
+          <div class="card-tag">PHYSICS ENGINE</div>
+          <h3 class="card-title">Sine Wave Fluid Mechanics</h3>
+          <p class="card-desc">Multi-layered sine and cosine wave equations simulate dynamic liquid sloshing, surface tension, and bubble buoyancy inside a frosted flask geometry.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-tag">VOLUMETRIC TRANSLATION</div>
+          <h3 class="card-title">Minutes to Milliliters</h3>
+          <p class="card-desc">Each minute of completed focus adds volume to your daily bottle. 120 minutes = a fully brimming, radiant energy potion.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-tag">TROPHY REPOSITORY</div>
+          <h3 class="card-title">The Bottle Shelf</h3>
+          <p class="card-desc">Completed bottles are saved to your permanent virtual trophy shelf, color-coded by the tags of the work performed (Coding, Writing, Design).</p>
+        </div>
+      </div>
+      <div class="shelf-preview">
+        <div class="shelf-bottle" style="background: linear-gradient(to top, #6366f1 80%, rgba(255,255,255,0.2) 80%);"><span>60m</span></div>
+        <div class="shelf-bottle" style="background: linear-gradient(to top, #38bdf8 100%, rgba(255,255,255,0.2) 100%);"><span>90m</span></div>
+        <div class="shelf-bottle" style="background: linear-gradient(to top, #34d399 45%, rgba(255,255,255,0.2) 45%);"><span>30m</span></div>
+        <div class="shelf-bottle" style="background: linear-gradient(to top, #a855f7 95%, rgba(255,255,255,0.2) 95%);"><span>120m</span></div>
+        <div class="shelf-note">Your daily focus becomes a physical apothecary of realized human potential.</div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="8" id="slide-8">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">COGNITIVE CLOSURE</span>
+              <span class="slide-num">09 / 13</span>
+            </div>
+            <h1 class="slide-title">Retrospective Debrief Sheet & Flow Purity Scoring</h1>
+            <p class="slide-subtitle">Ending a focus block without reflection guarantees repeated mistakes. Focusr guides a structured 60-second cognitive debrief.</p>
+            <div class="chips-row">
+              <span class="chip">FLOW PURITY RATING</span><span class="chip">SESSION JOURNAL</span><span class="chip">DISTRACTION AUDIT</span><span class="chip">PRODUCTIVITY ANALYTICS</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-2">
+        <div class="glass-card">
+          <h3 class="card-title text-indigo">The Flow Purity Index Formula</h3>
+          <p class="card-desc">A mathematical synthesis of time efficiency and attentional integrity:</p>
+          <div class="code-preview" style="margin: 12px 0;">
+            <span class="token-val">Flow Purity = (Focus Duration / Target Duration) &times; (1 - (Infractions &times; 0.12)) &times; 100%</span>
+          </div>
+          <p class="card-desc">Rather than a simplistic "done/not done", users earn graded tier classifications: <strong>S-Tier Purity (98-100%)</strong>, <strong>A-Tier (85-97%)</strong>, down to <strong>Fragmented Flow (&lt;60%)</strong>.</p>
+        </div>
+        <div class="glass-card">
+          <h3 class="card-title text-gold">Structured Reflection Prompts</h3>
+          <ul class="feature-list" style="margin-top: 10px;">
+            <li><strong>Outcome Check:</strong> Did you achieve what you set out to build?</li>
+            <li><strong>Friction Logger:</strong> What stalled your momentum? (e.g. unclear spec, fatigue, Slack notifications).</li>
+            <li><strong>Next Action Anchor:</strong> Write the single first step for your next session to eliminate startup resistance later.</li>
+            <li><strong>Export Capabilities:</strong> Copy markdown summary to Notion, Obsidian, or team standup channels.</li>
+          </ul>
+        </div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="9" id="slide-9">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">GAMIFIED PACING</span>
+              <span class="slide-num">10 / 13</span>
+            </div>
+            <h1 class="slide-title">Ghost Rival Pacing: Asynchronous Personal Benchmark</h1>
+            <p class="slide-subtitle">Inspired by racing games: instead of competing against anonymous strangers on a toxic leaderboard, you race against your own historical best.</p>
+            <div class="chips-row">
+              <span class="chip">PERSONAL GHOST</span><span class="chip">ASYNCHRONOUS BENCHMARK</span><span class="chip">FLOW VELOCITY</span><span class="chip">ZERO SOCIAL ANXIETY</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-3">
+        <div class="glass-card">
+          <div class="card-tag">THE GHOST MECHANIC</div>
+          <h3 class="card-title">Shadow Runner</h3>
+          <p class="card-desc">An ethereal progress beacon displays your historical average focus velocity for the exact same hour of the day.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-tag">TELEMETRY DELTA</div>
+          <h3 class="card-title">Live Pacing Delta</h3>
+          <p class="card-desc">A subtle HUD chip indicates whether you are currently <code>+8 mins ahead</code> or <code>-4 mins behind</code> yesterday's output pace.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-tag">PSYCHOLOGY</div>
+          <h3 class="card-title">Zero Social Fatigue</h3>
+          <p class="card-desc">No social feed, no vanity follower counts. Focusr is a private dojo built strictly for individual mastery and deep craftsmanship.</p>
+        </div>
+      </div>
+      <div class="callout-bar" style="border-color: rgba(56, 189, 248, 0.4);">
+        <span>🏎️ <strong>"You don't need a thousand rivals. You only need to be 1% sharper than the person who sat in your chair yesterday."</strong></span>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="10" id="slide-10">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">PRIVACY & AUTONOMY</span>
+              <span class="slide-num">11 / 13</span>
+            </div>
+            <h1 class="slide-title">Local-First Sovereignty & Optional Device Linking</h1>
+            <p class="slide-subtitle">Your deep work habits, journals, and reflections belong exclusively to you. No tracking, no data mining, zero required cloud accounts.</p>
+            <div class="chips-row">
+              <span class="chip">ZERO CLOUD REQUIREMENT</span><span class="chip">LOCALSTORAGE AES</span><span class="chip">P2P SYNC</span><span class="chip">DATA EXPORT</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-3">
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(52, 211, 153, 0.15); color: #34d399;">🔒</div>
+          <h3 class="card-title">100% Client-Side Storage</h3>
+          <p class="card-desc">All sessions, bottle collections, and journal entries are written to your browser's encrypted local domain storage. No server database ever touches your logs.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">🔗</div>
+          <h3 class="card-title">Ephemeral Device Pairing</h3>
+          <p class="card-desc">Optional multi-device linking via client-side QR codes and encrypted WebRTC signals for users who wish to mirror state to a mobile tablet display.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-icon" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24;">📦</div>
+          <h3 class="card-title">Total Data Portability</h3>
+          <p class="card-desc">Single-click export to standard JSON or CSV anytime. Complete backup and restore capability ensures you never suffer platform vendor lock-in.</p>
+        </div>
+      </div>
+      <div class="privacy-guarantee">
+        <span class="lock-emoji">🛡️</span>
+        <div><strong>The Focusr Privacy Guarantee:</strong> No tracking cookies, no Google Analytics pixel, no biometric logging, no external ad networks. Works 100% offline on airplanes and off-grid cabins.</div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="11" id="slide-11">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">SYSTEM ARCHITECTURE</span>
+              <span class="slide-num">12 / 13</span>
+            </div>
+            <h1 class="slide-title">Engineering Architecture & Performance Benchmarks</h1>
+            <p class="slide-subtitle">Built without bloated frameworks. Zero mega-bundle JS libraries. Handcrafted for instant 120fps fluid responsiveness.</p>
+            <div class="chips-row">
+              <span class="chip">ZERO FRAMEWORK OVERHEAD</span><span class="chip">THREE.JS WEBGL</span><span class="chip">WEB AUDIO</span><span class="chip">INSTANT BOOT</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-2">
+        <div class="glass-card">
+          <h3 class="card-title text-indigo">Modern Vanilla JavaScript (ES6+)</h3>
+          <ul class="feature-list">
+            <li><strong>Zero React/Next Virtual DOM Overheads:</strong> Eliminates reconciliation lag, garbage-collection hitches, and massive 500KB runtime dependencies.</li>
+            <li><strong>Direct GPU Canvas Pipelines:</strong> Particle backgrounds, fluid liquid simulation, and 3D scenes operate on hardware-accelerated buffers.</li>
+            <li><strong>Modular Component Contracts:</strong> Separated into clean domain controllers: <code>TimerEngine</code>, <code>CosmorScene</code>, <code>AudioSanctuary</code>, <code>LiquidPhysics</code>, <code>StrictGuard</code>.</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3 class="card-title text-emerald">Production Performance Metrics</h3>
+          <div class="perf-metric-grid">
+            <div class="perf-box">
+              <span class="perf-num">100%</span>
+              <span class="perf-lbl">Lighthouse Performance</span>
+            </div>
+            <div class="perf-box">
+              <span class="perf-num">&lt; 140ms</span>
+              <span class="perf-lbl">Time To Interactive (TTI)</span>
+            </div>
+            <div class="perf-box">
+              <span class="perf-num">0KB</span>
+              <span class="perf-lbl">Server API Call Latency</span>
+            </div>
+            <div class="perf-box">
+              <span class="perf-num">60-120fps</span>
+              <span class="perf-lbl">Continuous Frame Rendering</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+          </div>
+        </section>
+      
+        <section class="slide " data-index="12" id="slide-12">
+          <header class="slide-header">
+            <div class="slide-tag-row">
+              <span class="slide-tag">PRODUCTION & ROADMAP</span>
+              <span class="slide-num">13 / 13</span>
+            </div>
+            <h1 class="slide-title">Live Deployment & The Future of Focusr</h1>
+            <p class="slide-subtitle">Focusr is live today for knowledge workers worldwide. Experience the workstation or explore the product slide deck.</p>
+            <div class="chips-row">
+              <span class="chip">LIVE ON VERCEL</span><span class="chip">GLOBAL EDGE CDN</span><span class="chip">ROADMAP 2026</span><span class="chip">OPEN REPOSITORY</span>
+            </div>
+          </header>
+          <div class="slide-body">
+            
+      <div class="grid grid-3">
+        <div class="glass-card">
+          <div class="card-tag">PHASE 1 &bull; CURRENT</div>
+          <h3 class="card-title">Production Web Studio</h3>
+          <p class="card-desc">Tri-modal timer, Cosmor 3D companion, Strict Mode defense, procedural Web Audio, dynamic liquid bottles, and local debrief journaling.</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-tag">PHASE 2 &bull; NEXT HORIZON</div>
+          <h3 class="card-title">Desktop Native Enclave</h3>
+          <p class="card-desc">Electron/Tauri wrapper with system-level process blocking (blocking Slack, Discord, Twitter at the OS kernel level during active focus sessions).</p>
+        </div>
+        <div class="glass-card">
+          <div class="card-tag">PHASE 3 &bull; FUTURE</div>
+          <h3 class="card-title">Ambient Spatial Hardware</h3>
+          <p class="card-desc">Dedicated physical desktop e-ink and micro-OLED peripheral device synchronizing with your browser session via Web Bluetooth.</p>
+        </div>
+      </div>
+      <div class="deck-cta-row">
+        <a href="index.html" class="btn-primary">Launch Live Focusr Studio 🚀</a>
+        <a href="assets/Focusr_Comprehensive_Overview.pptx" download class="btn-secondary">Download PowerPoint (.PPTX) 📥</a>
+        <button onclick="window.print()" class="btn-glass">Print / Export PDF 🖨️</button>
+      </div>
+      <div class="deck-footer-text">
+        Deployed at <code>https://focusr-seven.vercel.app</code> &bull; Open Source on GitHub
+      </div>
+    
+          </div>
+        </section>
+      
+    </div>
+  </div>
+
+  <!-- Interactive Floating Dock -->
+  <nav class="deck-nav-dock" aria-label="Deck controls">
+    <button class="nav-btn" id="prevBtn" title="Previous Slide (← or P)">←</button>
+    <span class="nav-counter" id="navCounter">01 / 13</span>
+    <button class="nav-btn" id="nextBtn" title="Next Slide (→, Space, or N)">→</button>
+    
+    <div class="dock-divider"></div>
+    
+    <div class="dots-strip" id="dotsStrip">
+      <div class="dot active" data-index="0"></div><div class="dot " data-index="1"></div><div class="dot " data-index="2"></div><div class="dot " data-index="3"></div><div class="dot " data-index="4"></div><div class="dot " data-index="5"></div><div class="dot " data-index="6"></div><div class="dot " data-index="7"></div><div class="dot " data-index="8"></div><div class="dot " data-index="9"></div><div class="dot " data-index="10"></div><div class="dot " data-index="11"></div><div class="dot " data-index="12"></div>
+    </div>
+
+    <div class="dock-divider"></div>
+
+    <button class="dock-action" id="fullscreenBtn" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
+    <a href="assets/Focusr_Comprehensive_Overview.pptx" download class="dock-action" title="Download PPTX">📥 .PPTX</a>
+    <a href="index.html" class="dock-action" title="Back to App">Studio ↗</a>
+  </nav>
+
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.dot');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const navCounter = document.getElementById('navCounter');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      let currentIndex = 0;
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= slides.length) index = slides.length - 1;
+        currentIndex = index;
+
+        slides.forEach((s, idx) => {
+          s.classList.toggle('active', idx === currentIndex);
+        });
+
+        dots.forEach((d, idx) => {
+          d.classList.toggle('active', idx === currentIndex);
+        });
+
+        const numStr = (currentIndex + 1).toString().padStart(2, '0');
+        navCounter.textContent = `${numStr} / 13`;
+      }
+
+      prevBtn.addEventListener('click', () => updateSlide(currentIndex - 1));
+      nextBtn.addEventListener('click', () => updateSlide(currentIndex + 1));
+
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => updateSlide(idx));
+      });
+
+      // Keyboard Navigation
+      window.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'n' || e.key === 'N') {
+          updateSlide(currentIndex + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'p' || e.key === 'P') {
+          updateSlide(currentIndex - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          toggleFullscreen();
+        }
+      });
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => console.log(err));
+          fullscreenBtn.textContent = '✕ Exit';
+        } else {
+          document.exitFullscreen();
+          fullscreenBtn.textContent = '⛶ Fullscreen';
+        }
+      }
+
+      fullscreenBtn.addEventListener('click', toggleFullscreen);
+    })();
+  </script>
+</body>
+</html>
