@@ -1314,6 +1314,188 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 }
 
 /* ══════════════════════════════════════════
+   FOCUS CATEGORIES SYSTEM
+   ══════════════════════════════════════════ */
+.category-card {
+    border-radius: var(--radius-lg);
+    padding: 1.15rem 1.4rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.category-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.category-header-title {
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--text-dim);
+}
+.category-active-label {
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+.category-chips {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: .55rem;
+}
+@media (max-width: 820px) {
+    .category-chips {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 480px) {
+    .category-chips {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.cat-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    padding: .55rem .75rem;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-dim);
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .22s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    user-select: none;
+}
+.cat-chip:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.22);
+    color: var(--text);
+    transform: translateY(-2px);
+}
+.cat-chip.active {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--cat-accent, var(--accent));
+    color: #fff;
+    box-shadow: 0 0 16px var(--cat-glow, var(--accent-glow));
+}
+.cat-chip .cat-icon {
+    font-size: 1.05rem;
+}
+
+/* Category Badge in Focus screen */
+.focus-category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .35rem .75rem;
+    border-radius: 980px;
+    font-size: .78rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.07);
+    transition: all .2s ease;
+}
+.focus-category-badge:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+/* Setup Category Row */
+.setup-category-wrap {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.setup-category-title {
+    display: block;
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-dim);
+    margin-bottom: .75rem;
+    text-align: left;
+}
+
+/* Category Breakdown in Analytics */
+.category-breakdown {
+    border-radius: var(--radius-lg);
+    padding: 1.4rem;
+    margin-bottom: 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.category-breakdown h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+.cat-breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+.cat-bar-item {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+.cat-bar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .82rem;
+}
+.cat-bar-title {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    font-weight: 600;
+    color: var(--text);
+}
+.cat-bar-meta {
+    color: var(--text-dim);
+    font-size: .78rem;
+}
+.cat-track {
+    width: 100%;
+    height: 8px;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+.cat-fill {
+    height: 100%;
+    border-radius: 980px;
+    transition: width .6s ease;
+}
+
+/* Session row category chip */
+.session-cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    padding: .15rem .5rem;
+    border-radius: 980px;
+    font-size: .7rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text);
+}
+
+/* ══════════════════════════════════════════
    COSMO 3D ROCKET ASSISTANT
    ══════════════════════════════════════════ */
 .cosmo-stage {
@@ -1545,6 +1727,15 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         </div>
     </div>
 
+    <!-- Focus Category Selector -->
+    <div class="category-card glass" id="category-card">
+        <div class="category-card-header">
+            <span class="category-header-title">🏷️ Focus Category</span>
+            <span class="category-active-label" id="home-cat-label">💻 Code</span>
+        </div>
+        <div class="category-chips" id="category-chips-home"></div>
+    </div>
+
     <!-- Daily Target Card -->
     <div class="daily-target-card glass" id="daily-target-card">
         <div class="target-card-header">
@@ -1672,6 +1863,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             </div>
         </div>
 
+        <!-- Focus Category Selector in Setup -->
+        <div class="setup-category-wrap">
+            <label class="setup-category-title">Focus Category</label>
+            <div class="category-chips setup-chips" id="category-chips-setup"></div>
+        </div>
+
         <div class="setup-start">
             <button class="btn-primary" id="btn-start">Start Focus</button>
         </div>
@@ -1683,8 +1880,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div class="focus-wrap">
         <div class="focus-layout">
             <div class="focus-top-bar">
-                <div style="display:flex;align-items:center;gap:.75rem">
+                <div style="display:flex;align-items:center;gap:.65rem;flex-wrap:wrap">
                     <span class="focus-mode-label" id="focus-label">FOCUS</span>
+                    <button class="focus-category-badge glass" id="focus-cat-badge" title="Click to cycle focus category">
+                        <span id="focus-cat-icon">💻</span>
+                        <span id="focus-cat-name">Code</span>
+                    </button>
                     <span class="focus-penalty-pill" id="focus-penalty-pill">
                         <span>🚨</span>
                         <span id="penalty-pill-text">+0m Penalty</span>
@@ -1820,6 +2021,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <h2>Session Complete</h2>
         <div class="complete-stats">
             <div class="c-stat"><span class="c-stat-val" id="c-dur">25m</span><span class="c-stat-lbl">Duration</span></div>
+            <div class="c-stat"><span class="c-stat-val" id="c-cat">💻 Code</span><span class="c-stat-lbl">Category</span></div>
             <div class="c-stat"><span class="c-stat-val" id="c-mode">Timer</span><span class="c-stat-lbl">Mode</span></div>
             <div class="c-stat"><span class="c-stat-val" id="c-pomos">0</span><span class="c-stat-lbl">Pomodoros</span></div>
             <div class="c-stat"><span class="c-stat-val" id="c-bottles">0</span><span class="c-stat-lbl">Bottles</span></div>
@@ -1862,6 +2064,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 <span class="a-card-val" id="a-ghost-record" style="margin-bottom:0;color:#c084fc;font-size:1.3rem">0W - 0L</span>
             </div>
         </div>
+
+        <!-- Focus by Category Breakdown -->
+        <div class="category-breakdown glass" id="a-category-card">
+            <h3>Focus by Category</h3>
+            <div class="cat-breakdown-list" id="cat-breakdown-list"></div>
+        </div>
+
         <div class="weekly-chart glass">
             <h3>This Week</h3>
             <div class="chart-row" id="chart-row"></div>
@@ -2150,6 +2359,17 @@ let themeConfig = {
     opacity: 85
 };
 
+/* ── Focus Categories Definition ── */
+const CATEGORY_STORAGE_KEY = 'focus_category';
+const CATEGORIES = [
+    { id: 'meditate', name: 'Meditate', shortName: 'Meditate', icon: '🧘', color: '#a78bfa', glow: 'rgba(167, 139, 250, 0.35)', desc: 'Mindful breathing & zen stillness' },
+    { id: 'study', name: 'Study', shortName: 'Study', icon: '📚', color: '#38bdf8', glow: 'rgba(56, 189, 248, 0.35)', desc: 'Reading, flashcards & memorization' },
+    { id: 'work', name: 'Work', shortName: 'Work', icon: '💼', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.35)', desc: 'Tasks, emails, planning & client work' },
+    { id: 'research', name: 'Research', shortName: 'Research', icon: '🔬', color: '#34d399', glow: 'rgba(52, 211, 153, 0.35)', desc: 'Literature, papers & data analysis' },
+    { id: 'code', name: 'Code', shortName: 'Code', icon: '💻', color: '#60a5fa', glow: 'rgba(96, 165, 250, 0.35)', desc: 'Architecture, debugging & shipping' },
+    { id: 'essay-ppt', name: 'Essay or PPT Writing', shortName: 'Essay / PPT', icon: '✍️', color: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', desc: 'Drafting essays, articles & slide decks' }
+];
+
 /* ── Motivational Messages ── */
 const MOTIV = {
     start: [
@@ -2159,6 +2379,38 @@ const MOTIV = {
         "Clear mind, deep focus. Begin.",
         "Block out the noise. This is your time.",
     ],
+    catStart: {
+        meditate: [
+            "Breathe in stillness, exhale distraction. Present moment awareness.",
+            "Quiet mind, steady focus. Feel each breath.",
+            "Let thoughts drift like clouds. Gentle stillness.",
+        ],
+        study: [
+            "Active recall engaged! Every concept builds your mastery.",
+            "Deep learning mode on. Absorb and retain.",
+            "High retention state unlocked. Master the material.",
+        ],
+        work: [
+            "High-impact execution mode. Clear the priority queue.",
+            "Zero friction, laser-focused delivery. Let's conquer the task.",
+            "Turn complex problems into closed tickets.",
+        ],
+        research: [
+            "Connecting the dots across the literature.",
+            "Curiosity fuels breakthrough discovery. Dig into the insights.",
+            "Synthesizing evidence into crystal-clear understanding.",
+        ],
+        code: [
+            "Clean architecture, zero edge case slips. Ship it!",
+            "In the flow state — compiler green, elegant logic ahead.",
+            "Write the future, one clean function at a time.",
+        ],
+        'essay-ppt': [
+            "Words and slides flowing effortlessly onto the canvas.",
+            "Compelling narrative, striking structure. Tell your story.",
+            "Draft without fear, polish with precision.",
+        ]
+    },
     p25: [
         "25% done — solid momentum!",
         "Quarter of the way there. Keep pushing.",
@@ -2280,6 +2532,9 @@ const S = {
     // Distractions & Focus Lock
     distractions: 0,
 
+    // Focus Category
+    category: 'code',
+
     // Tab Desertion Penalty System
     initialTargetMs: 0,
     totalPenaltyMs: 0,
@@ -2335,6 +2590,119 @@ const sliderBlur         = $('slider-backdrop-blur');
 const sliderOpacity      = $('slider-backdrop-opacity');
 const valBlur            = $('val-backdrop-blur');
 const valOpacity         = $('val-backdrop-opacity');
+
+// Focus Category DOM refs
+const homeCatLabel       = $('home-cat-label');
+const categoryChipsHome  = $('category-chips-home');
+const categoryChipsSetup = $('category-chips-setup');
+const focusCatBadge      = $('focus-cat-badge');
+const focusCatIcon       = $('focus-cat-icon');
+const focusCatName       = $('focus-cat-name');
+
+/* ── Focus Categories Controller ── */
+function getCategory(id) {
+    return CATEGORIES.find(c => c.id === id) || CATEGORIES[4]; // default 'code'
+}
+
+function loadCategory() {
+    try {
+        const stored = localStorage.getItem(CATEGORY_STORAGE_KEY);
+        if (stored && CATEGORIES.some(c => c.id === stored)) {
+            S.category = stored;
+        } else {
+            S.category = 'code';
+        }
+    } catch {
+        S.category = 'code';
+    }
+}
+
+function setCategory(id, shouldToast = true) {
+    const cat = getCategory(id);
+    S.category = cat.id;
+    try { localStorage.setItem(CATEGORY_STORAGE_KEY, cat.id); } catch {}
+
+    // Update active label on Home
+    if (homeCatLabel) {
+        homeCatLabel.textContent = `${cat.icon} ${cat.shortName || cat.name}`;
+        homeCatLabel.style.color = cat.color;
+    }
+
+    // Update Focus screen badge
+    if (focusCatIcon) focusCatIcon.textContent = cat.icon;
+    if (focusCatName) focusCatName.textContent = cat.shortName || cat.name;
+    if (focusCatBadge) {
+        focusCatBadge.style.borderColor = cat.color + '60';
+        focusCatBadge.style.boxShadow = `0 0 12px ${cat.glow}`;
+    }
+
+    // Sync active class across all category chips in Home and Setup
+    document.querySelectorAll('.cat-chip').forEach(btn => {
+        const isActive = btn.dataset.catId === cat.id;
+        btn.classList.toggle('active', isActive);
+        if (isActive) {
+            btn.style.setProperty('--cat-accent', cat.color);
+            btn.style.setProperty('--cat-glow', cat.glow);
+        }
+    });
+
+    if (shouldToast) {
+        showToast(`${cat.icon} Category: ${cat.name}`, cat.icon);
+    }
+}
+
+function renderCategoryChips() {
+    const activeCatId = S.category || 'code';
+    const html = CATEGORIES.map(c => {
+        const isActive = c.id === activeCatId;
+        const style = isActive ? `style="--cat-accent:${c.color};--cat-glow:${c.glow}"` : '';
+        return `
+            <button class="cat-chip ${isActive ? 'active' : ''}" data-cat-id="${c.id}" ${style} title="${c.desc}">
+                <span class="cat-icon">${c.icon}</span>
+                <span class="cat-name">${c.shortName || c.name}</span>
+            </button>
+        `;
+    }).join('');
+
+    if (categoryChipsHome) categoryChipsHome.innerHTML = html;
+    if (categoryChipsSetup) categoryChipsSetup.innerHTML = html;
+
+    // Attach click listeners to all chips
+    document.querySelectorAll('.cat-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const catId = btn.dataset.catId;
+            setCategory(catId, true);
+            soundClick();
+        });
+    });
+
+    // Update labels and badge
+    const cat = getCategory(activeCatId);
+    if (homeCatLabel) {
+        homeCatLabel.textContent = `${cat.icon} ${cat.shortName || cat.name}`;
+        homeCatLabel.style.color = cat.color;
+    }
+    if (focusCatIcon) focusCatIcon.textContent = cat.icon;
+    if (focusCatName) focusCatName.textContent = cat.shortName || cat.name;
+    if (focusCatBadge) {
+        focusCatBadge.style.borderColor = cat.color + '60';
+        focusCatBadge.style.boxShadow = `0 0 12px ${cat.glow}`;
+    }
+}
+
+function cycleFocusCategory() {
+    const idx = CATEGORIES.findIndex(c => c.id === S.category);
+    const nextIdx = (idx + 1) % CATEGORIES.length;
+    const nextCat = CATEGORIES[nextIdx];
+    setCategory(nextCat.id, false);
+    soundClick();
+
+    if (window.Cosmo && Cosmo.deliver) {
+        Cosmo.deliver(`Category switched to ${nextCat.icon} ${nextCat.name}! Stay locked in.`, nextCat.icon, 3500);
+    } else {
+        showToast(`Category: ${nextCat.icon} ${nextCat.name}`, nextCat.icon, 3500);
+    }
+}
 
 /* ── Tab Desertion Penalty Helpers ── */
 function fmtPenalty(ms) {
@@ -4745,10 +5113,12 @@ function finishSession(focusMs) {
     if (S.mode !== 'pomodoro') soundComplete(); // pomo plays its own sound
 
     const pomoCount = S.mode === 'pomodoro' ? S.pomoCompletedWork : 0;
+    const cat = getCategory(S.category);
 
     addSession({
         date: todayStr(),
         mode: S.mode,
+        category: S.category,
         duration: focusMs,
         pomodoros: pomoCount,
         completedAt: new Date().toISOString(),
@@ -4757,6 +5127,10 @@ function finishSession(focusMs) {
     // Show complete screen
     $('c-dur').textContent = fmtShort(focusMs);
     $('c-mode').textContent = S.mode === 'pomodoro' ? 'Pomodoro' : S.mode === 'timer' ? 'Timer' : 'Stopwatch';
+    if ($('c-cat')) {
+        $('c-cat').textContent = `${cat.icon} ${cat.shortName || cat.name}`;
+        $('c-cat').style.color = cat.color;
+    }
     $('c-pomos').textContent = pomoCount;
     $('c-pomos').closest('.c-stat').style.display = pomoCount > 0 ? '' : 'none';
     if ($('c-bottles')) $('c-bottles').textContent = S.inventory.length;
@@ -4818,6 +5192,7 @@ function stopSession() {
         addSession({
             date: todayStr(),
             mode: S.mode,
+            category: S.category,
             duration: focusMs,
             pomodoros: pomoCount,
             completedAt: new Date().toISOString(),
@@ -4951,8 +5326,25 @@ function beginSession() {
 
     S.intervalId = setInterval(tick, 50);
 
-    // Welcome toast (slight delay so screen transition finishes)
-    setTimeout(() => showToast(pick(MOTIV.start), '🎯'), 600);
+    // Sync Category in Focus bar
+    const cat = getCategory(S.category);
+    if (focusCatIcon) focusCatIcon.textContent = cat.icon;
+    if (focusCatName) focusCatName.textContent = cat.shortName || cat.name;
+    if (focusCatBadge) {
+        focusCatBadge.style.borderColor = cat.color + '60';
+        focusCatBadge.style.boxShadow = `0 0 12px ${cat.glow}`;
+    }
+
+    // Welcome toast tailored to category
+    setTimeout(() => {
+        const catQuotes = (MOTIV.catStart && MOTIV.catStart[S.category]) || MOTIV.start;
+        const msg = pick(catQuotes);
+        if (window.Cosmo && Cosmo.deliver) {
+            Cosmo.deliver(`${cat.icon} [${cat.name}] ${msg}`, cat.icon, 4500);
+        } else {
+            showToast(`${cat.icon} ${msg}`, cat.icon, 4500);
+        }
+    }, 600);
 }
 
 /* ── Analytics ── */
@@ -5019,6 +5411,44 @@ function renderAnalytics() {
         $('a-ghost-record').textContent = `${ghostStats.wins || 0}W - ${ghostStats.losses || 0}L`;
     }
 
+    // Focus by Category Breakdown
+    const catBreakdownList = $('cat-breakdown-list');
+    if (catBreakdownList) {
+        const catStats = CATEGORIES.map(c => {
+            const catSess = all.filter(s => (s.category || 'work') === c.id);
+            const catMs = catSess.reduce((sum, s) => sum + s.duration, 0);
+            return {
+                ...c,
+                sessions: catSess.length,
+                totalMs: catMs
+            };
+        });
+
+        const maxCatMs = Math.max(...catStats.map(c => c.totalMs), 1);
+        const grandTotalMs = Math.max(all.reduce((sum, s) => sum + s.duration, 0), 1);
+
+        catBreakdownList.innerHTML = catStats.map(c => {
+            const pct = Math.round((c.totalMs / grandTotalMs) * 100);
+            const barWidth = c.totalMs > 0 ? Math.max(3, Math.round((c.totalMs / maxCatMs) * 100)) : 0;
+            return `
+                <div class="cat-bar-item">
+                    <div class="cat-bar-header">
+                        <span class="cat-bar-title">
+                            <span>${c.icon}</span>
+                            <span>${c.name}</span>
+                        </span>
+                        <span class="cat-bar-meta">
+                            <strong>${fmtShort(c.totalMs)}</strong> · ${c.sessions} sess · ${pct}%
+                        </span>
+                    </div>
+                    <div class="cat-track">
+                        <div class="cat-fill" style="width:${barWidth}%;background:${c.color};box-shadow:0 0 10px ${c.glow}"></div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
     const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     const chartData = [];
     for (let i = 6; i >= 0; i--) {
@@ -5043,7 +5473,9 @@ function renderAnalytics() {
         const dateStr = s.date === todayStr() ? 'Today' : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
         const ic = s.mode === 'pomodoro' ? '🍅' : s.mode === 'timer' ? '⏱' : '⏲';
         const pomoTag = s.pomodoros ? ` · ${s.pomodoros}🍅` : '';
-        return `<div class="session-row"><div><div class="session-mode">${ic} ${s.mode.charAt(0).toUpperCase() + s.mode.slice(1)}${pomoTag}</div><div class="session-date">${dateStr}, ${timeStr}</div></div><span class="session-dur">${fmtShort(s.duration)}</span></div>`;
+        const cat = getCategory(s.category || 'work');
+        const catTag = `<span class="session-cat-pill" style="border-color:${cat.color}50;color:${cat.color}">${cat.icon} ${cat.shortName || cat.name}</span>`;
+        return `<div class="session-row"><div><div class="session-mode" style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">${ic} ${s.mode.charAt(0).toUpperCase() + s.mode.slice(1)}${pomoTag} ${catTag}</div><div class="session-date">${dateStr}, ${timeStr}</div></div><span class="session-dur">${fmtShort(s.duration)}</span></div>`;
     }).join('');
 }
 
@@ -5353,6 +5785,8 @@ document.addEventListener('visibilitychange', () => {
 /* ── Init ── */
 loadSessions();
 loadInventory();
+loadCategory();
+renderCategoryChips();
 loadThemeConfig();
 applyTheme(themeConfig.themeId, themeConfig.blur, themeConfig.opacity, false);
 refreshHomeStats();
@@ -5361,6 +5795,10 @@ WaterSim.init();
 ringFill.style.strokeDasharray = CIRC;
 Cosmo.init();
 checkDailyGoalGreeting();
+
+if (focusCatBadge) {
+    focusCatBadge.addEventListener('click', cycleFocusCategory);
+}
 
 })();
 </script>
