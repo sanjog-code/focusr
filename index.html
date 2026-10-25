@@ -8277,29 +8277,42 @@ const Cosmo = {
             });
         }
 
-        // 3. 360-Degree Loading Screen Circle Flip
+        // 3. True Orbital Loop Flip around Imaginary Center Point
         if (this.state === 'trick') {
-            this.trickT += 0.022; // ~1.3s silky continuous circular flip
+            this.trickT += 0.018; // ~1.5s silky continuous orbital loop
             
             const t = Math.min(1.0, this.trickT);
+            // Smooth ease in-out curve
             const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-            const angle = ease * Math.PI * 2; // Full 360 degrees
+            const phi = ease * Math.PI * 2; // Complete 360 degree orbit
 
-            // Traces a circular loading screen spinner in space
-            const loopRadius = 0.72;
-            const posX = -Math.sin(angle) * loopRadius;
-            const posY = (1 - Math.cos(angle)) * loopRadius;
+            // The rocket starts at resting origin (0, 0, 0).
+            // We define an imaginary anchor point / orbit center directly to its right/above:
+            const orbitRadius = 0.68;
+            const centerOffsetX = orbitRadius; 
+            const centerOffsetY = 0.0;
+
+            // Parametric circular orbit around the imaginary dot:
+            // At phi = 0: x = 0, y = 0
+            // As phi goes 0 -> 2pi: the center of the rocket travels around the anchor dot in a perfect circle
+            const posX = centerOffsetX - Math.cos(phi) * orbitRadius;
+            const posY = centerOffsetY + Math.sin(phi) * orbitRadius;
+            const posZ = Math.sin(phi) * 0.15; // Subtle 3D depth flair
 
             this.rocketGroup.position.x = posX;
             this.rocketGroup.position.y = posY;
+            this.rocketGroup.position.z = posZ;
 
-            // Rocket nose faces forward along the circular tangent (like a loading loop)
-            this.rocketGroup.rotation.z = -0.22 - angle;
-            this.rocketGroup.rotation.y = 0.45 + Math.sin(angle) * 0.45;
-            this.rocketGroup.rotation.x = Math.sin(angle) * 0.22;
+            // Rocket nose orientation:
+            // Tangent direction to the orbit circle is given by d/d(phi) of (x, y):
+            // dx = sin(phi), dy = cos(phi). The tangent angle in 2D is atan2(dy, dx) = -phi.
+            // Baseline resting tilt is z = -0.22, y = 0.45.
+            this.rocketGroup.rotation.z = -0.22 + phi;
+            this.rocketGroup.rotation.y = 0.45 + Math.sin(phi) * 0.35;
+            this.rocketGroup.rotation.x = Math.sin(phi) * 0.20;
 
-            if (this.flameCore) this.flameCore.scale.set(1.5, 2.5, 1.5);
-            if (this.flameOuter) this.flameOuter.scale.set(1.7, 2.8, 1.7);
+            if (this.flameCore) this.flameCore.scale.set(1.6, 2.6, 1.6);
+            if (this.flameOuter) this.flameOuter.scale.set(1.8, 3.0, 1.8);
 
             if (this.trickT >= 1.0) {
                 this.state = 'hovering';
