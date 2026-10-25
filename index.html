@@ -831,6 +831,315 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 }
 .clear-btn:hover{opacity:1;background:rgba(255,69,58,.08)}
 
+
+/* ═══ ATELIER CUSTOMIZATION STUDIO STYLES ═══ */
+.atelier-studio-tabs {
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.35rem;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 1.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.atelier-studio-tabs::-webkit-scrollbar { display: none; }
+.atelier-tab-btn {
+    padding: 0.55rem 0.95rem;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.atelier-tab-btn:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+}
+.atelier-tab-btn.active {
+    color: #fff;
+    background: var(--surface-hover);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.atelier-tab-panel {
+    display: none;
+    flex-direction: column;
+    gap: 1.2rem;
+    overflow-y: auto;
+    max-height: 58vh;
+    padding-right: 0.3rem;
+}
+.atelier-tab-panel.active {
+    display: flex;
+}
+
+/* Accent Color Swatches */
+.accent-picker-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.accent-swatches-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+.accent-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: #fff;
+}
+.accent-swatch:hover {
+    transform: scale(1.12);
+}
+.accent-swatch.active {
+    border-color: #fff;
+    box-shadow: 0 0 14px var(--swatch-color, #fff);
+}
+.accent-custom-input-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+.accent-custom-input-wrap input[type="color"] {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: transparent;
+}
+.accent-custom-input-wrap input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.accent-custom-input-wrap input[type="color"]::-webkit-color-swatch { border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; }
+
+/* OLED Mode */
+body.oled-true-black {
+    --bg: #000000 !important;
+    background: #000000 !important;
+}
+body.oled-true-black .backdrop-wrapper {
+    display: none !important;
+}
+body.oled-true-black .glass {
+    background: rgba(10, 10, 14, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Soundscape Multi-Track Mixer */
+.soundscape-mixer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+}
+@media (max-width: 600px) {
+    .soundscape-mixer-grid { grid-template-columns: 1fr; }
+}
+.soundscape-track-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.soundscape-track-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.soundscape-track-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.soundscape-vol-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+}
+
+/* Clock Face Selector Cards */
+.clock-faces-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+}
+@media (max-width: 640px) {
+    .clock-faces-grid { grid-template-columns: 1fr; }
+}
+.clock-face-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 0.8rem;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    cursor: pointer;
+    text-align: center;
+    gap: 0.6rem;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.clock-face-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.clock-face-card.active {
+    background: rgba(10, 132, 255, 0.12);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+.clock-face-icon {
+    font-size: 2rem;
+}
+.clock-face-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+.clock-face-desc {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    line-height: 1.3;
+}
+
+/* Swiss Analog Chronometer & Zen Arc Face Canvas/Elements in Focus */
+#analog-chrono-canvas {
+    display: none;
+    width: 260px;
+    height: 260px;
+    margin: 0 auto;
+}
+.arc-timer-display {
+    display: none;
+    position: relative;
+    width: 250px;
+    height: 250px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+.arc-timer-display svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+.arc-timer-readout {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+.arc-pct-val {
+    font-size: 2.5rem;
+    font-weight: 300;
+    font-family: var(--font-mono);
+    line-height: 1;
+}
+.arc-time-sub {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    margin-top: 0.3rem;
+}
+
+/* Custom Categories Management */
+.custom-cat-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 1.2rem;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+}
+.custom-cat-inputs {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 0.75rem;
+}
+@media (max-width: 600px) {
+    .custom-cat-inputs { grid-template-columns: 1fr; }
+}
+.cat-manage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.cat-manage-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.cat-item-left {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+.cat-item-badge {
+    font-size: 0.68rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-dim);
+}
+.cat-delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+.cat-delete-btn:hover {
+    background: rgba(255, 69, 58, 0.15);
+}
+
 /* ── Theme & Atmosphere Modal ── */
 .theme-modal-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,.68);
@@ -4241,12 +4550,30 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 </div>
 
             <!-- Timer with SVG Progress Ring -->
-            <div class="timer-ring-wrap">
-                <svg class="progress-ring" viewBox="0 0 200 200">
-                    <circle class="ring-bg" cx="100" cy="100" r="90"/>
-                    <circle class="ring-fill" cx="100" cy="100" r="90" id="ring-fill"/>
-                </svg>
-                <div class="timer-display" id="timer-display">25:00</div>
+            <div class="timer-face-container" id="timer-face-container">
+                <!-- 1. Digital Tabular Ring -->
+                <div class="timer-ring-wrap" id="face-digital-wrap">
+                    <svg class="progress-ring" viewBox="0 0 200 200">
+                        <circle class="ring-bg" cx="100" cy="100" r="90"/>
+                        <circle class="ring-fill" cx="100" cy="100" r="90" id="ring-fill"/>
+                    </svg>
+                    <div class="timer-display" id="timer-display">25:00</div>
+                </div>
+
+                <!-- 2. Swiss Analog Chronograph Canvas -->
+                <canvas id="analog-chrono-canvas" width="520" height="520"></canvas>
+
+                <!-- 3. Zen Hairline Arc Gauge -->
+                <div class="arc-timer-display" id="face-arc-wrap">
+                    <svg viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="94" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
+                        <circle cx="100" cy="100" r="94" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="590.6" stroke-dashoffset="0" stroke-linecap="round" id="arc-gauge-fill"/>
+                    </svg>
+                    <div class="arc-timer-readout">
+                        <div class="arc-pct-val" id="arc-pct-val">100%</div>
+                        <div class="arc-time-sub" id="arc-time-sub">25:00</div>
+                    </div>
+                </div>
             </div>
 
             <!-- Ultra Realistic Water Dropping Bottle -->
@@ -4567,13 +4894,51 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div class="theme-modal glass" id="theme-modal">
         <div class="theme-modal-header">
             <div>
-                <h2>Spatial Atmosphere</h2>
-                <p>Choose a soothing backdrop and color theme to harmonize your focus environment.</p>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <h2>Atelier Customization Studio</h2>
+                    <span class="pro-pill" style="font-size:0.62rem">PRO STUDIO</span>
+                </div>
+                <p>Personalize your workspace aesthetics, chronometer faces, acoustic soundscapes, and focus protocols.</p>
             </div>
             <button class="modal-close-btn" id="theme-modal-close" title="Close Atmosphere Panel">✕</button>
         </div>
 
-        <div class="theme-adjustments glass">
+        <div class="atelier-studio-tabs" id="atelier-studio-tabs">
+            <button class="atelier-tab-btn active" data-tab="visuals">🎨 Atmosphere & Visuals</button>
+            <button class="atelier-tab-btn" data-tab="clocks">⏱️ Clock Faces</button>
+            <button class="atelier-tab-btn" data-tab="audio">🎧 Sound Sanctuary</button>
+            <button class="atelier-tab-btn" data-tab="categories">🏷️ Focus Categories</button>
+            <button class="atelier-tab-btn" data-tab="protocols">⚡ Protocols & Ghost</button>
+        </div>
+
+        
+        <!-- TAB 1: VISUALS & ATMOSPHERE -->
+        <div class="atelier-tab-panel active" id="tab-panel-visuals">
+            <!-- Custom Accent Color Picker -->
+            <div class="accent-picker-section">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                    <strong style="font-size:0.85rem">Chromatic Accent & Glow</strong>
+                    <label style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;cursor:pointer">
+                        <input type="checkbox" id="toggle-oled-mode">
+                        <span>OLED True Black (0% Backlight)</span>
+                    </label>
+                </div>
+                <div class="accent-swatches-row" id="accent-swatches-row">
+                    <button class="accent-swatch active" data-color="#0a84ff" style="background:#0a84ff;--swatch-color:#0a84ff" title="Electric Sapphire">✓</button>
+                    <button class="accent-swatch" data-color="#10b981" style="background:#10b981;--swatch-color:#10b981" title="Emerald Focus"></button>
+                    <button class="accent-swatch" data-color="#8b5cf6" style="background:#8b5cf6;--swatch-color:#8b5cf6" title="Cyberpunk Amethyst"></button>
+                    <button class="accent-swatch" data-color="#f59e0b" style="background:#f59e0b;--swatch-color:#f59e0b" title="Solar Amber"></button>
+                    <button class="accent-swatch" data-color="#f43f5e" style="background:#f43f5e;--swatch-color:#f43f5e" title="Crimson Rose"></button>
+                    <button class="accent-swatch" data-color="#06b6d4" style="background:#06b6d4;--swatch-color:#06b6d4" title="Arctic Ice"></button>
+                    <button class="accent-swatch" data-color="#e2e8f0" style="background:#e2e8f0;--swatch-color:#e2e8f0" title="Titanium Minimal"></button>
+                    <label class="accent-custom-input-wrap">
+                        <input type="color" id="custom-accent-picker" value="#0a84ff">
+                        <span>Custom HEX</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="theme-adjustments glass">
             <div class="adjust-control">
                 <div class="adjust-header">
                     <label for="slider-backdrop-blur">Atmosphere Blur</label>
@@ -4662,7 +5027,142 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         </div>
 
         <div class="theme-grid" id="theme-grid">
-            <!-- Dynamically populated 9 themes -->
+                <!-- Dynamically populated 9 themes -->
+            </div>
+        </div><!-- /#tab-panel-visuals -->
+
+        <!-- TAB 2: SPATIAL CLOCK FACES -->
+        <div class="atelier-tab-panel" id="tab-panel-clocks">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                    <strong style="font-size:0.95rem">Spatial Chronometer Collection</strong>
+                    <p style="font-size:0.8rem;color:var(--text-dim)">Select the desk clock face rendered during your deep work sessions.</p>
+                </div>
+            </div>
+            <div class="clock-faces-grid" id="clock-faces-grid">
+                <div class="clock-face-card active" data-face="digital">
+                    <span class="clock-face-icon">⏱️</span>
+                    <span class="clock-face-name">Digital Atelier</span>
+                    <span class="clock-face-desc">Tabular JetBrains Mono numerals with subtle breathing radial halo</span>
+                </div>
+                <div class="clock-face-card" data-face="analog">
+                    <span class="clock-face-icon">⌚</span>
+                    <span class="clock-face-name">Swiss Chronograph</span>
+                    <span class="clock-face-desc">High-DPI canvas bezel with sweeping seconds hand & luminous ticks</span>
+                </div>
+                <div class="clock-face-card" data-face="arc">
+                    <span class="clock-face-icon">⭕</span>
+                    <span class="clock-face-name">Zen Hairline Arc</span>
+                    <span class="clock-face-desc">Pure minimalist 360° circular sweep with countdown percentage</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: ACOUSTIC SOUND SANCTUARY -->
+        <div class="atelier-tab-panel" id="tab-panel-audio">
+            <div>
+                <strong style="font-size:0.95rem">Multi-Track Soundscape Synthesizer</strong>
+                <p style="font-size:0.8rem;color:var(--text-dim)">Procedural Web Audio generators layered in real-time. Zero streaming bandwidth required.</p>
+            </div>
+            <div class="soundscape-mixer-grid">
+                <div class="soundscape-track-card">
+                    <div class="soundscape-track-header">
+                        <span class="soundscape-track-title">🌧️ Rain on Windowpane</span>
+                        <span class="soundscape-vol-label" id="val-vol-rain">0%</span>
+                    </div>
+                    <input type="range" class="soundscape-slider" id="slider-vol-rain" min="0" max="100" step="5" value="0">
+                </div>
+                <div class="soundscape-track-card">
+                    <div class="soundscape-track-header">
+                        <span class="soundscape-track-title">🍂 Brown Noise / Low Rumble</span>
+                        <span class="soundscape-vol-label" id="val-vol-brown">0%</span>
+                    </div>
+                    <input type="range" class="soundscape-slider" id="slider-vol-brown" min="0" max="100" step="5" value="0">
+                </div>
+                <div class="soundscape-track-card">
+                    <div class="soundscape-track-header">
+                        <span class="soundscape-track-title">🔥 Campfire & Crackle</span>
+                        <span class="soundscape-vol-label" id="val-vol-campfire">0%</span>
+                    </div>
+                    <input type="range" class="soundscape-slider" id="slider-vol-campfire" min="0" max="100" step="5" value="0">
+                </div>
+                <div class="soundscape-track-card">
+                    <div class="soundscape-track-header">
+                        <span class="soundscape-track-title">🌌 Deep Space Drone (55Hz)</span>
+                        <span class="soundscape-vol-label" id="val-vol-drone">0%</span>
+                    </div>
+                    <input type="range" class="soundscape-slider" id="slider-vol-drone" min="0" max="100" step="5" value="0">
+                </div>
+            </div>
+
+            <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.08)">
+                <strong style="font-size:0.9rem">Session Completion Chime</strong>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem" id="chime-presets-row">
+                    <button class="binaural-btn active" data-chime="bell">🔔 Bronze Bell</button>
+                    <button class="binaural-btn" data-chime="bowl">🥣 Singing Bowl</button>
+                    <button class="binaural-btn" data-chime="rams">⚡ Dieter Rams Beep</button>
+                    <button class="binaural-btn" data-chime="silent">👁️ Silent Visual Pulse</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: CUSTOM CATEGORIES STUDIO -->
+        <div class="atelier-tab-panel" id="tab-panel-categories">
+            <div>
+                <strong style="font-size:0.95rem">Custom Focus Categories</strong>
+                <p style="font-size:0.8rem;color:var(--text-dim)">Tailor your personal domains, tags, and cognitive fatigue ratings.</p>
+            </div>
+            
+            <div class="custom-cat-form">
+                <span style="font-size:0.82rem;font-weight:600">➕ Add New Category</span>
+                <div class="custom-cat-inputs">
+                    <input type="text" id="input-new-cat-name" placeholder="Category Name (e.g. Game Dev)" style="padding:0.6rem;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff">
+                    <select id="select-new-cat-icon" style="padding:0.6rem;border-radius:8px;background:rgba(20,20,30,0.9);border:1px solid rgba(255,255,255,0.12);color:#fff">
+                        <option value="💻">💻 Code</option>
+                        <option value="✍️">✍️ Write</option>
+                        <option value="🎮">🎮 Game</option>
+                        <option value="🎨">🎨 Design</option>
+                        <option value="📈">📈 Trade</option>
+                        <option value="🎵">🎵 Music</option>
+                        <option value="🔬">🔬 Research</option>
+                        <option value="🧪">🧪 Science</option>
+                        <option value="⚡">⚡ Sprint</option>
+                        <option value="📖">📖 Reading</option>
+                    </select>
+                    <button class="cat-chip active" id="btn-create-custom-cat" style="justify-content:center;height:100%;font-weight:700">Add Category</button>
+                </div>
+            </div>
+
+            <span style="font-size:0.82rem;font-weight:600;margin-top:0.4rem">Active Categories</span>
+            <div class="cat-manage-list" id="cat-manage-list">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- TAB 5: PROTOCOLS & GHOST -->
+        <div class="atelier-tab-panel" id="tab-panel-protocols">
+            <div>
+                <strong style="font-size:0.95rem">Chronobiology & Pacing Protocols</strong>
+                <p style="font-size:0.8rem;color:var(--text-dim)">Calibrate deep work intervals, anti-slacking sensitivity, and AI Ghost telemetry.</p>
+            </div>
+
+            <div class="accent-picker-section">
+                <strong style="font-size:0.85rem">Anti-Slacking Inactivity Grace Period</strong>
+                <div style="display:flex;gap:0.6rem;margin-top:0.4rem">
+                    <button class="binaural-btn" data-grace="15">15s (Aggressive)</button>
+                    <button class="binaural-btn active" data-grace="30">30s (Balanced)</button>
+                    <button class="binaural-btn" data-grace="60">60s (Relaxed)</button>
+                    <button class="binaural-btn" data-grace="120">2m (Gentle)</button>
+                </div>
+            </div>
+
+            <div class="accent-picker-section">
+                <strong style="font-size:0.85rem">Ghost Racer HUD Presentation</strong>
+                <div style="display:flex;gap:0.6rem;margin-top:0.4rem">
+                    <button class="binaural-btn active" data-ghosthud="live">🏎️ Live Telemetry Track</button>
+                    <button class="binaural-btn" data-ghosthud="stealth">🕶️ Stealth Mode (Debrief Only)</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -5141,7 +5641,7 @@ let themeConfig = {
 
 /* ── Focus Categories Definition ── */
 const CATEGORY_STORAGE_KEY = 'focus_category';
-const CATEGORIES = [
+let DEFAULT_CATEGORIES = [
     { id: 'meditate', name: 'Meditate', shortName: 'Meditate', icon: '🧘', color: '#a78bfa', glow: 'rgba(167, 139, 250, 0.35)', desc: 'Mindful breathing & zen stillness' },
     { id: 'study', name: 'Study', shortName: 'Study', icon: '📚', color: '#38bdf8', glow: 'rgba(56, 189, 248, 0.35)', desc: 'Reading, flashcards & memorization' },
     { id: 'work', name: 'Work', shortName: 'Work', icon: '💼', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.35)', desc: 'Tasks, emails, planning & client work' },
@@ -5149,6 +5649,8 @@ const CATEGORIES = [
     { id: 'code', name: 'Code', shortName: 'Code', icon: '💻', color: '#60a5fa', glow: 'rgba(96, 165, 250, 0.35)', desc: 'Architecture, debugging & shipping' },
     { id: 'essay-ppt', name: 'Essay or PPT Writing', shortName: 'Essay / PPT', icon: '✍️', color: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', desc: 'Drafting essays, articles & slide decks' }
 ];
+let CATEGORIES = [...DEFAULT_CATEGORIES];
+try { const saved = JSON.parse(localStorage.getItem('focusr_custom_categories') || '[]'); CATEGORIES.push(...saved); } catch {}
 
 /* ── Motivational Messages ── */
 const MOTIV = {
@@ -11115,7 +11617,478 @@ AccountManager.init();
             showToast(`🪐 Cosmor skin updated to ${card.querySelector('span:nth-child(2)').textContent}`, '✨', 3000);
         });
     });
+
+/* ═════════════════════════════════════════════════════════════════════
+   FOCUSR CONSUMER CUSTOMIZATION SUITE (ATELIER V2)
+   ═════════════════════════════════════════════════════════════════════ */
+
+const FocusrCustomization = {
+    config: {
+        accent: '#0a84ff',
+        oled: false,
+        clockFace: 'digital',
+        chime: 'bell',
+        soundscape: { rain: 0, brown: 0, campfire: 0, drone: 0 },
+        inactivityGrace: 30,
+        ghostHud: 'live'
+    },
+    audioCtx: null,
+    audioNodes: {},
+
+    init() {
+        this.loadStored();
+        this.initTabs();
+        this.initAccents();
+        this.initClockFaces();
+        this.initSoundscape();
+        this.initCategories();
+        this.initProtocols();
+        this.applyAll();
+    },
+
+    loadStored() {
+        try {
+            const raw = localStorage.getItem('focusr_user_config_v2');
+            if (raw) Object.assign(this.config, JSON.parse(raw));
+        } catch {}
+    },
+
+    save() {
+        try {
+            localStorage.setItem('focusr_user_config_v2', JSON.stringify(this.config));
+        } catch {}
+    },
+
+    initTabs() {
+        const tabBtns = document.querySelectorAll('.atelier-tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                tabBtns.forEach(b => b.classList.toggle('active', b === btn));
+                document.querySelectorAll('.atelier-tab-panel').forEach(p => {
+                    p.classList.toggle('active', p.id === `tab-panel-${tab}`);
+                });
+                soundClick();
+            });
+        });
+    },
+
+    initAccents() {
+        const swatches = document.querySelectorAll('.accent-swatch');
+        const customPicker = $('custom-accent-picker');
+        const oledToggle = $('toggle-oled-mode');
+
+        swatches.forEach(sw => {
+            sw.addEventListener('click', () => {
+                const color = sw.dataset.color;
+                this.setAccent(color);
+                swatches.forEach(s => s.classList.toggle('active', s === sw));
+                soundClick();
+            });
+        });
+
+        if (customPicker) {
+            customPicker.addEventListener('input', (e) => {
+                this.setAccent(e.target.value);
+                swatches.forEach(s => s.classList.remove('active'));
+            });
+        }
+
+        if (oledToggle) {
+            oledToggle.checked = !!this.config.oled;
+            oledToggle.addEventListener('change', (e) => {
+                this.config.oled = e.target.checked;
+                document.body.classList.toggle('oled-true-black', this.config.oled);
+                this.save();
+                soundClick();
+            });
+        }
+    },
+
+    setAccent(hex) {
+        this.config.accent = hex;
+        document.documentElement.style.setProperty('--accent', hex);
+        const glow = this.hexToRgba(hex, 0.28);
+        document.documentElement.style.setProperty('--accent-glow', glow);
+        
+        // Update liquid bottle hue
+        const hue = this.hexToHue(hex);
+        document.documentElement.style.setProperty('--liquid-hue', hue);
+        this.save();
+    },
+
+    hexToRgba(hex, alpha) {
+        hex = hex.replace('#', '');
+        if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+        const r = parseInt(hex.substring(0, 2), 16) || 0;
+        const g = parseInt(hex.substring(2, 4), 16) || 0;
+        const b = parseInt(hex.substring(4, 6), 16) || 0;
+        return `rgba(${r},${g},${b},${alpha})`;
+    },
+
+    hexToHue(hex) {
+        hex = hex.replace('#', '');
+        if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+        const r = (parseInt(hex.substring(0, 2), 16) || 0) / 255;
+        const g = (parseInt(hex.substring(2, 4), 16) || 0) / 255;
+        const b = (parseInt(hex.substring(4, 6), 16) || 0) / 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h = 0;
+        if (max !== min) {
+            const d = max - min;
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+        return Math.round(h * 360);
+    },
+
+    initClockFaces() {
+        const cards = document.querySelectorAll('.clock-face-card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const face = card.dataset.face;
+                this.setClockFace(face);
+                cards.forEach(c => c.classList.toggle('active', c === card));
+                soundClick();
+            });
+        });
+    },
+
+    setClockFace(face) {
+        this.config.clockFace = face;
+        const dig = $('face-digital-wrap');
+        const ana = $('analog-chrono-canvas');
+        const arc = $('face-arc-wrap');
+
+        if (dig) dig.style.display = face === 'digital' ? 'flex' : 'none';
+        if (ana) ana.style.display = face === 'analog' ? 'block' : 'none';
+        if (arc) arc.style.display = face === 'arc' ? 'flex' : 'none';
+
+        if (face === 'analog' && !this.chronoLoopRunning) {
+            this.startAnalogChronoLoop();
+        }
+        this.save();
+    },
+
+    startAnalogChronoLoop() {
+        this.chronoLoopRunning = true;
+        const canvas = $('analog-chrono-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        const render = () => {
+            if (this.config.clockFace !== 'analog') {
+                this.chronoLoopRunning = false;
+                return;
+            }
+            const w = canvas.width, h = canvas.height;
+            const cx = w / 2, cy = h / 2, r = w * 0.44;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Bezel Outer Shadow & Ring
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = '#0f172a';
+            ctx.fill();
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+            ctx.stroke();
+
+            // Progress Arc
+            const total = S.totalSec || 1500;
+            const rem = S.remSec !== undefined ? S.remSec : 1500;
+            const fraction = Math.max(0, Math.min(1, 1 - (rem / total)));
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 6, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * fraction);
+            ctx.lineWidth = 8;
+            ctx.strokeStyle = this.config.accent;
+            ctx.stroke();
+
+            // Hour/Minute Ticks
+            for (let i = 0; i < 60; i++) {
+                const angle = (i * Math.PI) / 30 - Math.PI / 2;
+                const isMajor = i % 5 === 0;
+                const inner = r - (isMajor ? 26 : 14);
+                const outer = r - 10;
+                ctx.beginPath();
+                ctx.moveTo(cx + Math.cos(angle) * inner, cy + Math.sin(angle) * inner);
+                ctx.lineTo(cx + Math.cos(angle) * outer, cy + Math.sin(angle) * outer);
+                ctx.strokeStyle = isMajor ? '#fff' : 'rgba(255,255,255,0.2)';
+                ctx.lineWidth = isMajor ? 3 : 1.2;
+                ctx.stroke();
+            }
+
+            // Sweeping Second Hand
+            const now = Date.now();
+            const secAngle = ((now % 60000) / 60000) * Math.PI * 2 - Math.PI / 2;
+            ctx.beginPath();
+            ctx.moveTo(cx - Math.cos(secAngle) * 20, cy - Math.sin(secAngle) * 20);
+            ctx.lineTo(cx + Math.cos(secAngle) * (r - 28), cy + Math.sin(secAngle) * (r - 28));
+            ctx.strokeStyle = this.config.accent;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Center Pin
+            ctx.beginPath();
+            ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+
+            // Digital Inset Readout
+            const m = Math.floor(rem / 60), s = rem % 60;
+            const timeStr = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            ctx.font = '300 36px "JetBrains Mono", monospace';
+            ctx.fillStyle = '#f8fafc';
+            ctx.textAlign = 'center';
+            ctx.fillText(timeStr, cx, cy + 65);
+
+            requestAnimationFrame(render);
+        };
+        requestAnimationFrame(render);
+    },
+
+    updateZenArc(remSec, totalSec) {
+        const arcFill = $('arc-gauge-fill');
+        const pctVal = $('arc-pct-val');
+        const timeSub = $('arc-time-sub');
+        if (!arcFill || !pctVal) return;
+
+        const fraction = totalSec > 0 ? Math.max(0, Math.min(1, remSec / totalSec)) : 0;
+        const pct = Math.round(fraction * 100);
+        const circumference = 2 * Math.PI * 94; // ~590.6
+        arcFill.style.strokeDashoffset = circumference * (1 - fraction);
+
+        pctVal.textContent = `${pct}%`;
+        const m = Math.floor(remSec / 60), s = remSec % 60;
+        if (timeSub) timeSub.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    },
+
+    initSoundscape() {
+        const tracks = ['rain', 'brown', 'campfire', 'drone'];
+        tracks.forEach(tr => {
+            const slider = $(`slider-vol-${tr}`);
+            const label = $(`val-vol-${tr}`);
+            if (slider) {
+                slider.value = this.config.soundscape[tr] || 0;
+                if (label) label.textContent = `${slider.value}%`;
+                slider.addEventListener('input', (e) => {
+                    const val = parseInt(e.target.value) || 0;
+                    this.config.soundscape[tr] = val;
+                    if (label) label.textContent = `${val}%`;
+                    this.updateSoundscapeGain(tr, val / 100);
+                    this.save();
+                });
+            }
+        });
+
+        // Chimes
+        const chimeBtns = document.querySelectorAll('#chime-presets-row button');
+        chimeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const chime = btn.dataset.chime;
+                this.config.chime = chime;
+                chimeBtns.forEach(b => b.classList.toggle('active', b === btn));
+                this.playChime(chime);
+                this.save();
+            });
+        });
+    },
+
+    ensureAudioContext() {
+        if (!this.audioCtx) {
+            this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+        }
+    },
+
+    updateSoundscapeGain(track, gainVal) {
+        this.ensureAudioContext();
+        if (gainVal > 0 && !this.audioNodes[track]) {
+            this.startSoundscapeNode(track);
+        }
+        if (this.audioNodes[track] && this.audioNodes[track].gain) {
+            this.audioNodes[track].gain.gain.setTargetAtTime(gainVal * 0.45, this.audioCtx.currentTime, 0.15);
+        }
+    },
+
+    startSoundscapeNode(track) {
+        try {
+            const ctx = this.audioCtx;
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.001, ctx.currentTime);
+            gain.connect(ctx.destination);
+
+            if (track === 'brown' || track === 'rain') {
+                const bufferSize = ctx.sampleRate * 2;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                let last = 0;
+                for (let i = 0; i < bufferSize; i++) {
+                    const white = Math.random() * 2 - 1;
+                    data[i] = (last + (0.02 * white)) / 1.02;
+                    last = data[i];
+                    data[i] *= 3.0;
+                }
+                const src = ctx.createBufferSource();
+                src.buffer = buffer;
+                src.loop = true;
+
+                if (track === 'rain') {
+                    const filter = ctx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.value = 950;
+                    filter.Q.value = 1.2;
+                    src.connect(filter);
+                    filter.connect(gain);
+                } else {
+                    src.connect(gain);
+                }
+                src.start();
+                this.audioNodes[track] = { src, gain };
+            } else if (track === 'drone') {
+                const osc1 = ctx.createOscillator();
+                const osc2 = ctx.createOscillator();
+                osc1.type = 'sine'; osc1.frequency.value = 55;
+                osc2.type = 'sine'; osc2.frequency.value = 110;
+                osc1.connect(gain);
+                osc2.connect(gain);
+                osc1.start();
+                osc2.start();
+                this.audioNodes[track] = { src: [osc1, osc2], gain };
+            }
+        } catch {}
+    },
+
+    playChime(type) {
+        if (type === 'silent') {
+            document.body.style.boxShadow = 'inset 0 0 80px rgba(255,255,255,0.4)';
+            setTimeout(() => document.body.style.boxShadow = '', 1200);
+            return;
+        }
+        if (type === 'bell') {
+            playTone([432, 864, 1296], 1.4, 0.22);
+        } else if (type === 'bowl') {
+            playTone([216, 432, 648], 1.8, 0.25);
+        } else if (type === 'rams') {
+            playTone([1200, 1600], 0.2, 0.15);
+        }
+    },
+
+    initCategories() {
+        this.renderCategoryManager();
+        const addBtn = $('btn-create-custom-cat');
+        if (addBtn) {
+            addBtn.addEventListener('click', () => {
+                const nameInput = $('input-new-cat-name');
+                const iconSelect = $('select-new-cat-icon');
+                const name = nameInput ? nameInput.value.trim() : '';
+                const icon = iconSelect ? iconSelect.value : '⚡';
+
+                if (!name) return;
+                const id = 'custom-' + Date.now();
+                const color = this.config.accent || '#0a84ff';
+
+                const newCat = {
+                    id,
+                    name,
+                    shortName: name,
+                    icon,
+                    color,
+                    glow: this.hexToRgba(color, 0.35),
+                    desc: `Custom category: ${name}`,
+                    isCustom: true
+                };
+
+                let stored = [];
+                try { stored = JSON.parse(localStorage.getItem('focusr_custom_categories') || '[]'); } catch {}
+                stored.push(newCat);
+                localStorage.setItem('focusr_custom_categories', JSON.stringify(stored));
+
+                // Add to runtime CATEGORIES
+                CATEGORIES.push(newCat);
+                renderCategoryChips();
+                this.renderCategoryManager();
+                if (nameInput) nameInput.value = '';
+                soundComplete();
+            });
+        }
+    },
+
+    renderCategoryManager() {
+        const container = $('cat-manage-list');
+        if (!container) return;
+
+        container.innerHTML = CATEGORIES.map(c => {
+            return `
+                <div class="cat-manage-item">
+                    <div class="cat-item-left">
+                        <span style="font-size:1.1rem">${c.icon}</span>
+                        <strong style="font-size:0.85rem">${c.name}</strong>
+                        <span class="cat-item-badge">${c.isCustom ? 'Custom' : 'Standard'}</span>
+                    </div>
+                    ${c.isCustom ? `<button class="cat-delete-btn" data-cat-id="${c.id}">✕ Remove</button>` : ''}
+                </div>
+            `;
+        }).join('');
+
+        container.querySelectorAll('.cat-delete-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.catId;
+                let stored = [];
+                try { stored = JSON.parse(localStorage.getItem('focusr_custom_categories') || '[]'); } catch {}
+                stored = stored.filter(c => c.id !== id);
+                localStorage.setItem('focusr_custom_categories', JSON.stringify(stored));
+
+                CATEGORIES = CATEGORIES.filter(c => c.id !== id);
+                renderCategoryChips();
+                this.renderCategoryManager();
+                soundClick();
+            });
+        });
+    },
+
+    initProtocols() {
+        const graceBtns = document.querySelectorAll('[data-grace]');
+        graceBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.config.inactivityGrace = parseInt(btn.dataset.grace) || 30;
+                graceBtns.forEach(b => b.classList.toggle('active', b === btn));
+                this.save();
+                soundClick();
+            });
+        });
+
+        const ghostBtns = document.querySelectorAll('[data-ghosthud]');
+        ghostBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.config.ghostHud = btn.dataset.ghosthud;
+                ghostBtns.forEach(b => b.classList.toggle('active', b === btn));
+                const hud = $('ghost-racer-hud');
+                if (hud) hud.style.display = this.config.ghostHud === 'stealth' ? 'none' : 'flex';
+                this.save();
+                soundClick();
+            });
+        });
+    },
+
+    applyAll() {
+        if (this.config.accent) this.setAccent(this.config.accent);
+        if (this.config.oled) document.body.classList.add('oled-true-black');
+        if (this.config.clockFace) this.setClockFace(this.config.clockFace);
+    }
+};
+
+
 checkDailyGoalGreeting();
+FocusrCustomization.init();
 
 if (focusCatBadge) {
     focusCatBadge.addEventListener('click', cycleFocusCategory);
