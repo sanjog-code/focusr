@@ -341,11 +341,14 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     transform:scale(1.05);
 }
 .home-title{
-    font-size:2rem;font-weight:700;letter-spacing:-.02em;line-height:1;
+    font-size:2.1rem;font-weight:800;letter-spacing:-.035em;line-height:1;
+    color:#ffffff;display:inline-flex;align-items:baseline;user-select:none;
 }
 .focusr-r{
     color:var(--accent);
-    font-weight:700;
+    text-shadow:0 0 16px var(--accent-glow, rgba(10, 132, 255, 0.45));
+    transition:color 0.4s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display:inline-block;font-weight:800;
 }
 .home-actions{display:flex;align-items:center;gap:.6rem}
 
@@ -1698,9 +1701,9 @@ body.oled-true-black .glass {
     position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78);
     backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
     z-index: 110; display: flex; align-items: center; justify-content: center;
-    padding: 1.5rem; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s ease;
+    padding: 1.5rem; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .35s ease, visibility .35s ease;
 }
-.wallpaper-marketplace-backdrop.active { opacity: 1; visibility: visible; }
+.wallpaper-marketplace-backdrop.active { opacity: 1; visibility: visible; pointer-events: auto; }
 .wallpaper-marketplace-modal {
     width: 100%; max-width: 1080px; height: 90vh; max-height: 860px;
     display: flex; flex-direction: column; padding: 2rem;
@@ -3724,11 +3727,13 @@ body.oled-true-black .glass {
     padding: 1.2rem;
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
 }
 .spotify-modal-backdrop.active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 .spotify-modal {
     width: 100%;
@@ -5019,7 +5024,7 @@ body.oled-true-black .glass {
         </div>
         <div class="home-actions">
             <div class="home-menu-wrap" id="home-menu-wrap">
-                <button class="btn-menu-trigger" id="btn-toggle-main-menu" title="Menu & Account Link" aria-expanded="false">
+                <button class="btn-menu-trigger" id="btn-toggle-main-menu" title="Menu & Account Link" aria-expanded="false" onclick="if(window.AccountManager) AccountManager.toggleDropdown();">
                     <span class="menu-avatar-badge" id="menu-avatar-badge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                     <span style="font-size:0.8rem;font-weight:600;padding-left:0.15rem" id="menu-trigger-label">Menu</span>
                     <svg class="menu-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -5104,11 +5109,11 @@ body.oled-true-black .glass {
                 </div>
             </div>
             <div class="spatial-action-island glass">
-                <button class="btn-icon" id="btn-open-marketplace" title="Atmosphere & Wallpaper Marketplace (52+ Free Themes)" style="position:relative">
+                <button class="btn-icon" id="btn-open-marketplace" title="Atmosphere & Wallpaper Marketplace (52+ Free Themes)" style="position:relative" onclick="if(window.WallpaperMarketplace) WallpaperMarketplace.open();">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     <span class="marketplace-pill-badge" style="position:absolute;top:-4px;right:-4px;background:var(--accent);color:#fff;font-size:0.6rem;font-weight:800;padding:1px 4px;border-radius:9999px;line-height:1">52</span>
                 </button>
-                <button class="btn-icon btn-spotify" id="btn-open-spotify" title="Spotify Focus Music & Playlists">
+                <button class="btn-icon btn-spotify" id="btn-open-spotify" title="Spotify Focus Music & Playlists" onclick="if(window.SpotifyManager) SpotifyManager.openModal('player');">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
                     </svg>
@@ -10155,7 +10160,8 @@ const AccountManager = {
         const itemThemes = $('menu-item-themes');
         if (itemThemes) itemThemes.addEventListener('click', () => {
             this.closeDropdown();
-            openThemeModal();
+            if (window.WallpaperMarketplace) WallpaperMarketplace.open();
+            else openThemeModal();
             soundClick();
         });
 
@@ -13404,80 +13410,7 @@ window.addEventListener('resize', () => {
     }, 120);
 });
 
-/* ── Init ── */
-loadSessions();
-loadInventory();
-loadCategory();
-renderCategoryChips();
-loadSuperStrict();
-loadLoudAlarm();
-if (typeof CustomThemeStorage !== 'undefined' && CustomThemeStorage.init) {
-    CustomThemeStorage.init();
-}
-loadThemeConfig();
-applyTheme(themeConfig.themeId, themeConfig.blur, themeConfig.opacity, false);
-refreshHomeStats();
-renderInventoryShelf();
-WaterSim.init();
-ringFill.style.strokeDasharray = CIRC;
-window.Cosmor = Cosmo;
-window.Cosmo = Cosmo;
-Cosmo.init();
-SpotifyManager.init();
-AccountManager.init();
-    FocusrLicense.init();
-    PricingModal.init();
-    BinauralEngine.init();
-
-    // Bind Pricing Menu Item
-    const itemPricing = $('menu-item-pricing');
-    if (itemPricing) {
-        itemPricing.addEventListener('click', () => {
-            AccountManager.closeDropdown();
-            PricingModal.open();
-            soundClick();
-        });
-    }
-
-    // Bind Obsidian Debrief Button
-    const btnObsidian = $('btn-copy-obsidian');
-    if (btnObsidian) {
-        btnObsidian.addEventListener('click', copyObsidianDebrief);
-    }
-
-    // Bind Share on X Button
-    const btnShareX = $('btn-share-x');
-    if (btnShareX) {
-        btnShareX.addEventListener('click', () => {
-            soundClick();
-            const cat = getCategory(S.category);
-            const actualMins = Math.round(S.elapsed / 60) || Math.round(S.duration / 60) || 25;
-            const purity = S.flowPurity || '98%';
-            const infractions = S.infractionsCount || 0;
-            const tweetText = `Logged a ${actualMins}m deep work session with ${purity} Flow Purity on @FocusrApp\n\nCategory: ${cat.shortName || cat.name}\nTab Breaches: ${infractions}\nActive distraction defense + local-first sovereignty.`;
-            const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent('https://focusr-seven.vercel.app')}`;
-            window.open(tweetUrl, '_blank', 'width=600,height=450');
-            showToast('Opened X / Twitter share intent!', '', 3500);
-        });
-    }
-
-    // Bind Cosmo Skin Selector in Theme Modal
-    const skinCards = document.querySelectorAll('.cosmo-skin-card');
-    skinCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const skinId = card.dataset.skin;
-            if (skinId !== 'default' && !FocusrLicense.isPro()) {
-                showToast('Cosmor Aero Skins are exclusive to Focusr Pro', '', 3500);
-                PricingModal.open();
-                soundClick();
-                return;
-            }
-            if (window.Cosmo && Cosmo.applySkin) Cosmo.applySkin(skinId);
-            skinCards.forEach(c => c.classList.toggle('active', c === card));
-            soundClick();
-            showToast(`Cosmor aero skin set to ${card.querySelector('span:nth-child(2)').textContent}`, '', 3000);
-        });
-    });
+    // Initialization sequence is unified at the bottom of the script after all manager classes are declared.
 
 /* ═════════════════════════════════════════════════════════════════════
    FOCUSR CONSUMER CUSTOMIZATION SUITE (ATELIER V2)
@@ -15441,15 +15374,109 @@ const FocusrCustomization = {
 };
 
 
-checkDailyGoalGreeting();
-FocusrCustomization.init();
-WallpaperMarketplace.init();
-AdManager.init();
-DiscoveryEngine.init();
+/* ════════════════════════════════════════════════════════════════
+   UNIFIED APPLICATION BOOTSTRAP & GLOBAL EXPOSURES
+   ════════════════════════════════════════════════════════════════ */
+// Expose modules to global window for direct access, inline handlers & external tools
+window.Cosmor = Cosmo;
+window.Cosmo = Cosmo;
+window.SpotifyManager = SpotifyManager;
+window.AccountManager = AccountManager;
+window.FocusrLicense = FocusrLicense;
+window.PricingModal = PricingModal;
+window.BinauralEngine = BinauralEngine;
+window.CustomThemeStorage = CustomThemeStorage;
+window.WallpaperMarketplace = WallpaperMarketplace;
+window.FocusrCustomization = FocusrCustomization;
+window.AdManager = AdManager;
+window.DiscoveryEngine = DiscoveryEngine;
 
-if (focusCatBadge) {
-    focusCatBadge.addEventListener('click', cycleFocusCategory);
+function bootApplication() {
+    loadSessions();
+    loadInventory();
+    loadCategory();
+    renderCategoryChips();
+    loadSuperStrict();
+    loadLoudAlarm();
+    if (typeof CustomThemeStorage !== 'undefined' && CustomThemeStorage.init) {
+        CustomThemeStorage.init();
+    }
+    loadThemeConfig();
+    applyTheme(themeConfig.themeId, themeConfig.blur, themeConfig.opacity, false);
+    refreshHomeStats();
+    renderInventoryShelf();
+    if (typeof WaterSim !== 'undefined' && WaterSim.init) WaterSim.init();
+    if (ringFill) ringFill.style.strokeDasharray = CIRC;
+    if (typeof Cosmo !== 'undefined' && Cosmo.init) Cosmo.init();
+    if (typeof SpotifyManager !== 'undefined' && SpotifyManager.init) SpotifyManager.init();
+    if (typeof AccountManager !== 'undefined' && AccountManager.init) AccountManager.init();
+    if (typeof FocusrLicense !== 'undefined' && FocusrLicense.init) FocusrLicense.init();
+    if (typeof PricingModal !== 'undefined' && PricingModal.init) PricingModal.init();
+    if (typeof BinauralEngine !== 'undefined' && BinauralEngine.init) BinauralEngine.init();
+    if (typeof FocusrCustomization !== 'undefined' && FocusrCustomization.init) FocusrCustomization.init();
+    if (typeof WallpaperMarketplace !== 'undefined' && WallpaperMarketplace.init) WallpaperMarketplace.init();
+    if (typeof AdManager !== 'undefined' && AdManager.init) AdManager.init();
+    if (typeof DiscoveryEngine !== 'undefined' && DiscoveryEngine.init) DiscoveryEngine.init();
+
+    // Bind Pricing Menu Item
+    const itemPricing = $('menu-item-pricing');
+    if (itemPricing) {
+        itemPricing.addEventListener('click', () => {
+            if (window.AccountManager) AccountManager.closeDropdown();
+            if (window.PricingModal) PricingModal.open();
+            soundClick();
+        });
+    }
+
+    // Bind Obsidian Debrief Button
+    const btnObsidian = $('btn-copy-obsidian');
+    if (btnObsidian) {
+        btnObsidian.addEventListener('click', copyObsidianDebrief);
+    }
+
+    // Bind Share on X Button
+    const btnShareX = $('btn-share-x');
+    if (btnShareX) {
+        btnShareX.addEventListener('click', () => {
+            soundClick();
+            const cat = getCategory(S.category);
+            const actualMins = Math.round(S.elapsed / 60) || Math.round(S.duration / 60) || 25;
+            const purity = S.flowPurity || '98%';
+            const infractions = S.infractionsCount || 0;
+            const tweetText = `Logged a ${actualMins}m deep work session with ${purity} Flow Purity on @FocusrApp\n\nCategory: ${cat.shortName || cat.name}\nTab Breaches: ${infractions}\nActive distraction defense + local-first sovereignty.`;
+            const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent('https://focusr-seven.vercel.app')}`;
+            window.open(tweetUrl, '_blank', 'width=600,height=450');
+            showToast('Opened X / Twitter share intent!', '', 3500);
+        });
+    }
+
+    // Bind Cosmo Skin Selector in Theme Modal
+    const skinCards = document.querySelectorAll('.cosmo-skin-card');
+    skinCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const skinId = card.dataset.skin;
+            if (skinId !== 'default' && (!window.FocusrLicense || !FocusrLicense.isPro())) {
+                showToast('Cosmor Aero Skins are exclusive to Focusr Pro', '', 3500);
+                if (window.PricingModal) PricingModal.open();
+                soundClick();
+                return;
+            }
+            if (window.Cosmo && Cosmo.applySkin) Cosmo.applySkin(skinId);
+            skinCards.forEach(c => c.classList.toggle('active', c === card));
+            soundClick();
+            showToast(`Cosmor aero skin set to ${card.querySelector('span:nth-child(2)').textContent}`, '', 3000);
+        });
+    });
+
+    if (focusCatBadge) {
+        focusCatBadge.addEventListener('click', cycleFocusCategory);
+    }
+
+    checkDailyGoalGreeting();
 }
+
+// Execute unified bootApplication
+bootApplication();
 
 })();
 </script>
