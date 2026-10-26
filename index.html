@@ -3121,6 +3121,7 @@ const S = {
     strictIdleCount: 0,
     lastDebrief: null,
 };
+window.S = S;
 
 /* ── DOM refs & Storage Helpers ── */
 const $ = id => document.getElementById(id);
@@ -5890,6 +5891,9 @@ const AccountManager = {
             soundClick();
         });
 
+        // Login Modal buttons
+        const btnClose = $('login-modal-close');
+        const backdrop = $('login-modal-backdrop');
         if (btnClose) btnClose.addEventListener('click', () => this.closeModal());
         if (backdrop) {
             backdrop.addEventListener('click', (e) => {
@@ -7674,8 +7678,6 @@ function loadInventory() {
         S.inventory = [];
     }
 }
-    catch { S.inventory = []; }
-}
 function saveInventory() {
     try {
         const serialized = JSON.stringify(S.inventory);
@@ -7684,8 +7686,6 @@ function saveInventory() {
     } catch (e) {
         console.warn('Could not save inventory:', e);
     }
-}
-    catch (e) { console.warn('Could not save inventory:', e); }
 }
 function addBottleToInventory(bottle) {
     if (!bottle.hue) {
