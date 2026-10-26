@@ -1,0 +1,61 @@
+{
+  "name": "Focusr — Spatial Deep Work Studio",
+  "short_name": "Focusr",
+  "description": "A local-first spatial deep work studio with AI Ghost Racing, procedural soundscapes, and distraction defense.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#08080f",
+  "theme_color": "#08080f",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2308080f'/><circle cx='50' cy='50' r='32' fill='none' stroke='%230a84ff' stroke-width='6'/><circle cx='50' cy='50' r='12' fill='%230a84ff'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Pomodoro Focus",
+      "short_name": "Pomodoro",
+      "description": "Start a 25-minute Pomodoro focus cycle",
+      "url": "/?mode=pomodoro",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍅</text></svg>",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Deep Work Timer",
+      "short_name": "Timer",
+      "description": "Set a custom focus countdown",
+      "url": "/?mode=timer",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Open Stopwatch",
+      "short_name": "Stopwatch",
+      "description": "Track open-ended flow sessions",
+      "url": "/?mode=stopwatch",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏲️</text></svg>",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "categories": [
+    "productivity",
+    "utilities",
+    "lifestyle"
+  ]
+}
