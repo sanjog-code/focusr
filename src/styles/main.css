@@ -5618,3 +5618,153 @@ body.zen-mode .studio-instrument-dock:hover {
         display: block !important;
     }
 }
+
+
+/* ════════════════════════════════════════════════════════════════
+   ZEN MODE: ULTRA-CALM DISTRACTION-FREE SPATIAL SYSTEM
+   ════════════════════════════════════════════════════════════════ */
+.action-pill.zen-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.34rem 0.85rem;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--text-dim, rgba(255, 255, 255, 0.7));
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.action-pill.zen-pill:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.action-pill.zen-pill.active {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #7dd3fc;
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+}
+
+/* Zen Flow Default Row in Setup */
+.zen-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.1rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+/* Zen Monospaced Status Line */
+.zen-telemetry-status {
+    display: none;
+    font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+    font-size: 0.84rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    color: rgba(248, 250, 252, 0.75);
+    text-align: center;
+    padding: 0.6rem 1.25rem;
+    border-radius: 980px;
+    background: rgba(15, 17, 23, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 0.5rem auto 0.75rem;
+    width: fit-content;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Pure Matte Obsidian & Backdrop-Filter Suppression ── */
+body.zen-mode {
+    --bg: #08090d !important;
+    --bg-card: #08090d !important;
+    --border: rgba(255, 255, 255, 0.05) !important;
+    background: #08090d !important;
+    transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.zen-mode #backdrop-image,
+body.zen-mode .ambient-water-canvas,
+body.zen-mode .particle-network,
+body.zen-mode #ambient-canvas {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+body.zen-mode #cosmo-stage,
+body.zen-mode #cosmo-actor {
+    display: none !important;
+}
+
+/* Suppress expensive backdrop-filter: blur() across all surfaces for battery & GPU saving */
+body.zen-mode .glass,
+body.zen-mode .focus-layout,
+body.zen-mode .studio-session-pill,
+body.zen-mode .studio-instrument-dock,
+body.zen-mode .ghost-racer-card,
+body.zen-mode .debrief-sheet,
+body.zen-mode .inventory-shelf {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #0e1117 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    box-shadow: none !important;
+}
+
+/* Show calm Zen Monospaced Status Line and hide competitive Ghost Racer Track */
+body.zen-mode .zen-telemetry-status {
+    display: block !important;
+}
+
+body.zen-mode #ghost-racer-card {
+    display: none !important;
+}
+
+body.zen-mode .studio-instrument-dock {
+    opacity: 0.2;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.zen-mode .studio-instrument-dock:hover {
+    opacity: 1;
+}
+
+body.zen-mode .inventory-shelf {
+    opacity: 0.15;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.zen-mode .inventory-shelf:hover {
+    opacity: 1;
+}
+
+/* ── STRICT NO-AD ZONE RULE ── */
+#s-focus .focusr-ad-slot,
+#s-focus [data-ad-slot],
+#s-focus .ad-banner,
+#s-focus .sponsor-slot,
+#s-focus .ethical-sponsorship-slot {
+    display: none !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Smooth transitions */
+body, .screen, .focus-layout, .glass, .zen-pill, .zen-telemetry-status {
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}

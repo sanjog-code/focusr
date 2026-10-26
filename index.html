@@ -376,6 +376,22 @@
                     </label>
                 </div>
             </div>
+            <div class="zen-toggle-row">
+                <div class="strict-label-group">
+                    <span class="strict-badge-icon" style="background:rgba(56,189,248,.15);border-color:rgba(56,189,248,.3);color:#38bdf8"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg></span>
+                    <div>
+                        <div class="strict-title-text">
+                            <span>Zen Flow Default</span>
+                            <span class="strict-tag-badge" style="background:rgba(56,189,248,.18);color:#38bdf8;border-color:rgba(56,189,248,.35)">Ultra-Calm</span>
+                        </div>
+                        <div class="strict-sub-text">Matte obsidian backdrop, zero distractions & asleep GPU</div>
+                    </div>
+                </div>
+                <label class="spatial-switch">
+                    <input type="checkbox" id="toggle-zen-default">
+                    <span class="spatial-slider"></span>
+                </label>
+            </div>
         </div>
 
         <div class="setup-start">
@@ -412,10 +428,7 @@
                     </span>
                 </div>
                 <div class="focus-top-bar-controls">
-                    <button class="inventory-pill-btn glass btn-zen-toggle" id="btn-toggle-zen" title="Toggle Distraction-Free Zen Mode (Pauses 3D Canvas)">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 4px;"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
-                        <span class="zen-btn-label">Zen Mode</span>
-                    </button>
+                    <button id="btn-toggle-zen" class="action-pill zen-pill" title="Toggle Zen Mode (Z)"><span>✦ Zen Mode</span></button>
                 </div>
             </div>
 
@@ -513,6 +526,9 @@
                     <span class="bottle-sub" id="bottle-sub">0.00L</span>
                 </div>
             </div>
+
+            <!-- Zen Mode Calm Monospaced Telemetry Status Line -->
+            <div class="zen-telemetry-status" id="zen-status-line">25:00 · Deep Work · Sprint 01</div>
 
             <!-- ═══ Spatial Ghost Racer Track ═══ -->
             <div class="ghost-racer-card glass" id="ghost-racer-card">
@@ -3488,6 +3504,7 @@ function playLoudWakeupAlarm() {
 
 // Trigger loud wake-up alarm alert
 function triggerLoudAlarm(unfocusedMs = 120000) {
+    if (document.body.classList.contains('zen-mode')) return; // Suppress loud siren alarm in Zen Mode
     playLoudWakeupAlarm();
 
     if (timerDisp) {
@@ -5874,6 +5891,7 @@ document.addEventListener('keydown', e => {
     if (e.code === 'Space') { e.preventDefault(); togglePause(); }
     if (e.code === 'Escape') { e.preventDefault(); stopSession(); }
     if (e.code === 'KeyS' && S.pomoIsBreak) { e.preventDefault(); skipBreak(); }
+    if (e.code === 'KeyZ') { e.preventDefault(); if (window.ZenMode) window.ZenMode.toggle(); }
 }, true);
 
 // ── Tab Exit & Close Prevention Guard ──
