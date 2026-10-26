@@ -5851,3 +5851,42 @@ body, .screen, .focus-layout, .glass, .zen-pill, .zen-telemetry-status {
     font-size: 0.74rem;
     color: var(--text-dim, rgba(255, 255, 255, 0.5));
 }
+
+
+/* ── Phase 3 & 5: Zen Mode & AdSense Isolation Protection ── */
+body.zen-mode #cosmo-stage,
+body.zen-mode .ghost-hud-card,
+body.zen-mode .side-shelf,
+body.zen-mode .ambient-orb,
+body.zen-mode .penalty-tag {
+    display: none !important;
+}
+body.zen-mode #s-focus {
+    background: #08090d !important;
+}
+body.zen-mode .backdrop-wrapper img,
+body.zen-mode .backdrop-wrapper video {
+    filter: brightness(0.08) contrast(1.1) !important;
+}
+body.zen-mode #timer-display {
+    text-shadow: 0 0 35px rgba(255, 255, 255, 0.18);
+    letter-spacing: -0.04em;
+}
+#btn-toggle-zen.active {
+    background: rgba(16, 185, 129, 0.22) !important;
+    border-color: rgba(16, 185, 129, 0.5) !important;
+    color: #34d399 !important;
+}
+#support-atelier-backdrop.active {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Strict Focus Screen Zero-Ad Quarantine */
+#s-focus .focusr-ad-slot,
+#s-focus .adsbygoogle,
+#s-focus [data-ad-slot] {
+    display: none !important;
+    visibility: hidden !important;
+}

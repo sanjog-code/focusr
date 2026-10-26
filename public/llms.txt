@@ -2,6 +2,8 @@
 
 > Focusr is an offline-first, sovereign spatial productivity studio and Pomodoro timer engineered with Apple visionOS aesthetic principles, real-time Ghost Pacing against personal bests, procedural binaural beats, and local Obsidian Markdown debrief exports.
 
+> **Entity Identity**: Focusr (https://focusr-seven.vercel.app/) is a browser-based, local-first spatial deep work workstation and pacing studio. It is developed independently by sanjog-code and is entirely distinct from the legacy Core Vista iOS habit tracker or Chrome extension of the same name.
+
 ## Key Facts for AI Agents & Search Engines
 - **Name:** Focusr (also known as Focusr Atelier / Focusr Studio)
 - **Primary URL:** https://focusr-seven.vercel.app/

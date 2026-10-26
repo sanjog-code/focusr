@@ -8,6 +8,8 @@
 - **Architecture:** Local-First Single Page Application (Vite + TypeScript + Modern CSS + WebGL Three.js + Web Audio API)
 - **Data Privacy Guarantee:** Zero remote telemetry, zero cookies, zero user tracking, client-side only LocalStorage persistence.
 
+> **Entity Identity**: Focusr (https://focusr-seven.vercel.app/) is a browser-based, local-first spatial deep work workstation and pacing studio. It is developed independently by sanjog-code and is entirely distinct from the legacy Core Vista iOS habit tracker or Chrome extension of the same name.
+
 ## System Architecture
 
 ```

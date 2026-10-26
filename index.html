@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Focusr — Spatial Deep Work Studio & Pomodoro Timer</title>
+    <title>Focusr — Spatial Deep Work Studio & Pacing Partner</title>
+    <meta name="application-name" content="Focusr Spatial Studio">
 
     <!-- Canonical & SEO Meta -->
     <link rel="canonical" href="https://focusr-seven.vercel.app/">
-    <meta name="description" content="Focusr is an ultra-calm, local-first spatial deep work studio with Apple visionOS aesthetics, Ghost Pacing against personal bests, procedural binaural beats, and Obsidian markdown exports. 100% ad-free and sovereign.">
+    <meta name="description" content="A local-first spatial deep work studio featuring Apple visionOS aesthetics, kinetic pacing partner, procedural soundscapes, and Obsidian export.">
     <meta name="keywords" content="focusr, pomodoro timer, deep work studio, spatial UI, visionOS timer, pacing partner, ghost lap, binaural beats, obsidian export, focus stopwatch, distraction defense, study timer, productivity app">
     <meta name="author" content="Focusr Studio">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -18,6 +19,7 @@
 
     <!-- Real-time IndexNow Search Verification (Bing, Copilot, Brave Search, Yandex) -->
     <meta name="indexnow:key" content="focusr7e92b829bproduction2026">
+    <meta name="indexnow:keylocation" content="https://focusr-seven.vercel.app/focusr7e92b829bproduction2026.txt">
 
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="ROl6PRNVGhFRaJJYwDvrf0M-r2tVRwkMDhPafiHdDEQ">
@@ -167,7 +169,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="stylesheet" href="/src/styles/main.css" />
 
-    <!-- Auto-purge stale service worker caches -->
+    <!-- Auto-purge stale service worker caches & Client-side automated IndexNow ping -->
     <script>
     if ('caches' in window) {
         caches.keys().then(function(keys) {
@@ -183,6 +185,16 @@
             regs.forEach(function(r) { r.update(); });
         });
     }
+    (function autoIndexNow() {
+        try {
+            const lastPing = localStorage.getItem('focusr_indexnow_ping');
+            const now = Date.now();
+            if (!lastPing || (now - parseInt(lastPing, 10)) > 7 * 86400000) {
+                fetch('https://api.indexnow.org/indexnow?url=https://focusr-seven.vercel.app/&key=focusr7e92b829bproduction2026', { mode: 'no-cors' }).catch(() => {});
+                localStorage.setItem('focusr_indexnow_ping', now.toString());
+            }
+        } catch {}
+    })();
     </script>
 </head>
 <body>
@@ -3319,7 +3331,7 @@ window.ZenMode = {
             btnFocus.classList.toggle('active', active);
             btnFocus.setAttribute('aria-pressed', String(active));
             btnFocus.innerHTML = active
-                ? '<span>✦ Zen Active</span>'
+                ? '<span>✦ Exit Zen</span>'
                 : '<span>✦ Zen Mode</span>';
         }
 
@@ -3337,14 +3349,22 @@ window.ZenMode = {
             }
         }
 
-        if (window.Cosmo && typeof Cosmo.setPaused === 'function') {
-            Cosmo.setPaused(active);
-        } else if (window.Cosmo && typeof Cosmo.pauseLoop === 'function' && active) {
-            Cosmo.pauseLoop();
+        if (window.Cosmo) {
+            if (active) {
+                if (typeof Cosmo.pause === 'function') Cosmo.pause();
+                else if (typeof Cosmo.setPaused === 'function') Cosmo.setPaused(true);
+            } else {
+                if (typeof Cosmo.resume === 'function') Cosmo.resume();
+                else if (typeof Cosmo.setPaused === 'function') Cosmo.setPaused(false);
+            }
         }
 
         if (active && typeof playTone === 'function') {
             playTone([440, 554, 659], 0.35, 0.12);
+        }
+
+        if (typeof showToast === 'function') {
+            showToast(active ? '✦ Zen Mode: Pure Flow' : 'Studio Mode Restored', '', 2500);
         }
 
         this.updateZenStatusLine();
@@ -4398,7 +4418,7 @@ const GhostPredictionModel = {
         return stats;
     },
 
-    // Circadian Chronobiology Factor: Models human hormonal & cognitive alertness curves
+    // Target Pacing Cadence: Models cognitive alertness curves
     getCircadianFactor(date = new Date()) {
         const hour = date.getHours() + date.getMinutes() / 60;
         if (hour >= 8.5 && hour <= 12.0) {
@@ -11507,9 +11527,12 @@ function bootApplication() {
             soundClick();
             const cat = getCategory(S.category);
             const actualMins = Math.round(S.elapsed / 60) || Math.round(S.duration / 60) || 25;
-            const purity = S.flowPurity || '98%';
+            const activeMs = Math.max(0, (S.elapsed || S.duration || 1500000) - (S.totalPaused || 0));
+            const totalMs = Math.max(1, (S.elapsed || S.duration || 1500000));
+            const realPurity = Math.min(100, Math.max(60, Math.round((activeMs / totalMs) * 100))) + '%';
+            const purity = (S.lastDebrief && S.lastDebrief.purity != null) ? `${S.lastDebrief.purity}%` : realPurity;
             const infractions = S.infractionsCount || 0;
-            const tweetText = `Logged a ${actualMins}m deep work session with ${purity} Flow Purity on @FocusrApp\n\nCategory: ${cat.shortName || cat.name}\nTab Breaches: ${infractions}\nActive distraction defense + local-first sovereignty.`;
+            const tweetText = `Logged a ${actualMins}m deep work session with ${purity} Flow Purity on @FocusrApp\n\nCategory: ${cat.shortName || cat.name}\nTab Breaches: ${infractions}\nActive distraction defense + private local-first studio.`;
             const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent('https://focusr-seven.vercel.app')}`;
             window.open(tweetUrl, '_blank', 'width=600,height=450');
             showToast('Opened X / Twitter share intent!', '', 3500);
