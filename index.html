@@ -5324,6 +5324,10 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
                         <span class="menu-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></span>
                         <span class="menu-item-text">Atmosphere & Sound</span>
                     </button>
+                    <button class="menu-item-btn" id="menu-item-upload-wallpaper" onclick="if (window.AccountManager) AccountManager.closeDropdown(); window.triggerWallpaperUpload && window.triggerWallpaperUpload();">
+                        <span class="menu-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+                        <span class="menu-item-text">Upload Custom Wallpaper</span>
+                    </button>
                     <button class="menu-item-btn" id="menu-item-spotify">
                         <span class="menu-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
                         <span class="menu-item-text">Spotify Music</span>
@@ -5795,7 +5799,7 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
                     <span class="debrief-timestamp" id="deb-time">Just now</span>
                 </div>
                 <h2 class="debrief-title">Session Retrospective</h2>
-                <p class="debrief-subtitle">Deep work telemetry, flow consistency audit, and copilot debrief</p>
+                <p class="debrief-subtitle">Deep work telemetry, flow consistency audit, and performance debrief</p>
             </div>
             <!-- Circular Flow Purity Meter -->
             <div class="purity-meter-wrap" id="deb-purity-wrap">
@@ -5831,13 +5835,50 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
                 <span class="deb-stat-val" id="c-ghost" style="color:#c084fc">Ahead</span>
                 <span class="deb-stat-lbl">Ghost Rival</span>
             </div>
-            <div class="deb-stat-box" id="c-pomo-box">
+            <div class="deb-stat-box" id="c-pomos-wrap">
                 <span class="deb-stat-val" id="c-pomos">0</span>
                 <span class="deb-stat-lbl">Pomodoros</span>
             </div>
-            <div class="deb-stat-box" id="c-bottle-box" style="display:none">
-                <span class="deb-stat-val" id="c-bottles">0</span>
-                <span class="deb-stat-lbl">Bottles</span>
+        </div>
+
+        <!-- Daily Target & Streak Contribution Card -->
+        <div class="debrief-target-card" id="deb-target-contribution-card">
+            <div class="deb-target-head">
+                <div style="display:flex;align-items:center;gap:0.65rem">
+                    <span style="color:var(--accent);display:inline-flex;align-items:center;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                    </span>
+                    <div>
+                        <strong style="font-size:0.92rem;color:var(--text);display:block">Daily Goal & Streak Impact</strong>
+                        <span id="deb-target-status-sub" style="font-size:0.75rem;color:var(--text-dim)">+25m added to today's focus</span>
+                    </div>
+                </div>
+                <div style="text-align:right">
+                    <span id="deb-target-pct" style="font-size:1.15rem;font-weight:700;color:var(--accent)">100%</span>
+                    <div id="deb-streak-status-sub" style="font-size:0.72rem;color:#f59e0b;font-weight:600">Streak: Active 🔥</div>
+                </div>
+            </div>
+            <div class="target-progress-track" style="margin-top:0.75rem;height:6px;background:rgba(255,255,255,0.08);border-radius:980px;overflow:hidden">
+                <div class="target-progress-fill" id="deb-target-progress-fill" style="width: 0%;height:100%;background:var(--accent);border-radius:980px;transition:width 0.8s cubic-bezier(0.16, 1, 0.3, 1)"></div>
+            </div>
+        </div>
+
+        <!-- Session Reflection / Accomplishment Log -->
+        <div class="debrief-section-card debrief-notes-card">
+            <div class="deb-sec-head">
+                <div class="deb-sec-title">
+                    <span class="deb-sec-icon">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </span>
+                    <span>Session Accomplishment Log</span>
+                </div>
+                <span class="deb-sec-tag" id="deb-notes-saved-tag">Optional Log</span>
+            </div>
+            <div class="debrief-notes-wrap">
+                <textarea id="deb-session-notes-input" class="debrief-notes-textarea" placeholder="What did you get done? Key takeaways, blockers, or next step for your next session..." rows="2"></textarea>
+                <div style="display:flex;justify-content:flex-end;margin-top:0.5rem">
+                    <button type="button" class="btn-save-note" id="btn-save-session-notes">Save Accomplishment</button>
+                </div>
             </div>
         </div>
 
@@ -5851,7 +5892,7 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
                 <span class="deb-sec-tag" id="deb-ghost-result-tag">AI Analysis</span>
             </div>
             <div style="padding:14px 4px 6px 4px;">
-                <canvas id="deb-ghost-telemetry-canvas" width="600" height="150" style="width:100%;height:150px;background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.08);border-radius:12px;display:block;margin-bottom:12px;"></canvas>
+                <canvas id="deb-ghost-telemetry-canvas" width="600" height="150" style="width:100%;height:150px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:12px;display:block;margin-bottom:12px;"></canvas>
                 <div id="deb-ghost-ai-commentary" style="font-size:0.85rem;color:#cbd5e1;line-height:1.55;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.22);border-radius:10px;padding:12px 16px;">
                     <!-- Dynamically populated AI Tactical Race debrief -->
                 </div>
@@ -5872,22 +5913,7 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
             </div>
         </div>
 
-        <!-- Section 2: Cosmor's Copilot Pep Talk -->
-        <div class="debrief-section-card cosmo-pep-card">
-            <div class="deb-sec-head">
-                <div class="deb-sec-title">
-                    <span class="cosmo-pep-avatar"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4.5c1.62-1.63 5-2 5-2"/><path d="M12 15v5s3.03-.55 4.5-2c1.63-1.62 2-5 2-5"/></svg></span>
-                    <span>Cosmor Copilot Debrief</span>
-                </div>
-                <span class="deb-sec-tag cosmo-tag">Telemetry Analysis</span>
-            </div>
-            <div class="cosmo-pep-speech-bubble" id="deb-pep-talk">
-                "Session complete. Clean focus velocity and uninterrupted focus orbit achieved."
-            </div>
-            <p class="complete-quote" id="c-quote" style="display:none"></p>
-        </div>
-
-        <!-- Section 3: Targeted Suggestions to Do Better -->
+        <!-- Section 2: Recommendations for Next Session -->
         <div class="debrief-section-card">
             <div class="deb-sec-head">
                 <div class="deb-sec-title">
@@ -5901,35 +5927,46 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
             </div>
         </div>
 
-        <!-- Actions Footer -->
+        <!-- Flow Progression & Next Step Actions Bar -->
         <div class="debrief-actions-bar">
-            <button class="btn-primary" id="btn-done">Return to Home</button>
-            <button class="btn-secondary" id="btn-copy-obsidian" title="Copy formatted Obsidian note">
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
-                <span>Obsidian Note</span>
-                <span class="pro-pill">PRO</span>
-            </button>
-            <button class="btn-secondary" id="btn-copy-debrief" title="Copy full debrief summary to clipboard">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span id="btn-copy-debrief-text">Copy Debrief Sheet</span>
-            </button>
-            <button class="btn-secondary" id="btn-share-challenge" title="Generate Ghost Racer Challenge link">
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
-                <span>Challenge Peer</span>
-            </button>
-            <button class="btn-secondary" id="btn-share-x" title="Share your deep work session achievement on X / Twitter">
-                <span style="font-size:0.9rem">𝕏</span>
-                <span>Share Flow</span>
-            </button>
-        </div>
+            <!-- Row 1: Immediate Next Flow Steps -->
+            <div class="debrief-primary-actions-row">
+                <button class="btn-primary" id="btn-debrief-restart" title="Start another focus session immediately">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <span>Start Next Session</span>
+                </button>
+                <button class="btn-secondary" id="btn-debrief-break" title="Take a relaxing 5-minute break">
+                    <span>☕</span>
+                    <span>Take 5m Break</span>
+                </button>
+                <button class="btn-secondary" id="btn-done" title="Return to home dashboard">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>Dashboard</span>
+                </button>
+            </div>
 
-        <!-- Post-Session Debrief Sponsor Card -->
-        <div class="focusr-ad-slot debrief-ad-slot" id="debrief-sponsor-slot" style="margin-top:1.5rem">
-            <!-- Rendered by AdManager -->
+            <!-- Row 2: Secondary Utilities (Obsidian, Export, Analytics) -->
+            <div class="debrief-secondary-actions-row">
+                <button class="btn-secondary btn-util" id="btn-copy-obsidian" title="Copy markdown note formatted for Obsidian / Notion">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Copy Obsidian Note</span>
+                </button>
+                <button class="btn-secondary btn-util" id="btn-copy-debrief" title="Copy debrief summary to clipboard">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span id="btn-copy-debrief-text">Copy Summary</span>
+                </button>
+                <button class="btn-secondary btn-util" id="btn-debrief-analytics" title="View overall charts and history">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>Analytics</span>
+                </button>
+                <button class="btn-secondary btn-util" id="btn-share-x" title="Share achievement on X">
+                    <span style="font-size:0.88rem;font-weight:700">𝕏</span>
+                    <span>Share</span>
+                </button>
+            </div>
         </div>
     </div>
 </section>
-
 <!-- ═══ ANALYTICS ═══ -->
 <section id="s-analytics" class="screen">
     <button class="btn-back" id="analytics-back">← Back</button>
@@ -6891,7 +6928,7 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
 </div>
 
 <!-- Hidden File Input for Custom Wallpaper Upload -->
-<input type="file" id="wallpaper-file-input" accept="image/jpeg,image/png,image/webp,image/avif" style="display:none">
+<input type="file" id="wallpaper-file-input" accept="image/*" style="display:none">
 
 <!-- Global Drag & Drop Overlay -->
 <div class="global-dropzone-overlay" id="global-dropzone-overlay">
@@ -9472,15 +9509,11 @@ const GhostRacer = {
     },
 
     // Renders high-DPI retina split chart in Debrief Sheet
-    renderDebriefTelemetry() {
+    renderDebriefTelemetry(sessionData) {
         const canvas = $('deb-ghost-telemetry-canvas');
         const commentaryEl = $('deb-ghost-ai-commentary');
         const resultTag = $('deb-ghost-result-tag');
-        if (!canvas || !this.lastRaceTelemetry) return;
-
-        const data = this.lastRaceTelemetry;
-        const hist = data.telemetry || [];
-        if (hist.length < 2) return;
+        if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
         const dpr = window.devicePixelRatio || 1;
@@ -9490,76 +9523,145 @@ const GhostRacer = {
         canvas.width = w * dpr;
         canvas.height = h * dpr;
         ctx.scale(dpr, dpr);
-
         ctx.clearRect(0, 0, w, h);
 
-        // Max/Min split in seconds
-        const splitSecs = hist.map(pt => pt.splitMs / 1000);
-        const maxSplit = Math.max(30, ...splitSecs.map(Math.abs));
-        const maxTime = hist[hist.length - 1].t || 1;
+        const data = this.lastRaceTelemetry;
+        const hist = data && data.telemetry ? data.telemetry : [];
 
-        // Baseline (zero line)
-        const midY = h / 2;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([4, 4]);
-        ctx.beginPath();
-        ctx.moveTo(30, midY);
-        ctx.lineTo(w - 20, midY);
-        ctx.stroke();
-        ctx.setLineDash([]);
+        if (hist.length >= 2) {
+            // Draw real race split telemetry
+            const splitSecs = hist.map(pt => pt.splitMs / 1000);
+            const maxSplit = Math.max(30, ...splitSecs.map(Math.abs));
+            const maxTime = hist[hist.length - 1].t || 1;
 
-        // Labels
-        ctx.font = '10px "JetBrains Mono", monospace';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('+Lead', 6, midY - 14);
-        ctx.fillText('-Lag', 6, midY + 22);
+            const midY = h / 2;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(30, midY);
+            ctx.lineTo(w - 20, midY);
+            ctx.stroke();
+            ctx.setLineDash([]);
 
-        // Gradient under user line
-        const grad = ctx.createLinearGradient(0, 0, 0, h);
-        grad.addColorStop(0, 'rgba(52, 211, 153, 0.25)');
-        grad.addColorStop(0.5, 'rgba(52, 211, 153, 0.05)');
-        grad.addColorStop(1, 'rgba(251, 113, 133, 0.2)');
+            ctx.font = '10px "JetBrains Mono", monospace';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('+Lead', 6, midY - 14);
+            ctx.fillText('-Lag', 6, midY + 22);
 
-        // Draw Split Waveform
-        ctx.beginPath();
-        hist.forEach((pt, idx) => {
-            const x = 35 + ((w - 55) * (pt.t / maxTime));
-            const y = midY - ((pt.splitMs / 1000) / maxSplit) * (h * 0.38);
-            if (idx === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        });
-        ctx.strokeStyle = data.won ? '#34d399' : '#c084fc';
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-
-        // Draw Nodes
-        hist.forEach((pt, idx) => {
-            if (idx % 3 === 0 || idx === hist.length - 1) {
+            ctx.beginPath();
+            hist.forEach((pt, idx) => {
                 const x = 35 + ((w - 55) * (pt.t / maxTime));
                 const y = midY - ((pt.splitMs / 1000) / maxSplit) * (h * 0.38);
-                ctx.fillStyle = pt.splitMs >= 0 ? '#34d399' : '#fb7185';
-                ctx.beginPath();
-                ctx.arc(x, y, 3, 0, Math.PI * 2);
-                ctx.fill();
+                if (idx === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.strokeStyle = data.won ? '#34d399' : '#c084fc';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            hist.forEach((pt, idx) => {
+                if (idx % 3 === 0 || idx === hist.length - 1) {
+                    const x = 35 + ((w - 55) * (pt.t / maxTime));
+                    const y = midY - ((pt.splitMs / 1000) / maxSplit) * (h * 0.38);
+                    ctx.fillStyle = pt.splitMs >= 0 ? '#34d399' : '#fb7185';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+
+            if (resultTag) {
+                resultTag.textContent = data.won ? 'AI VICTORY' : 'GHOST PACED AHEAD';
+                resultTag.style.color = data.won ? '#34d399' : '#c084fc';
             }
-        });
 
-        // AI Tactical Coaching Breakdown
-        if (resultTag) {
-            resultTag.textContent = data.won ? 'AI VICTORY' : 'GHOST PACED AHEAD';
-            resultTag.style.color = data.won ? '#34d399' : '#c084fc';
-        }
+            if (commentaryEl) {
+                const splitSec = Math.round(data.splitMs / 1000);
+                const circ = data.profile ? Math.round(data.profile.circadian * 100) : 100;
+                const diffName = data.profile ? data.profile.name : 'AI Ghost';
 
-        if (commentaryEl) {
-            const splitSec = Math.round(data.splitMs / 1000);
-            const circ = data.profile ? Math.round(data.profile.circadian * 100) : 100;
-            const diffName = data.profile ? data.profile.name : 'AI Ghost';
+                if (data.won) {
+                    commentaryEl.innerHTML = `<strong>Telemetry Debrief:</strong> You defeated <em>${diffName}</em> with a <strong>+${Math.abs(splitSec)}s final margin</strong>. Circadian baseline was ${circ}%. You maintained superior focus velocity through the mid-session fatigue horizon and executed a flawless final sprint.`;
+                } else {
+                    commentaryEl.innerHTML = `<strong>Telemetry Debrief:</strong> <em>${diffName}</em> gained an advantage of <strong>-${Math.abs(splitSec)}s</strong>. AI telemetry detected pace deceleration around the 55% fatigue horizon. Pacing tip: Engage earlier cognitive warmups and avoid pausing midway to defend against the AI draft.`;
+                }
+            }
+        } else {
+            // Draw synthesized Focus Rhythm & Flow Velocity waveform
+            const purity = sessionData && sessionData.debrief ? sessionData.debrief.purity : 100;
+            const durMins = sessionData ? Math.max(1, Math.round(sessionData.duration / 60000)) : 25;
+            const pauses = sessionData ? (sessionData.manualPauseCount || 0) : 0;
 
-            if (data.won) {
-                commentaryEl.innerHTML = `<strong>Telemetry Debrief:</strong> You defeated <em>${diffName}</em> with a <strong>+${Math.abs(splitSec)}s final margin</strong>. Circadian baseline was ${circ}%. You maintained superior focus velocity through the mid-session fatigue horizon and executed a flawless final sprint.`;
-            } else {
-                commentaryEl.innerHTML = `<strong>Telemetry Debrief:</strong> <em>${diffName}</em> gained an advantage of <strong>-${Math.abs(splitSec)}s</strong>. AI telemetry detected pace deceleration around the 55% fatigue horizon. Pacing tip: Engage earlier cognitive warmups and avoid pausing midway to defend against the AI draft.`;
+            const midY = h / 2;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(30, midY);
+            ctx.lineTo(w - 20, midY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.font = '10px "JetBrains Mono", monospace';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Peak', 6, midY - 24);
+            ctx.fillText('Base', 6, midY + 30);
+
+            // Draw smooth harmonic flow curve
+            const points = 24;
+            const pts = [];
+            for (let i = 0; i <= points; i++) {
+                const progress = i / points;
+                const warmup = Math.min(1, progress * 4);
+                const baseHeight = (purity / 100) * 0.38;
+                const wave = Math.sin(progress * Math.PI * 3.5) * 0.08 * (1 - progress * 0.3);
+                const dip = pauses > 0 && progress > 0.45 && progress < 0.65 ? -0.15 : 0;
+                const yNorm = baseHeight * warmup + wave + dip;
+                const x = 35 + ((w - 55) * progress);
+                const y = midY - (yNorm * h);
+                pts.push({ x, y });
+            }
+
+            ctx.beginPath();
+            pts.forEach((pt, idx) => {
+                if (idx === 0) ctx.moveTo(pt.x, pt.y);
+                else ctx.lineTo(pt.x, pt.y);
+            });
+            ctx.strokeStyle = purity >= 85 ? '#34d399' : (purity >= 65 ? '#60a5fa' : '#f59e0b');
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Fill under curve
+            const grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, purity >= 85 ? 'rgba(52, 211, 153, 0.22)' : 'rgba(96, 165, 250, 0.22)');
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.lineTo(pts[pts.length - 1].x, midY);
+            ctx.lineTo(pts[0].x, midY);
+            ctx.closePath();
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Accent node at peak
+            const peakPt = pts[Math.floor(pts.length * 0.7)];
+            ctx.fillStyle = '#38bdf8';
+            ctx.beginPath();
+            ctx.arc(peakPt.x, peakPt.y, 4, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (resultTag) {
+                resultTag.textContent = purity >= 85 ? 'OPTIMAL FLOW' : (purity >= 65 ? 'STEADY PACING' : 'IRREGULAR RHYTHM');
+                resultTag.style.color = purity >= 85 ? '#34d399' : (purity >= 65 ? '#60a5fa' : '#f59e0b');
+            }
+
+            if (commentaryEl) {
+                if (purity >= 85) {
+                    commentaryEl.innerHTML = `<strong>Flow Rhythm Telemetry:</strong> Pristine cadence maintained across <strong>${durMins} minutes</strong> of focus with <strong>${purity}% flow purity</strong>. Active input velocity remained stable across fatigue horizons without disruptive pauses.`;
+                } else if (purity >= 65) {
+                    commentaryEl.innerHTML = `<strong>Flow Rhythm Telemetry:</strong> Solid deep-work endurance sustained across <strong>${durMins} minutes</strong> (${purity}% purity). Minor velocity drops logged during mid-session intervals; keep focus unbroken to elevate cognitive reserve.`;
+                } else {
+                    commentaryEl.innerHTML = `<strong>Flow Rhythm Telemetry:</strong> Frequent friction shifts or interruptions detected during session (${pauses} pause events). Recommend shorter 15-20m sprints with active strict mode to lock in flow.`;
+                }
             }
         }
     }
@@ -13153,6 +13255,45 @@ function renderSessionDebrief(sessionData) {
             </div>
         `).join('');
     }
+
+    // Render Daily Target & Streak Contribution
+    const totalTodayMs = getTodayFocusTime();
+    const targetMs = getDailyTargetMinutes() * 60000;
+    const addedMins = Math.round(sessionData.duration / 60000);
+    const totalTodayMins = Math.round(totalTodayMs / 60000);
+    const targetMins = Math.round(targetMs / 60000);
+    const pct = targetMins > 0 ? Math.min(100, Math.round((totalTodayMins / targetMins) * 100)) : 100;
+    const streakDays = calculateDailyGoalStreak();
+
+    if ($('deb-target-status-sub')) {
+        $('deb-target-status-sub').textContent = `+${addedMins}m added · ${totalTodayMins}m of ${targetMins}m daily goal`;
+    }
+    if ($('deb-target-pct')) {
+        $('deb-target-pct').textContent = `${pct}%`;
+    }
+    if ($('deb-streak-status-sub')) {
+        $('deb-streak-status-sub').textContent = streakDays > 0 ? `Streak: ${streakDays} Days 🔥` : (pct >= 100 ? 'Goal Achieved! Streak +1 🔥' : 'Goal in progress');
+    }
+    if ($('deb-target-progress-fill')) {
+        $('deb-target-progress-fill').style.width = `${pct}%`;
+    }
+
+    // Render Ghost Telemetry Chart safely via requestAnimationFrame
+    requestAnimationFrame(() => {
+        if (window.GhostRacer && GhostRacer.renderDebriefTelemetry) {
+            GhostRacer.renderDebriefTelemetry(sessionData);
+        }
+    });
+
+    // Reset notes input
+    const notesInput = $('deb-session-notes-input');
+    if (notesInput) {
+        notesInput.value = sessionData.note || '';
+    }
+    const notesTag = $('deb-notes-saved-tag');
+    if (notesTag) {
+        notesTag.textContent = sessionData.note ? 'Logged' : 'Optional Log';
+    }
 }
 
 function finishSession(focusMs, overrideStrict = null) {
@@ -13704,6 +13845,66 @@ btnPause?.addEventListener('click', togglePause);
 btnStop?.addEventListener('click', stopSession);
 btnSkip?.addEventListener('click', skipBreak);
 $('btn-done')?.addEventListener('click', () => navigate('home'));
+
+// Debrief Action: Start Next Session
+$('btn-debrief-restart')?.addEventListener('click', () => {
+    soundClick();
+    navigate('setup');
+});
+
+// Debrief Action: Take 5m Break
+$('btn-debrief-break')?.addEventListener('click', () => {
+    soundClick();
+    if (typeof S !== 'undefined') {
+        S.mode = 'pomodoro';
+        S.pomoIsBreak = true;
+        S.pomoIsLongBreak = false;
+        S.pomoBreak = 5;
+        S.targetMs = 5 * 60000;
+        S.duration = 5 * 60000;
+        S.elapsed = 0;
+        S.running = true;
+        S.paused = false;
+        S.startTime = Date.now();
+        S.totalPaused = 0;
+        if (timerDisp) timerDisp.textContent = '05:00';
+        if (focusLabel) {
+            focusLabel.textContent = 'Break';
+            focusLabel.className = 'focus-mode-label is-break';
+        }
+        navigate('focus');
+        clearInterval(S.intervalId);
+        S.intervalId = setInterval(tick, 100);
+        showToast('5-minute relaxation break started. Rest your eyes.', '', 3500);
+    }
+});
+
+// Debrief Action: View Analytics
+$('btn-debrief-analytics')?.addEventListener('click', () => {
+    soundClick();
+    renderAnalytics();
+    navigate('analytics');
+});
+
+// Debrief Action: Save Accomplishment Note
+$('btn-save-session-notes')?.addEventListener('click', () => {
+    const val = ($('deb-session-notes-input')?.value || '').trim();
+    if (!val) {
+        showToast('Please type a short accomplishment note before saving.', '', 3000);
+        return;
+    }
+    if (S.sessions && S.sessions.length > 0) {
+        S.sessions[0].note = val;
+        saveSessions();
+    }
+    const notesTag = $('deb-notes-saved-tag');
+    if (notesTag) {
+        notesTag.textContent = '✓ Saved';
+        notesTag.style.color = '#34d399';
+    }
+    soundComplete();
+    showToast('Accomplishment saved to your session history!', '', 3500);
+});
 
 // Copy Debrief Sheet to Clipboard
 const btnCopyDebrief = $('btn-copy-debrief');
@@ -14557,13 +14758,6 @@ const BinauralEngine = {
 
 /* ── Obsidian Markdown Debrief Exporter ── */
 function copyObsidianDebrief() {
-    if (!FocusrLicense.isPro()) {
-        showToast('✦ Obsidian & PKM Sync is a Focusr Pro feature', '', 3500);
-        PricingModal.open();
-        soundClick();
-        return;
-    }
-
     const cat = getCategory(S.category);
     const dateStr = new Date().toISOString().slice(0, 10);
     const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -14886,9 +15080,12 @@ const FocusrThemeExtractor = {
     loadImage(src) {
         return new Promise((resolve, reject) => {
             const img = new Image();
-            img.crossOrigin = 'anonymous';
+            // ONLY set crossOrigin for remote http/https URLs; data: and blob: URIs will error if crossOrigin is set
+            if (typeof src === 'string' && (src.startsWith('http://') || src.startsWith('https://'))) {
+                img.crossOrigin = 'anonymous';
+            }
             img.onload = () => resolve(img);
-            img.onerror = reject;
+            img.onerror = () => reject(new Error('Failed to load image file. Please choose another image.'));
             img.src = src;
         });
     },
@@ -15296,18 +15493,25 @@ const WallpaperMarketplace = {
     },
 
     async handleUserUpload(file) {
-        showToast('Analyzing image palette & verifying WCAG contrast...', '', 2500);
+        showToast('Analyzing palette & optimizing atmosphere...', '', 2500);
         try {
             const customTheme = await FocusrThemeExtractor.processImageFile(file);
             CustomThemeStorage.addTheme(customTheme);
             this.updateCustomCountBadge();
+            
+            // Auto close marketplace or theme modal so user immediately sees their deployed spatial wallpaper!
+            const marketModal = $('wallpaper-marketplace-backdrop');
+            if (marketModal) marketModal.classList.remove('active');
+            const themeModal = $('theme-modal-backdrop');
+            if (themeModal) themeModal.classList.remove('active');
+
             applyTheme(customTheme.id, undefined, undefined, true);
-            soundClick();
+            if (window.soundComplete) soundComplete();
             this.renderGrid();
-            showToast('Custom atmosphere "' + customTheme.name + '" deployed! Accent: ' + customTheme.accent + ' (Contrast ' + customTheme.contrastRatio + ':1 WCAG Verified)', '', 4000);
+            showToast('Custom atmosphere "' + customTheme.name + '" deployed! Accent: ' + customTheme.accent, '', 4500);
         } catch (err) {
             console.error('Custom theme creation error:', err);
-            showToast(err.message || 'Could not process image.', '', 4000);
+            showToast(err.message || 'Could not process image.', '', 4500);
         }
     },
 
