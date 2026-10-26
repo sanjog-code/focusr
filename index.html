@@ -287,7 +287,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 /* ── Screens ── */
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s ease;z-index:1;padding:2.25rem 1.25rem 3.5rem;overflow-y:auto;overflow-x:hidden;box-sizing:border-box;-webkit-overflow-scrolling:touch}
-.setup-wrap, .debrief-sheet, #s-focus .focus-layout{margin-top:auto;margin-bottom:auto}
+.setup-wrap, .debrief-sheet{margin-top:auto;margin-bottom:auto}
 .screen.active{opacity:1;visibility:visible}
 
 /* ── Buttons ── */
@@ -803,7 +803,21 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* ══════════════════════════════════════════
    FOCUS SCREEN
    ══════════════════════════════════════════ */
-.focus-layout{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;width:100%;height:100%;position:relative}
+.focus-layout{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.55rem;
+    width: 100%;
+    max-width: 520px;
+    min-height: min-content;
+    height: auto;
+    margin: auto 0;
+    padding: 0.5rem 0.25rem 2.5rem;
+    position: relative;
+    box-sizing: border-box;
+}
 .focus-mode-label{
     font-size:.8rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
     color:var(--text-dim);padding:.35rem 1rem;border-radius:980px;
@@ -971,24 +985,124 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    height: auto;
     position: relative;
     gap: 2.2rem;
+    box-sizing: border-box;
 }
 .inventory-shelf{
-    width: 270px;
+    width: 280px;
     height: 85vh;
-    max-height: 560px;
+    max-height: 580px;
     display: flex;
     flex-direction: column;
     padding: 1.3rem;
     border-radius: var(--radius);
     transition: all .35s cubic-bezier(.25,.46,.45,.94);
     box-shadow: 0 16px 40px rgba(0,0,0,.45);
-    z-index: 10;
+    z-index: 25;
+    box-sizing: border-box;
 }
 .inventory-shelf.collapsed{
     display: none;
+}
+
+/* ── Fluid Drawer Overlay for Inventory Shelf on Screens <= 1180px ── */
+@media (max-width: 1180px) {
+    .inventory-shelf {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        height: 100dvh;
+        max-height: 100dvh;
+        width: min(340px, 88vw);
+        border-radius: 20px 0 0 20px;
+        z-index: 120;
+        margin: 0;
+        padding: 1.5rem 1.2rem;
+        background: rgba(14, 18, 30, 0.94);
+        border: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: -12px 0 40px rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        transform: translateX(0);
+        transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .inventory-shelf.collapsed {
+        display: flex !important;
+        transform: translateX(110%);
+        pointer-events: none;
+    }
+}
+
+/* ── Viewport Height Adaptive Scaling for Focus Screen Cards ── */
+@media (max-height: 840px) {
+    .timer-ring-wrap {
+        width: clamp(170px, 28vh, 230px);
+        height: clamp(170px, 28vh, 230px);
+    }
+    .water-canvas-wrap {
+        width: 105px;
+        height: 168px;
+    }
+    #water-canvas {
+        width: 105px;
+        height: 168px;
+    }
+    .ghost-racer-card {
+        padding: 0.65rem 0.95rem;
+        gap: 0.45rem;
+        margin: 0.2rem auto;
+    }
+    .focus-layout {
+        gap: 0.4rem;
+        padding: 0.3rem 0 2rem;
+    }
+}
+
+@media (max-height: 700px) {
+    .timer-ring-wrap {
+        width: clamp(140px, 23vh, 180px);
+        height: clamp(140px, 23vh, 180px);
+    }
+    .timer-display {
+        font-size: clamp(1.8rem, 7vh, 2.5rem);
+    }
+    .water-canvas-wrap {
+        width: 85px;
+        height: 136px;
+    }
+    #water-canvas {
+        width: 85px;
+        height: 136px;
+    }
+    .water-dispenser-spout {
+        height: 8px;
+        margin-bottom: 2px;
+    }
+    .bottle-meta {
+        font-size: 0.75rem;
+        margin-top: 0.15rem;
+    }
+    .ghost-racer-card {
+        padding: 0.5rem 0.8rem;
+        gap: 0.35rem;
+    }
+    .ghost-rival-meta {
+        display: none;
+    }
+    .focus-controls {
+        gap: 0.65rem;
+        margin-top: 0.2rem;
+    }
+    .ctrl-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.1rem;
+    }
 }
 .shelf-header{
     display: flex;
@@ -2289,9 +2403,9 @@ body.oled-true-black .glass {
    ══════════════════════════════════════════ */
 .ghost-racer-card {
     width: 100%;
-    max-width: 440px;
+    max-width: 480px;
     padding: .95rem 1.25rem;
-    margin: .15rem 0 .2rem;
+    margin: .25rem auto;
     display: flex;
     flex-direction: column;
     gap: .7rem;
@@ -2302,6 +2416,7 @@ body.oled-true-black .glass {
     transition: all var(--tr);
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
 }
 .ghost-racer-card.minimized {
     padding: .5rem 1rem;
@@ -3562,11 +3677,28 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
     }
 
     /* ── Focus Screen (s-focus) on Mobile ── */
+    #s-focus {
+        padding-top: max(1rem, env(safe-area-inset-top));
+        padding-bottom: max(3.5rem, calc(env(safe-area-inset-bottom) + 2rem));
+    }
+    .focus-wrap {
+        width: 100%;
+        min-height: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0;
+    }
     .focus-layout {
         gap: 0.45rem;
         padding: 0.2rem 0;
         width: 100%;
         max-width: 100%;
+        min-height: min-content;
+        height: auto;
+        margin: auto 0;
+        box-sizing: border-box;
     }
     .focus-top-bar {
         width: 100%;
@@ -9221,8 +9353,8 @@ const GhostRacer = {
         if (playerFill) playerFill.style.width = `${userPct}%`;
         if (ghostFill) ghostFill.style.width = `${ghostPct}%`;
 
-        if (playerNode) playerNode.style.left = `calc(${userPct}% - 14px)`;
-        if (ghostNode) ghostNode.style.left = `calc(${ghostPct}% - 14px)`;
+        if (playerNode) playerNode.style.left = `clamp(0px, calc(${userPct}% - 14px), calc(100% - 32px))`;
+        if (ghostNode) ghostNode.style.left = `clamp(0px, calc(${ghostPct}% - 14px), calc(100% - 32px))`;
 
         const splitMs = userMs - ghostMs;
         const splitEl = $('ghost-split-val');
