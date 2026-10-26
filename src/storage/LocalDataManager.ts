@@ -1,4 +1,4 @@
-import { SessionData, BottleItem, CustomTheme, UserAccount } from '../types';
+import { SessionData, BottleItem, CustomTheme, UserAccount } from '../types/index';
 
 export function safeGetJSON<T>(key: string, defaultVal: T): T {
     try {

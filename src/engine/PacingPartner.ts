@@ -1,4 +1,4 @@
-import { PacingProfile } from '../types';
+import { PacingProfile } from '../types/index';
 import { safeGetJSON, safeSetJSON } from '../storage/LocalDataManager';
 
 export const PacingPartner = {
