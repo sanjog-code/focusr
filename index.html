@@ -1734,6 +1734,51 @@
     </div>
 </div>
 
+<!-- ═══ SUPPORT THE ATELIER MODAL ═══ -->
+<div class="spotify-modal-backdrop" id="support-atelier-backdrop">
+    <div class="spotify-modal glass" id="support-atelier-modal" style="max-width: 520px;">
+        <div class="spotify-modal-header">
+            <div class="spotify-modal-title-wrap">
+                <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: center; color: #f59e0b;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </div>
+                <div>
+                    <h2>Support the Atelier</h2>
+                    <p>Focusr is 100% free, private, and open for all deep workers.</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" id="btn-close-support-atelier" title="Close Modal">✕</button>
+        </div>
+        <div class="spotify-modal-body" style="padding: 18px 24px;">
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 16px; margin-bottom: 16px; line-height: 1.5; font-size: 0.88rem; color: var(--text);">
+                <p style="margin: 0 0 8px 0;">
+                    We believe essential focus tools shouldn't hide behind artificial paywalls, surveillance trackers, or predatory subscriptions.
+                </p>
+                <p style="margin: 0; color: var(--text-dim); font-size: 0.82rem;">
+                    All binaural frequencies, custom atmospheric themes, and pacing analytics are unlocked for life. If Focusr elevates your daily output, consider supporting independent development.
+                </p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a href="https://github.com/sponsors" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: background 0.2s;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ea4aaa"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        <span>Sponsor on GitHub</span>
+                    </div>
+                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 500;">Recurring or One-Time ↗</span>
+                </a>
+                <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: background 0.2s;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#29abe0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+                        <span>Buy the Atelier a Coffee</span>
+                    </div>
+                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 500;">One-Time Tip ↗</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Three.js bundled via modern ES modules in src/canvas/CosmoCompanion.ts -->
 <script>
 
@@ -3122,6 +3167,183 @@ const S = {
     lastDebrief: null,
 };
 window.S = S;
+
+/* ════════════════════════════════════════════════════════════════
+   UNIFIED WINDOW.MODALS ENGINE
+   ════════════════════════════════════════════════════════════════ */
+window.Modals = {
+    open(backdropId) {
+        const el = document.getElementById(backdropId);
+        if (!el) return;
+        el.classList.add('active');
+        el.style.display = 'flex';
+        el.style.visibility = 'visible';
+        el.style.opacity = '1';
+        if (typeof soundClick === 'function') soundClick();
+    },
+    close(backdropId) {
+        const el = document.getElementById(backdropId);
+        if (!el) return;
+        el.classList.remove('active');
+        el.style.display = 'none';
+        el.style.visibility = 'hidden';
+        el.style.opacity = '0';
+    },
+    openSupportAtelier() { this.open('support-atelier-backdrop'); },
+    closeSupportAtelier() { this.close('support-atelier-backdrop'); }
+};
+
+// Wire close button and backdrop click for Support Atelier
+const btnCloseSupport = document.getElementById('btn-close-support-atelier');
+if (btnCloseSupport) {
+    btnCloseSupport.addEventListener('click', () => window.Modals.closeSupportAtelier());
+}
+const backdropSupport = document.getElementById('support-atelier-backdrop');
+if (backdropSupport) {
+    backdropSupport.addEventListener('click', (e) => {
+        if (e.target === backdropSupport) window.Modals.closeSupportAtelier();
+    });
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   ZEN MODE ENGINE (Ultra-calm, Battery-saving Spatial Mode)
+   ════════════════════════════════════════════════════════════════ */
+window.ZenMode = {
+    STORAGE_KEY: 'focusr_zen_mode',
+    isActive: false,
+
+    init() {
+        try {
+            this.isActive = localStorage.getItem(this.STORAGE_KEY) === 'true';
+        } catch {
+            this.isActive = false;
+        }
+
+        this.apply(this.isActive);
+
+        const btnFocus = document.getElementById('btn-toggle-zen');
+        if (btnFocus) {
+            btnFocus.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggle();
+            });
+        }
+
+        const toggleSetup = document.getElementById('toggle-zen-default');
+        if (toggleSetup) {
+            toggleSetup.checked = this.isActive;
+            toggleSetup.addEventListener('change', (e) => {
+                this.set(e.target.checked);
+            });
+        }
+
+        window.addEventListener('keydown', (e) => {
+            const activeTag = (document.activeElement?.tagName || '').toLowerCase();
+            if (activeTag === 'input' || activeTag === 'textarea' || document.activeElement?.isContentEditable) {
+                return;
+            }
+            if ((e.key === 'z' || e.key === 'Z') && !e.ctrlKey && !e.metaKey) {
+                e.preventDefault();
+                this.toggle();
+            }
+        });
+
+        this.enforceNoAdZone();
+        setInterval(() => {
+            if (this.isActive) this.updateZenStatusLine();
+        }, 1000);
+    },
+
+    toggle() {
+        return this.set(!this.isActive);
+    },
+
+    set(active) {
+        this.isActive = !!active;
+        try {
+            localStorage.setItem(this.STORAGE_KEY, String(this.isActive));
+        } catch {}
+        this.apply(this.isActive);
+        return this.isActive;
+    },
+
+    apply(active) {
+        this.isActive = active;
+        document.body.classList.toggle('zen-mode', active);
+
+        const btnFocus = document.getElementById('btn-toggle-zen');
+        if (btnFocus) {
+            btnFocus.classList.toggle('active', active);
+            btnFocus.setAttribute('aria-pressed', String(active));
+            btnFocus.innerHTML = active
+                ? '<span>✦ Zen Active</span>'
+                : '<span>✦ Zen Mode</span>';
+        }
+
+        const toggleSetup = document.getElementById('toggle-zen-default');
+        if (toggleSetup && toggleSetup.checked !== active) {
+            toggleSetup.checked = active;
+        }
+
+        const cosmoStage = document.getElementById('cosmo-stage');
+        if (cosmoStage) {
+            if (active) {
+                cosmoStage.style.setProperty('display', 'none', 'important');
+            } else {
+                cosmoStage.style.removeProperty('display');
+            }
+        }
+
+        if (window.Cosmo && typeof Cosmo.setPaused === 'function') {
+            Cosmo.setPaused(active);
+        } else if (window.Cosmo && typeof Cosmo.pauseLoop === 'function' && active) {
+            Cosmo.pauseLoop();
+        }
+
+        if (active && typeof playTone === 'function') {
+            playTone([440, 554, 659], 0.35, 0.12);
+        }
+
+        this.updateZenStatusLine();
+        window.dispatchEvent(new CustomEvent('focusr:zen-toggle', { detail: { active } }));
+    },
+
+    updateZenStatusLine() {
+        const statusEl = document.getElementById('zen-status-line');
+        if (!statusEl) return;
+
+        const timerDisplay = document.getElementById('timer-display');
+        const timeStr = timerDisplay?.textContent?.trim() || '25:00';
+
+        const catNameEl = document.getElementById('focus-cat-name');
+        const catName = catNameEl?.textContent?.trim() || 'Deep Work';
+
+        let sprintStr = 'Sprint 01';
+        if (window.S && window.S.mode === 'pomodoro') {
+            const currentRound = window.S.pomoCurrent || 1;
+            const roundPadded = String(currentRound).padStart(2, '0');
+            sprintStr = window.S.pomoIsBreak ? ('Rest ' + roundPadded) : ('Sprint ' + roundPadded);
+        }
+
+        statusEl.textContent = `${timeStr} · ${catName} · ${sprintStr}`;
+    },
+
+    enforceNoAdZone() {
+        const purgeAds = () => {
+            const focusScreen = document.getElementById('s-focus');
+            if (focusScreen) {
+                const adSlots = focusScreen.querySelectorAll('.focusr-ad-slot, [data-ad-slot], .ad-banner, .sponsor-slot');
+                adSlots.forEach(slot => {
+                    slot.style.setProperty('display', 'none', 'important');
+                });
+            }
+        };
+        purgeAds();
+        setInterval(purgeAds, 3000);
+    }
+};
+
 
 /* ── DOM refs & Storage Helpers ── */
 const $ = id => document.getElementById(id);
@@ -11068,6 +11290,7 @@ window.AdManager = AdManager;
 window.DiscoveryEngine = DiscoveryEngine;
 
 function bootApplication() {
+    if (window.ZenMode) window.ZenMode.init();
     loadSessions();
     loadInventory();
     loadCategory();
@@ -11141,52 +11364,5 @@ bootApplication();
 
 })();
 </script>
-
-
-<!-- ═══ SUPPORT ATELIER / INDIE COMMUNITY MODAL ═══ -->
-<div class="spotify-modal-backdrop" id="support-atelier-backdrop">
-    <div class="spotify-modal glass" id="support-atelier-modal" style="max-width: 520px;">
-        <div class="spotify-modal-header">
-            <div class="spotify-modal-title-wrap">
-                <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: center; color: #f59e0b;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                </div>
-                <div>
-                    <h2>Support the Atelier</h2>
-                    <p>Focusr is 100% free, private, and open for all deep workers.</p>
-                </div>
-            </div>
-            <button class="modal-close-btn" id="btn-close-support-atelier" title="Close Modal">✕</button>
-        </div>
-        <div class="spotify-modal-body" style="padding: 18px 24px;">
-            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 16px; margin-bottom: 16px; line-height: 1.5; font-size: 0.88rem; color: var(--text);">
-                <p style="margin: 0 0 8px 0;">
-                    We believe essential focus tools shouldn't hide behind artificial paywalls, surveillance trackers, or predatory subscriptions.
-                </p>
-                <p style="margin: 0; color: var(--text-dim); font-size: 0.82rem;">
-                    All binaural frequencies, custom atmospheric themes, and pacing analytics are unlocked for life. If Focusr elevates your daily output, consider supporting independent development.
-                </p>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a href="https://github.com/sponsors" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: background 0.2s;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ea4aaa"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                        <span>Sponsor on GitHub</span>
-                    </div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 500;">Recurring or One-Time ↗</span>
-                </a>
-                <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: background 0.2s;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#29abe0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
-                        <span>Buy the Atelier a Coffee</span>
-                    </div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 500;">One-Time Tip ↗</span>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="module" src="/src/main.ts"></script>
 </body>
 </html>
