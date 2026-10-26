@@ -6023,7 +6023,7 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
                 <p>Curated spatial backgrounds, live dynamic liquid hues, and atmospheric depth. Completely free.</p>
             </div>
             <div style="display:flex;align-items:center;gap:0.75rem">
-                <button class="market-btn-upload" id="btn-market-upload" type="button" title="Upload custom wallpaper & auto-generate theme">
+                <button class="market-btn-upload" id="btn-market-upload" type="button" onclick="window.triggerWallpaperUpload && window.triggerWallpaperUpload()" title="Upload custom wallpaper & auto-generate theme">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     <span>+ Upload Wallpaper</span>
                 </button>
@@ -6094,7 +6094,7 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
                     <span>Browse 52+ free high-resolution space, cyberpunk, nature, and lo-fi themes.</span>
                 </div>
                 <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-                    <button class="atelier-btn-secondary" id="btn-atelier-upload-wallpaper" type="button" style="white-space:nowrap;padding:0.55rem 0.9rem;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#fff;font-size:0.8rem;font-weight:600;cursor:pointer">
+                    <button class="atelier-btn-secondary" id="btn-atelier-upload-wallpaper" type="button" onclick="window.triggerWallpaperUpload && window.triggerWallpaperUpload()" style="white-space:nowrap;padding:0.55rem 0.9rem;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#fff;font-size:0.8rem;font-weight:600;cursor:pointer">
                         <span>+ Custom Image</span>
                     </button>
                     <button class="atelier-btn-primary" id="btn-atelier-open-marketplace" type="button" style="white-space:nowrap">
@@ -6795,6 +6795,112 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
         <div>
             <button type="button" class="btn-strict-resume" id="btn-strict-resume">Resume Focus</button>
         </div>
+    </div>
+</div>
+
+<!-- ═══ Focusr Atelier & Pro Modal ═══ -->
+<div class="pricing-modal-backdrop" id="pricing-modal-backdrop">
+    <div class="pricing-modal glass" id="pricing-modal">
+        <div class="pricing-header">
+            <span class="pricing-badge">✦ FOCUSR ATELIER &bull; PRO SUITE</span>
+            <h2>Elevate Your Deep Work Studio</h2>
+            <p>Support independent local-first craftsmanship and unlock sensory ergonomics, 3D companion skins, neuroscience acoustics, and Obsidian sync.</p>
+        </div>
+
+        <div class="pricing-tabs">
+            <button class="pricing-tab active" data-plan="annual">
+                Annual Pass <span class="save-pill">SAVE 35%</span>
+            </button>
+            <button class="pricing-tab" data-plan="monthly">
+                Monthly
+            </button>
+            <button class="pricing-tab" data-plan="founder">
+                Founder Lifetime
+            </button>
+        </div>
+
+        <div class="pricing-content">
+            <div class="plan-summary-box">
+                <div>
+                    <div class="plan-price-headline" id="plan-price-headline">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount" id="price-amount-display">39</span>
+                        <span class="price-cadence" id="price-cadence-display">/ year</span>
+                    </div>
+                    <div class="plan-billing-note" id="plan-billing-note">
+                        Equivalent to $3.25/month. Billed annually. Cancel anytime.
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn-checkout-plan" id="btn-checkout-plan">
+                        <span>Get Focusr Pro Now</span> 
+                    </button>
+                    <div class="checkout-guarantee">
+                        14-day satisfaction guarantee &bull; Instant license key delivery
+                    </div>
+                </div>
+            </div>
+
+            <ul class="pricing-features-list">
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>Cosmor 3D Atelier Skins:</strong> Unlock Cyberpunk Neon, Golden Chronos, Dark Matter, and Bioluminescent companion avatars.</div>
+                </li>
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>Binaural Wave Lab:</strong> Dual-channel stereo sound synthesis targeting Alpha (10Hz), Theta (6Hz), and Gamma (40Hz) brainwave states.</div>
+                </li>
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>Obsidian & Notion Sync:</strong> Single-click markdown frontmatter export directly formatted for PKM daily notes and journals.</div>
+                </li>
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>Liquid Bottle Alchemy:</strong> Unlock hexagonal flasks, alchemical decanters, and custom fluid shader palettes.</div>
+                </li>
+                <li class="pricing-feature-item">
+                    <span class="feature-icon-check">✓</span>
+                    <div><strong>100% Offline Sovereignty:</strong> Once activated, works forever without tracking cookies or cloud dependency.</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="license-activation-card">
+            <div class="license-header-toggle" id="license-header-toggle">
+                <span>Already have a license key or voucher?</span>
+                <span id="license-toggle-arrow">▼</span>
+            </div>
+            <div id="license-expand-box" style="margin-top:10px;">
+                <div class="license-input-row">
+                    <input type="text" class="license-input" id="input-license-key" placeholder="e.g. FCSR-PRO-8F29-A71C-D310" spellcheck="false" autocomplete="off">
+                    <button class="btn-activate" id="btn-activate-license">Activate</button>
+                </div>
+                <div class="license-feedback" id="license-feedback"></div>
+                <div style="display:flex;gap:10px;align-items:center;margin-top:8px;">
+                    <button class="btn-simulate-pro" id="btn-simulate-pro">Instant Pro Preview (Test Mode)</button>
+                    <button class="btn-simulate-pro" id="btn-deactivate-pro" style="display:none;background:rgba(251,113,133,0.12);color:#fb7185;border-color:rgba(251,113,133,0.3)">✕ Deactivate</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:1.2rem;">
+            <button class="btn-secondary" id="pricing-modal-close" style="padding:6px 20px;font-size:0.8rem">Close Panel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden File Input for Custom Wallpaper Upload -->
+<input type="file" id="wallpaper-file-input" accept="image/jpeg,image/png,image/webp,image/avif" style="display:none">
+
+<!-- Global Drag & Drop Overlay -->
+<div class="global-dropzone-overlay" id="global-dropzone-overlay">
+    <div class="global-dropzone-card glass">
+        <div class="dropzone-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3>Drop Image to Deploy Custom Theme</h3>
+        <p>Focusr will extract the color palette, verify WCAG AA contrast for readability, and deploy your custom spatial atmosphere instantly.</p>
     </div>
 </div>
 
@@ -14733,7 +14839,8 @@ const DiscoveryEngine = {
    ═════════════════════════════════════════════════════════════════ */
 const FocusrThemeExtractor = {
     async processImageFile(file) {
-        if (!file || !file.type.startsWith('image/')) {
+        const isImage = file && ((file.type && file.type.startsWith('image/')) || /\.(jpg|jpeg|png|webp|avif|bmp|gif)$/i.test(file.name || ''));
+        if (!isImage) {
             throw new Error('Please select a valid image file (JPG, PNG, WebP).');
         }
 
@@ -14741,7 +14848,7 @@ const FocusrThemeExtractor = {
         const img = await this.loadImage(dataUrl);
 
         // Optimize image resolution to 1920x1080 to conserve browser memory
-        const optimizedBgUrl = this.resizeImage(img, 1920, 1080, 0.84);
+        const optimizedBgUrl = this.resizeImage(img, 1600, 1000, 0.80);
 
         // Extract palette & dynamic parameters
         const analysis = this.extractColors(img);
@@ -15037,8 +15144,19 @@ const CustomThemeStorage = {
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.themes));
             window.CUSTOM_THEMES = this.themes;
         } catch (e) {
-            console.error('LocalStorage quota error saving custom themes:', e);
-            showToast('Storage quota warning: theme active for this session.', '', 4000);
+            console.warn('LocalStorage quota limit reached, trimming oldest custom themes to fit...', e);
+            while (this.themes.length > 1) {
+                this.themes.shift(); // remove oldest custom theme
+                try {
+                    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.themes));
+                    window.CUSTOM_THEMES = this.themes;
+                    return;
+                } catch (retryErr) {
+                    // continue trimming
+                }
+            }
+            window.CUSTOM_THEMES = this.themes;
+            showToast('Wallpaper active for this session (storage quota full).', '', 4000);
         }
     },
 
@@ -15126,12 +15244,32 @@ const WallpaperMarketplace = {
             });
         });
 
-        // File upload triggers
-        if (btnUpload && fileInput) {
-            btnUpload.addEventListener('click', () => fileInput.click());
+        // Global Bulletproof File Upload Trigger
+        window.triggerWallpaperUpload = () => {
+            let fi = $('wallpaper-file-input');
+            if (!fi) {
+                fi = document.createElement('input');
+                fi.type = 'file';
+                fi.id = 'wallpaper-file-input';
+                fi.accept = 'image/jpeg,image/png,image/webp,image/avif';
+                fi.style.display = 'none';
+                document.body.appendChild(fi);
+            }
+            fi.onchange = async (ev) => {
+                const file = ev.target.files && ev.target.files[0];
+                if (file) {
+                    await this.handleUserUpload(file);
+                    fi.value = '';
+                }
+            };
+            fi.click();
+        };
+
+        if (btnUpload) {
+            btnUpload.addEventListener('click', () => window.triggerWallpaperUpload());
         }
-        if (btnAtelierUpload && fileInput) {
-            btnAtelierUpload.addEventListener('click', () => fileInput.click());
+        if (btnAtelierUpload) {
+            btnAtelierUpload.addEventListener('click', () => window.triggerWallpaperUpload());
         }
 
         if (fileInput) {
@@ -16088,112 +16226,6 @@ bootApplication();
 
 })();
 </script>
-
-<!-- ═══ Focusr Atelier & Pro Modal ═══ -->
-<div class="pricing-modal-backdrop" id="pricing-modal-backdrop">
-    <div class="pricing-modal glass" id="pricing-modal">
-        <div class="pricing-header">
-            <span class="pricing-badge">✦ FOCUSR ATELIER &bull; PRO SUITE</span>
-            <h2>Elevate Your Deep Work Studio</h2>
-            <p>Support independent local-first craftsmanship and unlock sensory ergonomics, 3D companion skins, neuroscience acoustics, and Obsidian sync.</p>
-        </div>
-
-        <div class="pricing-tabs">
-            <button class="pricing-tab active" data-plan="annual">
-                Annual Pass <span class="save-pill">SAVE 35%</span>
-            </button>
-            <button class="pricing-tab" data-plan="monthly">
-                Monthly
-            </button>
-            <button class="pricing-tab" data-plan="founder">
-                Founder Lifetime
-            </button>
-        </div>
-
-        <div class="pricing-content">
-            <div class="plan-summary-box">
-                <div>
-                    <div class="plan-price-headline" id="plan-price-headline">
-                        <span class="price-currency">$</span>
-                        <span class="price-amount" id="price-amount-display">39</span>
-                        <span class="price-cadence" id="price-cadence-display">/ year</span>
-                    </div>
-                    <div class="plan-billing-note" id="plan-billing-note">
-                        Equivalent to $3.25/month. Billed annually. Cancel anytime.
-                    </div>
-                </div>
-
-                <div>
-                    <button class="btn-checkout-plan" id="btn-checkout-plan">
-                        <span>Get Focusr Pro Now</span> 
-                    </button>
-                    <div class="checkout-guarantee">
-                        14-day satisfaction guarantee &bull; Instant license key delivery
-                    </div>
-                </div>
-            </div>
-
-            <ul class="pricing-features-list">
-                <li class="pricing-feature-item">
-                    <span class="feature-icon-check">✓</span>
-                    <div><strong>Cosmor 3D Atelier Skins:</strong> Unlock Cyberpunk Neon, Golden Chronos, Dark Matter, and Bioluminescent companion avatars.</div>
-                </li>
-                <li class="pricing-feature-item">
-                    <span class="feature-icon-check">✓</span>
-                    <div><strong>Binaural Wave Lab:</strong> Dual-channel stereo sound synthesis targeting Alpha (10Hz), Theta (6Hz), and Gamma (40Hz) brainwave states.</div>
-                </li>
-                <li class="pricing-feature-item">
-                    <span class="feature-icon-check">✓</span>
-                    <div><strong>Obsidian & Notion Sync:</strong> Single-click markdown frontmatter export directly formatted for PKM daily notes and journals.</div>
-                </li>
-                <li class="pricing-feature-item">
-                    <span class="feature-icon-check">✓</span>
-                    <div><strong>Liquid Bottle Alchemy:</strong> Unlock hexagonal flasks, alchemical decanters, and custom fluid shader palettes.</div>
-                </li>
-                <li class="pricing-feature-item">
-                    <span class="feature-icon-check">✓</span>
-                    <div><strong>100% Offline Sovereignty:</strong> Once activated, works forever without tracking cookies or cloud dependency.</div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="license-activation-card">
-            <div class="license-header-toggle" id="license-header-toggle">
-                <span>Already have a license key or voucher?</span>
-                <span id="license-toggle-arrow">▼</span>
-            </div>
-            <div id="license-expand-box" style="margin-top:10px;">
-                <div class="license-input-row">
-                    <input type="text" class="license-input" id="input-license-key" placeholder="e.g. FCSR-PRO-8F29-A71C-D310" spellcheck="false" autocomplete="off">
-                    <button class="btn-activate" id="btn-activate-license">Activate</button>
-                </div>
-                <div class="license-feedback" id="license-feedback"></div>
-                <div style="display:flex;gap:10px;align-items:center;margin-top:8px;">
-                    <button class="btn-simulate-pro" id="btn-simulate-pro">Instant Pro Preview (Test Mode)</button>
-                    <button class="btn-simulate-pro" id="btn-deactivate-pro" style="display:none;background:rgba(251,113,133,0.12);color:#fb7185;border-color:rgba(251,113,133,0.3)">✕ Deactivate</button>
-                </div>
-            </div>
-        </div>
-
-        <div style="text-align:center;margin-top:1.2rem;">
-            <button class="btn-secondary" id="pricing-modal-close" style="padding:6px 20px;font-size:0.8rem">Close Panel</button>
-        </div>
-    </div>
-</div>
-
-<!-- Hidden File Input for Custom Wallpaper Upload -->
-<input type="file" id="wallpaper-file-input" accept="image/jpeg,image/png,image/webp,image/avif" style="display:none">
-
-<!-- Global Drag & Drop Overlay -->
-<div class="global-dropzone-overlay" id="global-dropzone-overlay">
-    <div class="global-dropzone-card glass">
-        <div class="dropzone-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        </div>
-        <h3>Drop Image to Deploy Custom Theme</h3>
-        <p>Focusr will extract the color palette, verify WCAG AA contrast for readability, and deploy your custom spatial atmosphere instantly.</p>
-    </div>
-</div>
 
 </body>
 </html>
