@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#08080f">
@@ -761,7 +761,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* ══════════════════════════════════════════
    SETUP SCREEN
    ══════════════════════════════════════════ */
-.setup-wrap{width:100%;max-width:420px}
+.setup-wrap{width:100%;max-width:420px;padding:2.2rem 2.5rem;box-sizing:border-box;}
 .setup-wrap h2{text-align:center;font-size:1.5rem;font-weight:600;margin-bottom:2rem}
 .setup-panel{display:none}
 .setup-panel.active{display:block}
@@ -3278,43 +3278,90 @@ body.oled-true-black .glass {
     font-weight: 500;
 }
 
-/* ── Responsive ── */
-@media(max-width:720px){
-    .theme-modal{padding:1.4rem;max-height:92vh}
-    .theme-grid{grid-template-columns:repeat(2,1fr);gap:.7rem}
-    .theme-adjustments{grid-template-columns:1fr;gap:.8rem;padding:.9rem}
-    .theme-thumb{height:85px}
+
+/* ══════════════════════════════════════════════════════════
+   COMPREHENSIVE MOBILE DEVICE FORMATTING & TOUCH OPTIMIZATION
+   ══════════════════════════════════════════════════════════ */
+
+/* Global Mobile Touch Ergonomics */
+* {
+    -webkit-tap-highlight-color: transparent;
 }
-@media(max-width:600px){
-    /* ── Screen & Viewport Safe Areas ── */
+button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn, .spatial-slider, .theme-card, .wallpaper-card, .focusr-dropdown-item {
+    touch-action: manipulation;
+}
+
+/* Prevent iOS Safari Automatic Viewport Zoom on Form Controls */
+@media (max-width: 768px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="email"],
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Small Tablets & Large Phones (<= 720px) */
+@media (max-width: 720px) {
+    .theme-modal { padding: 1.25rem 1rem; max-height: 90dvh; border-radius: 20px; }
+    .theme-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+    .theme-adjustments { grid-template-columns: 1fr; gap: 0.8rem; padding: 0.9rem; }
+    .theme-thumb { height: 85px; }
+    .market-wallpapers-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+}
+
+/* Mobile Smartphones (<= 640px) */
+@media (max-width: 640px) {
+    /* ── Screen & Dynamic Viewport Safe Areas ── */
     .screen {
-        padding: max(1.15rem, env(safe-area-inset-top)) max(0.85rem, env(safe-area-inset-left)) max(3.5rem, calc(env(safe-area-inset-bottom) + 2rem)) max(0.85rem, env(safe-area-inset-right));
+        padding: max(1rem, env(safe-area-inset-top)) max(0.75rem, env(safe-area-inset-left)) max(3.5rem, calc(env(safe-area-inset-bottom) + 2rem)) max(0.75rem, env(safe-area-inset-right));
         box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
     }
 
-    /* ── Header & Action Island on Mobile ── */
+    /* ── Top Back Button ── */
+    .btn-back {
+        top: max(0.9rem, env(safe-area-inset-top));
+        left: max(0.75rem, env(safe-area-inset-left));
+        padding: 0.4rem 0.8rem;
+        font-size: 0.88rem;
+        min-height: 38px;
+        border-radius: 980px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    /* ── Home Header & Navigation Island ── */
     .home-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        padding: 0 0.1rem;
-        margin-bottom: 1.15rem;
-        gap: 0.5rem;
+        padding: 0;
+        margin-bottom: 1.1rem;
+        gap: 0.4rem;
     }
     .home-title {
-        font-size: 1.65rem;
+        font-size: 1.55rem;
         letter-spacing: -0.02em;
+        white-space: nowrap;
     }
     .home-actions {
         display: flex;
         align-items: center;
-        gap: 0.35rem;
+        gap: 0.3rem;
     }
     .btn-menu-trigger {
         padding: 0.35rem 0.55rem;
-        font-size: 0.75rem;
+        font-size: 0.74rem;
         gap: 0.25rem;
+        min-height: 34px;
+        white-space: nowrap;
     }
     .spatial-action-island {
         padding: 0.15rem 0.25rem;
@@ -3323,6 +3370,8 @@ body.oled-true-black .glass {
     .spatial-action-island .btn-icon {
         width: 32px;
         height: 32px;
+        min-width: 32px;
+        min-height: 32px;
     }
     .spatial-action-island .btn-icon svg {
         width: 14px;
@@ -3330,25 +3379,34 @@ body.oled-true-black .glass {
     }
     .focusr-dropdown-menu {
         width: 295px;
-        max-width: calc(100vw - 1.5rem);
+        max-width: calc(100vw - 1.25rem);
         right: 0;
+        max-height: calc(100dvh - 4.5rem);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 18px;
+    }
+    .focusr-dropdown-item {
+        min-height: 42px;
+        padding: 0.6rem 0.85rem;
     }
 
-    /* ── Mode Grid: Full-Width Touch List Cards ── */
+    /* ── Home Mode Grid: Full-Width Mobile Cards ── */
     .mode-grid {
         grid-template-columns: 1fr;
-        gap: 0.7rem;
+        gap: 0.65rem;
         width: 100%;
         max-width: 100%;
         margin-bottom: 0.85rem;
     }
     .mode-card {
-        padding: 1rem 1.15rem;
+        padding: 0.95rem 1.15rem;
         display: flex;
         align-items: center;
-        gap: 0.95rem;
+        gap: 0.9rem;
         text-align: left;
         border-radius: 16px;
+        min-height: 64px;
     }
     .mode-card .mode-icon {
         width: 40px;
@@ -3365,7 +3423,7 @@ body.oled-true-black .glass {
         font-size: 0.78rem;
     }
 
-    /* ── Atelier Grid & Streamlined Cards on Mobile ── */
+    /* ── Home Atelier Grid & Minimal Drawer ── */
     .home-atelier-grid {
         grid-template-columns: 1fr !important;
         width: 100% !important;
@@ -3414,107 +3472,283 @@ body.oled-true-black .glass {
     /* ── Quick Stats Grid on Mobile ── */
     .quick-stats {
         display: grid !important;
-        grid-template-columns: repeat(5, 1fr) !important;
-        padding: 0.85rem 0.4rem !important;
-        gap: 0.25rem !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        padding: 0.75rem 0.3rem !important;
+        gap: 0.2rem !important;
         width: 100% !important;
         max-width: 100% !important;
         border-radius: 16px !important;
         margin-bottom: 0.85rem !important;
     }
-    .stat-value {
-        font-size: 1.15rem !important;
-    }
-    .stat-label {
-        font-size: 0.6rem !important;
-        letter-spacing: 0.04em !important;
-    }
     .stat {
-        min-width: 56px;
+        min-width: 0 !important;
+        padding: 0 !important;
+        text-align: center;
         gap: 0.1rem;
     }
     .stat-value {
-        font-size: 1.15rem;
+        font-size: 1.08rem !important;
+        white-space: nowrap;
     }
     .stat-label {
-        font-size: 0.64rem;
-        letter-spacing: 0.05em;
+        font-size: 0.58rem !important;
+        letter-spacing: 0.02em !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    /* ── Focus Screen on Mobile ── */
+    /* ── Setup Screen (s-setup) on Mobile ── */
+    .setup-wrap {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 1.25rem 0.95rem !important;
+        border-radius: 20px !important;
+        margin: max(2.8rem, env(safe-area-inset-top) + 1.8rem) auto 1.5rem !important;
+    }
+    .setup-wrap h2 {
+        font-size: 1.35rem;
+        margin-bottom: 1.35rem;
+    }
+    .duration-picker {
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .picker-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+        border-radius: 12px;
+    }
+    .picker-group input {
+        font-size: 2.2rem;
+        width: 76px;
+        height: 60px;
+    }
+    .picker-sep {
+        font-size: 1.8rem;
+    }
+    .pomo-settings {
+        gap: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
+    .setting-row {
+        padding: 0.65rem 0.85rem;
+        border-radius: 14px;
+    }
+    .adj-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1.1rem;
+        border-radius: 10px;
+    }
+    .setup-category-wrap {
+        margin-bottom: 1.25rem;
+    }
+    .super-strict-toggle-row, .focus-alarm-toggle-row {
+        padding: 0.75rem 0.85rem;
+        border-radius: 14px;
+        gap: 0.5rem;
+    }
+    .btn-test-alarm {
+        padding: 0.25rem 0.55rem;
+        font-size: 0.68rem;
+    }
+    .btn-primary {
+        min-height: 48px;
+        font-size: 1.05rem;
+        border-radius: 980px;
+        width: 100%;
+    }
+
+    /* ── Focus Screen (s-focus) on Mobile ── */
     .focus-layout {
         gap: 0.45rem;
-        padding: 0.25rem 0;
+        padding: 0.2rem 0;
+        width: 100%;
+        max-width: 100%;
+    }
+    .focus-top-bar {
+        width: 100%;
+        gap: 0.45rem;
+        margin-bottom: 0.25rem;
+    }
+    .focus-badges-row {
+        gap: 0.35rem;
+        justify-content: center;
+    }
+    .focus-top-bar-controls {
+        gap: 0.35rem !important;
+        justify-content: center !important;
+    }
+    .inventory-pill-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.72rem;
+        min-height: 34px;
+    }
+    .focus-spotify-hud {
+        width: 100%;
+        padding: 0.6rem 0.8rem;
+        border-radius: 14px;
     }
     .progress-ring {
-        width: min(230px, 62vw);
-        height: min(230px, 62vw);
+        width: min(220px, 58vw);
+        height: min(220px, 58vw);
     }
     .timer-display {
-        font-size: clamp(2.3rem, 11vw, 3.4rem);
+        font-size: clamp(2.2rem, 10vw, 3.2rem);
+    }
+    .water-bottle-container {
+        margin: 0.1rem 0;
+    }
+    .water-canvas-wrap {
+        width: 110px;
+        height: 176px;
+    }
+    #water-canvas {
+        width: 110px;
+        height: 176px;
     }
     .focus-controls {
-        gap: 0.9rem;
+        gap: 0.85rem;
+        margin-top: 0.4rem;
+        padding-bottom: max(1.2rem, env(safe-area-inset-bottom));
     }
     .ctrl-btn {
-        width: 52px;
-        height: 52px;
-        font-size: 1.2rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.15rem;
+        border-radius: 50%;
     }
     .ghost-racer-card {
-        padding: 0.75rem 0.95rem;
+        padding: 0.75rem 0.85rem;
         border-radius: 16px;
-        gap: 0.5rem;
+        gap: 0.45rem;
+        width: 100%;
     }
     .ghost-rival-meta {
         display: none;
     }
     .focus-hint {
-        font-size: 0.62rem;
+        font-size: 0.65rem;
         line-height: 1.35;
         padding: 0 0.5rem;
         text-align: center;
         opacity: 0.5;
     }
 
-    /* ── Modals & Sheets on Mobile ── */
-    .target-modal, .theme-modal, .desk-gear-modal {
-        width: 100%;
-        max-width: 100%;
-        padding: 1.25rem 1rem;
-        border-radius: 20px;
-        max-height: 90vh;
-    }
-    .target-modal-header h2, .theme-modal-header h2 {
-        font-size: 1.25rem;
-    }
+    /* ── Complete Screen (s-complete) on Mobile ── */
     .debrief-sheet {
-        padding: 1.3rem 1.05rem;
-        max-height: 92vh;
-        border-radius: 20px;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 1.25rem 0.95rem !important;
+        max-height: 88dvh !important;
+        border-radius: 20px !important;
+        gap: 1rem !important;
     }
     .debrief-header {
         flex-direction: column;
         align-items: stretch;
-        gap: 1rem;
+        gap: 0.85rem;
+    }
+    .debrief-title {
+        font-size: 1.35rem;
     }
     .purity-meter-wrap {
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
     }
+    .debrief-stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+    }
+    .deb-stat-box {
+        padding: 0.65rem 0.5rem;
+    }
+    .deb-stat-val {
+        font-size: 1.1rem;
+    }
+
+    /* ── Analytics Screen (s-analytics) on Mobile ── */
+    .analytics-scroll {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 0.1rem 3rem;
+    }
+    .analytics-scroll h2 {
+        font-size: 1.35rem;
+        margin-bottom: 1.25rem;
+    }
     .a-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.65rem;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.6rem !important;
+        margin-bottom: 1rem;
     }
-    .complete-card {
-        padding: 1.6rem 1.2rem;
+    .a-card {
+        padding: 0.85rem 0.75rem !important;
+        border-radius: 16px !important;
     }
-    .toast-msg {
-        white-space: normal;
+    .a-card-val {
+        font-size: 1.25rem !important;
     }
-    .theme-grid {
-        grid-template-columns: 1fr;
+    .weekly-chart, .recent-panel, .category-breakdown {
+        padding: 1rem 0.85rem !important;
+        border-radius: 18px !important;
+        margin-bottom: 1rem !important;
+    }
+    .chart-row {
+        height: 120px;
+    }
+    .btn-clear {
+        width: 100%;
+        min-height: 44px;
+        border-radius: 980px;
+    }
+
+    /* ── All Modals & Sheets on Mobile ── */
+    .modal-backdrop,
+    .desk-gear-modal-backdrop,
+    .wallpaper-marketplace-backdrop,
+    .theme-modal-backdrop,
+    .spotify-modal-backdrop,
+    .target-modal-backdrop,
+    .login-modal-backdrop {
+        padding: max(0.5rem, env(safe-area-inset-top)) max(0.5rem, env(safe-area-inset-right)) max(0.5rem, env(safe-area-inset-bottom)) max(0.5rem, env(safe-area-inset-left)) !important;
+    }
+    .target-modal,
+    .theme-modal,
+    .desk-gear-modal,
+    .spotify-modal,
+    .wallpaper-marketplace-modal,
+    .login-modal {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 1.15rem 0.95rem !important;
+        border-radius: 20px !important;
+        max-height: 90dvh !important;
+        box-sizing: border-box !important;
+        -webkit-overflow-scrolling: touch;
+    }
+    .modal-close,
+    .theme-modal-close,
+    .login-modal-close,
+    .market-close-btn {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .theme-grid,
+    .market-wallpapers-grid,
+    .spotify-stations-grid,
+    .desk-gear-grid,
+    .soundscape-mixer-grid,
+    .clock-faces-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
     }
     .cosmo-stage {
         bottom: 0.6rem;
@@ -3522,33 +3756,54 @@ body.oled-true-black .glass {
         gap: 0.4rem;
     }
     .cosmo-actor, #cosmo-canvas {
-        width: 120px;
-        height: 120px;
+        width: 110px;
+        height: 110px;
     }
     .cosmo-bubble {
         width: calc(100vw - 2rem);
-        max-width: 300px;
+        max-width: 290px;
         padding: 0.75rem 0.85rem;
         font-size: 0.78rem;
     }
 }
-@media (max-width: 380px) {
+
+/* Compact Smartphones (<= 420px) */
+@media (max-width: 420px) {
     .spatial-action-island #btn-toggle-cosmo,
     .spatial-action-island #btn-open-target {
-        display: none;
+        display: none !important;
     }
     .home-title {
-        font-size: 1.45rem;
-    }
-    .stat {
-        min-width: 48px;
+        font-size: 1.4rem;
     }
     .stat-value {
-        font-size: 1.05rem;
+        font-size: 1rem !important;
+    }
+    .stat-label {
+        font-size: 0.54rem !important;
+    }
+    .login-modal-header {
+        padding: 1.1rem 1rem 0.8rem;
+    }
+    .login-modal-body {
+        padding: 1rem;
     }
 }
-    
-/* ══════════════════════════════════════════════════════════
+
+/* Ultra-Narrow Mobile Devices (<= 350px, e.g. Fold Cover Screen) */
+@media (max-width: 350px) {
+    .quick-stats {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.45rem 0.2rem !important;
+    }
+    .home-title {
+        font-size: 1.25rem;
+    }
+    .btn-menu-trigger span {
+        font-size: 0.68rem;
+    }
+}
+
    SPOTIFY INTEGRATION STYLES (Focusr Spatial Music)
    ══════════════════════════════════════════════════════════ */
 .btn-spotify {
@@ -5217,7 +5472,7 @@ body.oled-true-black .glass {
 <!-- ═══ SETUP ═══ -->
 <section id="s-setup" class="screen">
     <button class="btn-back" id="setup-back">← Back</button>
-    <div class="setup-wrap glass" style="padding:2.5rem">
+    <div class="setup-wrap glass">
 
         <!-- Timer Setup -->
         <div id="setup-timer" class="setup-panel">
