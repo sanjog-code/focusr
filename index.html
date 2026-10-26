@@ -5334,11 +5334,6 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
 
                     <div class="menu-divider"></div>
 
-                    <button class="menu-item-btn" id="menu-item-deck">
-                        <span class="menu-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
-                        <span class="menu-item-text">Product Presentation</span>
-                    </button>
-
                     <button class="menu-item-btn" id="menu-item-cosmo">
                         <span class="menu-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M10.4 10.4l-4 4"/><path d="M17.6 6.4l-4 4"/></svg></span>
                         <span class="menu-item-text">3D Desk Companion</span>
@@ -10710,26 +10705,7 @@ const AccountManager = {
             soundClick();
         });
 
-        const itemPosters = $('menu-item-posters');
-        if (itemPosters) itemPosters.addEventListener('click', () => {
-            this.closeDropdown();
-            window.open('posters.html', '_blank');
-            soundClick();
-        });
 
-        const itemDeck = $('menu-item-deck');
-        if (itemDeck) itemDeck.addEventListener('click', () => {
-            this.closeDropdown();
-            window.open('deck.html', '_blank');
-            soundClick();
-        });
-
-        const itemLaunch = $('menu-item-launch');
-        if (itemLaunch) itemLaunch.addEventListener('click', () => {
-            this.closeDropdown();
-            window.open('launch.html', '_blank');
-            soundClick();
-        });
 
         const itemExport = $('menu-item-export-data');
         if (itemExport) itemExport.addEventListener('click', () => {
