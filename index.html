@@ -5971,21 +5971,32 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
             </div>
         </div>
 
-        <!-- Session Reflection / Accomplishment Log -->
+        <!-- Session Reflection / Accomplishment Log & Notes -->
         <div class="debrief-section-card debrief-notes-card">
             <div class="deb-sec-head">
                 <div class="deb-sec-title">
                     <span class="deb-sec-icon">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                     </span>
-                    <span>Session Accomplishment Log</span>
+                    <span>Session Accomplishment & Reflection</span>
                 </div>
                 <span class="deb-sec-tag" id="deb-notes-saved-tag">Optional Log</span>
             </div>
-            <div class="debrief-notes-wrap">
-                <textarea id="deb-session-notes-input" class="debrief-notes-textarea" placeholder="What did you get done? Key takeaways, blockers, or next step for your next session..." rows="2"></textarea>
-                <div style="display:flex;justify-content:flex-end;margin-top:0.5rem">
-                    <button type="button" class="btn-save-note" id="btn-save-session-notes">Save Accomplishment</button>
+            <div class="debrief-notes-wrap" style="display: flex; flex-direction: column; gap: 10px;">
+                <div>
+                    <label for="deb-session-notes-input" style="display: block; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px;">What did you accomplish during this sprint?</label>
+                    <textarea id="deb-session-notes-input" class="debrief-notes-textarea" placeholder="Shipped feature, solved memory leak, reviewed PR, read chapter 4..." rows="2"></textarea>
+                </div>
+                <div>
+                    <label for="deb-friction-input" style="display: block; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px;">Friction / Distractions Encountered</label>
+                    <input type="text" id="deb-friction-input" placeholder="Phone notification, Slack ping, fatigue, noisy room..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.85rem;" />
+                </div>
+                <div>
+                    <label for="deb-next-input" style="display: block; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px;">Next Action / Immediate Sprint Intention</label>
+                    <input type="text" id="deb-next-input" placeholder="Begin PR review, write unit tests for parser..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.85rem;" />
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:0.35rem">
+                    <button type="button" class="btn-save-note" id="btn-save-session-notes">Save Reflections</button>
                 </div>
             </div>
         </div>
@@ -6587,7 +6598,7 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
             <div class="login-optional-banner">
                 <span class="login-optional-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
                 <div class="login-optional-text">
-                    <strong>Login is 100% Optional.</strong> Focusr works entirely offline in your browser with zero signup required. Linking your account lets you sync your focus stats, daily targets, and streaks across your laptop, phone, and tablet.
+                    <strong>Profile Active Locally.</strong> Focusr is 100% private and offline-first with zero tracking. Export a clean JSON backup anytime or restore across devices. Multi-device encrypted Cloud Sync coming in v2.
                 </div>
             </div>
 
@@ -6682,15 +6693,23 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
 
                 <div class="sync-actions-card">
                     <div class="sync-actions-title">
-                        <span>Cloud Data Synchronization</span>
-                        <span id="sync-last-time" style="font-size:0.75rem;font-weight:600;color:#94a3b8">Just now</span>
+                        <span>Local-First Data Management</span>
+                        <span id="sync-last-time" style="font-size:0.75rem;font-weight:600;color:var(--teal)">Active Locally (Zero Trackers)</span>
                     </div>
                     <p style="font-size:0.75rem;color:#cbd5e1;margin:0;line-height:1.45">
-                        Your focus sessions, streaks, daily goals, and inventory bottles are automatically stored in the cloud sync pool for this account.
+                        Your focus sessions, streaks, daily goals, and inventory bottles are stored 100% privately on your device. Export a clean JSON backup anytime or restore onto another browser.
                     </p>
-                    <div class="sync-buttons-row">
-                        <button class="btn-sync-action" id="btn-sync-cloud-push">Push Local Data</button>
-                        <button class="btn-sync-action" id="btn-sync-cloud-pull">Pull Cloud Data</button>
+                    <div class="sync-buttons-row" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                        <button type="button" class="btn-sync-action" id="btn-export-backup" style="flex:1;min-width:140px">
+                            Export Backup (.json)
+                        </button>
+                        <label class="btn-sync-action" for="file-restore-backup" style="flex:1;min-width:140px;text-align:center;cursor:pointer;display:inline-flex;align-items:center;justify-content:center">
+                            Restore Backup File
+                        </label>
+                        <input type="file" id="file-restore-backup" accept=".json,application/json" style="display:none;" />
+                    </div>
+                    <div style="font-size:0.72rem;color:var(--text-dim);margin-top:8px;line-height:1.4">
+                        Profile active locally. Cloud Sync coming in v2.
                     </div>
                 </div>
 
@@ -8111,8 +8130,20 @@ const S = {
     lastDebrief: null,
 };
 
-/* ── DOM refs ── */
+/* ── DOM refs & Storage Helpers ── */
 const $ = id => document.getElementById(id);
+
+// Defensive storage JSON parsing with default fallback
+function safeGetJSON(key, defaultVal) {
+    try {
+        const raw = localStorage.getItem(key);
+        if (raw === null || raw === undefined) return defaultVal;
+        return JSON.parse(raw);
+    } catch (e) {
+        console.warn(`safeGetJSON parse error for "${key}":`, e);
+        return defaultVal;
+    }
+}
 const screens = {
     home: $('s-home'), setup: $('s-setup'), focus: $('s-focus'),
     complete: $('s-complete'), analytics: $('s-analytics'),
@@ -8160,16 +8191,13 @@ const focusCatIcon       = $('focus-cat-icon');
 const focusCatName       = $('focus-cat-name');
 
 // Super Strict Mode DOM refs
-const toggleStrictHome   = $('toggle-super-strict-home');
 const toggleStrictSetup  = $('toggle-super-strict-setup');
 const focusStrictBadge   = $('focus-strict-badge');
 const strictBadgeText    = $('strict-badge-text');
 const strictIdleOverlay  = $('strict-idle-overlay');
 
 // Loud Wake-up Alarm DOM refs
-const toggleAlarmHome     = $('toggle-loud-alarm-home');
 const toggleAlarmSetup    = $('toggle-loud-alarm-setup');
-const btnTestAlarmHome    = $('btn-test-alarm-home');
 const btnTestAlarmSetup   = $('btn-test-alarm-setup');
 const focusUnfocusedBadge = $('focus-unfocused-badge');
 const unfocusedBadgeText  = $('unfocused-badge-text');
@@ -8364,7 +8392,6 @@ function setSuperStrict(enabled, shouldToast = true) {
 }
 
 function syncStrictToggles() {
-    if (toggleStrictHome) toggleStrictHome.checked = !!S.superStrict;
     if (toggleStrictSetup) toggleStrictSetup.checked = !!S.superStrict;
 }
 
@@ -8495,7 +8522,6 @@ function setLoudAlarm(enabled, shouldToast = true) {
 }
 
 function syncLoudAlarmToggles() {
-    if (toggleAlarmHome) toggleAlarmHome.checked = !!S.loudAlarmEnabled;
     if (toggleAlarmSetup) toggleAlarmSetup.checked = !!S.loudAlarmEnabled;
 }
 
@@ -8524,9 +8550,8 @@ function isUserNotFocusing() {
 // Synthesize high-intensity, piercing wake-up alarm
 function playLoudWakeupAlarm() {
     try {
-        const AC = window.AudioContext || window.webkitAudioContext;
-        if (!AC) return;
-        const ctx = (window.CosmoAudio && CosmoAudio.getCtx) ? CosmoAudio.getCtx() : new AC();
+        const ctx = window.AudioMaster.getCtx();
+        if (!ctx) return;
         if (ctx.state === 'suspended') {
             ctx.resume().catch(() => {});
         }
@@ -9617,25 +9642,16 @@ function updateGhostHomeCard() {
     const profile = GhostPredictionModel.getPredictedProfile();
     const stats = GhostPredictionModel.getGhostStats();
     const m = profile.metrics;
-
-    if ($('gh-meta-text')) {
-        $('gh-meta-text').textContent = `Best: ${fmtShort(m.bestDurationMs)} · Weekly Avg: ${fmtShort(m.avgDurationMs)} · ${m.weeklySessions} sess/wk`;
-    }
-    if ($('gh-record-pill')) {
-        $('gh-record-pill').textContent = `${stats.wins || 0}W - ${stats.losses || 0}L`;
-    }
-
-    const currentDiff = GhostPredictionModel.getDifficulty();
-    if ($('ghost-pills-row')) {
-        $('ghost-pills-row').querySelectorAll('.ghost-mode-pill').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.mode === currentDiff);
-        });
-    }
+    // Ghost Racer telemetry sync (mode pills managed in setup)
 }
 
 /* ── Navigation ── */
 let currentScreen = 'home';
 function navigate(name) {
+    if (!screens[name]) {
+        console.warn(`Screen "${name}" not found in screens registry`);
+        return;
+    }
     screens[currentScreen]?.classList.remove('active');
     screens[name]?.classList.add('active');
     currentScreen = name;
@@ -9932,8 +9948,9 @@ const SpotifyManager = {
     },
 
     async initiateOAuth() {
-        if (!this.clientId) {
-            showToast('Please enter a Spotify Client ID below first.', '', 4500);
+        const rawId = (this.clientId || '').trim();
+        if (!rawId || rawId.length !== 32 || !/^[a-f0-9]{32}$/i.test(rawId)) {
+            showToast('Experimental: A valid 32-character Spotify Developer Client ID is required to connect.', 'warning', 5000);
             const panel = $('oauth-config-panel');
             if (panel) panel.classList.add('open');
             return;
@@ -10323,10 +10340,93 @@ const SpotifyManager = {
    ══════════════════════════════════════════════════════════ */
 const AccountManager = {
     STORAGE_USER_KEY: 'focusr_user_account',
-    STORAGE_SYNC_POOL_KEY: 'focusr_cloud_sync_pool',
     STORAGE_GOOGLE_CLIENT_ID: 'focusr_google_client_id',
     currentUser: null,
     googleClientId: null,
+
+    exportBackup() {
+        try {
+            const data = {
+                version: 1,
+                exportedAt: new Date().toISOString(),
+                user: safeGetJSON(this.STORAGE_USER_KEY, null),
+                history: safeGetJSON('focusr_history', []),
+                sessions: safeGetJSON('focusr_sessions', []),
+                inventory: safeGetJSON('focusr_bottle_inventory', []),
+                dailyTarget: localStorage.getItem('focusr_daily_target_minutes') || '120',
+                customThemes: safeGetJSON('focusr_custom_themes', []),
+                stats: {
+                    level: localStorage.getItem('focusr_level') || '1',
+                    xp: localStorage.getItem('focusr_xp') || '0',
+                    streak: localStorage.getItem('focusr_streak') || '0'
+                }
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `focusr-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Backup downloaded successfully (.json)', 'success', 3500);
+        } catch (err) {
+            console.error('Export failed:', err);
+            showToast('Export failed. Please check browser permissions.', 'error', 3500);
+        }
+    },
+
+    restoreBackup(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (!data || typeof data !== 'object') {
+                    throw new Error('Invalid JSON payload');
+                }
+                
+                // Merge session history without duplicates
+                if (Array.isArray(data.history) || Array.isArray(data.sessions)) {
+                    const toMerge = Array.isArray(data.sessions) ? data.sessions : data.history;
+                    const existing = safeGetJSON('focusr_sessions', safeGetJSON('focusr_history', []));
+                    const seenIds = new Set(existing.map(s => s.id || (s.date + '_' + s.startTime)));
+                    const newSessions = toMerge.filter(s => {
+                        const id = s.id || (s.date + '_' + s.startTime);
+                        return !seenIds.has(id);
+                    });
+                    const merged = existing.concat(newSessions);
+                    localStorage.setItem('focusr_sessions', JSON.stringify(merged));
+                    localStorage.setItem('focusr_history', JSON.stringify(merged));
+                }
+
+                // Merge bottle inventory without duplicates
+                if (Array.isArray(data.inventory)) {
+                    const existingInv = safeGetJSON('focusr_bottle_inventory', []);
+                    const seenBottleIds = new Set(existingInv.map(b => b.id));
+                    const newBottles = data.inventory.filter(b => b.id && !seenBottleIds.has(b.id));
+                    const mergedInv = existingInv.concat(newBottles);
+                    localStorage.setItem('focusr_bottle_inventory', JSON.stringify(mergedInv));
+                }
+
+                if (data.dailyTarget) {
+                    localStorage.setItem('focusr_daily_target_minutes', String(data.dailyTarget));
+                }
+
+                if (Array.isArray(data.customThemes) && data.customThemes.length > 0) {
+                    localStorage.setItem('focusr_custom_themes', JSON.stringify(data.customThemes));
+                }
+
+                showToast('Focus data restored! Reloading...', 'success', 2500);
+                setTimeout(() => window.location.reload(), 1200);
+            } catch (err) {
+                console.error('Restore error:', err);
+                showToast('Failed to parse backup file: Invalid format.', 'error', 4500);
+            }
+        };
+        reader.readAsText(file);
+    },
 
     init() {
         this.loadUser();
@@ -10597,63 +10697,8 @@ const AccountManager = {
     },
 
     // Push local state to cloud sync pool for this user
-    pushCloudData() {
-        if (!this.currentUser) return;
-        const pkg = this.exportLocalPackage();
-        try {
-            const syncPool = JSON.parse(localStorage.getItem(this.STORAGE_SYNC_POOL_KEY) || '{}');
-            syncPool[this.currentUser.email] = {
-                user: this.currentUser,
-                data: pkg,
-                lastSynced: new Date().toISOString()
-            };
-            localStorage.setItem(this.STORAGE_SYNC_POOL_KEY, JSON.stringify(syncPool));
-
-            const syncTimeEl = $('sync-last-time');
-            if (syncTimeEl) syncTimeEl.textContent = 'Synced just now';
-            showToast('Data synced to cloud.', '', 3500);
-        } catch (e) {
-            console.warn('Push cloud data error:', e);
-        }
-    },
-
-    // Pull data from cloud pool into local active state
-    pullCloudData() {
-        if (!this.currentUser) return;
-        try {
-            const syncPool = JSON.parse(localStorage.getItem(this.STORAGE_SYNC_POOL_KEY) || '{}');
-            const userCloud = syncPool[this.currentUser.email];
-            if (!userCloud || !userCloud.data) {
-                showToast('No newer remote data found.', '', 3500);
-                return;
-            }
-            const data = userCloud.data;
-
-            // Merge sessions
-            if (Array.isArray(data.sessions) && data.sessions.length > 0) {
-                const existingIds = new Set((S.sessions || []).map(s => s.id));
-                data.sessions.forEach(s => {
-                    if (!existingIds.has(s.id)) S.sessions.push(s);
-                });
-                saveSessions();
-            }
-
-            // Sync daily target & inventory
-            if (data.dailyTarget) {
-                localStorage.setItem(DAILY_TARGET_KEY, data.dailyTarget);
-            }
-            if (Array.isArray(data.inventory) && data.inventory.length > 0) {
-                S.inventory = data.inventory;
-                saveInventory();
-            }
-
-            refreshHomeStats();
-            renderInventoryShelf();
-            showToast('Cloud data merged successfully.', '', 4000);
-        } catch (e) {
-            console.warn('Pull cloud data error:', e);
-        }
-    },
+    pushCloudData() { this.exportBackup(); },
+    pullCloudData() { $('file-restore-backup')?.click(); },
 
     syncUI() {
         const triggerBadge = $('menu-avatar-badge');
@@ -10664,7 +10709,7 @@ const AccountManager = {
         const dropStatusText = $('dropdown-sync-text');
         const menuLoginText = $('menu-login-text');
         const menuLoginIcon = $('menu-login-icon');
-        const menuLoginTag = $('menu-login-tag');
+        // menu-login-tag pruned
 
         const unloggedView = $('unlogged-form-view');
         const loggedInView = $('logged-in-profile-view');
@@ -10693,11 +10738,7 @@ const AccountManager = {
 
             if (menuLoginText) menuLoginText.textContent = 'Device Sync Settings';
             if (menuLoginIcon) menuLoginIcon.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>';
-            if (menuLoginTag) {
-                menuLoginTag.textContent = 'Active';
-                menuLoginTag.style.background = 'rgba(16, 185, 129, 0.2)';
-                menuLoginTag.style.color = '#34d399';
-            }
+
 
             if (unloggedView) unloggedView.style.display = 'none';
             if (loggedInView) loggedInView.classList.add('active');
@@ -10719,11 +10760,7 @@ const AccountManager = {
 
             if (menuLoginText) menuLoginText.textContent = 'Link Device & Account';
             if (menuLoginIcon) menuLoginIcon.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
-            if (menuLoginTag) {
-                menuLoginTag.textContent = 'Optional';
-                menuLoginTag.style.background = 'rgba(255, 255, 255, 0.08)';
-                menuLoginTag.style.color = '#94a3b8';
-            }
+
 
             if (unloggedView) unloggedView.style.display = 'flex';
             if (loggedInView) loggedInView.classList.remove('active');
@@ -10937,30 +10974,85 @@ const AccountManager = {
             });
         }
 
+        const btnExport = $('btn-export-backup');
+        const fileRestore = $('file-restore-backup');
         const btnPush = $('btn-sync-cloud-push');
         const btnPull = $('btn-sync-cloud-pull');
         const btnLogout = $('btn-logout-account');
-        if (btnPush) btnPush.addEventListener('click', () => this.pushCloudData());
-        if (btnPull) btnPull.addEventListener('click', () => this.pullCloudData());
+
+        if (btnExport) btnExport.addEventListener('click', () => this.exportBackup());
+        if (fileRestore) {
+            fileRestore.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    this.restoreBackup(e.target.files[0]);
+                }
+            });
+        }
+        if (btnPush) btnPush.addEventListener('click', () => this.exportBackup());
+        if (btnPull) btnPull.addEventListener('click', () => $('file-restore-backup')?.click());
         if (btnLogout) btnLogout.addEventListener('click', () => this.logout());
     }
 };
 
 
-/* ── Audio ── */
+/* ════════════════════════════════════════════════════════════════
+   AUDIO MASTER SINGLETON (Consolidated Web Audio Engine)
+   ════════════════════════════════════════════════════════════════ */
+window.AudioMaster = {
+    ctx: null,
+    isUnlocked: false,
+
+    getCtx() {
+        if (!this.ctx) {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (AC) {
+                this.ctx = new AC();
+            }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(() => {});
+        }
+        return this.ctx;
+    },
+
+    unlock() {
+        if (this.isUnlocked) return;
+        const ctx = this.getCtx();
+        if (ctx) {
+            if (ctx.state === 'suspended') {
+                ctx.resume().then(() => {
+                    this.isUnlocked = true;
+                }).catch(() => {});
+            } else {
+                this.isUnlocked = true;
+            }
+        }
+    }
+};
+
+// Autoplay compliance: unlock AudioMaster on first explicit user gesture
+['pointerdown', 'keydown'].forEach(evt => {
+    window.addEventListener(evt, () => window.AudioMaster.unlock(), { once: true, passive: true });
+});
+
+/* ── UI Audio Synthesis ── */
 function playTone(freqs, dur = 0.4, vol = 0.18) {
     try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const ctx = AudioMaster.getCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
         freqs.forEach((f, i) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(f, ctx.currentTime + i * 0.12);
-            gain.gain.setValueAtTime(vol, ctx.currentTime + i * 0.12);
-            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + dur);
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.start(ctx.currentTime + i * 0.12);
-            osc.stop(ctx.currentTime + i * 0.12 + dur);
+            const startTime = now + (i * 0.12);
+            osc.frequency.setValueAtTime(f, startTime);
+            gain.gain.setValueAtTime(vol, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + dur);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + dur);
         });
     } catch {}
 }
@@ -10973,7 +11065,8 @@ function soundWarning()      { playTone([300, 240, 180], 0.25, 0.2); }
 
 function soundWaterDrop(liquidHeightFraction = 0.5) {
     try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const ctx = AudioMaster.getCtx();
+        if (!ctx) return;
         const now = ctx.currentTime;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -11002,14 +11095,7 @@ function soundWaterDrop(liquidHeightFraction = 0.5) {
 const CosmoAudio = {
     ctx: null,
     getCtx() {
-        if (!this.ctx) {
-            const AC = window.AudioContext || window.webkitAudioContext;
-            if (AC) this.ctx = new AC();
-        }
-        if (this.ctx && this.ctx.state === 'suspended') {
-            this.ctx.resume().catch(() => {});
-        }
-        return this.ctx;
+        return window.AudioMaster.getCtx();
     },
     playChirp() {
         try {
@@ -12828,8 +12914,67 @@ function tick() {
     }
 }
 
+/* ════════════════════════════════════════════════════════════════
+   BACKGROUND WEB WORKER HEARTBEAT ENGINE
+   Bypasses background tab throttling (Chrome/Safari 1-min clamp)
+   ════════════════════════════════════════════════════════════════ */
+const TimerHeartbeat = {
+    worker: null,
+    fallbackInterval: null,
+    
+    init() {
+        try {
+            const blob = new Blob([
+                `let timer = null;
+                self.onmessage = function(e) {
+                    if (e.data.action === 'start') {
+                        if (timer) clearInterval(timer);
+                        timer = setInterval(() => self.postMessage('tick'), e.data.interval || 50);
+                    } else if (e.data.action === 'stop') {
+                        if (timer) { clearInterval(timer); timer = null; }
+                    }
+                };`
+            ], { type: 'application/javascript' });
+            this.worker = new Worker(URL.createObjectURL(blob));
+            this.worker.onmessage = (e) => {
+                if (e.data === 'tick' && S.running && !S.paused) {
+                    tick();
+                }
+            };
+        } catch (err) {
+            console.warn('Web Worker heartbeat unsupported, falling back to interval:', err);
+            this.worker = null;
+        }
+    },
+
+    start(intervalMs = 50) {
+        this.stop();
+        if (this.worker) {
+            this.worker.postMessage({ action: 'start', interval: intervalMs });
+        } else {
+            this.fallbackInterval = setInterval(tick, intervalMs);
+        }
+        S.intervalId = true;
+    },
+
+    stop() {
+        if (this.worker) {
+            this.worker.postMessage({ action: 'stop' });
+        }
+        if (this.fallbackInterval) {
+            clearInterval(this.fallbackInterval);
+            this.fallbackInterval = null;
+        }
+        if (S.intervalId && typeof S.intervalId === 'number') {
+            clearInterval(S.intervalId);
+        }
+        S.intervalId = null;
+    }
+};
+TimerHeartbeat.init();
+
 function onPhaseEnd() {
-    clearInterval(S.intervalId);
+    TimerHeartbeat.stop();
     S.intervalId = null;
     S.running = false;
 
@@ -12908,7 +13053,7 @@ function startPhase(ms) {
     btnPause.innerHTML = '❚❚';
     setWaterFill(0);
     setRing(0);
-    S.intervalId = setInterval(tick, 50);
+    TimerHeartbeat.start(50);
 }
 
 /* ── Performance Debrief, Inconsistencies & Pep Talk Engine ── */
@@ -13225,7 +13370,7 @@ function renderSessionDebrief(sessionData) {
 
 function finishSession(focusMs, overrideStrict = null) {
     SpotifyManager.onSessionEnd();
-    clearInterval(S.intervalId);
+    TimerHeartbeat.stop();
     S.intervalId = null;
     S.running = false;
     S.paused = false;
@@ -13305,7 +13450,7 @@ function finishSession(focusMs, overrideStrict = null) {
 function stopSession() {
     SpotifyManager.onSessionEnd();
     if (!S.running && !S.paused) return;
-    clearInterval(S.intervalId);
+    TimerHeartbeat.stop();
     S.intervalId = null;
 
     const now = Date.now();
@@ -13360,7 +13505,7 @@ function stopSession() {
 
 function skipBreak() {
     if (!S.pomoIsBreak) return;
-    clearInterval(S.intervalId);
+    TimerHeartbeat.stop();
     S.intervalId = null;
 
     S.pomoIsBreak = false;
@@ -13500,7 +13645,7 @@ function beginSession() {
     navigate('focus');
     enterFS();
 
-    S.intervalId = setInterval(tick, 50);
+    TimerHeartbeat.start(50);
 
     // Sync Category in Focus bar
     const cat = getCategory(S.category);
@@ -13603,7 +13748,7 @@ function refreshHomeStats() {
     $('qs-time').textContent = fmtShort(todayMs);
     $('qs-sess').textContent = todaySess.length;
     $('qs-pomos').textContent = todayPomos;
-    if ($('qs-bottles')) $('qs-bottles').textContent = S.inventory.length;
+    // Quick stat inventory count handled in collection view
 
     // Streak ONLY increases when the daily focus goal is completed
     const streak = calculateDailyGoalStreak();
@@ -13800,8 +13945,8 @@ $('btn-debrief-break')?.addEventListener('click', () => {
             focusLabel.className = 'focus-mode-label is-break';
         }
         navigate('focus');
-        clearInterval(S.intervalId);
-        S.intervalId = setInterval(tick, 100);
+        TimerHeartbeat.stop();
+        TimerHeartbeat.start(100);
         showToast('5-minute relaxation break started. Rest your eyes.', '', 3500);
     }
 });
@@ -13813,15 +13958,19 @@ $('btn-debrief-analytics')?.addEventListener('click', () => {
     navigate('analytics');
 });
 
-// Debrief Action: Save Accomplishment Note
+// Debrief Action: Save Accomplishment Note & Reflections
 $('btn-save-session-notes')?.addEventListener('click', () => {
     const val = ($('deb-session-notes-input')?.value || '').trim();
-    if (!val) {
-        showToast('Please type a short accomplishment note before saving.', '', 3000);
+    const friction = ($('deb-friction-input')?.value || '').trim();
+    const nextStep = ($('deb-next-input')?.value || '').trim();
+    if (!val && !friction && !nextStep) {
+        showToast('Please enter reflections or accomplishment notes before saving.', '', 3000);
         return;
     }
     if (S.sessions && S.sessions.length > 0) {
-        S.sessions[0].note = val;
+        if (val) S.sessions[0].note = val;
+        if (friction) S.sessions[0].friction = friction;
+        if (nextStep) S.sessions[0].nextAction = nextStep;
         saveSessions();
     }
     const notesTag = $('deb-notes-saved-tag');
@@ -13830,7 +13979,7 @@ $('btn-save-session-notes')?.addEventListener('click', () => {
         notesTag.style.color = '#34d399';
     }
     soundComplete();
-    showToast('Accomplishment saved to your session history!', '', 3500);
+    showToast('Reflections saved to session history & Obsidian export!', '', 3500);
 });
 
 // Copy Debrief Sheet to Clipboard
@@ -13894,16 +14043,7 @@ const btnFocusCosmo = $('btn-focus-cosmo');
 if (btnToggleCosmo) btnToggleCosmo.addEventListener('click', () => Cosmo.toggleMode());
 if (btnFocusCosmo) btnFocusCosmo.addEventListener('click', () => Cosmo.toggleMode());
 
-// Focusr Intro Details Drawer Toggle
-const btnToggleIntro = $('btn-toggle-intro-details');
-const introDrawer = $('intro-details-drawer');
-if (btnToggleIntro && introDrawer) {
-    btnToggleIntro.addEventListener('click', () => {
-        const isOpen = introDrawer.classList.toggle('open');
-        btnToggleIntro.classList.toggle('expanded', isOpen);
-        btnToggleIntro.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-}
+// Focusr Intro details (rendered inline without accordion)
 
 $('btn-clear')?.addEventListener('click', () => {
     if (confirm('Clear all focus data and bottled inventory? This cannot be undone.')) {
@@ -13983,27 +14123,9 @@ if (btnToggleGhostHud && ghostRacerCard) {
     });
 }
 
-const ghostPillsRow = $('ghost-pills-row');
-if (ghostPillsRow) {
-    ghostPillsRow.querySelectorAll('.ghost-mode-pill').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const mode = btn.dataset.mode;
-            GhostPredictionModel.setDifficulty(mode);
-            updateGhostHomeCard();
-            soundClick();
-            const prof = GhostPredictionModel.getPredictedProfile();
-            showToast(`Ghost Rival: ${prof.name}`, '');
-        });
-    });
-}
+// Ghost mode pills bound via .ghost-mode-pill selector
 
-// Super Strict Mode Toggles
-if (toggleStrictHome) {
-    toggleStrictHome.addEventListener('change', e => {
-        setSuperStrict(e.target.checked);
-        soundClick();
-    });
-}
+// Super Strict Mode Setup Toggle
 if (toggleStrictSetup) {
     toggleStrictSetup.addEventListener('change', e => {
         setSuperStrict(e.target.checked);
@@ -14011,23 +14133,11 @@ if (toggleStrictSetup) {
     });
 }
 
-// Loud Wake-up Siren Toggles & Preview Buttons
-if (toggleAlarmHome) {
-    toggleAlarmHome.addEventListener('change', e => {
-        setLoudAlarm(e.target.checked);
-        soundClick();
-    });
-}
+// Loud Wake-up Siren Setup Toggle & Preview Button
 if (toggleAlarmSetup) {
     toggleAlarmSetup.addEventListener('change', e => {
         setLoudAlarm(e.target.checked);
         soundClick();
-    });
-}
-if (btnTestAlarmHome) {
-    btnTestAlarmHome.addEventListener('click', () => {
-        playLoudWakeupAlarm();
-        showToast('Playing siren preview.', '', 3000);
     });
 }
 if (btnTestAlarmSetup) {
@@ -14412,14 +14522,7 @@ const BinauralEngine = {
     },
 
     getCtx() {
-        if (!this.ctx) {
-            const AC = window.AudioContext || window.webkitAudioContext;
-            if (AC) this.ctx = new AC();
-        }
-        if (this.ctx && this.ctx.state === 'suspended') {
-            this.ctx.resume().catch(() => {});
-        }
-        return this.ctx;
+        return window.AudioMaster.getCtx();
     },
 
     setFrequency(type) {
