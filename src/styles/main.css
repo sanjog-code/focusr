@@ -982,7 +982,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         gap: 0.35rem;
     }
     .ghost-rival-meta {
-        display: none;
+        font-size: 0.64rem;
+        opacity: 0.85;
     }
     .focus-controls {
         gap: 0.65rem;
@@ -3649,7 +3650,8 @@ button, a, input, select, textarea, .cat-chip, .mode-card, .picker-btn, .adj-btn
         width: 100%;
     }
     .ghost-rival-meta {
-        display: none;
+        font-size: 0.65rem;
+        opacity: 0.85;
     }
     .focus-hint {
         font-size: 0.65rem;
@@ -5527,5 +5529,92 @@ body.zen-mode .studio-instrument-dock:hover {
         flex-shrink: 0;
         padding: 0.3rem 0.6rem;
         font-size: 0.72rem;
+    }
+}
+
+
+/* ══════════════════════════════════════════════════
+   HIGH-VISIBILITY PACING PARTNER & TELEMETRY STYLES
+   ══════════════════════════════════════════════════ */
+.ghost-racer-card {
+    max-width: 520px !important;
+    padding: 0.85rem 1.15rem !important;
+    border: 1px solid rgba(192, 132, 252, 0.32) !important;
+    background: rgba(18, 18, 28, 0.82) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), inset 0 0 20px rgba(192, 132, 252, 0.08) !important;
+}
+
+.ghost-track-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.ghost-rival-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.ghost-rival-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    line-height: 1.25;
+}
+
+.ghost-rival-title span#ghost-rival-name {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    color: #f3e8ff !important;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.ghost-speed-badge {
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    padding: 0.15rem 0.55rem !important;
+    border-radius: 980px !important;
+    background: rgba(192, 132, 252, 0.22) !important;
+    border: 1px solid rgba(192, 132, 252, 0.45) !important;
+    color: #e9d5ff !important;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    box-shadow: 0 2px 8px rgba(192, 132, 252, 0.2);
+}
+
+.ghost-rival-meta {
+    display: block !important;
+    font-size: 0.76rem !important;
+    font-weight: 500 !important;
+    color: rgba(226, 232, 240, 0.88) !important;
+    margin-top: 0.25rem !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.01em !important;
+    word-break: break-word;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.ghost-split-telemetry {
+    flex-shrink: 0;
+}
+
+/* Ensure visibility on smaller viewports without truncation */
+@media (max-width: 650px) {
+    .ghost-racer-card {
+        padding: 0.75rem 0.9rem !important;
+    }
+    .ghost-rival-title span#ghost-rival-name {
+        font-size: 0.88rem !important;
+    }
+    .ghost-rival-meta {
+        font-size: 0.72rem !important;
+        display: block !important;
     }
 }

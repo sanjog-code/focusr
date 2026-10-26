@@ -4083,12 +4083,12 @@ const GhostPredictionModel = {
         let rivalName = 'AI Kinetic Pacing Partner';
         let speedMult = +(1.0 * circ * cat).toFixed(2);
         const circDesc = circ > 1.02 ? 'Morning Peak' : (circ < 0.95 ? 'Circadian Lull' : 'Steady Cadence');
-        let subtitle = `AI Adaptive: Circadian ${Math.round(circ * 100)}% (${circDesc}) &bull; Dynamic Fatigue Horizon`;
+        let subtitle = `AI Adaptive: Circadian ${Math.round(circ * 100)}% (${circDesc}) · Dynamic Fatigue Horizon`;
 
         if (diff === 'ai') {
             rivalName = 'AI Kinetic Pacing Partner';
             speedMult = +(1.0 * circ * cat).toFixed(2);
-            subtitle = `AI Adaptive: Circadian ${Math.round(circ * 100)}% (${circDesc}) &bull; Flow Zone Rubber-Banding`;
+            subtitle = `AI Adaptive: Circadian ${Math.round(circ * 100)}% (${circDesc}) · Flow Zone Pacing`;
         } else if (diff === 'avg') {
             rivalName = 'Weekly Rhythm';
             speedMult = 0.96;
@@ -4161,7 +4161,11 @@ const GhostRacer = {
     updateHUDProfile(profile) {
         if ($('ghost-rival-name')) $('ghost-rival-name').textContent = profile.name;
         if ($('ghost-speed-badge')) $('ghost-speed-badge').textContent = `${profile.speedMult}x Pace`;
-        if ($('ghost-rival-meta')) $('ghost-rival-meta').textContent = profile.subtitle;
+        if ($('ghost-rival-meta')) {
+            const cleanSub = (profile.subtitle || '').replace(/&bull;/g, '·');
+            $('ghost-rival-meta').textContent = cleanSub;
+            $('ghost-rival-meta').setAttribute('title', cleanSub);
+        }
     },
 
     tick(userElapsedMs, isPaused, isTabHidden) {
