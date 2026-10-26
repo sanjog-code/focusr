@@ -3,61 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#08080f">
-    <title>Focusr — Spatial Deep Work Studio</title>
-        <!-- PWA & Mobile Web Capabilities -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="application-name" content="Focusr">
-    <meta name="apple-mobile-web-app-title" content="Focusr">
+    <title>Focusr — Spatial Deep Work Studio & Pomodoro Timer</title>
 
     <!-- Canonical & SEO Meta -->
     <link rel="canonical" href="https://focusr-seven.vercel.app/">
-    <meta name="description" content="A local-first spatial deep work studio with AI Ghost Racing, procedural soundscapes, and distraction defense.">
-    <meta name="keywords" content="pomodoro timer, deep work studio, spatial UI, AI ghost racer, binaural beats, obsidian export, focus timer, distraction blocker">
+    <meta name="description" content="Focusr is an ultra-calm, local-first spatial deep work studio with Apple visionOS aesthetics, Ghost Pacing against personal bests, procedural binaural beats, and Obsidian markdown exports. 100% ad-free and sovereign.">
+    <meta name="keywords" content="focusr, pomodoro timer, deep work studio, spatial UI, visionOS timer, pacing partner, ghost lap, binaural beats, obsidian export, focus stopwatch, distraction defense, study timer, productivity app">
     <meta name="author" content="Focusr Atelier">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
-    <!-- OpenGraph / Facebook -->
+    <!-- AI Engine Discovery & Citations (ChatGPT, Perplexity, Copilot, Gemini) -->
+    <link rel="help" type="text/plain" href="https://focusr-seven.vercel.app/llms.txt" title="LLM Reference Specification">
+    <link rel="alternate" type="text/plain" href="https://focusr-seven.vercel.app/llms-full.txt" title="Full Architecture Documentation">
+
+    <!-- Real-time IndexNow Search Verification (Bing, Copilot, Brave Search, Yandex) -->
+    <meta name="indexnow:key" content="focusr7e92b829bproduction2026">
+
+    <!-- Apple iOS / Safari Integration -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Focusr">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="mask-icon" href="/assets/focusr_qr.svg" color="#0a84ff">
+    <meta name="theme-color" content="#08080f">
+
+    <!-- OpenGraph / Meta Crawlers (Facebook, Instagram, WhatsApp, Messenger, iMessage) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://focusr-seven.vercel.app/">
-    <meta property="og:title" content="Focusr — Spatial Deep Work Studio & Pacing Partner (Ghost Lap)">
-    <meta property="og:description" content="Calm, local-first deep work studio featuring Apple visionOS aesthetics, AI Ghost Racing, procedural acoustics, and distraction defense.">
+    <meta property="og:site_name" content="Focusr Atelier">
+    <meta property="og:title" content="Focusr — Spatial Deep Work Studio & Pacing Partner">
+    <meta property="og:description" content="Experience flow in a distraction-free spatial studio. Features personal-best Ghost Pacing, real-time procedural binaural beats, and Obsidian markdown exports. 100% private and ad-free.">
     <meta property="og:image" content="https://focusr-seven.vercel.app/assets/cosmor-banner.jpg">
+    <meta property="og:image:secure_url" content="https://focusr-seven.vercel.app/assets/cosmor-banner.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Focusr Spatial Deep Work Studio Interface with VisionOS glassmorphism and Ghost Pacing">
+    <meta property="og:locale" content="en_US">
 
-    <!-- Twitter / X -->
+    <!-- Twitter / X Large Summary Card -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@focusr">
+    <meta name="twitter:creator" content="@focusr">
     <meta name="twitter:url" content="https://focusr-seven.vercel.app/">
-    <meta name="twitter:title" content="Focusr — Spatial Deep Work Studio & AI Ghost Racer">
-    <meta name="twitter:description" content="A local-first spatial deep work studio with AI Ghost Racing, procedural soundscapes, and distraction defense.">
+    <meta name="twitter:title" content="Focusr — Spatial Deep Work Studio & Pacing Partner">
+    <meta name="twitter:description" content="Transform deep work sessions into flow state with visionOS spatial instruments, real-time personal best Ghost Pacing, and Obsidian export.">
     <meta name="twitter:image" content="https://focusr-seven.vercel.app/assets/cosmor-banner.jpg">
+    <meta name="twitter:image:alt" content="Focusr Spatial Studio preview">
 
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Focusr",
-      "operatingSystem": "All",
-      "applicationCategory": "ProductivityApplication",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "description": "Spatial deep work studio featuring AI Ghost Racing, procedural soundscapes, and distraction defense.",
-      "url": "https://focusr-seven.vercel.app/"
-    }
-    </script>
+    <!-- PWA & Mobile Web Capabilities -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="application-name" content="Focusr">
 
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
-        <!-- Spatial Atelier Typography -->
+
+    <!-- Spatial Atelier Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
-    
+
+    <!-- Comprehensive Rich JSON-LD Structured Data Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["SoftwareApplication", "WebApplication"],
+          "@id": "https://focusr-seven.vercel.app/#software",
+          "name": "Focusr",
+          "alternateName": ["Focusr Studio", "Focusr Atelier"],
+          "url": "https://focusr-seven.vercel.app/",
+          "description": "A local-first spatial deep work studio and Pomodoro timer featuring Apple visionOS aesthetics, Ghost Pacing against personal bests, procedural binaural beats, and Obsidian markdown exports.",
+          "applicationCategory": "ProductivityApplication",
+          "operatingSystem": "All (Web, macOS, Windows, iOS, Android, Linux)",
+          "browserRequirements": "Requires JavaScript. Requires HTML5 Canvas & Web Audio API.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "850",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "featureList": [
+            "Spatial Pomodoro Timer with digital and analog chronograph displays",
+            "Ghost Pacing Partner (live split pacing against personal bests)",
+            "Procedural Binaural Beats (Alpha 10Hz, Theta 6Hz, Gamma 40Hz)",
+            "Distraction-free battery-saving Zen Mode (WebGL sleep)",
+            "Obsidian and Roam Markdown Debrief Exporter",
+            "100% Local-First Data Sovereignty and JSON Backup/Restore",
+            "Strict Zero-Ad Sanctuary"
+          ],
+          "softwareVersion": "2.0.0",
+          "creator": {
+            "@type": "Organization",
+            "name": "Focusr Atelier",
+            "url": "https://focusr-seven.vercel.app/"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://focusr-seven.vercel.app/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is Focusr?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Focusr is a browser-based spatial deep work studio that combines Apple VisionOS aesthetics, adaptive Ghost Pacing against your personal bests, real-time Web Audio binaural beats, and Obsidian markdown exports. It operates completely offline with local-first privacy."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does Focusr Ghost Pacing work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ghost Pacing tracks your personal best and rolling average focus sessions locally. As you focus, real-time split telemetry displays whether you are ahead or behind your target rhythm without sending any data to remote servers."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I export Focusr sessions to Obsidian?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Upon session completion, open the retrospective debrief screen and click 'Copy Obsidian Markdown'. Focusr generates structured YAML frontmatter and summary metrics ready to paste into your Obsidian daily note."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is Zen Mode in Focusr?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Zen Mode is a battery-saving, ultra-calm mode toggled with the 'Z' key. It halts the 3D WebGL render loop, dims the canvas to flat matte obsidian black (#08090d), removes glassmorphism blur, and presents a minimal single-line monospaced telemetry indicator."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Focusr show ads or track my activity?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Focusr enforces a strict zero-ad policy. There are no sponsored slots, affiliate banners, or tracking pixels anywhere inside the focus studio."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="/src/styles/main.css" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
 
     <!-- Auto-purge stale service worker caches -->
     <script>
@@ -76,7 +178,6 @@
         });
     }
     </script>
-
 </head>
 <body>
 

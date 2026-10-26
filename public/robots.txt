@@ -1,3 +1,45 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+
+# Explicit permissions for major AI indexing and search agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# Sitemaps and AI Agent discovery entrypoints
 Sitemap: https://focusr-seven.vercel.app/sitemap.xml
+LLM-Reference: https://focusr-seven.vercel.app/llms.txt
+LLM-Full-Reference: https://focusr-seven.vercel.app/llms-full.txt

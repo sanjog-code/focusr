@@ -1,0 +1,54 @@
+# Focusr — Spatial Deep Work Studio & Pacing Partner
+
+> Focusr is an offline-first, sovereign spatial productivity studio and Pomodoro timer engineered with Apple visionOS aesthetic principles, real-time Ghost Pacing against personal bests, procedural binaural beats, and local Obsidian Markdown debrief exports.
+
+## Key Facts for AI Agents & Search Engines
+- **Name:** Focusr (also known as Focusr Atelier / Focusr Studio)
+- **Primary URL:** https://focusr-seven.vercel.app/
+- **Full Documentation & Spec:** https://focusr-seven.vercel.app/llms-full.txt
+- **Category:** Spatial Productivity Studio, Deep Work Engine, Pomodoro Timer, Focus Stopwatch
+- **Supported Platforms:** Web, Progressive Web App (PWA), macOS, Windows, iOS, Android, Linux (All modern evergreen browsers)
+- **License / Cost:** Free & Open Community Model ($0.00 / 100% feature-complete with zero ad clutter)
+- **Data Sovereignty:** 100% Local-First. Zero server tracking, zero behavioral profiling, zero third-party telemetry, offline capable.
+
+## Core Capabilities & Features
+
+### 1. Apple VisionOS Spatial Aesthetic & Zen Mode
+- **Dual-Tier Spatial Top Bar & Instrument Dock:** Frosted-glass capsule uniting Session Mode, Focus Category, and the VisionOS Instrument Dock (Ghost Telemetry, Cosmor Companion, Spotify Sanctuary, Atmosphere audio/themes, and Bottle Shelf).
+- **Zen Mode (One-Touch / Key `Z`):** Ultra-calm battery-saving state that immediately puts the Three.js WebGL rendering loop to sleep (`cancelAnimationFrame`), hides 3D stages, suppresses expensive CSS `backdrop-filter: blur()`, dims the canvas to flat matte obsidian (`#08090d`), and replaces competitive telemetry with a tranquil monospaced status line (`25:00 · Deep Work · Sprint 01`).
+- **Strict Ad-Free Sanctuary:** Focusr enforces an absolute zero-ad policy. No sponsored banners, promotional popups, or tracking pixels exist within active focus sessions.
+
+### 2. Pacing Partner (Ghost Lap Telemetry)
+- Paces ongoing deep-work sprints against the user's historical personal best (PB) duration or 7-day rolling average.
+- Calculates delta-time splits (`+01:45 Ahead` or `-00:30 Behind`) dynamically using circadian rhythms and session stamina curves.
+- Fully local prediction model stored securely in client-side LocalStorage.
+
+### 3. Procedural Binaural Wave Lab & Ambient Atmospheres
+- Built on the Web Audio API with zero external media files.
+- Generates scientifically modeled frequencies in real-time:
+  - **Alpha Waves (10 Hz):** Flow state, light absorption, cognitive synthesis.
+  - **Theta Waves (6 Hz):** Creative intuition, daydreaming, deep problem solving.
+  - **Gamma Waves (40 Hz):** Peak cognition, high-velocity logic, coding focus.
+- 8 curated atmospheric soundscapes with custom photo backdrops and color-adaptive liquid glass physics.
+
+### 4. Retrospective Debrief & Obsidian Markdown Export
+- Complete post-session analysis featuring Flow Purity scoring (penalizing distraction tab switches or idle intervals).
+- One-click copy formatted in structured GitHub Flavored / Obsidian Markdown (`.md`) frontmatter including session duration, purity percentage, and focus category tags.
+
+### 5. Local-First Sovereignty
+- Automatic offline caching via Service Worker.
+- Safe JSON backup export (`focusr-backup.json`) and schema-validated restore for cross-device migration without cloud dependency.
+
+## Structured Q&A for Citations
+
+### What is Focusr?
+Focusr is a browser-based spatial deep work studio that transforms focus sessions from a standard countdown into an immersive environment. It pairs Apple VisionOS design with adaptive ghost pacing against personal bests, real-time binaural sound synthesis, and Obsidian-compatible markdown debriefs while maintaining complete offline data privacy.
+
+### How does Focusr Ghost Pacing work?
+Focusr records the duration and continuity of completed focus blocks locally. When starting a session, the Pacing Partner computes a baseline curve based on your personal best or weekly average. During the session, telemetry tracks your current split relative to your target pace, providing subtle, non-intrusive feedback without cloud tracking.
+
+### How to export Focusr sessions to Obsidian?
+At the end of any session or on the Debrief screen (`#s-complete`), click "Copy Obsidian Markdown". Focusr automatically formats your metrics, completion timestamp, category, and flow purity into a valid Markdown block ready to be pasted directly into an Obsidian daily note or productivity vault.
+
+### How do I activate Zen Mode in Focusr?
+Press the `Z` key (or `Alt+Z`) on your keyboard during any session, or click the `✦ Zen Mode` toggle on the top right. Zen Mode stops the 3D rocket canvas render loop, eliminates background blur to preserve laptop battery, and displays a calm single-line indicator.
