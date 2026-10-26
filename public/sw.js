@@ -1,4 +1,4 @@
-const CACHE_NAME = 'focusr-cache-v2';
+const CACHE_NAME = 'focusr-cache-v5-clean';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
@@ -22,7 +22,10 @@ self.addEventListener('activate', (event) => {
         caches.keys().then((keys) => {
             return Promise.all(
                 keys.map((key) => {
-                    if (key !== CACHE_NAME) return caches.delete(key);
+                    if (key !== CACHE_NAME) {
+                        console.log('Purging legacy cache:', key);
+                        return caches.delete(key);
+                    }
                 })
             );
         }).then(() => self.clients.claim())
@@ -31,7 +34,26 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
-    
+
+    // Network-First for HTML/navigation requests so user always gets the latest UI
+    if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    if (response && response.status === 200) {
+                        const copy = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+                    }
+                    return response;
+                })
+                .catch(() => {
+                    return caches.match(event.request).then((cached) => cached || caches.match('/index.html'));
+                })
+        );
+        return;
+    }
+
+    // Cache-first with background revalidation for static assets
     event.respondWith(
         caches.match(event.request).then((cached) => {
             if (cached) return cached;
@@ -44,10 +66,6 @@ self.addEventListener('fetch', (event) => {
                     cache.put(event.request, responseToCache);
                 });
                 return response;
-            }).catch(() => {
-                if (event.request.mode === 'navigate') {
-                    return caches.match('/index.html');
-                }
             });
         })
     );

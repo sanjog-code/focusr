@@ -1,10 +1,13 @@
 export interface SessionData {
     id: string;
-    startTime: number;
+    startTime?: number;
     endTime?: number;
+    completedAt?: string;
     duration: number; // in milliseconds
     category: string;
     mode: 'timer' | 'stopwatch' | 'pomodoro';
+    pomodoros?: number;
+    strict?: boolean;
     flowPurity?: number;
     infractions?: number;
     note?: string;
@@ -13,6 +16,7 @@ export interface SessionData {
     splitMs?: number;
     pacingMode?: string;
     date: string;
+    [key: string]: any;
 }
 
 export interface BottleItem {
