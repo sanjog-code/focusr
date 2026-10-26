@@ -389,55 +389,66 @@
     <div class="focus-wrap">
         <div class="focus-layout">
             <div class="focus-top-bar">
-                <div style="display:flex;align-items:center;gap:.65rem;flex-wrap:wrap">
-                    <span class="focus-mode-label" id="focus-label">FOCUS</span>
-                    <button class="focus-category-badge glass" id="focus-cat-badge" title="Click to cycle focus category">
-                        <span id="focus-cat-icon"></span>
-                        <span id="focus-cat-name">Code</span>
-                    </button>
+                <div class="studio-status-row">
+                    <div class="studio-session-pill glass">
+                        <span class="focus-mode-label" id="focus-label">FOCUS</span>
+                        <span class="studio-pill-sep">·</span>
+                        <button class="focus-category-badge" id="focus-cat-badge" title="Click to cycle focus category">
+                            <span id="focus-cat-icon"></span>
+                            <span id="focus-cat-name">Code</span>
+                        </button>
+                    </div>
                     <span class="focus-strict-badge" id="focus-strict-badge">
-                        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
                         <span id="strict-badge-text">STRICT</span>
                     </span>
                     <span class="focus-penalty-pill" id="focus-penalty-pill">
-                        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+                        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
                         <span id="penalty-pill-text">+0m Penalty</span>
                     </span>
                     <span class="focus-unfocused-badge" id="focus-unfocused-badge">
-                        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
+                        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
                         <span id="unfocused-badge-text">AWAY 0:00 (SIREN 2:00)</span>
                     </span>
                 </div>
-                <div class="focus-top-bar-controls" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+                <div class="focus-top-bar-controls">
                     <button class="inventory-pill-btn glass btn-zen-toggle" id="btn-toggle-zen" title="Toggle Distraction-Free Zen Mode (Pauses 3D Canvas)">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 4px;"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 4px;"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
                         <span class="zen-btn-label">Zen Mode</span>
-                    </button>
-                    <button class="inventory-pill-btn glass" id="btn-toggle-ghost-hud" title="Toggle Pacing Partner (Ghost Lap)">
-                        <span>Pacing Split</span>
-                        <span class="pill-badge" id="ghost-hud-badge">LIVE</span>
-                    </button>
-                    <button class="inventory-pill-btn glass" id="btn-focus-cosmo" title="Cosmor Spatial Telemetry Copilot">
-                        <span>Cosmor</span>
-                    </button>
-                    <button class="inventory-pill-btn glass btn-focus-spotify" id="btn-focus-spotify" title="Spotify Focus Music">
-    <span class="spotify-pill-icon">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-        </svg>
-    </span>
-    <span>Spotify</span>
-    <span class="pill-badge" id="focus-spotify-status-badge">READY</span>
-</button>
-                    <button class="inventory-pill-btn glass" id="btn-focus-themes" title="Change Atmosphere">
-                        <span>Atmosphere</span>
-                    </button>
-                    <button class="inventory-pill-btn glass" id="btn-toggle-inventory">
-                        <span>Bottles</span>
-                        <span class="pill-badge" id="inv-pill-count">0</span>
                     </button>
                 </div>
             </div>
+
+            <!-- Spatial Studio VisionOS Instrument Dock -->
+            <nav class="studio-instrument-dock glass" id="studio-instrument-dock" aria-label="Spatial Studio Controls">
+                <button class="studio-dock-btn" id="btn-toggle-ghost-hud" title="Toggle Pacing Partner (Ghost Lap Telemetry)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span>Ghost Telemetry</span>
+                    <span class="pill-badge" id="ghost-hud-badge">LIVE</span>
+                </button>
+                <button class="studio-dock-btn" id="btn-focus-cosmo" title="Cosmor 3D Astro-Bot Companion (Click for tricks & interactions)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M10.4 10.4l-4 4"/><path d="M17.6 6.4l-4 4"/></svg>
+                    <span>Cosmor</span>
+                </button>
+                <button class="studio-dock-btn btn-focus-spotify" id="btn-focus-spotify" title="Spotify Focus Sanctuary">
+                    <span class="spotify-pill-icon">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                        </svg>
+                    </span>
+                    <span>Spotify</span>
+                    <span class="pill-badge" id="focus-spotify-status-badge">READY</span>
+                </button>
+                <button class="studio-dock-btn" id="btn-focus-themes" title="Change Atmosphere & Audio Ambience">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                    <span>Atmosphere</span>
+                </button>
+                <button class="studio-dock-btn" id="btn-toggle-inventory" title="Focus Trophy Bottle Shelf">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3h6v3H9z"/><path d="M10 6v3l-4 7v4a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-4l-4-7V6"/></svg>
+                    <span>Bottles</span>
+                    <span class="pill-badge" id="inv-pill-count">0</span>
+                </button>
+            </nav>
             <div class="pomo-dots" id="pomo-dots"></div>
 
             <div class="focus-spotify-hud" id="focus-spotify-hud">
@@ -3028,6 +3039,15 @@ const themeModalBackdrop = $('theme-modal-backdrop');
 const themeModalClose    = $('theme-modal-close');
 const btnOpenThemes      = $('btn-open-themes');
 const btnFocusThemes     = $('btn-focus-themes');
+    $('btn-focus-cosmo')?.addEventListener('click', () => {
+        if (window.Cosmo && typeof Cosmo.trickRoll === 'function') {
+            Cosmo.trickRoll();
+        } else if (window.Cosmo && typeof Cosmo.cycleCompanionMode === 'function') {
+            Cosmo.cycleCompanionMode();
+        }
+        if (typeof soundClick === 'function') soundClick();
+    });
+
 const themeGrid          = $('theme-grid');
 const sliderBlur         = $('slider-backdrop-blur');
 const sliderOpacity      = $('slider-backdrop-opacity');

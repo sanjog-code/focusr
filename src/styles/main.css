@@ -5339,3 +5339,193 @@ body.zen-mode .ghost-split-row {
     -webkit-transform: translate3d(0, 0, 0);
     will-change: transform;
 }
+
+
+/* ── Apple VisionOS Spatial Studio Top Bar & Instrument Dock ── */
+.focus-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.studio-status-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.studio-session-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.studio-pill-sep {
+    color: var(--text-dim, rgba(255, 255, 255, 0.3));
+    font-size: 0.85rem;
+    user-select: none;
+}
+
+.focus-top-bar .focus-mode-label {
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+}
+
+.focus-top-bar .focus-category-badge {
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text, #fff);
+    cursor: pointer;
+    box-shadow: none;
+    transform: none;
+}
+
+.focus-top-bar .focus-category-badge:hover {
+    color: var(--accent, #6366f1);
+    background: transparent;
+    transform: none;
+}
+
+.focus-top-bar-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-zen-toggle {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.74rem;
+    border-radius: 980px;
+}
+
+/* Dedicated Spatial Studio VisionOS Instrument Dock */
+.studio-instrument-dock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.35rem 0.5rem;
+    margin: 0.4rem 0 0.85rem;
+    border-radius: 980px;
+    background: rgba(20, 20, 25, 0.65);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+}
+
+.studio-dock-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.32rem 0.72rem;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-dim, rgba(255, 255, 255, 0.7));
+    font-size: 0.74rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+}
+
+.studio-dock-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text, #ffffff);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.studio-dock-btn:active {
+    transform: translateY(0);
+}
+
+.studio-dock-btn svg {
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
+.studio-dock-btn:hover svg {
+    opacity: 1;
+}
+
+.studio-dock-btn .pill-badge {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 0.1rem 0.35rem;
+    border-radius: 980px;
+    letter-spacing: 0.03em;
+}
+
+.studio-dock-btn#btn-toggle-ghost-hud .pill-badge {
+    background: rgba(99, 102, 241, 0.85);
+}
+
+.studio-dock-btn#btn-focus-spotify .pill-badge {
+    background: rgba(29, 185, 84, 0.85);
+}
+
+.studio-dock-btn#btn-toggle-inventory .pill-badge {
+    background: rgba(245, 158, 11, 0.85);
+}
+
+/* Zen mode behavior for Instrument Dock */
+body.zen-mode .studio-instrument-dock {
+    opacity: 0.15;
+    transition: opacity 0.3s ease;
+}
+
+body.zen-mode .studio-instrument-dock:hover {
+    opacity: 1;
+}
+
+/* Mobile & Tablet adjustments */
+@media (max-width: 650px) {
+    .focus-top-bar {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .studio-instrument-dock {
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        border-radius: 14px;
+        padding: 0.35rem 0.4rem;
+    }
+    
+    .studio-instrument-dock::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .studio-dock-btn {
+        flex-shrink: 0;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.72rem;
+    }
+}
