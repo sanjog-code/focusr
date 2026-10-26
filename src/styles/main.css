@@ -5768,3 +5768,86 @@ body.zen-mode .inventory-shelf:hover {
 body, .screen, .focus-layout, .glass, .zen-pill, .zen-telemetry-status {
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* ── Focusr 52-Week Activity Matrix & Studio Controls ── */
+.activity-matrix-card {
+    margin-top: 1.25rem;
+    padding: 1.15rem 1.25rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+.matrix-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+}
+.matrix-header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text, #fff);
+}
+.matrix-legend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    color: var(--text-dim, rgba(255, 255, 255, 0.5));
+}
+.matrix-legend .legend-box {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+}
+.matrix-legend .lvl-0 { background: rgba(255, 255, 255, 0.05); }
+.matrix-legend .lvl-1 { background: rgba(52, 211, 153, 0.28); }
+.matrix-legend .lvl-2 { background: rgba(52, 211, 153, 0.55); }
+.matrix-legend .lvl-3 { background: rgba(52, 211, 153, 0.80); }
+.matrix-legend .lvl-4 { background: rgba(52, 211, 153, 1.0); }
+
+.matrix-grid-scroll-wrap {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+}
+.matrix-grid {
+    display: grid;
+    grid-template-rows: repeat(7, 10px);
+    grid-auto-flow: column;
+    grid-auto-columns: 10px;
+    gap: 3px;
+    width: max-content;
+}
+.matrix-cell {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: transform 0.15s ease, background 0.2s ease;
+    cursor: pointer;
+}
+.matrix-cell:hover {
+    transform: scale(1.3);
+    outline: 1px solid rgba(255, 255, 255, 0.4);
+    z-index: 2;
+}
+.matrix-cell.lvl-0 { background: rgba(255, 255, 255, 0.05); }
+.matrix-cell.lvl-1 { background: rgba(52, 211, 153, 0.28); }
+.matrix-cell.lvl-2 { background: rgba(52, 211, 153, 0.55); }
+.matrix-cell.lvl-3 { background: rgba(52, 211, 153, 0.80); }
+.matrix-cell.lvl-4 { background: rgba(52, 211, 153, 1.0); box-shadow: 0 0 6px rgba(52, 211, 153, 0.4); }
+
+.matrix-footer-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    font-size: 0.74rem;
+    color: var(--text-dim, rgba(255, 255, 255, 0.5));
+}
