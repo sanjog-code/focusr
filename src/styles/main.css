@@ -5890,3 +5890,120 @@ body.zen-mode #timer-display {
     display: none !important;
     visibility: hidden !important;
 }
+
+
+/* ════════════════════════════════════════════════════════════════
+   MODULE 1: Mobile & Tablet Touch Ergonomics (iOS, Android, iPad)
+   ════════════════════════════════════════════════════════════════ */
+
+/* 1. Dynamic Heights (dvh) */
+html, body, #app, .screen {
+    min-height: 100dvh;
+}
+.modal, .theme-modal, .spotify-modal, .login-modal, .wallpaper-marketplace-modal, .debrief-sheet {
+    max-height: 88dvh !important;
+}
+
+/* 2. Eliminate iOS Input Auto-Zoom (The 16px Rule) */
+@media (max-width: 768px) {
+    input[type="text"], input[type="email"], input[type="number"], input[type="url"],
+    textarea, .login-input, .spotify-config-field input {
+        font-size: 16px !important;
+    }
+}
+
+/* 3. Enforce 44px Minimum Touch Targets (Apple HIG & Material 3 Compliance) */
+@media (max-width: 1024px) {
+    .picker-btn, .adj-btn, .target-stepper-btn, .modal-close-btn,
+    .theme-modal-close, .market-close-btn, .spotify-modal-close {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .action-pill, .cat-chip, .preset-chip {
+        min-height: 44px !important;
+        padding: 0.6rem 1rem !important;
+    }
+}
+
+/* 4. Dedicated Tablet Dashboard Grid (iPads: 768px – 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .home-header, .home-modes-grid, .mode-grid {
+        max-width: 90% !important;
+        margin: 0 auto !important;
+    }
+    .home-modes-grid, .mode-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.25rem !important;
+    }
+    .modal, .theme-modal, .spotify-modal, .login-modal {
+        max-width: 620px !important;
+        border-radius: 24px !important;
+    }
+}
+
+/* 5. Compact Smartphone Protection (< 430px) */
+@media (max-width: 430px) {
+    html, body { overflow-x: hidden !important; }
+    .progress-ring-wrap, .timer-ring-wrap { width: 270px !important; height: 270px !important; }
+    #timer-display { font-size: 3.2rem !important; }
+    .cosmo-stage, #cosmo-stage {
+        bottom: 0.8rem !important;
+        right: 0.8rem !important;
+        transform: scale(0.65) !important;
+        transform-origin: bottom right !important;
+        pointer-events: none !important;
+    }
+    .cosmo-actor, #cosmo-actor { pointer-events: auto !important; }
+    .spatial-action-island {
+        width: calc(100vw - 1.5rem) !important;
+        padding: 0.5rem 0.75rem !important;
+    }
+}
+
+.top-bar, .home-header, .focus-top-bar {
+    padding-top: max(1rem, env(safe-area-inset-top)) !important;
+}
+.bottom-dock, .spatial-action-island, .studio-instrument-dock {
+    padding-bottom: max(0.85rem, env(safe-area-inset-bottom)) !important;
+}
+
+/* MODULE 3: Zen Mode Styling */
+body.zen-mode #cosmo-stage,
+body.zen-mode .ghost-hud-card,
+body.zen-mode .side-shelf,
+body.zen-mode .ambient-orb,
+body.zen-mode .penalty-tag {
+    display: none !important;
+}
+body.zen-mode #s-focus {
+    background: #08090d !important;
+}
+body.zen-mode .backdrop-wrapper img,
+body.zen-mode .backdrop-wrapper video {
+    filter: brightness(0.08) contrast(1.1) !important;
+}
+body.zen-mode #timer-display {
+    text-shadow: 0 0 35px rgba(255, 255, 255, 0.18);
+    letter-spacing: -0.04em;
+}
+#btn-toggle-zen.active {
+    background: rgba(16, 185, 129, 0.22) !important;
+    border-color: rgba(16, 185, 129, 0.5) !important;
+    color: #34d399 !important;
+}
+#support-atelier-backdrop.active {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* MODULE 5: Strict Ad-Free Focus Screen Protection */
+#s-focus .focusr-ad-slot,
+#s-focus .adsbygoogle,
+#s-focus [data-ad-slot] {
+    display: none !important;
+    visibility: hidden !important;
+}

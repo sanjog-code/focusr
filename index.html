@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Focusr — Spatial Deep Work Studio & Pacing Partner</title>
     <meta name="application-name" content="Focusr Spatial Studio">
 
     <!-- Canonical & SEO Meta -->
     <link rel="canonical" href="https://focusr-seven.vercel.app/">
-    <meta name="description" content="A local-first spatial deep work studio featuring Apple visionOS aesthetics, kinetic pacing partner, procedural soundscapes, and Obsidian export.">
+    <meta name="description" content="A local-first spatial deep work studio featuring Apple visionOS aesthetics, pacing partner, procedural soundscapes, and Obsidian export.">
     <meta name="keywords" content="focusr, pomodoro timer, deep work studio, spatial UI, visionOS timer, pacing partner, ghost lap, binaural beats, obsidian export, focus stopwatch, distraction defense, study timer, productivity app">
     <meta name="author" content="Focusr Studio">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -11527,9 +11527,9 @@ function bootApplication() {
             soundClick();
             const cat = getCategory(S.category);
             const actualMins = Math.round(S.elapsed / 60) || Math.round(S.duration / 60) || 25;
-            const activeMs = Math.max(0, (S.elapsed || S.duration || 1500000) - (S.totalPaused || 0));
-            const totalMs = Math.max(1, (S.elapsed || S.duration || 1500000));
-            const realPurity = Math.min(100, Math.max(60, Math.round((activeMs / totalMs) * 100))) + '%';
+            const activeMs = Math.max(0, S.elapsed - (S.totalPaused || 0));
+            const totalMs = Math.max(1, S.elapsed);
+            const realPurity = Math.min(100, Math.max(50, Math.round((activeMs / totalMs) * 100))) + '%';
             const purity = (S.lastDebrief && S.lastDebrief.purity != null) ? `${S.lastDebrief.purity}%` : realPurity;
             const infractions = S.infractionsCount || 0;
             const tweetText = `Logged a ${actualMins}m deep work session with ${purity} Flow Purity on @FocusrApp\n\nCategory: ${cat.shortName || cat.name}\nTab Breaches: ${infractions}\nActive distraction defense + private local-first studio.`;
