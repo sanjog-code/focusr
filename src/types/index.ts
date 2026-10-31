@@ -38,8 +38,8 @@ export interface UserAccount {
 }
 
 export type LiveWallpaperType = 'video' | 'shader' | 'particles' | 'none';
-export type LiveShaderPreset = 'cosmic-void' | 'aurora-waves' | 'cyber-rain' | 'zen-ripples';
-export type LiveParticlePreset = 'rain' | 'snow' | 'embers' | 'stardust' | 'petals' | 'none';
+export type LiveShaderPreset = 'cosmic-void' | 'aurora-waves' | 'cyber-rain' | 'zen-ripples' | 'black-hole' | 'bioluminescent' | 'matrix-code';
+export type LiveParticlePreset = 'rain' | 'snow' | 'embers' | 'stardust' | 'petals' | 'sakura' | 'none';
 
 export interface CustomTheme {
     id: string;
@@ -51,6 +51,8 @@ export interface CustomTheme {
     createdAt: string;
     liveType?: LiveWallpaperType;
     videoUrl?: string;
+    isVideo?: boolean;
+    isCustom?: boolean;
     shaderPreset?: LiveShaderPreset;
     particlePreset?: LiveParticlePreset;
 }
@@ -63,6 +65,8 @@ export interface LiveThemeDefinition {
     image: string;
     liveType?: LiveWallpaperType;
     videoUrl?: string;
+    isVideo?: boolean;
+    isCustom?: boolean;
     shaderPreset?: LiveShaderPreset;
     particlePreset?: LiveParticlePreset;
     accent: string;

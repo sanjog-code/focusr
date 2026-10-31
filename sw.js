@@ -1,4 +1,4 @@
-const CACHE_NAME = 'focusr-cache-v7-koala';
+const CACHE_NAME = 'focusr-cache-v8-video-adaptive';
 const STATIC_ASSETS = [
     '/',
     '/index.html',

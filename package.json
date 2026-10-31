@@ -16,9 +16,9 @@
     "@types/node": "^26.6.5",
     "@types/three": "^0.186.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.5"
+    "vite": "^6.0.0"
   },
   "optionalDependencies": {
-    "@rolldown/binding-win32-x64-msvc": "^1.2.15"
+    "@rolldown/binding-win32-x64-msvc": "^1.2.16"
   }
 }

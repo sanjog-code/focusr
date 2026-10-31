@@ -1057,39 +1057,49 @@
             <div class="market-title-wrap">
                 <h2>
                     <span>Atmosphere & Wallpaper Marketplace</span>
-                    <span class="market-total-badge" id="market-total-badge">52 Free</span>
+                    <span class="market-total-badge" id="market-total-badge">57 Free</span>
                 </h2>
                 <p>Curated spatial backgrounds, live dynamic liquid hues, and atmospheric depth. Completely free.</p>
             </div>
-            <div style="display:flex;align-items:center;gap:0.75rem">
+            <div style="display:flex;align-items:center;gap:0.6rem">
                 <button class="market-btn-upload" id="btn-market-upload" type="button" onclick="window.triggerWallpaperUpload && window.triggerWallpaperUpload()" title="Upload custom wallpaper & auto-generate theme">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    <span>+ Upload Wallpaper</span>
+                    <span>+ Upload Image</span>
+                </button>
+                <button class="market-btn-upload market-btn-upload-video" id="btn-market-upload-video" type="button" onclick="window.triggerVideoUpload && window.triggerVideoUpload()" title="Upload custom video (MP4/WebM) as live wallpaper with dynamic adaptive theming">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    <span>+ Upload Live Video</span>
                 </button>
                 <button class="modal-close-btn" id="wallpaper-marketplace-close" title="Close Marketplace">✕</button>
             </div>
         </div>
 
-        <!-- Search Bar Row -->
-        <div class="market-search-bar-row">
-            <div class="market-search-input-wrap">
+        <!-- Search Bar Row & Real-time Adaptive Theming Indicator -->
+        <div class="market-search-bar-row" style="display:flex;align-items:center;gap:12px;margin-bottom:1rem;">
+            <div class="market-search-input-wrap" style="flex:1;">
                 <span class="market-search-icon">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </span>
-                <input type="text" class="market-search-input" id="market-search-input" placeholder="Search 52 atmospheres by name, vibe, or mood (e.g. rain, nebula, kyoto, cyberpunk)...">
+                <input type="text" class="market-search-input" id="market-search-input" placeholder="Search 57 atmospheres by name, vibe, or mood (e.g. rain, nebula, sakura, black hole, cyberpunk)...">
             </div>
+            <label class="market-adaptive-toggle" id="market-adaptive-toggle" title="Dynamically adapt system theme, accent colors, and glows to match live video colors in real-time">
+                <span class="adaptive-dot"></span>
+                <span>Adaptive Video Theme</span>
+                <input type="checkbox" id="checkbox-adaptive-theme" checked style="margin-left:6px; accent-color:#00e5ff; cursor:pointer;">
+            </label>
         </div>
 
         <!-- Category Filter Pills -->
         <div class="market-categories-row" id="market-categories-row">
-            <button class="market-cat-pill" data-category="custom" id="market-cat-pill-custom">🎨 Custom (<span id="custom-themes-count">0</span>)</button>
-            <button class="market-cat-pill active" data-category="all">All Atmospheres (52)</button>
-            <button class="market-cat-pill" data-category="live" style="background:rgba(6,182,212,0.18);border-color:rgba(6,182,212,0.45);color:#38bdf8;font-weight:700">✨ Live Motion</button>
-            <button class="market-cat-pill" data-category="nature">🌿 Sanctuary Nature (10)</button>
-            <button class="market-cat-pill" data-category="cosmic">🌌 Cosmic & Space (10)</button>
-            <button class="market-cat-pill" data-category="cyberpunk">⚡ Cyberpunk & Neon (9)</button>
+            <button class="market-cat-pill" data-category="custom-video" id="market-cat-pill-video" style="background:rgba(14,165,233,0.18);border-color:rgba(14,165,233,0.45);color:#38bdf8;font-weight:700">🎬 Video Wallpapers (<span id="custom-videos-count">0</span>)</button>
+            <button class="market-cat-pill" data-category="custom" id="market-cat-pill-custom">🎨 Custom Images (<span id="custom-themes-count">0</span>)</button>
+            <button class="market-cat-pill active" data-category="all">All Atmospheres (57)</button>
+            <button class="market-cat-pill" data-category="live" style="background:rgba(168,85,247,0.18);border-color:rgba(168,85,247,0.45);color:#c084fc;font-weight:700">✨ Live Motion (9)</button>
+            <button class="market-cat-pill" data-category="nature">🌿 Sanctuary Nature (12)</button>
+            <button class="market-cat-pill" data-category="cosmic">🌌 Cosmic & Space (11)</button>
+            <button class="market-cat-pill" data-category="cyberpunk">⚡ Cyberpunk & Neon (10)</button>
             <button class="market-cat-pill" data-category="minimal">◻ Minimalist & Spatial (8)</button>
-            <button class="market-cat-pill" data-category="lofi">☕ Lo-Fi & Cozy (8)</button>
+            <button class="market-cat-pill" data-category="lofi">☕ Lo-Fi & Cozy (9)</button>
             <button class="market-cat-pill" data-category="aurora">✨ Aurora & Meshes (7)</button>
         </div>
 
@@ -1788,8 +1798,9 @@
     </div>
 </div>
 
-<!-- Hidden File Input for Custom Wallpaper Upload -->
-<input type="file" id="wallpaper-file-input" accept="image/*" style="display:none">
+<!-- Hidden File Inputs for Custom Wallpaper & Live Video Upload -->
+<input type="file" id="wallpaper-file-input" accept="image/*,video/mp4,video/webm,video/ogg,video/quicktime" style="display:none">
+<input type="file" id="wallpaper-video-file-input" accept="video/mp4,video/webm,video/ogg,video/quicktime" style="display:none">
 
 <!-- Global Drag & Drop Overlay -->
 <div class="global-dropzone-overlay" id="global-dropzone-overlay">
@@ -1797,8 +1808,8 @@
         <div class="dropzone-icon">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         </div>
-        <h3>Drop Image to Deploy Custom Theme</h3>
-        <p>Focusr will extract the color palette, verify WCAG AA contrast for readability, and deploy your custom spatial atmosphere instantly.</p>
+        <h3>Drop Image or Live Video (MP4/WebM)</h3>
+        <p>Focusr will extract the color palette, adapt the theme dynamically to the video frames, and deploy your custom atmosphere instantly.</p>
     </div>
 </div>
 
@@ -1855,9 +1866,16 @@
    ════════════════════════════════════════════════════════════════ */
 window.handleWallpaperUpload = async function(file) {
     if (!file) return;
+
+    // Check if uploaded file is a video
+    const isVideo = (file.type && file.type.startsWith('video/')) || /\.(mp4|webm|ogg|mov|m4v)$/i.test(file.name || '');
+    if (isVideo) {
+        return window.handleVideoUpload(file);
+    }
+
     const isImage = (file.type && file.type.startsWith('image/')) || /\.(jpg|jpeg|png|webp|avif|bmp|gif|svg)$/i.test(file.name || '');
     if (!isImage) {
-        showToast('Please select a valid image file (JPG, PNG, WebP).', '', 4000);
+        showToast('Please select a valid image (JPG, PNG, WebP) or video (MP4, WebM).', '', 4000);
         return;
     }
     showToast('Processing wallpaper & extracting theme atmosphere...', '', 3000);
@@ -1971,6 +1989,141 @@ window.handleWallpaperUpload = async function(file) {
     }
 };
 
+/* ════════════════════════════════════════════════════════════════
+   FOCUSR CUSTOM LIVE VIDEO WALLPAPER & ADAPTIVE THEME ENGINE
+   ════════════════════════════════════════════════════════════════ */
+window.handleVideoUpload = async function(file) {
+    if (!file) return;
+    if (file.size > 200 * 1024 * 1024) {
+        showToast('Video file exceeds 200MB limit. Please choose a smaller video.', '', 4500);
+        return;
+    }
+    showToast('Ingesting live video & generating adaptive atmosphere...', '', 3500);
+
+    try {
+        const liveObjectUrl = URL.createObjectURL(file);
+
+        // Capture video thumbnail and initial color palette from frame 0.5s
+        const offVideo = document.createElement('video');
+        offVideo.muted = true;
+        offVideo.playsInline = true;
+        offVideo.src = liveObjectUrl;
+
+        await new Promise((resolve, reject) => {
+            offVideo.onloadeddata = () => resolve();
+            offVideo.onerror = () => reject(new Error('Failed to decode video file.'));
+            setTimeout(() => resolve(), 3000);
+        });
+
+        offVideo.currentTime = Math.min(0.5, (offVideo.duration || 1) / 2);
+
+        await new Promise(resolve => {
+            offVideo.onseeked = () => resolve();
+            setTimeout(resolve, 600);
+        });
+
+        // 320x180 card thumbnail
+        const thumbCanvas = document.createElement('canvas');
+        thumbCanvas.width = 320;
+        thumbCanvas.height = 180;
+        const tctx = thumbCanvas.getContext('2d');
+        if (tctx) {
+            tctx.drawImage(offVideo, 0, 0, 320, 180);
+        }
+        const thumbDataUrl = thumbCanvas.toDataURL('image/jpeg', 0.82);
+
+        // Extract initial palette from thumbnail
+        let analysis = {
+            accent: '#00e5ff',
+            accentGlow: 'rgba(0, 229, 255, 0.38)',
+            liquidHue: 190,
+            tint: 'rgba(4, 14, 24, 0.68)',
+            orb1: 'rgba(0, 229, 255, 0.22)',
+            orb2: 'rgba(147, 51, 234, 0.14)',
+            orb3: 'rgba(56, 189, 248, 0.08)',
+            palette: ['#00e5ff', '#3b82f6', '#040e18']
+        };
+
+        if (typeof FocusrThemeExtractor !== 'undefined' && FocusrThemeExtractor.extractColors) {
+            try {
+                analysis = FocusrThemeExtractor.extractColors(thumbCanvas);
+            } catch {}
+        }
+
+        const videoId = 'custom-vid-' + Date.now();
+        const videoName = file.name ? file.name.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').slice(0, 24) : 'Live Video Atmosphere';
+
+        // Persist in FocusrMediaDB (IndexedDB)
+        if (window.FocusrMediaDB) {
+            await window.FocusrMediaDB.saveVideo({
+                id: videoId,
+                name: videoName,
+                blob: file,
+                mimeType: file.type || 'video/mp4',
+                thumbnail: thumbDataUrl,
+                duration: offVideo.duration || 0,
+                size: file.size,
+                accent: analysis.accent,
+                accentGlow: analysis.accentGlow,
+                liquidHue: analysis.liquidHue,
+                tint: analysis.tint,
+                orb1: analysis.orb1,
+                orb2: analysis.orb2,
+                orb3: analysis.orb3,
+                palette: analysis.palette,
+                createdAt: Date.now()
+            });
+        }
+
+        const customVideoTheme = {
+            id: videoId,
+            name: videoName,
+            sub: 'Personal Live Video Atmosphere',
+            image: thumbDataUrl,
+            category: 'custom-video',
+            isCustom: true,
+            isVideo: true,
+            liveType: 'video',
+            videoUrl: liveObjectUrl,
+            accent: analysis.accent,
+            accentGlow: analysis.accentGlow,
+            liquidHue: analysis.liquidHue,
+            tint: analysis.tint,
+            orb1: analysis.orb1,
+            orb2: analysis.orb2,
+            orb3: analysis.orb3,
+            palette: analysis.palette
+        };
+
+        if (typeof CustomThemeStorage !== 'undefined') {
+            CustomThemeStorage.addVideoTheme(customVideoTheme);
+        }
+
+        try {
+            localStorage.setItem('focusr_active_custom_theme', JSON.stringify(customVideoTheme));
+        } catch {}
+
+        themeConfig.themeId = customVideoTheme.id;
+        applyTheme(customVideoTheme.id, undefined, undefined, true);
+
+        // Close modals
+        const marketModal = document.getElementById('wallpaper-marketplace-backdrop');
+        if (marketModal) marketModal.classList.remove('active');
+        const themeModal = document.getElementById('theme-modal-backdrop');
+        if (themeModal) themeModal.classList.remove('active');
+
+        if (typeof soundComplete === 'function') soundComplete();
+        showToast('🎬 Live video wallpaper "' + customVideoTheme.name + '" deployed with real-time Adaptive Theming!', '', 5000);
+
+        if (window.WallpaperMarketplace && window.WallpaperMarketplace.renderGrid) {
+            window.WallpaperMarketplace.renderGrid();
+        }
+    } catch (err) {
+        console.error('Video wallpaper deployment failed:', err);
+        showToast('Could not deploy video wallpaper: ' + (err.message || 'Unknown error'), '', 4500);
+    }
+};
+
 window.triggerWallpaperUpload = function() {
     let fi = document.getElementById('wallpaper-file-input');
     if (!fi) {
@@ -1985,6 +2138,26 @@ window.triggerWallpaperUpload = function() {
         const file = e.target.files && e.target.files[0];
         if (file) {
             window.handleWallpaperUpload(file);
+            fi.value = '';
+        }
+    };
+    fi.click();
+};
+
+window.triggerVideoUpload = function() {
+    let fi = document.getElementById('wallpaper-video-file-input');
+    if (!fi) {
+        fi = document.createElement('input');
+        fi.type = 'file';
+        fi.id = 'wallpaper-video-file-input';
+        fi.accept = 'video/mp4,video/webm,video/ogg,video/quicktime';
+        fi.style.display = 'none';
+        document.body.appendChild(fi);
+    }
+    fi.onchange = function(e) {
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+            window.handleVideoUpload(file);
             fi.value = '';
         }
     };
@@ -2026,6 +2199,93 @@ const THEME_STORAGE_KEY = 'focus_theme_config';
 
 /* ── 8 Soothing Environments & Spatial Themes ── */
 const THEMES = [
+    {
+        "id": "black-hole-singularity",
+        "name": "Black Hole Singularity",
+        "sub": "Relativistic Accretion Vortex & Gravitational Lensing",
+        "category": "cosmic",
+        "image": "backgrounds/cosmic-stellar-void.jpg",
+        "liveType": "shader",
+        "shaderPreset": "black-hole",
+        "particlePreset": "stardust",
+        "accent": "#f59e0b",
+        "accentGlow": "rgba(245, 158, 11, 0.42)",
+        "liquidHue": 38,
+        "tint": "rgba(10, 6, 2, 0.72)",
+        "orb1": "rgba(245, 158, 11, 0.22)",
+        "orb2": "rgba(234, 88, 12, 0.16)",
+        "orb3": "rgba(251, 191, 36, 0.12)",
+        "palette": ["#f59e0b", "#fbbf24", "#080402"]
+    },
+    {
+        "id": "tokyo-sakura-twilight",
+        "name": "Tokyo Twilight Sakura",
+        "sub": "Fluttering Cherry Blossoms on Sunset Breeze",
+        "category": "nature",
+        "image": "backgrounds/zen-bamboo-sanctuary.jpg",
+        "liveType": "particles",
+        "particlePreset": "sakura",
+        "accent": "#f472b6",
+        "accentGlow": "rgba(244, 114, 182, 0.38)",
+        "liquidHue": 330,
+        "tint": "rgba(18, 8, 16, 0.65)",
+        "orb1": "rgba(244, 114, 182, 0.2)",
+        "orb2": "rgba(251, 113, 133, 0.14)",
+        "orb3": "rgba(253, 164, 175, 0.08)",
+        "palette": ["#f472b6", "#fda4af", "#140812"]
+    },
+    {
+        "id": "bioluminescent-abyss",
+        "name": "Bioluminescent Deep Abyss",
+        "sub": "Glowing Ocean Jelly Spores & Deep Marine Drift",
+        "category": "nature",
+        "image": "backgrounds/deep-forest.jpg",
+        "liveType": "shader",
+        "shaderPreset": "bioluminescent",
+        "particlePreset": "stardust",
+        "accent": "#10b981",
+        "accentGlow": "rgba(16, 185, 129, 0.38)",
+        "liquidHue": 165,
+        "tint": "rgba(2, 16, 18, 0.7)",
+        "orb1": "rgba(16, 185, 129, 0.2)",
+        "orb2": "rgba(6, 182, 212, 0.16)",
+        "orb3": "rgba(45, 212, 191, 0.1)",
+        "palette": ["#10b981", "#06b6d4", "#021012"]
+    },
+    {
+        "id": "matrix-digital-rain",
+        "name": "Matrix Terminal Code",
+        "sub": "Cascading Phosphor Streams & Cyber Glyph Trails",
+        "category": "cyberpunk",
+        "image": "backgrounds/cyberpunk-neo-tokyo.jpg",
+        "liveType": "shader",
+        "shaderPreset": "matrix-code",
+        "accent": "#22c55e",
+        "accentGlow": "rgba(34, 197, 94, 0.42)",
+        "liquidHue": 142,
+        "tint": "rgba(2, 14, 6, 0.72)",
+        "orb1": "rgba(34, 197, 94, 0.22)",
+        "orb2": "rgba(74, 222, 128, 0.15)",
+        "orb3": "rgba(134, 239, 172, 0.08)",
+        "palette": ["#22c55e", "#86efac", "#020a04"]
+    },
+    {
+        "id": "cozy-fireplace-hearth",
+        "name": "Nordic Hearth & Embers",
+        "sub": "Dancing Warm Timber Sparks & Cabin Ambience",
+        "category": "lofi",
+        "image": "backgrounds/golden-dunes.jpg",
+        "liveType": "particles",
+        "particlePreset": "embers",
+        "accent": "#f97316",
+        "accentGlow": "rgba(249, 115, 22, 0.38)",
+        "liquidHue": 25,
+        "tint": "rgba(22, 10, 4, 0.68)",
+        "orb1": "rgba(249, 115, 22, 0.2)",
+        "orb2": "rgba(239, 68, 68, 0.14)",
+        "orb3": "rgba(251, 191, 36, 0.09)",
+        "palette": ["#f97316", "#ef4444", "#160804"]
+    },
     {
         "id": "zen-bamboo-sanctuary",
         "name": "Kyoto Bamboo Sanctuary",
@@ -10728,21 +10988,78 @@ const FocusrThemeExtractor = {
 };
 
 /* ═════════════════════════════════════════════════════════════════
-   FOCUSR CUSTOM THEME STORAGE (LOCALSTORAGE + STATE)
+   FOCUSR MEDIA DB (INDEXEDDB STORAGE FOR LARGE VIDEO FILES)
+   ═════════════════════════════════════════════════════════════════ */
+const FocusrMediaDB = window.FocusrMediaDB || {
+    dbPromise: null,
+    getDB() {
+        if (this.dbPromise) return this.dbPromise;
+        this.dbPromise = new Promise((resolve, reject) => {
+            if (typeof indexedDB === 'undefined') return reject(new Error('IndexedDB not supported'));
+            const req = indexedDB.open('focusr_media_store', 1);
+            req.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('videos')) {
+                    db.createObjectStore('videos', { keyPath: 'id' });
+                }
+            };
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => { this.dbPromise = null; reject(req.error); };
+        });
+        return this.dbPromise;
+    },
+    async saveVideo(record) {
+        const db = await this.getDB();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction('videos', 'readwrite');
+            const req = tx.objectStore('videos').put(record);
+            req.onsuccess = () => resolve();
+            req.onerror = () => reject(req.error);
+        });
+    },
+    async getAllVideos() {
+        try {
+            const db = await this.getDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('videos', 'readonly');
+                const req = tx.objectStore('videos').getAll();
+                req.onsuccess = () => resolve(req.result || []);
+                req.onerror = () => reject(req.error);
+            });
+        } catch { return []; }
+    },
+    async deleteVideo(id) {
+        try {
+            const db = await this.getDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('videos', 'readwrite');
+                const req = tx.objectStore('videos').delete(id);
+                req.onsuccess = () => resolve();
+                req.onerror = () => reject(req.error);
+            });
+        } catch {}
+    }
+};
+window.FocusrMediaDB = FocusrMediaDB;
+
+/* ═════════════════════════════════════════════════════════════════
+   FOCUSR CUSTOM THEME STORAGE (LOCALSTORAGE + INDEXEDDB VIDEOS)
    ═════════════════════════════════════════════════════════════════ */
 const CustomThemeStorage = {
     STORAGE_KEY: 'focusr_custom_themes',
     themes: [],
+    videoThemes: [],
 
     init() {
         this.load();
+        this.loadVideos();
     },
 
     load() {
         try {
             const raw = localStorage.getItem(this.STORAGE_KEY);
             this.themes = raw ? JSON.parse(raw) : [];
-            window.CUSTOM_THEMES = this.themes;
+            window.CUSTOM_THEMES = this.getThemes();
         } catch (e) {
             console.warn('Failed to load custom themes from localStorage:', e);
             this.themes = [];
@@ -10750,29 +11067,70 @@ const CustomThemeStorage = {
         }
     },
 
+    async loadVideos() {
+        if (window.FocusrMediaDB) {
+            try {
+                const list = await window.FocusrMediaDB.getAllVideos();
+                this.videoThemes = list.map(v => {
+                    const videoUrl = URL.createObjectURL(v.blob);
+                    return {
+                        id: v.id,
+                        name: v.name,
+                        sub: 'Personal Live Video Atmosphere',
+                        category: 'custom-video',
+                        isCustom: true,
+                        isVideo: true,
+                        liveType: 'video',
+                        videoUrl: videoUrl,
+                        image: v.thumbnail,
+                        accent: v.accent || '#00e5ff',
+                        accentGlow: v.accentGlow || 'rgba(0, 229, 255, 0.38)',
+                        liquidHue: v.liquidHue || 190,
+                        tint: v.tint || 'rgba(4, 14, 24, 0.68)',
+                        orb1: v.orb1 || 'rgba(0, 229, 255, 0.22)',
+                        orb2: v.orb2 || 'rgba(147, 51, 234, 0.14)',
+                        orb3: v.orb3 || 'rgba(56, 189, 248, 0.08)',
+                        palette: v.palette || ['#00e5ff', '#3b82f6', '#040e18']
+                    };
+                });
+                window.CUSTOM_THEMES = this.getThemes();
+                if (window.WallpaperMarketplace && window.WallpaperMarketplace.updateCustomCountBadge) {
+                    window.WallpaperMarketplace.updateCustomCountBadge();
+                    window.WallpaperMarketplace.renderGrid();
+                }
+                // Check if current active theme was a video theme
+                if (typeof themeConfig !== 'undefined' && themeConfig.themeId) {
+                    const matchedVid = this.videoThemes.find(vt => vt.id === themeConfig.themeId);
+                    if (matchedVid && window.LiveWallpaperManager) {
+                        window.LiveWallpaperManager.applyLiveWallpaper(matchedVid);
+                    }
+                }
+            } catch (err) {
+                console.warn('FocusrMediaDB video hydration error:', err);
+            }
+        }
+    },
+
     save() {
         try {
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.themes));
-            window.CUSTOM_THEMES = this.themes;
+            window.CUSTOM_THEMES = this.getThemes();
         } catch (e) {
             console.warn('LocalStorage quota limit reached, trimming oldest custom themes to fit...', e);
             while (this.themes.length > 1) {
-                this.themes.shift(); // remove oldest custom theme
+                this.themes.shift();
                 try {
                     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.themes));
-                    window.CUSTOM_THEMES = this.themes;
+                    window.CUSTOM_THEMES = this.getThemes();
                     return;
-                } catch (retryErr) {
-                    // continue trimming
-                }
+                } catch (retryErr) {}
             }
-            window.CUSTOM_THEMES = this.themes;
+            window.CUSTOM_THEMES = this.getThemes();
             showToast('Wallpaper active for this session (storage quota full).', '', 4000);
         }
     },
 
     addTheme(theme) {
-        // Keep max 8 custom themes to conserve browser quota
         this.themes = this.themes.filter(t => t.id !== theme.id);
         if (this.themes.length >= 8) {
             this.themes.shift();
@@ -10781,16 +11139,33 @@ const CustomThemeStorage = {
         this.save();
     },
 
+    addVideoTheme(theme) {
+        this.videoThemes = this.videoThemes.filter(t => t.id !== theme.id);
+        this.videoThemes.push(theme);
+        window.CUSTOM_THEMES = this.getThemes();
+        if (window.WallpaperMarketplace && window.WallpaperMarketplace.updateCustomCountBadge) {
+            window.WallpaperMarketplace.updateCustomCountBadge();
+            window.WallpaperMarketplace.renderGrid();
+        }
+    },
+
     removeTheme(themeId) {
         this.themes = this.themes.filter(t => t.id !== themeId);
         this.save();
+        if (this.videoThemes.some(t => t.id === themeId)) {
+            this.videoThemes = this.videoThemes.filter(t => t.id !== themeId);
+            window.CUSTOM_THEMES = this.getThemes();
+            if (window.FocusrMediaDB) {
+                window.FocusrMediaDB.deleteVideo(themeId).catch(() => {});
+            }
+        }
         if (themeConfig.themeId === themeId) {
             applyTheme('zen-mist', undefined, undefined, true);
         }
     },
 
     getThemes() {
-        return this.themes;
+        return [...this.videoThemes, ...this.themes];
     }
 };
 
@@ -10810,8 +11185,10 @@ const WallpaperMarketplace = {
         const backdrop = $('wallpaper-marketplace-backdrop');
         const searchInput = $('market-search-input');
         const btnUpload = $('btn-market-upload');
+        const btnUploadVideo = $('btn-market-upload-video');
         const btnAtelierUpload = $('btn-atelier-upload-wallpaper');
         const fileInput = $('wallpaper-file-input');
+        const adaptiveCheckbox = $('checkbox-adaptive-theme');
 
         if (btnOpen) btnOpen.addEventListener('click', () => this.open());
         if (btnAtelier) {
@@ -10826,6 +11203,18 @@ const WallpaperMarketplace = {
         if (backdrop) {
             backdrop.addEventListener('click', (e) => {
                 if (e.target === backdrop) this.close();
+            });
+        }
+
+        // Adaptive Theming Checkbox Listener
+        if (adaptiveCheckbox) {
+            adaptiveCheckbox.checked = window.LiveWallpaperManager ? window.LiveWallpaperManager.adaptiveThemingEnabled !== false : true;
+            adaptiveCheckbox.addEventListener('change', (e) => {
+                const enabled = e.target.checked;
+                if (window.LiveWallpaperManager && window.LiveWallpaperManager.setAdaptiveThemingEnabled) {
+                    window.LiveWallpaperManager.setAdaptiveThemingEnabled(enabled);
+                }
+                showToast(enabled ? '✦ Adaptive Video Theming activated: interface colors morph to match video' : 'Adaptive Video Theming paused', '', 3000);
             });
         }
 
@@ -10862,7 +11251,7 @@ const WallpaperMarketplace = {
                 fi = document.createElement('input');
                 fi.type = 'file';
                 fi.id = 'wallpaper-file-input';
-                fi.accept = 'image/jpeg,image/png,image/webp,image/avif';
+                fi.accept = 'image/jpeg,image/png,image/webp,image/avif,video/mp4,video/webm';
                 fi.style.display = 'none';
                 document.body.appendChild(fi);
             }
@@ -10878,6 +11267,9 @@ const WallpaperMarketplace = {
 
         if (btnUpload) {
             btnUpload.addEventListener('click', () => window.triggerWallpaperUpload());
+        }
+        if (btnUploadVideo) {
+            btnUploadVideo.addEventListener('click', () => window.triggerVideoUpload());
         }
         if (btnAtelierUpload) {
             btnAtelierUpload.addEventListener('click', () => window.triggerWallpaperUpload());
@@ -10896,17 +11288,29 @@ const WallpaperMarketplace = {
         // Global Drag & Drop listener
         this.setupGlobalDragAndDrop();
 
-        console.log('WallpaperMarketplace initialized with 52+ catalog and custom upload engine');
+        console.log('WallpaperMarketplace initialized with 57+ catalog and custom upload engine');
     },
 
     updateCustomCountBadge() {
         const countBadge = $('custom-themes-count');
         if (countBadge) {
-            countBadge.textContent = CustomThemeStorage.getThemes().length;
+            countBadge.textContent = CustomThemeStorage.themes.length;
+        }
+        const videoCountBadge = $('custom-videos-count');
+        if (videoCountBadge) {
+            videoCountBadge.textContent = CustomThemeStorage.videoThemes.length;
         }
     },
 
     async handleUserUpload(file) {
+        if (!file) return;
+
+        // Route video files to video upload engine
+        const isVideo = (file.type && file.type.startsWith('video/')) || /\.(mp4|webm|ogg|mov|m4v)$/i.test(file.name || '');
+        if (isVideo) {
+            return window.handleVideoUpload(file);
+        }
+
         showToast('Analyzing palette & optimizing atmosphere...', '', 2500);
         try {
             const customTheme = await FocusrThemeExtractor.processImageFile(file);
@@ -10963,10 +11367,15 @@ const WallpaperMarketplace = {
 
             if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                 const file = e.dataTransfer.files[0];
-                if (file.type && file.type.startsWith('image/')) {
+                const isVideo = (file.type && file.type.startsWith('video/')) || /\.(mp4|webm|ogg|mov|m4v)$/i.test(file.name || '');
+                const isImage = (file.type && file.type.startsWith('image/')) || /\.(jpg|jpeg|png|webp|avif|bmp|gif|svg)$/i.test(file.name || '');
+
+                if (isVideo) {
+                    await window.handleVideoUpload(file);
+                } else if (isImage) {
                     await this.handleUserUpload(file);
                 } else {
-                    showToast('Please drop an image file (JPG, PNG, WebP).', '', 3000);
+                    showToast('Please drop an image (JPG, PNG, WebP) or video (MP4, WebM) file.', '', 3500);
                 }
             }
         });
@@ -11020,6 +11429,10 @@ const WallpaperMarketplace = {
             if (this.activeCategory !== 'all') {
                 if (this.activeCategory === 'live') {
                     if (!t.liveType || t.liveType === 'none') return false;
+                } else if (this.activeCategory === 'custom-video') {
+                    if (!t.isVideo) return false;
+                } else if (this.activeCategory === 'custom') {
+                    if (!t.isCustom || t.isVideo) return false;
                 } else if (t.category !== this.activeCategory) {
                     return false;
                 }
@@ -11039,7 +11452,7 @@ const WallpaperMarketplace = {
                 <div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-dim)">
                     <div style="font-size:2rem;margin-bottom:0.5rem">✦</div>
                     <strong style="display:block;font-size:1rem;color:#fff;margin-bottom:0.25rem">No matching atmospheres found</strong>
-                    <span>${this.activeCategory === 'custom' ? 'No custom uploads yet. Click "+ Upload Wallpaper" or drag any image into the window!' : 'Try searching for another keyword or select All Atmospheres.'}</span>
+                    <span>${this.activeCategory === 'custom-video' ? 'No video wallpapers yet. Click "+ Upload Live Video" to upload your MP4 or WebM video!' : this.activeCategory === 'custom' ? 'No custom uploads yet. Click "+ Upload Image" or drag any image into the window!' : 'Try searching for another keyword or select All Atmospheres.'}</span>
                 </div>
             `;
             return;
@@ -11049,16 +11462,47 @@ const WallpaperMarketplace = {
             const isActive = t.id === activeId;
             const isCustom = !!t.isCustom;
             const isLive = t.liveType && t.liveType !== 'none';
+            const isVid = !!t.isVideo;
             const dots = (t.palette || []).map(c => '<span class="market-palette-dot" style="background:' + c + '"></span>').join('');
             const thumb = t.image 
                 ? '<img src="' + t.image + '" alt="' + t.name + '" loading="lazy" class="market-card-img">'
                 : '<div class="market-card-fallback-thumb" style="background:' + ((t.palette && t.palette[2]) || '#090a0f') + '">✦</div>';
 
-            const badgeHtml = isCustom 
-                ? '<div class="market-card-custom-tag">CUSTOM</div>'
-                : isLive
-                    ? '<div class="market-card-live-tag">LIVE</div>'
-                    : '<div class="market-card-free-tag">FREE</div>';
+            const badgeHtml = isVid
+                ? '<div class="market-card-video-tag">🎬 LIVE VIDEO</div>'
+                : isCustom 
+                    ? '<div class="market-card-custom-tag">CUSTOM</div>'
+                    : isLive
+                        ? '<div class="market-card-live-tag">LIVE</div>'
+                        : '<div class="market-card-free-tag">FREE</div>';
+
+            const deleteHtml = isCustom
+                ? '<button class="market-card-delete-btn" data-delete-id="' + t.id + '" title="Delete custom atmosphere">✕</button>'
+                : '';
+
+            return `
+                <div class="market-wallpaper-card ${isActive ? 'active' : ''}" data-theme-id="${t.id}">
+                    <div class="market-card-thumb-wrap">
+                        ${thumb}
+                        ${badgeHtml}
+                        ${isActive ? '<div class="market-card-active-badge">✓ Active</div>' : ''}
+                        ${deleteHtml}
+                        <div class="market-card-hover-overlay">
+                            <button class="market-btn-apply" data-theme-id="${t.id}">
+                                <span>${isActive ? 'Active Atmosphere' : 'Apply Atmosphere'}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="market-card-info">
+                        <div class="market-card-header-row">
+                            <span class="market-card-title">${t.name}</span>
+                            <div class="market-palette-dots">${dots}</div>
+                        </div>
+                        <div class="market-card-sub">${t.sub || (isVid ? 'User Generated Live Video Atmosphere' : isCustom ? 'User Generated Atmosphere' : '')}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
 
             const deleteHtml = isCustom
                 ? '<button class="market-card-delete-btn" data-delete-id="' + t.id + '" title="Delete custom theme">✕</button>'
@@ -11773,6 +12217,10 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
     activePreset: 'none',
     currentTheme: null,
     isTabHidden: false,
+    adaptiveThemingEnabled: true,
+    sampleCanvas: null,
+    sampleCtx: null,
+    adaptiveTimer: 0,
 
     init() {
         this.videoEl = $('backdrop-video');
@@ -11782,6 +12230,11 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             this.particlesCtx = this.particlesEl.getContext('2d');
             this.resize();
         }
+        this.sampleCanvas = document.createElement('canvas');
+        this.sampleCanvas.width = 32;
+        this.sampleCanvas.height = 32;
+        this.sampleCtx = this.sampleCanvas.getContext('2d', { willReadFrequently: true });
+
         window.addEventListener('resize', () => this.resize());
         document.addEventListener('visibilitychange', () => {
             this.isTabHidden = document.hidden;
@@ -11834,12 +12287,15 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         v.playsInline = true;
         v.play().then(() => {
             v.style.opacity = 'var(--backdrop-opacity, 0.85)';
+            this.startAdaptiveTheming();
         }).catch(() => {
             v.style.opacity = '0';
+            this.stopAdaptiveTheming();
         });
     },
 
     stopVideo() {
+        this.stopAdaptiveTheming();
         if (!this.videoEl) return;
         this.videoEl.style.opacity = '0';
         setTimeout(() => {
@@ -11850,6 +12306,121 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         }, 400);
     },
 
+    startAdaptiveTheming() {
+        if (this.adaptiveTimer) clearInterval(this.adaptiveTimer);
+        if (!this.adaptiveThemingEnabled) return;
+        setTimeout(() => this.sampleVideoFrame(), 250);
+        this.adaptiveTimer = setInterval(() => this.sampleVideoFrame(), 1400);
+    },
+
+    stopAdaptiveTheming() {
+        if (this.adaptiveTimer) {
+            clearInterval(this.adaptiveTimer);
+            this.adaptiveTimer = 0;
+        }
+    },
+
+    setAdaptiveThemingEnabled(enabled) {
+        this.adaptiveThemingEnabled = enabled;
+        try { localStorage.setItem('focusr_adaptive_theme_enabled', String(enabled)); } catch {}
+        if (enabled && this.currentTheme && this.currentTheme.liveType === 'video') {
+            this.startAdaptiveTheming();
+        } else {
+            this.stopAdaptiveTheming();
+        }
+    },
+
+    sampleVideoFrame() {
+        if (!this.videoEl || !this.sampleCtx || !this.sampleCanvas) return;
+        if (this.videoEl.paused || this.videoEl.ended || this.videoEl.readyState < 2 || this.isTabHidden) return;
+        if (!this.adaptiveThemingEnabled) return;
+
+        try {
+            const ctx = this.sampleCtx;
+            ctx.drawImage(this.videoEl, 0, 0, 32, 32);
+            const data = ctx.getImageData(0, 0, 32, 32).data;
+
+            let bestScore = -1;
+            let dominantR = 10, dominantG = 132, dominantB = 255;
+            let avgR = 0, avgG = 0, avgB = 0;
+            let sampleCount = 0;
+
+            const hueBuckets = new Array(12).fill(0).map(() => ({ count: 0, r: 0, g: 0, b: 0 }));
+
+            for (let i = 0; i < data.length; i += 16) {
+                const r = data[i], g = data[i + 1], b = data[i + 2];
+                avgR += r; avgG += g; avgB += b; sampleCount++;
+
+                const rn = r / 255, gn = g / 255, bn = b / 255;
+                const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+                const l = (max + min) / 2;
+                if (max === min || l < 0.12 || l > 0.92) continue;
+
+                const d = max - min;
+                const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                let h = 0;
+                if (max === rn) h = (gn - bn) / d + (gn < bn ? 6 : 0);
+                else if (max === gn) h = (bn - rn) / d + 2;
+                else h = (rn - gn) / d + 4;
+                h = (h * 60) % 360;
+
+                const bIndex = Math.floor(h / 30) % 12;
+                const score = s * 1.5 + (1 - Math.abs(2 * l - 1));
+                const bucket = hueBuckets[bIndex];
+                bucket.count += score;
+                bucket.r += r; bucket.g += g; bucket.b += b;
+            }
+
+            for (let k = 0; k < 12; k++) {
+                const b = hueBuckets[k];
+                if (b.count > bestScore) {
+                    bestScore = b.count;
+                    dominantR = Math.round(b.r / Math.max(1, b.count / 1.5));
+                    dominantG = Math.round(b.g / Math.max(1, b.count / 1.5));
+                    dominantB = Math.round(b.b / Math.max(1, b.count / 1.5));
+                }
+            }
+
+            if (sampleCount > 0) {
+                avgR = Math.round(avgR / sampleCount);
+                avgG = Math.round(avgG / sampleCount);
+                avgB = Math.round(avgB / sampleCount);
+            }
+
+            dominantR = Math.min(255, Math.max(25, dominantR));
+            dominantG = Math.min(255, Math.max(25, dominantG));
+            dominantB = Math.min(255, Math.max(25, dominantB));
+
+            const toHex = (c) => c.toString(16).padStart(2, '0');
+            const dominantHex = `#${toHex(dominantR)}${toHex(dominantG)}${toHex(dominantB)}`;
+            const darkTintHex = `rgba(${Math.round(avgR * 0.12)}, ${Math.round(avgG * 0.12)}, ${Math.round(avgB * 0.14)}, 0.68)`;
+
+            let liquidHue = 195;
+            const max = Math.max(dominantR, dominantG, dominantB);
+            const min = Math.min(dominantR, dominantG, dominantB);
+            if (max !== min) {
+                const d = max - min;
+                if (max === dominantR) liquidHue = Math.round(((dominantG - dominantB) / d + (dominantG < dominantB ? 6 : 0)) * 60);
+                else if (max === dominantG) liquidHue = Math.round(((dominantB - dominantR) / d + 2) * 60);
+                else liquidHue = Math.round(((dominantR - dominantG) / d + 4) * 60);
+            }
+
+            const root = document.documentElement;
+            root.style.setProperty('--accent', dominantHex);
+            root.style.setProperty('--accent-glow', `rgba(${dominantR}, ${dominantG}, ${dominantB}, 0.38)`);
+            root.style.setProperty('--liquid-hue', String(liquidHue));
+            root.style.setProperty('--backdrop-tint', darkTintHex);
+            root.style.setProperty('--orb-1-color', `rgba(${dominantR}, ${dominantG}, ${dominantB}, 0.22)`);
+            root.style.setProperty('--orb-2-color', `rgba(${avgR}, ${avgG}, ${avgB}, 0.14)`);
+
+            if (window.Cosmo && Cosmo.updateThemeColor) {
+                Cosmo.updateThemeColor(dominantHex);
+            }
+            const ringFill = $('ring-fill');
+            if (ringFill) ringFill.style.stroke = dominantHex;
+        } catch {}
+    },
+
     startParticles(preset, accentHex) {
         if (!this.particlesEl || !this.particlesCtx) return;
         this.stopParticles();
@@ -11858,18 +12429,36 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         this.particlesEl.style.opacity = '1';
         const w = this.particlesEl.width = window.innerWidth;
         const h = this.particlesEl.height = window.innerHeight;
-        const count = preset === 'rain' ? 120 : preset === 'snow' ? 70 : 45;
+        const count = preset === 'rain' ? 120 : preset === 'sakura' ? 60 : preset === 'snow' ? 70 : 45;
         this.particlesList = [];
+
         for (let i = 0; i < count; i++) {
-            this.particlesList.push({
-                x: Math.random() * w,
-                y: Math.random() * h,
-                vx: preset === 'rain' ? -0.8 : (Math.random() - 0.5) * 0.6,
-                vy: preset === 'rain' ? 7 + Math.random() * 4 : preset === 'embers' ? -1.2 - Math.random() : 0.8 + Math.random(),
-                size: preset === 'rain' ? 1.2 : 1.5 + Math.random() * 2,
-                alpha: 0.3 + Math.random() * 0.5,
-                color: accentHex || '#38bdf8'
-            });
+            if (preset === 'sakura') {
+                const pinks = ['#f472b6', '#fbcfe8', '#fda4af', '#fb7185'];
+                this.particlesList.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: 0.5 + Math.random() * 0.8,
+                    vy: 0.9 + Math.random() * 1.2,
+                    size: 4 + Math.random() * 5,
+                    alpha: 0.5 + Math.random() * 0.4,
+                    color: pinks[Math.floor(Math.random() * pinks.length)],
+                    sway: Math.random() * Math.PI * 2,
+                    swaySpeed: 0.02 + Math.random() * 0.02,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() - 0.5) * 0.04
+                });
+            } else {
+                this.particlesList.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: preset === 'rain' ? -0.8 : (Math.random() - 0.5) * 0.6,
+                    vy: preset === 'rain' ? 7 + Math.random() * 4 : preset === 'embers' ? -1.2 - Math.random() : 0.8 + Math.random(),
+                    size: preset === 'rain' ? 1.2 : 1.5 + Math.random() * 2,
+                    alpha: 0.3 + Math.random() * 0.5,
+                    color: accentHex || '#38bdf8'
+                });
+            }
         }
         this.loopParticles();
     },
@@ -11881,27 +12470,47 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         const w = this.particlesEl.width;
         const h = this.particlesEl.height;
         ctx.clearRect(0, 0, w, h);
+
         for (let i = 0; i < this.particlesList.length; i++) {
             const p = this.particlesList[i];
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
-            if (p.y < -10) { p.y = h; p.x = Math.random() * w; }
-            if (p.x < 0) p.x = w;
-            if (p.x > w) p.x = 0;
+            if (this.activePreset === 'sakura') {
+                p.sway = (p.sway || 0) + (p.swaySpeed || 0.02);
+                p.rotation = (p.rotation || 0) + (p.rotSpeed || 0.02);
+                p.x += p.vx + Math.sin(p.sway) * 0.8;
+                p.y += p.vy;
+                if (p.y > h + 10) { p.y = -10; p.x = Math.random() * w; }
+                if (p.x > w + 10) { p.x = -10; }
 
-            ctx.fillStyle = p.color;
-            ctx.globalAlpha = p.alpha;
-            ctx.beginPath();
-            if (this.activePreset === 'rain') {
-                ctx.strokeStyle = p.color;
-                ctx.lineWidth = p.size;
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p.x + p.vx * 2, p.y + p.vy * 2);
-                ctx.stroke();
-            } else {
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation || 0);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.restore();
+            } else {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
+                if (p.y < -10) { p.y = h; p.x = Math.random() * w; }
+                if (p.x < 0) p.x = w;
+                if (p.x > w) p.x = 0;
+
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                if (this.activePreset === 'rain') {
+                    ctx.strokeStyle = p.color;
+                    ctx.lineWidth = p.size;
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p.x + p.vx * 2, p.y + p.vy * 2);
+                    ctx.stroke();
+                } else {
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
             }
         }
         ctx.globalAlpha = 1;
@@ -11922,12 +12531,16 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     pauseAll() {
         if (this.videoEl) this.videoEl.pause();
+        this.stopAdaptiveTheming();
         if (this.particlesAnimId) cancelAnimationFrame(this.particlesAnimId);
     },
 
     resumeAll() {
         if (!this.currentTheme) return;
-        if (this.currentTheme.liveType === 'video' && this.videoEl) this.videoEl.play().catch(() => {});
+        if (this.currentTheme.liveType === 'video' && this.videoEl) {
+            this.videoEl.play().catch(() => {});
+            this.startAdaptiveTheming();
+        }
         if (this.activePreset !== 'none') this.loopParticles();
     }
 };

@@ -241,22 +241,24 @@ export const CosmoCompanion = {
             roughness: 0.8
         });
 
-        // Body & Tummy
-        const kBodyGeo = new THREE.SphereGeometry(0.18, 18, 18);
-        kBodyGeo.scale(0.9, 1.12, 0.8);
+        // Body & Tummy – scale koala to match rocket diameter (≈0.72) and slightly larger for emphasis
+        const kBodyGeo = new THREE.SphereGeometry(0.36, 24, 24); // radius matches rocket body radius
         const kBody = new THREE.Mesh(kBodyGeo, kFurMat);
+        // Slight overall scale up (10%) so koala appears a bit larger than rocket
+        koalaGroup.scale.set(1.1, 1.1, 1.1);
         koalaGroup.add(kBody);
 
-        const kTummyGeo = new THREE.SphereGeometry(0.13, 14, 14);
-        kTummyGeo.scale(0.75, 0.95, 0.35);
+        const kTummyGeo = new THREE.SphereGeometry(0.26, 20, 20);
         const kTummy = new THREE.Mesh(kTummyGeo, kFluffMat);
-        kTummy.position.set(0, -0.02, 0.12);
+        kTummy.position.set(0, -0.12, 0.0);
         koalaGroup.add(kTummy);
 
-        // Head Group
+        // Head Group – position head so it sits over the rocket tip
         const kHeadGroup = new THREE.Group();
-        kHeadGroup.position.set(0, 0.22, 0.04);
+        // Rocket tip (nose) is at y ≈ 1.22; we place the koala head slightly below that
+        kHeadGroup.position.set(0, 0.6, 0.04);
         this.koalaHead = kHeadGroup;
+        koalaGroup.add(kHeadGroup);
 
         const kHeadGeo = new THREE.SphereGeometry(0.20, 22, 20);
         kHeadGeo.scale(1.08, 0.98, 0.98);
