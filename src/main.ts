@@ -4,12 +4,12 @@ import { BinauralEngine } from './audio/BinauralEngine';
 import { TimerHeartbeat } from './engine/TimerHeartbeat';
 import { PacingPartner } from './engine/PacingPartner';
 import { LiveWallpaperManager } from './engine/LiveWallpaperManager';
+import { CursorForcefield } from './engine/CursorForcefield';
 import { LocalDataManager } from './storage/LocalDataManager';
 import { FocusrMediaDB } from './storage/FocusrMediaDB';
 import { ZenMode } from './ui/ZenMode';
 import { Modals } from './ui/Modals';
 import { CosmoCompanion } from './canvas/CosmoCompanion';
-import ToastManager from './ui/ToastManager';
 
 console.log('🚀 Focusr 2.0 Studio initialized with modular architecture');
 
@@ -21,6 +21,7 @@ if (typeof window !== 'undefined') {
     (window as any).PacingPartner = PacingPartner;
     (window as any).GhostPredictionModel = PacingPartner;
     (window as any).LiveWallpaperManager = LiveWallpaperManager;
+    (window as any).CursorForcefield = CursorForcefield;
     (window as any).LocalDataManager = LocalDataManager;
     (window as any).FocusrMediaDB = FocusrMediaDB;
     (window as any).ZenMode = ZenMode;
@@ -39,36 +40,21 @@ if (typeof window !== 'undefined') {
 }
 
 // Bootstrap modern modules upon DOM readiness
-  /* Duplicate init removed – legacy listeners handled once */
+document.addEventListener('DOMContentLoaded', () => {
     LiveWallpaperManager.init();
     ZenMode.init();
     Modals.init();
     BinauralEngine.init();
+
     // Initialize cursor forcefield
-    if (typeof (window as any).CursorForcefield !== 'undefined') {
-      (window as any).CursorForcefield.init();
-    }
-    // Sync forcefield with Zen mode toggles
-    window.addEventListener('focusr:zen-toggle', (e: CustomEvent) => {
-      const active = e.detail?.active;
-      if (typeof (window as any).CursorForcefield !== 'undefined') {
-        (window as any).CursorForcefield.setActive(!active);
-      }
-    });
-    // Connect Cosmo Companion if stage exists and not already initialized
-    if (document.getElementById('cosmo-canvas')) {
-      const c = (window as any).Cosmo || CosmoCompanion;
-      if (c && typeof c.init === 'function' && !c.renderer) {
-        c.init();
-      }
-    }
-  });
-/* Duplicate init removed – legacy listeners handled once */
-    LiveWallpaperManager.init();
-    ZenMode.init();
-    Modals.init();
-    BinauralEngine.init();
-    
+    CursorForcefield.init();
+
+    // Pause/resume forcefield when Zen mode toggles
+    window.addEventListener('focusr:zen-toggle', ((e: CustomEvent) => {
+        const active = !!e.detail?.active;
+        CursorForcefield.setActive(!active);
+    }) as EventListener);
+
     // Connect Cosmo Companion if stage exists and not already initialized
     if (document.getElementById('cosmo-canvas')) {
         const c = (window as any).Cosmo || CosmoCompanion;
