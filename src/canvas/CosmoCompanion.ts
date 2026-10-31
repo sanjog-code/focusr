@@ -9,6 +9,9 @@ export const CosmoCompanion = {
     camera: null as THREE.PerspectiveCamera | null,
     renderer: null as THREE.WebGLRenderer | null,
     rocketGroup: null as THREE.Group | null,
+    koalaGroup: null as THREE.Group | null,
+    koalaHead: null as THREE.Group | null,
+    koalaEars: [] as THREE.Group[],
     
     // Visor Texture & Canvas
     faceCanvas: null as HTMLCanvasElement | null,
@@ -187,6 +190,228 @@ export const CosmoCompanion = {
         flame.position.y = -1.45;
         this.rocketGroup.add(flame);
 
+        // 6. Cute 3D Procedural Koala Clinging to Rocket
+        const koalaGroup = new THREE.Group();
+        this.koalaGroup = koalaGroup;
+        this.koalaEars = [];
+
+        const kFurMat = new THREE.MeshStandardMaterial({
+            color: 0x94a3b8,
+            roughness: 0.88,
+            metalness: 0.04
+        });
+        const kFluffMat = new THREE.MeshStandardMaterial({
+            color: 0xf8fafc,
+            roughness: 0.95,
+            metalness: 0.0
+        });
+        const kNoseMat = new THREE.MeshStandardMaterial({
+            color: 0x0f172a,
+            roughness: 0.35,
+            metalness: 0.1
+        });
+        const kEyeMat = new THREE.MeshStandardMaterial({
+            color: 0x020617,
+            roughness: 0.05,
+            metalness: 0.2
+        });
+        const kHighlightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const kCheekMat = new THREE.MeshBasicMaterial({
+            color: 0xf472b6,
+            transparent: true,
+            opacity: 0.55
+        });
+        const kPawMat = new THREE.MeshStandardMaterial({
+            color: 0x334155,
+            roughness: 0.7,
+            metalness: 0.05
+        });
+        const kGoggleRimMat = new THREE.MeshStandardMaterial({
+            color: 0xe2e8f0,
+            roughness: 0.2,
+            metalness: 0.85
+        });
+        const kGoggleLensMat = new THREE.MeshBasicMaterial({
+            color: 0x00e5ff,
+            transparent: true,
+            opacity: 0.7
+        });
+        const kStrapMat = new THREE.MeshStandardMaterial({
+            color: 0x475569,
+            roughness: 0.8
+        });
+
+        // Body & Tummy
+        const kBodyGeo = new THREE.SphereGeometry(0.18, 18, 18);
+        kBodyGeo.scale(0.9, 1.12, 0.8);
+        const kBody = new THREE.Mesh(kBodyGeo, kFurMat);
+        koalaGroup.add(kBody);
+
+        const kTummyGeo = new THREE.SphereGeometry(0.13, 14, 14);
+        kTummyGeo.scale(0.75, 0.95, 0.35);
+        const kTummy = new THREE.Mesh(kTummyGeo, kFluffMat);
+        kTummy.position.set(0, -0.02, 0.12);
+        koalaGroup.add(kTummy);
+
+        // Head Group
+        const kHeadGroup = new THREE.Group();
+        kHeadGroup.position.set(0, 0.22, 0.04);
+        this.koalaHead = kHeadGroup;
+
+        const kHeadGeo = new THREE.SphereGeometry(0.20, 22, 20);
+        kHeadGeo.scale(1.08, 0.98, 0.98);
+        const kHead = new THREE.Mesh(kHeadGeo, kFurMat);
+        kHeadGroup.add(kHead);
+
+        // Chubby Cheeks & Blush
+        [-0.12, 0.12].forEach(cx => {
+            const cheekGeo = new THREE.SphereGeometry(0.08, 12, 12);
+            cheekGeo.scale(1.0, 0.85, 0.8);
+            const cheek = new THREE.Mesh(cheekGeo, kFurMat);
+            cheek.position.set(cx, -0.05, 0.08);
+            kHeadGroup.add(cheek);
+
+            const blushGeo = new THREE.SphereGeometry(0.038, 10, 10);
+            const blush = new THREE.Mesh(blushGeo, kCheekMat);
+            blush.position.set(cx * 1.05, -0.04, 0.14);
+            kHeadGroup.add(blush);
+        });
+
+        // Fluffy Ears with Tufts
+        [-0.18, 0.18].forEach((ex, idx) => {
+            const earGroup = new THREE.Group();
+            earGroup.position.set(ex, 0.14, -0.02);
+            earGroup.rotation.z = idx === 0 ? 0.35 : -0.35;
+            earGroup.rotation.y = idx === 0 ? -0.2 : 0.2;
+
+            const outerGeo = new THREE.CylinderGeometry(0.11, 0.11, 0.035, 18);
+            outerGeo.rotateX(Math.PI / 2);
+            const outer = new THREE.Mesh(outerGeo, kFurMat);
+            earGroup.add(outer);
+
+            const innerGeo = new THREE.CylinderGeometry(0.078, 0.078, 0.04, 18);
+            innerGeo.rotateX(Math.PI / 2);
+            const inner = new THREE.Mesh(innerGeo, kFluffMat);
+            inner.position.z = 0.005;
+            earGroup.add(inner);
+
+            for (let i = -1; i <= 1; i++) {
+                const tuftGeo = new THREE.SphereGeometry(0.04, 8, 8);
+                const tuft = new THREE.Mesh(tuftGeo, kFluffMat);
+                tuft.position.set(idx === 0 ? -0.09 : 0.09, i * 0.045, 0.01);
+                earGroup.add(tuft);
+            }
+
+            kHeadGroup.add(earGroup);
+            this.koalaEars.push(earGroup);
+        });
+
+        // Nose
+        const kNoseGeo = new THREE.SphereGeometry(0.072, 16, 16);
+        kNoseGeo.scale(0.78, 1.25, 0.65);
+        const kNose = new THREE.Mesh(kNoseGeo, kNoseMat);
+        kNose.position.set(0, -0.01, 0.18);
+        kNose.rotation.x = -0.08;
+        kHeadGroup.add(kNose);
+
+        // Eyes with Glints
+        [-0.085, 0.085].forEach((eyex) => {
+            const eyeGeo = new THREE.SphereGeometry(0.032, 14, 14);
+            const eye = new THREE.Mesh(eyeGeo, kEyeMat);
+            eye.position.set(eyex, 0.035, 0.165);
+            kHeadGroup.add(eye);
+
+            const glintGeo = new THREE.SphereGeometry(0.009, 8, 8);
+            const glint = new THREE.Mesh(glintGeo, kHighlightMat);
+            glint.position.set(eyex + 0.01, 0.045, 0.19);
+            kHeadGroup.add(glint);
+        });
+
+        // Mini Goggles
+        const kGoggleGroup = new THREE.Group();
+        kGoggleGroup.position.set(0, 0.14, 0.12);
+        kGoggleGroup.rotation.x = -0.35;
+
+        const strapGeo = new THREE.TorusGeometry(0.19, 0.016, 8, 24);
+        const strap = new THREE.Mesh(strapGeo, kStrapMat);
+        strap.rotation.x = Math.PI / 2;
+        kGoggleGroup.add(strap);
+
+        [-0.075, 0.075].forEach(gx => {
+            const rimGeo = new THREE.TorusGeometry(0.05, 0.014, 10, 20);
+            const rim = new THREE.Mesh(rimGeo, kGoggleRimMat);
+            rim.position.x = gx;
+            kGoggleGroup.add(rim);
+
+            const lensGeo = new THREE.CircleGeometry(0.045, 16);
+            const lens = new THREE.Mesh(lensGeo, kGoggleLensMat);
+            lens.position.set(gx, 0, 0.005);
+            kGoggleGroup.add(lens);
+        });
+        kHeadGroup.add(kGoggleGroup);
+
+        koalaGroup.add(kHeadGroup);
+
+        // Clinging Hug Arms
+        const leftArmGroup = new THREE.Group();
+        leftArmGroup.position.set(-0.14, 0.08, 0.08);
+        const leftArmGeo = new THREE.CylinderGeometry(0.045, 0.04, 0.22, 12);
+        leftArmGeo.rotateZ(Math.PI / 3);
+        leftArmGeo.rotateY(0.4);
+        const leftArm = new THREE.Mesh(leftArmGeo, kFurMat);
+        leftArmGroup.add(leftArm);
+
+        const leftPawGeo = new THREE.SphereGeometry(0.045, 10, 10);
+        const leftPaw = new THREE.Mesh(leftPawGeo, kPawMat);
+        leftPaw.position.set(-0.14, -0.04, 0.12);
+        leftArmGroup.add(leftPaw);
+        koalaGroup.add(leftArmGroup);
+
+        const rightArmGroup = new THREE.Group();
+        rightArmGroup.position.set(0.14, 0.08, 0.08);
+        const rightArmGeo = new THREE.CylinderGeometry(0.045, 0.04, 0.22, 12);
+        rightArmGeo.rotateZ(-Math.PI / 3);
+        rightArmGeo.rotateY(-0.4);
+        const rightArm = new THREE.Mesh(rightArmGeo, kFurMat);
+        rightArmGroup.add(rightArm);
+
+        const rightPawGeo = new THREE.SphereGeometry(0.045, 10, 10);
+        const rightPaw = new THREE.Mesh(rightPawGeo, kPawMat);
+        rightPaw.position.set(0.14, -0.04, 0.12);
+        rightArmGroup.add(rightPaw);
+        koalaGroup.add(rightArmGroup);
+
+        // Clinging Legs
+        [-0.12, 0.12].forEach((lx, idx) => {
+            const legGroup = new THREE.Group();
+            legGroup.position.set(lx, -0.14, 0.06);
+
+            const legGeo = new THREE.CylinderGeometry(0.05, 0.045, 0.2, 10);
+            legGeo.rotateZ(idx === 0 ? 0.5 : -0.5);
+            legGeo.rotateX(0.4);
+            const leg = new THREE.Mesh(legGeo, kFurMat);
+            legGroup.add(leg);
+
+            const footGeo = new THREE.SphereGeometry(0.048, 10, 10);
+            footGeo.scale(1, 0.8, 1.2);
+            const foot = new THREE.Mesh(footGeo, kPawMat);
+            foot.position.set(idx === 0 ? -0.08 : 0.08, -0.08, 0.08);
+            legGroup.add(foot);
+
+            koalaGroup.add(legGroup);
+        });
+
+        // Tail
+        const tailGeo = new THREE.SphereGeometry(0.05, 10, 10);
+        const tail = new THREE.Mesh(tailGeo, kFurMat);
+        tail.position.set(0, -0.14, -0.14);
+        koalaGroup.add(tail);
+
+        // Cling to Rocket
+        koalaGroup.position.set(0.36, -0.16, 0.22);
+        koalaGroup.rotation.set(0.12, -0.45, -0.22);
+        this.rocketGroup.add(koalaGroup);
+
         this.rocketGroup.scale.set(0.85, 0.85, 0.85);
         this.scene.add(this.rocketGroup);
     },
@@ -232,6 +457,19 @@ export const CosmoCompanion = {
                 this.rocketGroup.position.y = Math.sin(this.time * 2) * 0.08;
                 this.rocketGroup.rotation.y = 0.42 + Math.sin(this.time * 1.2) * 0.15;
                 this.rocketGroup.rotation.z = -0.18 + Math.cos(this.time * 1.5) * 0.04;
+            }
+            if (this.koalaGroup) {
+                const koalaBreathe = Math.sin(this.time * 3.5) * 0.008;
+                this.koalaGroup.position.y = -0.16 + koalaBreathe;
+                if (this.koalaHead) {
+                    this.koalaHead.rotation.z = Math.sin(this.time * 1.8) * 0.04;
+                    this.koalaHead.rotation.x = Math.sin(this.time * 2.2) * 0.02;
+                }
+                if (this.koalaEars && this.koalaEars.length === 2) {
+                    const earWiggle = Math.sin(this.time * 4.5) * 0.04;
+                    this.koalaEars[0].rotation.z = 0.35 + earWiggle;
+                    this.koalaEars[1].rotation.z = -0.35 - earWiggle;
+                }
             }
             if (this.renderer && this.scene && this.camera) {
                 this.renderer.render(this.scene, this.camera);
