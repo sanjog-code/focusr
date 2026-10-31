@@ -1,4 +1,4 @@
-const CACHE_NAME = 'focusr-cache-v5-clean';
+const CACHE_NAME = 'focusr-cache-v6-live';
 const STATIC_ASSETS = [
     '/',
     '/index.html',

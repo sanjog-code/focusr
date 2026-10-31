@@ -175,7 +175,7 @@
     if ('caches' in window) {
         caches.keys().then(function(keys) {
             keys.forEach(function(k) {
-                if (k !== 'focusr-cache-v5-clean') {
+                if (k !== 'focusr-cache-v6-live') {
                     caches.delete(k);
                 }
             });
