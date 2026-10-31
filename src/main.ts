@@ -3,6 +3,7 @@ import { AudioMaster, soundClick, soundComplete, soundWaterDrop, playTone, playL
 import { BinauralEngine } from './audio/BinauralEngine';
 import { TimerHeartbeat } from './engine/TimerHeartbeat';
 import { PacingPartner } from './engine/PacingPartner';
+import { LiveWallpaperManager } from './engine/LiveWallpaperManager';
 import { LocalDataManager } from './storage/LocalDataManager';
 import { ZenMode } from './ui/ZenMode';
 import { Modals } from './ui/Modals';
@@ -17,6 +18,7 @@ if (typeof window !== 'undefined') {
     (window as any).TimerHeartbeat = TimerHeartbeat;
     (window as any).PacingPartner = PacingPartner;
     (window as any).GhostPredictionModel = PacingPartner;
+    (window as any).LiveWallpaperManager = LiveWallpaperManager;
     (window as any).LocalDataManager = LocalDataManager;
     (window as any).ZenMode = ZenMode;
     (window as any).Modals = Modals;
@@ -31,6 +33,7 @@ if (typeof window !== 'undefined') {
 
 // Bootstrap modern modules upon DOM readiness
 document.addEventListener('DOMContentLoaded', () => {
+    LiveWallpaperManager.init();
     ZenMode.init();
     Modals.init();
     BinauralEngine.init();

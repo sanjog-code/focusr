@@ -37,6 +37,10 @@ export interface UserAccount {
     linkedAt: string;
 }
 
+export type LiveWallpaperType = 'video' | 'shader' | 'particles' | 'none';
+export type LiveShaderPreset = 'cosmic-void' | 'aurora-waves' | 'cyber-rain' | 'zen-ripples';
+export type LiveParticlePreset = 'rain' | 'snow' | 'embers' | 'stardust' | 'petals' | 'none';
+
 export interface CustomTheme {
     id: string;
     name: string;
@@ -45,6 +49,30 @@ export interface CustomTheme {
     accent: string;
     glassBg: string;
     createdAt: string;
+    liveType?: LiveWallpaperType;
+    videoUrl?: string;
+    shaderPreset?: LiveShaderPreset;
+    particlePreset?: LiveParticlePreset;
+}
+
+export interface LiveThemeDefinition {
+    id: string;
+    name: string;
+    sub: string;
+    category: string;
+    image: string;
+    liveType?: LiveWallpaperType;
+    videoUrl?: string;
+    shaderPreset?: LiveShaderPreset;
+    particlePreset?: LiveParticlePreset;
+    accent: string;
+    accentGlow: string;
+    liquidHue: number;
+    tint: string;
+    orb1: string;
+    orb2: string;
+    orb3: string;
+    palette: string[];
 }
 
 export interface PacingProfile {

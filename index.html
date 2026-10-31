@@ -202,6 +202,9 @@
 <!-- Spatial Backdrop -->
 <div class="backdrop-wrapper" id="backdrop-wrapper">
     <div class="backdrop-image" id="backdrop-image"></div>
+    <video class="backdrop-video" id="backdrop-video" autoplay loop muted playsinline preload="metadata" style="opacity: 0; display: none;"></video>
+    <canvas class="backdrop-canvas" id="backdrop-canvas" style="opacity: 0; display: none;"></canvas>
+    <canvas class="backdrop-particles" id="backdrop-particles" style="opacity: 0; display: none;"></canvas>
     <div class="backdrop-overlay" id="backdrop-overlay"></div>
 </div>
 
@@ -1071,6 +1074,7 @@
         <div class="market-categories-row" id="market-categories-row">
             <button class="market-cat-pill" data-category="custom" id="market-cat-pill-custom">🎨 Custom (<span id="custom-themes-count">0</span>)</button>
             <button class="market-cat-pill active" data-category="all">All Atmospheres (52)</button>
+            <button class="market-cat-pill" data-category="live" style="background:rgba(6,182,212,0.18);border-color:rgba(6,182,212,0.45);color:#38bdf8;font-weight:700">✨ Live Motion</button>
             <button class="market-cat-pill" data-category="nature">🌿 Sanctuary Nature (10)</button>
             <button class="market-cat-pill" data-category="cosmic">🌌 Cosmic & Space (10)</button>
             <button class="market-cat-pill" data-category="cyberpunk">⚡ Cyberpunk & Neon (9)</button>
@@ -2075,6 +2079,8 @@ const THEMES = [
         "sub": "Quiet Raindrops on Japanese Glass",
         "category": "nature",
         "image": "backgrounds/rainy-window.jpg",
+        "liveType": "particles",
+        "particlePreset": "rain",
         "accent": "#818cf8",
         "accentGlow": "rgba(129, 140, 248, 0.3)",
         "liquidHue": 235,
@@ -2208,6 +2214,9 @@ const THEMES = [
         "sub": "Violet Interstellar Clouds & Stardust",
         "category": "cosmic",
         "image": "backgrounds/cosmic-stellar-void.jpg",
+        "liveType": "shader",
+        "shaderPreset": "cosmic-void",
+        "particlePreset": "stardust",
         "accent": "#a855f7",
         "accentGlow": "rgba(168, 85, 247, 0.35)",
         "liquidHue": 275,
@@ -2398,6 +2407,9 @@ const THEMES = [
         "sub": "Rainy Cyber Street & Cyan Neon Glow",
         "category": "cyberpunk",
         "image": "backgrounds/cyberpunk-neo-tokyo.jpg",
+        "liveType": "shader",
+        "shaderPreset": "cyber-rain",
+        "particlePreset": "rain",
         "accent": "#06b6d4",
         "accentGlow": "rgba(6, 182, 212, 0.35)",
         "liquidHue": 188,
@@ -2873,6 +2885,8 @@ const THEMES = [
         "sub": "Boreal Night & Celestial Emerald Veil",
         "category": "aurora",
         "image": "backgrounds/nordic-aurora.jpg",
+        "liveType": "shader",
+        "shaderPreset": "aurora-waves",
         "accent": "#2dd4bf",
         "accentGlow": "rgba(45, 212, 191, 0.32)",
         "liquidHue": 172,
@@ -4077,6 +4091,10 @@ function applyTheme(themeId, blurVal, opacityVal, shouldSave = true) {
             bgImgEl.style.backgroundImage = 'none';
             bgImgEl.style.display = 'none';
         }
+    }
+
+    if (window.LiveWallpaperManager && window.LiveWallpaperManager.applyLiveWallpaper) {
+        window.LiveWallpaperManager.applyLiveWallpaper(t);
     }
 
     if (valBlur) valBlur.textContent = `${themeConfig.blur}px`;
@@ -10749,7 +10767,11 @@ const WallpaperMarketplace = {
 
         const filtered = allList.filter(t => {
             if (this.activeCategory !== 'all') {
-                if (t.category !== this.activeCategory) return false;
+                if (this.activeCategory === 'live') {
+                    if (!t.liveType || t.liveType === 'none') return false;
+                } else if (t.category !== this.activeCategory) {
+                    return false;
+                }
             }
             if (this.searchQuery) {
                 const q = this.searchQuery;
@@ -10775,6 +10797,7 @@ const WallpaperMarketplace = {
         container.innerHTML = filtered.map(t => {
             const isActive = t.id === activeId;
             const isCustom = !!t.isCustom;
+            const isLive = t.liveType && t.liveType !== 'none';
             const dots = (t.palette || []).map(c => '<span class="market-palette-dot" style="background:' + c + '"></span>').join('');
             const thumb = t.image 
                 ? '<img src="' + t.image + '" alt="' + t.name + '" loading="lazy" class="market-card-img">'
@@ -10782,7 +10805,9 @@ const WallpaperMarketplace = {
 
             const badgeHtml = isCustom 
                 ? '<div class="market-card-custom-tag">CUSTOM</div>'
-                : '<div class="market-card-free-tag">FREE</div>';
+                : isLive
+                    ? '<div class="market-card-live-tag">LIVE</div>'
+                    : '<div class="market-card-free-tag">FREE</div>';
 
             const deleteHtml = isCustom
                 ? '<button class="market-card-delete-btn" data-delete-id="' + t.id + '" title="Delete custom theme">✕</button>'
@@ -11486,7 +11511,181 @@ window.FocusrCustomization = FocusrCustomization;
 window.AdManager = AdManager;
 window.DiscoveryEngine = DiscoveryEngine;
 
+/* ── Live Wallpaper Manager & Atmospheric Motion Engine ── */
+const LiveWallpaperManager = window.LiveWallpaperManager || {
+    videoEl: null,
+    canvasEl: null,
+    particlesEl: null,
+    particlesCtx: null,
+    particlesList: [],
+    particlesAnimId: 0,
+    activePreset: 'none',
+    currentTheme: null,
+    isTabHidden: false,
+
+    init() {
+        this.videoEl = $('backdrop-video');
+        this.canvasEl = $('backdrop-canvas');
+        this.particlesEl = $('backdrop-particles');
+        if (this.particlesEl) {
+            this.particlesCtx = this.particlesEl.getContext('2d');
+            this.resize();
+        }
+        window.addEventListener('resize', () => this.resize());
+        document.addEventListener('visibilitychange', () => {
+            this.isTabHidden = document.hidden;
+            if (this.isTabHidden) this.pauseAll();
+            else this.resumeAll();
+        });
+    },
+
+    resize() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        if (this.particlesEl) {
+            this.particlesEl.width = w;
+            this.particlesEl.height = h;
+        }
+    },
+
+    applyLiveWallpaper(theme) {
+        this.currentTheme = theme;
+        if (!theme) return;
+        const liveType = theme.liveType || 'none';
+
+        // 1. Video
+        if (liveType === 'video' && theme.videoUrl) {
+            this.playVideo(theme.videoUrl);
+        } else {
+            this.stopVideo();
+        }
+
+        // 2. Particles
+        const preset = theme.particlePreset || (liveType === 'particles' ? 'stardust' : 'none');
+        if (preset && preset !== 'none') {
+            this.startParticles(preset, theme.accent);
+        } else {
+            this.stopParticles();
+        }
+    },
+
+    playVideo(url) {
+        if (!this.videoEl) return;
+        const v = this.videoEl;
+        v.style.display = 'block';
+        if (v.getAttribute('data-active-src') !== url) {
+            v.setAttribute('data-active-src', url);
+            v.src = url;
+            v.load();
+        }
+        v.muted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.play().then(() => {
+            v.style.opacity = 'var(--backdrop-opacity, 0.85)';
+        }).catch(() => {
+            v.style.opacity = '0';
+        });
+    },
+
+    stopVideo() {
+        if (!this.videoEl) return;
+        this.videoEl.style.opacity = '0';
+        setTimeout(() => {
+            if (this.videoEl && this.videoEl.style.opacity === '0') {
+                this.videoEl.pause();
+                this.videoEl.style.display = 'none';
+            }
+        }, 400);
+    },
+
+    startParticles(preset, accentHex) {
+        if (!this.particlesEl || !this.particlesCtx) return;
+        this.stopParticles();
+        this.activePreset = preset;
+        this.particlesEl.style.display = 'block';
+        this.particlesEl.style.opacity = '1';
+        const w = this.particlesEl.width = window.innerWidth;
+        const h = this.particlesEl.height = window.innerHeight;
+        const count = preset === 'rain' ? 120 : preset === 'snow' ? 70 : 45;
+        this.particlesList = [];
+        for (let i = 0; i < count; i++) {
+            this.particlesList.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                vx: preset === 'rain' ? -0.8 : (Math.random() - 0.5) * 0.6,
+                vy: preset === 'rain' ? 7 + Math.random() * 4 : preset === 'embers' ? -1.2 - Math.random() : 0.8 + Math.random(),
+                size: preset === 'rain' ? 1.2 : 1.5 + Math.random() * 2,
+                alpha: 0.3 + Math.random() * 0.5,
+                color: accentHex || '#38bdf8'
+            });
+        }
+        this.loopParticles();
+    },
+
+    loopParticles() {
+        if (!this.particlesCtx || !this.particlesEl || this.activePreset === 'none' || this.isTabHidden) return;
+        this.particlesAnimId = requestAnimationFrame(() => this.loopParticles());
+        const ctx = this.particlesCtx;
+        const w = this.particlesEl.width;
+        const h = this.particlesEl.height;
+        ctx.clearRect(0, 0, w, h);
+        for (let i = 0; i < this.particlesList.length; i++) {
+            const p = this.particlesList[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
+            if (p.y < -10) { p.y = h; p.x = Math.random() * w; }
+            if (p.x < 0) p.x = w;
+            if (p.x > w) p.x = 0;
+
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.alpha;
+            ctx.beginPath();
+            if (this.activePreset === 'rain') {
+                ctx.strokeStyle = p.color;
+                ctx.lineWidth = p.size;
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x + p.vx * 2, p.y + p.vy * 2);
+                ctx.stroke();
+            } else {
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        ctx.globalAlpha = 1;
+    },
+
+    stopParticles() {
+        this.activePreset = 'none';
+        if (this.particlesAnimId) cancelAnimationFrame(this.particlesAnimId);
+        if (this.particlesEl) {
+            this.particlesEl.style.opacity = '0';
+            setTimeout(() => {
+                if (this.particlesEl && this.activePreset === 'none') {
+                    this.particlesEl.style.display = 'none';
+                }
+            }, 300);
+        }
+    },
+
+    pauseAll() {
+        if (this.videoEl) this.videoEl.pause();
+        if (this.particlesAnimId) cancelAnimationFrame(this.particlesAnimId);
+    },
+
+    resumeAll() {
+        if (!this.currentTheme) return;
+        if (this.currentTheme.liveType === 'video' && this.videoEl) this.videoEl.play().catch(() => {});
+        if (this.activePreset !== 'none') this.loopParticles();
+    }
+};
+window.LiveWallpaperManager = LiveWallpaperManager;
+
 function bootApplication() {
+    if (window.LiveWallpaperManager && window.LiveWallpaperManager.init) {
+        window.LiveWallpaperManager.init();
+    }
     if (window.ZenMode) window.ZenMode.init();
     loadSessions();
     loadInventory();

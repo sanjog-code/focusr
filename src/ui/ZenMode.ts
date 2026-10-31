@@ -111,6 +111,15 @@ export const ZenMode = {
             (window as any).Cosmo.pauseLoop();
         }
 
+        // 2b. Interlock with Live Wallpaper Manager to save battery during Zen
+        if ((window as any).LiveWallpaperManager) {
+            if (active) {
+                (window as any).LiveWallpaperManager.pauseAll();
+            } else {
+                (window as any).LiveWallpaperManager.resumeAll();
+            }
+        }
+
         // 3. Play subtle calm feedback chime when activating / deactivating
         if (active && typeof (window as any).playTone === 'function') {
             (window as any).playTone([440, 554, 659], 0.35, 0.12);

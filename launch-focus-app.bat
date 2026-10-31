@@ -1,8 +1,8 @@
 @echo off
 setlocal
-title Launching Focus App (Standalone Window)
+title Launching Focusr (Standalone Window)
 
-set "FILE_URI=file:///C:/Users/amans/.gemini/antigravity/scratch/focus-app/index.html"
+set "FILE_URI=file:///%~dp0index.html"
 
 if exist "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" (
     start "" "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --app="%FILE_URI%" --start-fullscreen
