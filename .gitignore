@@ -6,3 +6,4 @@ Thumbs.db
 .vercel
 
 dist/
+.env*
