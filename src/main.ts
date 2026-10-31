@@ -22,8 +22,12 @@ if (typeof window !== 'undefined') {
     (window as any).LocalDataManager = LocalDataManager;
     (window as any).ZenMode = ZenMode;
     (window as any).Modals = Modals;
-    (window as any).Cosmo = CosmoCompanion;
-    (window as any).Cosmor = CosmoCompanion;
+    if (!(window as any).Cosmo) {
+        (window as any).Cosmo = CosmoCompanion;
+    }
+    if (!(window as any).Cosmor) {
+        (window as any).Cosmor = CosmoCompanion;
+    }
     (window as any).soundClick = soundClick;
     (window as any).soundComplete = soundComplete;
     (window as any).soundWaterDrop = soundWaterDrop;
@@ -38,8 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     Modals.init();
     BinauralEngine.init();
     
-    // Connect Cosmo Companion if stage exists
+    // Connect Cosmo Companion if stage exists and not already initialized
     if (document.getElementById('cosmo-canvas')) {
-        CosmoCompanion.init();
+        const c = (window as any).Cosmo || CosmoCompanion;
+        if (c && typeof c.init === 'function' && !c.renderer) {
+            c.init();
+        }
     }
 });

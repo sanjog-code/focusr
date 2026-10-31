@@ -168,6 +168,15 @@
     <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="stylesheet" href="/src/styles/main.css" />
+
+    <!-- Three.js Engine for 3D Companion & WebGL Shaders -->
+    <script src="assets/three.min.js"></script>
+    <script>
+    if (typeof THREE === 'undefined') {
+        document.write('<script src="/assets/three.min.js"><\/script>');
+    }
+    </script>
+
     <script type="module" src="/src/main.ts"></script>
 
     <!-- Auto-purge stale service worker caches & Client-side automated IndexNow ping -->
