@@ -19,7 +19,7 @@ export const LiveWallpaperManager = {
     videoEl: null as HTMLVideoElement | null,
     canvasEl: null as HTMLCanvasElement | null,
     particlesEl: null as HTMLCanvasElement | null,
-    imageEl: HTMLElement | null,
+    imageEl: null as HTMLElement | null,
 
     // Three.js State for Shader/Canvas Engine
     threeScene: null as THREE.Scene | null,

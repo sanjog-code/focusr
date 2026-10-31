@@ -11,6 +11,7 @@ interface Window {
   TimerHeartbeat: any;
   PacingPartner: any;
   GhostPredictionModel: any;
+  LiveWallpaperManager: any;
   LocalDataManager: any;
   ZenMode: any;
   Modals: any;
