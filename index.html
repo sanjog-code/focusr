@@ -12272,7 +12272,7 @@ const DiscoveryEngine = {
     },
 
     registerServiceWorker() {
-        if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+        if ('serviceWorker' in navigator && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').then((reg) => {
                     console.log('Focusr PWA ServiceWorker registered:', reg.scope);
@@ -13136,34 +13136,6 @@ const WallpaperMarketplace = {
                             <div class="market-palette-dots">${dots}</div>
                         </div>
                         <div class="market-card-sub">${t.sub || (isVid ? 'User Generated Live Video Atmosphere' : isCustom ? 'User Generated Atmosphere' : '')}</div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-            const deleteHtml = isCustom
-                ? '<button class="market-card-delete-btn" data-delete-id="' + t.id + '" title="Delete custom theme">✕</button>'
-                : '';
-
-            return `
-                <div class="market-wallpaper-card ${isActive ? 'active' : ''}" data-theme-id="${t.id}">
-                    <div class="market-card-thumb-wrap">
-                        ${thumb}
-                        ${badgeHtml}
-                        ${isActive ? '<div class="market-card-active-badge">✓ Active</div>' : ''}
-                        ${deleteHtml}
-                        <div class="market-card-hover-overlay">
-                            <button class="market-btn-apply" data-theme-id="${t.id}">
-                                <span>${isActive ? 'Active Atmosphere' : 'Apply Atmosphere'}</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="market-card-info">
-                        <div class="market-card-header-row">
-                            <span class="market-card-title">${t.name}</span>
-                            <div class="market-palette-dots">${dots}</div>
-                        </div>
-                        <div class="market-card-sub">${t.sub || (isCustom ? 'User Generated Atmosphere' : '')}</div>
                     </div>
                 </div>
             `;

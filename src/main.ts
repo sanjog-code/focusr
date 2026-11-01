@@ -4,7 +4,6 @@ import { BinauralEngine } from './audio/BinauralEngine';
 import { TimerHeartbeat } from './engine/TimerHeartbeat';
 import { PacingPartner } from './engine/PacingPartner';
 import { LiveWallpaperManager } from './engine/LiveWallpaperManager';
-import { CursorForcefield } from './engine/CursorForcefield';
 import { LocalDataManager } from './storage/LocalDataManager';
 import { FocusrMediaDB } from './storage/FocusrMediaDB';
 import { ZenMode } from './ui/ZenMode';
@@ -23,7 +22,6 @@ if (typeof window !== 'undefined') {
     (window as any).PacingPartner = PacingPartner;
     (window as any).GhostPredictionModel = PacingPartner;
     (window as any).LiveWallpaperManager = LiveWallpaperManager;
-    (window as any).CursorForcefield = CursorForcefield;
     (window as any).LocalDataManager = LocalDataManager;
     (window as any).FocusrMediaDB = FocusrMediaDB;
     (window as any).ZenMode = ZenMode;
@@ -47,15 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ZenMode.init();
     Modals.init();
     BinauralEngine.init();
-
-    // Initialize cursor forcefield
-    CursorForcefield.init();
-
-    // Pause/resume forcefield when Zen mode toggles
-    window.addEventListener('focusr:zen-toggle', ((e: CustomEvent) => {
-        const active = !!e.detail?.active;
-        CursorForcefield.setActive(!active);
-    }) as EventListener);
 
     // Connect Cosmo Companion if stage exists and not already initialized
     if (document.getElementById('cosmo-canvas')) {
