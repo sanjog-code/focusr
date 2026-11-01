@@ -10,11 +10,13 @@ import { FocusrMediaDB } from './storage/FocusrMediaDB';
 import { ZenMode } from './ui/ZenMode';
 import { Modals } from './ui/Modals';
 import { CosmoCompanion } from './canvas/CosmoCompanion';
+import * as THREE from 'three';
 
 console.log('🚀 Focusr 2.0 Studio initialized with modular architecture');
 
 // Expose singletons cleanly to window for backward compatibility and interop
 if (typeof window !== 'undefined') {
+    (window as any).THREE = (window as any).THREE || THREE;
     (window as any).AudioMaster = AudioMaster;
     (window as any).BinauralEngine = BinauralEngine;
     (window as any).TimerHeartbeat = TimerHeartbeat;
