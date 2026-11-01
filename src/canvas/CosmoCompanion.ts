@@ -241,22 +241,22 @@ export const CosmoCompanion = {
             roughness: 0.8
         });
 
-        // Body & Tummy – scale koala to match rocket diameter (≈0.72) and slightly larger for emphasis
-        const kBodyGeo = new THREE.SphereGeometry(0.36, 24, 24); // radius matches rocket body radius
+        // Body & Tummy
+        const kBodyGeo = new THREE.SphereGeometry(0.18, 18, 18);
+        kBodyGeo.scale(0.9, 1.12, 0.8);
         const kBody = new THREE.Mesh(kBodyGeo, kFurMat);
-        // Slight overall scale up (10%) so koala appears a bit larger than rocket
-        koalaGroup.scale.set(1.1, 1.1, 1.1);
         koalaGroup.add(kBody);
 
-        const kTummyGeo = new THREE.SphereGeometry(0.26, 20, 20);
+        const kTummyGeo = new THREE.SphereGeometry(0.13, 14, 14);
+        kTummyGeo.scale(0.75, 0.95, 0.35);
         const kTummy = new THREE.Mesh(kTummyGeo, kFluffMat);
-        kTummy.position.set(0, -0.12, 0.0);
+        kTummy.position.set(0, -0.02, 0.12);
         koalaGroup.add(kTummy);
 
-        // Head Group – position head so it sits over the rocket tip
+        // Head Group – position head and tilt snug against rocket head
         const kHeadGroup = new THREE.Group();
-        // Rocket tip (nose) is at y ≈ 1.22; we place the koala head slightly below that
-        kHeadGroup.position.set(0, 0.6, 0.04);
+        kHeadGroup.position.set(0, 0.22, 0.04);
+        kHeadGroup.rotation.set(-0.15, -0.22, -0.38);
         this.koalaHead = kHeadGroup;
         koalaGroup.add(kHeadGroup);
 
@@ -409,9 +409,10 @@ export const CosmoCompanion = {
         tail.position.set(0, -0.14, -0.14);
         koalaGroup.add(tail);
 
-        // Cling to Rocket
-        koalaGroup.position.set(0.36, -0.16, 0.22);
-        koalaGroup.rotation.set(0.12, -0.45, -0.22);
+        // Mount Koala sized up and positioned so head rests affectionately on the rocket's head
+        koalaGroup.scale.set(1.4, 1.4, 1.4);
+        koalaGroup.position.set(0.28, 0.52, 0.22);
+        koalaGroup.rotation.set(0.16, -0.52, -0.32);
         this.rocketGroup.add(koalaGroup);
 
         this.rocketGroup.scale.set(0.85, 0.85, 0.85);
@@ -462,10 +463,10 @@ export const CosmoCompanion = {
             }
             if (this.koalaGroup) {
                 const koalaBreathe = Math.sin(this.time * 3.5) * 0.008;
-                this.koalaGroup.position.y = -0.16 + koalaBreathe;
+                this.koalaGroup.position.y = 0.52 + koalaBreathe;
                 if (this.koalaHead) {
-                    this.koalaHead.rotation.z = Math.sin(this.time * 1.8) * 0.04;
-                    this.koalaHead.rotation.x = Math.sin(this.time * 2.2) * 0.02;
+                    this.koalaHead.rotation.z = -0.38 + Math.sin(this.time * 1.8) * 0.03;
+                    this.koalaHead.rotation.x = -0.15 + Math.sin(this.time * 2.2) * 0.02;
                 }
                 if (this.koalaEars && this.koalaEars.length === 2) {
                     const earWiggle = Math.sin(this.time * 4.5) * 0.04;
