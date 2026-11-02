@@ -1123,11 +1123,15 @@
             <div class="market-title-wrap">
                 <h2>
                     <span>Atmosphere & Wallpaper Marketplace</span>
-                    <span class="market-total-badge" id="market-total-badge">142 Free</span>
+                    <span class="market-total-badge" id="market-total-badge">152 Free</span>
                 </h2>
                 <p>Curated spatial backgrounds, live dynamic liquid hues, and atmospheric depth. Completely free.</p>
             </div>
-            <div style="display:flex;align-items:center;gap:0.6rem">
+            <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+                <button class="market-btn-upload market-btn-generate-video" id="btn-market-generate-video" type="button" onclick="window.generateCurrentLive3DVideo && window.generateCurrentLive3DVideo()" title="Auto-generate 3D Spatial Live Video wallpaper with real-time adaptive theming">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                    <span>🎬 Auto 3D Video</span>
+                </button>
                 <button class="market-btn-upload" id="btn-market-upload" type="button" onclick="window.triggerWallpaperUpload && window.triggerWallpaperUpload()" title="Upload custom wallpaper & auto-generate theme">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     <span>+ Upload Image</span>
@@ -1146,7 +1150,7 @@
                 <span class="market-search-icon">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </span>
-                <input type="text" class="market-search-input" id="market-search-input" placeholder="Search 142 atmospheres by name, vibe, or mood (e.g. rain, nebula, sakura, black hole, cyberpunk)...">
+                <input type="text" class="market-search-input" id="market-search-input" placeholder="Search 152 atmospheres by name, vibe, or mood (e.g. rain, nebula, sakura, black hole, cyberpunk)...">
             </div>
             <label class="market-adaptive-toggle" id="market-adaptive-toggle" title="Dynamically adapt system theme, accent colors, and glows to match live video colors in real-time">
                 <span class="adaptive-dot"></span>
@@ -1159,14 +1163,14 @@
         <div class="market-categories-row" id="market-categories-row">
             <button class="market-cat-pill" data-category="custom-video" id="market-cat-pill-video" style="background:rgba(14,165,233,0.18);border-color:rgba(14,165,233,0.45);color:#38bdf8;font-weight:700">🎬 Video Wallpapers (<span id="custom-videos-count">0</span>)</button>
             <button class="market-cat-pill" data-category="custom" id="market-cat-pill-custom">🎨 Custom Images (<span id="custom-themes-count">0</span>)</button>
-            <button class="market-cat-pill active" data-category="all">All Atmospheres (142)</button>
-            <button class="market-cat-pill" data-category="live" style="background:rgba(168,85,247,0.18);border-color:rgba(168,85,247,0.45);color:#c084fc;font-weight:700">✨ Live Motion (9)</button>
-            <button class="market-cat-pill" data-category="nature">🌿 Sanctuary Nature (27)</button>
-            <button class="market-cat-pill" data-category="cosmic">🌌 Cosmic & Space (26)</button>
-            <button class="market-cat-pill" data-category="cyberpunk">⚡ Cyberpunk & Neon (24)</button>
-            <button class="market-cat-pill" data-category="minimal">◻ Minimalist & Spatial (22)</button>
-            <button class="market-cat-pill" data-category="lofi">☕ Lo-Fi & Cozy (23)</button>
-            <button class="market-cat-pill" data-category="aurora">✨ Aurora & Meshes (20)</button>
+            <button class="market-cat-pill active" data-category="all">All Atmospheres (152)</button>
+            <button class="market-cat-pill" data-category="live" style="background:rgba(168,85,247,0.18);border-color:rgba(168,85,247,0.45);color:#c084fc;font-weight:700">✨ Live Motion (19)</button>
+            <button class="market-cat-pill" data-category="nature">🌿 Sanctuary Nature (30)</button>
+            <button class="market-cat-pill" data-category="cosmic">🌌 Cosmic & Space (27)</button>
+            <button class="market-cat-pill" data-category="cyberpunk">⚡ Cyberpunk & Neon (26)</button>
+            <button class="market-cat-pill" data-category="minimal">◻ Minimalist & Spatial (24)</button>
+            <button class="market-cat-pill" data-category="lofi">☕ Lo-Fi & Cozy (24)</button>
+            <button class="market-cat-pill" data-category="aurora">✨ Aurora & Meshes (21)</button>
         </div>
 
         <!-- Wallpapers Grid -->
@@ -2399,7 +2403,7 @@ const STORAGE_KEY = 'focus_sessions';
 const THEME_STORAGE_KEY = 'focus_theme_config';
 
 /* ── 8 Soothing Environments & Spatial Themes ── */
-const THEMES = [{"id":"black-hole-singularity","name":"Black Hole Singularity","sub":"Relativistic Accretion Vortex & Gravitational Lensing","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","liveType":"shader","shaderPreset":"black-hole","particlePreset":"stardust","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.42)","liquidHue":38,"tint":"rgba(10, 6, 2, 0.72)","orb1":"rgba(245, 158, 11, 0.22)","orb2":"rgba(234, 88, 12, 0.16)","orb3":"rgba(251, 191, 36, 0.12)","palette":["#f59e0b","#fbbf24","#080402"]},{"id":"tokyo-sakura-twilight","name":"Tokyo Twilight Sakura","sub":"Fluttering Cherry Blossoms on Sunset Breeze","category":"nature","image":"backgrounds/zen-bamboo-sanctuary.jpg","liveType":"particles","particlePreset":"sakura","accent":"#f472b6","accentGlow":"rgba(244, 114, 182, 0.38)","liquidHue":330,"tint":"rgba(18, 8, 16, 0.65)","orb1":"rgba(244, 114, 182, 0.2)","orb2":"rgba(251, 113, 133, 0.14)","orb3":"rgba(253, 164, 175, 0.08)","palette":["#f472b6","#fda4af","#140812"]},{"id":"bioluminescent-abyss","name":"Bioluminescent Deep Abyss","sub":"Glowing Ocean Jelly Spores & Deep Marine Drift","category":"nature","image":"backgrounds/deep-forest.jpg","liveType":"shader","shaderPreset":"bioluminescent","particlePreset":"stardust","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.38)","liquidHue":165,"tint":"rgba(2, 16, 18, 0.7)","orb1":"rgba(16, 185, 129, 0.2)","orb2":"rgba(6, 182, 212, 0.16)","orb3":"rgba(45, 212, 191, 0.1)","palette":["#10b981","#06b6d4","#021012"]},{"id":"matrix-digital-rain","name":"Matrix Terminal Code","sub":"Cascading Phosphor Streams & Cyber Glyph Trails","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","liveType":"shader","shaderPreset":"matrix-code","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.42)","liquidHue":142,"tint":"rgba(2, 14, 6, 0.72)","orb1":"rgba(34, 197, 94, 0.22)","orb2":"rgba(74, 222, 128, 0.15)","orb3":"rgba(134, 239, 172, 0.08)","palette":["#22c55e","#86efac","#020a04"]},{"id":"cozy-fireplace-hearth","name":"Nordic Hearth & Embers","sub":"Dancing Warm Timber Sparks & Cabin Ambience","category":"lofi","image":"backgrounds/golden-dunes.jpg","liveType":"particles","particlePreset":"embers","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.38)","liquidHue":25,"tint":"rgba(22, 10, 4, 0.68)","orb1":"rgba(249, 115, 22, 0.2)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(251, 191, 36, 0.09)","palette":["#f97316","#ef4444","#160804"]},{"id":"zen-bamboo-sanctuary","name":"Kyoto Bamboo Sanctuary","sub":"Ethereal Dawn Rays & Moss Pathway","category":"nature","image":"backgrounds/zen-bamboo-sanctuary.jpg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.32)","liquidHue":155,"tint":"rgba(6, 20, 14, 0.62)","orb1":"rgba(16, 185, 129, 0.14)","orb2":"rgba(52, 211, 153, 0.08)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#10b981","#059669","#06140e"]},{"id":"zen-mist","name":"Zen Mist Mountain","sub":"Silent Misty Mountain Peaks","category":"nature","image":"backgrounds/zen-mist.jpg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.3)","liquidHue":198,"tint":"rgba(8, 14, 24, 0.64)","orb1":"rgba(56, 189, 248, 0.12)","orb2":"rgba(147, 197, 253, 0.08)","orb3":"rgba(224, 242, 254, 0.06)","palette":["#38bdf8","#0284c7","#080e18"]},{"id":"deep-forest","name":"Deep Forest Canopy","sub":"Emerald Moss & Filtered Sunbeams","category":"nature","image":"backgrounds/deep-forest.jpg","accent":"#34d399","accentGlow":"rgba(52, 211, 153, 0.3)","liquidHue":155,"tint":"rgba(5, 18, 12, 0.68)","orb1":"rgba(52, 211, 153, 0.12)","orb2":"rgba(16, 185, 129, 0.08)","orb3":"rgba(110, 231, 183, 0.06)","palette":["#34d399","#059669","#05120c"]},{"id":"rainy-window","name":"Rainy Kyoto Teahouse","sub":"Quiet Raindrops on Japanese Glass","category":"nature","image":"backgrounds/rainy-window.jpg","liveType":"particles","particlePreset":"rain","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.3)","liquidHue":235,"tint":"rgba(10, 10, 20, 0.65)","orb1":"rgba(129, 140, 248, 0.12)","orb2":"rgba(99, 102, 241, 0.08)","orb3":"rgba(199, 210, 254, 0.06)","palette":["#818cf8","#4f46e5","#0a0a14"]},{"id":"golden-dunes","name":"Golden Sahara Dunes","sub":"Warm Sunlit Windblown Sand Ridges","category":"nature","image":"backgrounds/golden-dunes.jpg","accent":"#fbbf24","accentGlow":"rgba(251, 191, 36, 0.32)","liquidHue":38,"tint":"rgba(24, 14, 6, 0.66)","orb1":"rgba(251, 191, 36, 0.12)","orb2":"rgba(249, 115, 22, 0.08)","orb3":"rgba(217, 119, 6, 0.06)","palette":["#fbbf24","#f97316","#180e06"]},{"id":"ocean-twilight","name":"Pacific Twilight Waves","sub":"Deep Indigo Ocean Swell at Sunset","category":"nature","image":"backgrounds/ocean-twilight.jpg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.3)","liquidHue":205,"tint":"rgba(6, 12, 24, 0.68)","orb1":"rgba(56, 189, 248, 0.12)","orb2":"rgba(14, 165, 233, 0.08)","orb3":"rgba(59, 130, 246, 0.06)","palette":["#38bdf8","#0284c7","#060c18"]},{"id":"stone-zen","name":"Stone Zen Garden","sub":"Meditative Raked Gravel & Granite","category":"nature","image":"backgrounds/stone-zen.jpg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.28)","liquidHue":215,"tint":"rgba(15, 17, 23, 0.72)","orb1":"rgba(148, 163, 184, 0.1)","orb2":"rgba(203, 213, 225, 0.06)","orb3":"rgba(100, 116, 139, 0.05)","palette":["#94a3b8","#64748b","#0f1117"]},{"id":"misty-alps","name":"Swiss Alpine Mist","sub":"Snow-Capped Granite & Valley Clouds","category":"nature","image":"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80","accent":"#67e8f9","accentGlow":"rgba(103, 232, 249, 0.32)","liquidHue":188,"tint":"rgba(10, 18, 28, 0.65)","orb1":"rgba(103, 232, 249, 0.12)","orb2":"rgba(56, 189, 248, 0.08)","orb3":"rgba(186, 230, 253, 0.05)","palette":["#67e8f9","#06b6d4","#0a121c"]},{"id":"cherry-blossom","name":"Sakura Night Garden","sub":"Soft Pink Cherry Blossoms Under Stars","category":"nature","image":"https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=1920&q=80","accent":"#f472b6","accentGlow":"rgba(244, 114, 182, 0.34)","liquidHue":330,"tint":"rgba(26, 10, 20, 0.64)","orb1":"rgba(244, 114, 182, 0.14)","orb2":"rgba(251, 113, 133, 0.09)","orb3":"rgba(244, 63, 94, 0.06)","palette":["#f472b6","#db2777","#1a0a14"]},{"id":"arctic-glacier","name":"Nordic Blue Glacier","sub":"Ancient Crystalline Ice Caverns","category":"nature","image":"https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&w=1920&q=80","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.35)","liquidHue":200,"tint":"rgba(4, 16, 28, 0.66)","orb1":"rgba(56, 189, 248, 0.14)","orb2":"rgba(14, 165, 233, 0.09)","orb3":"rgba(186, 230, 253, 0.06)","palette":["#38bdf8","#0284c7","#04101c"]},{"id":"cosmic-stellar-void","name":"Stellar Nebula Void","sub":"Violet Interstellar Clouds & Stardust","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","liveType":"shader","shaderPreset":"cosmic-void","particlePreset":"stardust","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.35)","liquidHue":275,"tint":"rgba(12, 6, 26, 0.65)","orb1":"rgba(168, 85, 247, 0.16)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(236, 72, 153, 0.08)","palette":["#a855f7","#38bdf8","#0c061a"]},{"id":"cosmic-nebula","name":"Deep Space Nebula","sub":"Orion Starfield & Gaseous Nursery","category":"cosmic","image":"backgrounds/cosmic-nebula.jpg","accent":"#c084fc","accentGlow":"rgba(192, 132, 252, 0.32)","liquidHue":270,"tint":"rgba(14, 8, 28, 0.65)","orb1":"rgba(192, 132, 252, 0.14)","orb2":"rgba(147, 51, 234, 0.1)","orb3":"rgba(232, 121, 249, 0.06)","palette":["#c084fc","#9333ea","#0e081c"]},{"id":"andromeda-galaxy","name":"Andromeda Spiral","sub":"Trillion Stars in Celestial Motion","category":"cosmic","image":"https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1920&q=80","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.32)","liquidHue":240,"tint":"rgba(8, 8, 24, 0.68)","orb1":"rgba(129, 140, 248, 0.14)","orb2":"rgba(168, 85, 247, 0.09)","orb3":"rgba(59, 130, 246, 0.06)","palette":["#818cf8","#6366f1","#080818"]},{"id":"pillars-creation","name":"Pillars of Creation","sub":"Towering Gas Columns in Eagle Nebula","category":"cosmic","image":"https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.34)","liquidHue":205,"tint":"rgba(4, 14, 28, 0.68)","orb1":"rgba(56, 189, 248, 0.15)","orb2":"rgba(14, 165, 233, 0.1)","orb3":"rgba(99, 102, 241, 0.06)","palette":["#38bdf8","#0284c7","#040e1c"]},{"id":"lunar-eclipse","name":"Blood Moon Eclipse","sub":"Atmospheric Earth Shadow on the Moon","category":"cosmic","image":"https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=1920&q=80","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.35)","liquidHue":350,"tint":"rgba(26, 6, 10, 0.68)","orb1":"rgba(244, 63, 94, 0.15)","orb2":"rgba(225, 29, 72, 0.1)","orb3":"rgba(249, 115, 22, 0.06)","palette":["#f43f5e","#be123c","#1a060a"]},{"id":"pulsar-core","name":"Pulsar Magnetosphere","sub":"High-Energy Relativistic Jet Beam","category":"cosmic","image":"https://images.unsplash.com/photo-1543722530-d2c3201371e7?auto=format&fit=crop&w=1920&q=80","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.35)","liquidHue":190,"tint":"rgba(4, 18, 24, 0.66)","orb1":"rgba(6, 182, 212, 0.16)","orb2":"rgba(14, 165, 233, 0.1)","orb3":"rgba(99, 102, 241, 0.06)","palette":["#06b6d4","#0891b2","#041218"]},{"id":"mars-sol","name":"Martian Horizon Sol","sub":"Rusty Iron Dunes & Sunset Blue Halo","category":"cosmic","image":"https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=1920&q=80","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.32)","liquidHue":25,"tint":"rgba(26, 10, 4, 0.68)","orb1":"rgba(249, 115, 22, 0.14)","orb2":"rgba(234, 88, 12, 0.09)","orb3":"rgba(56, 189, 248, 0.06)","palette":["#f97316","#c2410c","#1a0a04"]},{"id":"solar-corona","name":"Solar Flare Corona","sub":"Magnetic Loops & Thermonuclear Fire","category":"cosmic","image":"https://images.unsplash.com/photo-1538370965046-79c0d6907d47?auto=format&fit=crop&w=1920&q=80","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.32)","liquidHue":48,"tint":"rgba(24, 16, 4, 0.68)","orb1":"rgba(234, 179, 8, 0.14)","orb2":"rgba(249, 115, 22, 0.1)","orb3":"rgba(239, 68, 68, 0.06)","palette":["#eab308","#ca8a04","#181004"]},{"id":"dark-matter-web","name":"Cosmic Web Filaments","sub":"Gravitational Scaffolding of the Universe","category":"cosmic","image":"https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1920&q=80","accent":"#8b5cf6","accentGlow":"rgba(139, 92, 246, 0.32)","liquidHue":260,"tint":"rgba(10, 6, 22, 0.72)","orb1":"rgba(139, 92, 246, 0.14)","orb2":"rgba(99, 102, 241, 0.08)","orb3":"rgba(192, 132, 252, 0.05)","palette":["#8b5cf6","#6d28d9","#0a0616"]},{"id":"milkyway-arch","name":"Milky Way Observatory","sub":"Galactic Core Over Dark Desert Sky","category":"cosmic","image":"https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1920&q=80","accent":"#a78bfa","accentGlow":"rgba(167, 139, 250, 0.32)","liquidHue":255,"tint":"rgba(8, 8, 20, 0.68)","orb1":"rgba(167, 139, 250, 0.14)","orb2":"rgba(192, 132, 252, 0.09)","orb3":"rgba(56, 189, 248, 0.06)","palette":["#a78bfa","#7c3aed","#080814"]},{"id":"cyberpunk-neo-tokyo","name":"Neo Tokyo Midnight","sub":"Rainy Cyber Street & Cyan Neon Glow","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","liveType":"shader","shaderPreset":"cyber-rain","particlePreset":"rain","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.35)","liquidHue":188,"tint":"rgba(4, 14, 24, 0.65)","orb1":"rgba(6, 182, 212, 0.16)","orb2":"rgba(236, 72, 153, 0.12)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#06b6d4","#ec4899","#040e18"]},{"id":"shinjuku-overdrive","name":"Shinjuku Cyberflow","sub":"High-Density Neon Hologram Canyon","category":"cyberpunk","image":"https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1920&q=80","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.35)","liquidHue":345,"tint":"rgba(20, 4, 12, 0.66)","orb1":"rgba(244, 63, 94, 0.16)","orb2":"rgba(6, 182, 212, 0.1)","orb3":"rgba(168, 85, 247, 0.06)","palette":["#f43f5e","#06b6d4","#14040c"]},{"id":"blade-runner-rain","name":"Blade Runner Drizzle","sub":"Retro Noir Cyberpunk Skyscrapers","category":"cyberpunk","image":"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=80","accent":"#0ea5e9","accentGlow":"rgba(14, 165, 233, 0.34)","liquidHue":200,"tint":"rgba(6, 14, 22, 0.68)","orb1":"rgba(14, 165, 233, 0.14)","orb2":"rgba(244, 63, 94, 0.09)","orb3":"rgba(168, 85, 247, 0.06)","palette":["#0ea5e9","#f43f5e","#060e16"]},{"id":"synthwave-highway","name":"Synthwave Grid Highway","sub":"Outrun Palm Trees & Wireframe Horizon","category":"cyberpunk","image":"https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=80","accent":"#d946ef","accentGlow":"rgba(217, 70, 239, 0.35)","liquidHue":290,"tint":"rgba(20, 4, 26, 0.68)","orb1":"rgba(217, 70, 239, 0.16)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(249, 115, 22, 0.08)","palette":["#d946ef","#38bdf8","#14041a"]},{"id":"hongkong-neon","name":"Kowloon Neon Density","sub":"Overhead Glowing Signs & Humid Night","category":"cyberpunk","image":"https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1920&q=80","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.34)","liquidHue":158,"tint":"rgba(4, 18, 14, 0.68)","orb1":"rgba(16, 185, 129, 0.15)","orb2":"rgba(244, 63, 94, 0.1)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#10b981","#f43f5e","#04120e"]},{"id":"matrix-dataflow","name":"Matrix Data Stream","sub":"Cascading Phosphor Digital Rain","category":"cyberpunk","image":"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1920&q=80","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.36)","liquidHue":142,"tint":"rgba(2, 16, 6, 0.72)","orb1":"rgba(34, 197, 94, 0.16)","orb2":"rgba(16, 185, 129, 0.1)","orb3":"rgba(74, 222, 128, 0.06)","palette":["#22c55e","#16a34a","#021006"]},{"id":"cyber-arcade","name":"Holographic Arcade 2084","sub":"CRT Glow & Retro Gaming Cabinets","category":"cyberpunk","image":"https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1920&q=80","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.35)","liquidHue":330,"tint":"rgba(18, 4, 18, 0.68)","orb1":"rgba(236, 72, 153, 0.15)","orb2":"rgba(56, 189, 248, 0.1)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#ec4899","#38bdf8","#120412"]},{"id":"tokyo-tower-night","name":"Tokyo Tower Crimson","sub":"Illuminated Spire Over City Skyline","category":"cyberpunk","image":"https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1920&q=80","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.35)","liquidHue":0,"tint":"rgba(22, 6, 6, 0.68)","orb1":"rgba(239, 68, 68, 0.15)","orb2":"rgba(249, 115, 22, 0.1)","orb3":"rgba(168, 85, 247, 0.05)","palette":["#ef4444","#dc2626","#160606"]},{"id":"cyber-metro","name":"Cyber Subway Transit","sub":"Subterranean Tube With Fluorescent Glow","category":"cyberpunk","image":"https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=1920&q=80","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.34)","liquidHue":38,"tint":"rgba(20, 14, 4, 0.68)","orb1":"rgba(245, 158, 11, 0.15)","orb2":"rgba(234, 88, 12, 0.09)","orb3":"rgba(6, 182, 212, 0.06)","palette":["#f59e0b","#d97706","#140e04"]},{"id":"obsidian-monolith","name":"Obsidian Monolith","sub":"Pure Black Titanium Minimalist Glass","category":"minimal","image":"","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.28)","liquidHue":198,"tint":"rgba(6, 8, 14, 0.88)","orb1":"rgba(56, 189, 248, 0.08)","orb2":"rgba(99, 102, 241, 0.06)","orb3":"rgba(255, 255, 255, 0.03)","palette":["#38bdf8","#0284c7","#06080e"]},{"id":"studio-minimal","name":"Industrial Studio Minimal","sub":"Brushed Aluminum & Pure Clean Space","category":"minimal","image":"https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80","accent":"#e2e8f0","accentGlow":"rgba(226, 232, 240, 0.28)","liquidHue":215,"tint":"rgba(12, 14, 18, 0.72)","orb1":"rgba(226, 232, 240, 0.08)","orb2":"rgba(148, 163, 184, 0.06)","orb3":"rgba(255, 255, 255, 0.04)","palette":["#e2e8f0","#94a3b8","#0c0e12"]},{"id":"brutalist-concrete","name":"Brutalist Concrete Arch","sub":"Monolithic Shadows & Architectural Lines","category":"minimal","image":"https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=80","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.26)","liquidHue":215,"tint":"rgba(16, 18, 22, 0.75)","orb1":"rgba(148, 163, 184, 0.09)","orb2":"rgba(203, 213, 225, 0.06)","orb3":"rgba(71, 85, 105, 0.04)","palette":["#94a3b8","#64748b","#101216"]},{"id":"bauhaus-grid","name":"Bauhaus Spatial Geometry","sub":"Pure Contrast, Asymmetry & Rhythm","category":"minimal","image":"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.3)","liquidHue":38,"tint":"rgba(14, 14, 18, 0.72)","orb1":"rgba(245, 158, 11, 0.12)","orb2":"rgba(239, 68, 68, 0.08)","orb3":"rgba(59, 130, 246, 0.06)","palette":["#f59e0b","#ef4444","#0e0e12"]},{"id":"scandinavian-loft","name":"Nordic Oak & Linen","sub":"Warm Ash Wood & Sunlight Gradients","category":"minimal","image":"https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=80","accent":"#d97706","accentGlow":"rgba(217, 119, 6, 0.3)","liquidHue":34,"tint":"rgba(20, 16, 12, 0.68)","orb1":"rgba(217, 119, 6, 0.12)","orb2":"rgba(245, 158, 11, 0.08)","orb3":"rgba(251, 191, 36, 0.05)","palette":["#d97706","#b45309","#14100c"]},{"id":"titanium-stealth","name":"Titanium Stealth Lab","sub":"Matte Carbon Fiber & Aircraft Alloy","category":"minimal","image":"https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1920&q=80","accent":"#64748b","accentGlow":"rgba(100, 116, 139, 0.28)","liquidHue":215,"tint":"rgba(8, 10, 14, 0.82)","orb1":"rgba(100, 116, 139, 0.1)","orb2":"rgba(148, 163, 184, 0.06)","orb3":"rgba(255, 255, 255, 0.03)","palette":["#64748b","#475569","#080a0e"]},{"id":"frosted-pavilion","name":"Frosted Glass Pavilion","sub":"Translucent Acrylic & Diffused Horizon","category":"minimal","image":"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.3)","liquidHue":190,"tint":"rgba(8, 16, 24, 0.68)","orb1":"rgba(6, 182, 212, 0.12)","orb2":"rgba(56, 189, 248, 0.08)","orb3":"rgba(207, 250, 254, 0.05)","palette":["#06b6d4","#0891b2","#081018"]},{"id":"pure-zen-obsidian","name":"Pure OLED Zero","sub":"Infinite Contrast Absolute True Black","category":"minimal","image":"","accent":"#0a84ff","accentGlow":"rgba(10, 132, 255, 0.26)","liquidHue":210,"tint":"rgba(0, 0, 0, 0.98)","orb1":"rgba(10, 132, 255, 0.05)","orb2":"rgba(255, 255, 255, 0.02)","orb3":"rgba(0, 0, 0, 0)","palette":["#0a84ff","#0066cc","#000000"]},{"id":"lofi-coffee-rain","name":"Midnight Espresso Bar","sub":"Warm Steam, Rainy Street & Amber Bulbs","category":"lofi","image":"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1920&q=80","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.32)","liquidHue":38,"tint":"rgba(22, 14, 8, 0.68)","orb1":"rgba(245, 158, 11, 0.14)","orb2":"rgba(217, 119, 6, 0.09)","orb3":"rgba(251, 191, 36, 0.05)","palette":["#f59e0b","#d97706","#160e08"]},{"id":"vinyl-listening-room","name":"Vinyl Lounge & Turntable","sub":"Warm Analog Crackle & Rosewood Cabinet","category":"lofi","image":"https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=1920&q=80","accent":"#fb923c","accentGlow":"rgba(251, 146, 60, 0.32)","liquidHue":28,"tint":"rgba(22, 12, 6, 0.68)","orb1":"rgba(251, 146, 60, 0.14)","orb2":"rgba(234, 88, 12, 0.09)","orb3":"rgba(253, 186, 116, 0.05)","palette":["#fb923c","#ea580c","#160c06"]},{"id":"attic-library-study","name":"Old Attic Book Nook","sub":"Leatherbound Tomes & Rain on Skylight","category":"lofi","image":"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1920&q=80","accent":"#d97706","accentGlow":"rgba(217, 119, 6, 0.32)","liquidHue":34,"tint":"rgba(20, 14, 8, 0.7)","orb1":"rgba(217, 119, 6, 0.14)","orb2":"rgba(180, 83, 9, 0.09)","orb3":"rgba(251, 191, 36, 0.05)","palette":["#d97706","#b45309","#140e08"]},{"id":"campfire-stargaze","name":"Pine Woods Campfire","sub":"Flickering Embers Under Summer Milky Way","category":"lofi","image":"https://images.unsplash.com/photo-1508873696983-2df5293cb325?auto=format&fit=crop&w=1920&q=80","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.34)","liquidHue":24,"tint":"rgba(24, 10, 4, 0.68)","orb1":"rgba(249, 115, 22, 0.15)","orb2":"rgba(234, 179, 8, 0.1)","orb3":"rgba(239, 68, 68, 0.06)","palette":["#f97316","#ea580c","#180a04"]},{"id":"train-sunset-window","name":"Shinkansen Dusk Horizon","sub":"Evening Commute Through Golden Rice Fields","category":"lofi","image":"https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1920&q=80","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.32)","liquidHue":345,"tint":"rgba(24, 8, 14, 0.66)","orb1":"rgba(244, 63, 94, 0.14)","orb2":"rgba(251, 146, 60, 0.09)","orb3":"rgba(245, 158, 11, 0.06)","palette":["#f43f5e","#e11d48","#18080e"]},{"id":"lofi-bedroom-desk","name":"Late Night Coding Desk","sub":"Warm Desk Lamp & Monitor Amber Glow","category":"lofi","image":"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1920&q=80","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.32)","liquidHue":200,"tint":"rgba(8, 14, 24, 0.68)","orb1":"rgba(56, 189, 248, 0.14)","orb2":"rgba(251, 191, 36, 0.09)","orb3":"rgba(129, 140, 248, 0.05)","palette":["#38bdf8","#0284c7","#080e18"]},{"id":"autumn-tea-leaves","name":"Autumn Maple Tearoom","sub":"Crimson Japanese Maples & Steaming Tea","category":"lofi","image":"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80","accent":"#ea580c","accentGlow":"rgba(234, 88, 12, 0.34)","liquidHue":22,"tint":"rgba(26, 10, 6, 0.68)","orb1":"rgba(234, 88, 12, 0.15)","orb2":"rgba(220, 38, 38, 0.1)","orb3":"rgba(245, 158, 11, 0.06)","palette":["#ea580c","#c2410c","#1a0a06"]},{"id":"ghibli-summer-cloud","name":"Summer Wind & Cumulus","sub":"Nostalgic Coastal Sky & Grassy Hills","category":"lofi","image":"https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1920&q=80","accent":"#0ea5e9","accentGlow":"rgba(14, 165, 233, 0.32)","liquidHue":198,"tint":"rgba(6, 16, 26, 0.64)","orb1":"rgba(14, 165, 233, 0.14)","orb2":"rgba(34, 197, 94, 0.09)","orb3":"rgba(253, 224, 71, 0.05)","palette":["#0ea5e9","#0284c7","#06101a"]},{"id":"nordic-aurora","name":"Nordic Aurora Borealis","sub":"Boreal Night & Celestial Emerald Veil","category":"aurora","image":"backgrounds/nordic-aurora.jpg","liveType":"shader","shaderPreset":"aurora-waves","accent":"#2dd4bf","accentGlow":"rgba(45, 212, 191, 0.32)","liquidHue":172,"tint":"rgba(4, 15, 22, 0.62)","orb1":"rgba(45, 212, 191, 0.14)","orb2":"rgba(168, 85, 247, 0.1)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#2dd4bf","#a855f7","#040f16"]},{"id":"bioluminescent-bay","name":"Bioluminescent Shoreline","sub":"Glowing Cyan Plankton Breaking on Sand","category":"aurora","image":"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.36)","liquidHue":188,"tint":"rgba(4, 14, 24, 0.66)","orb1":"rgba(6, 182, 212, 0.16)","orb2":"rgba(56, 189, 248, 0.11)","orb3":"rgba(168, 85, 247, 0.06)","palette":["#06b6d4","#0891b2","#040e18"]},{"id":"prismatic-refraction","name":"Prismatic Glass Caustic","sub":"Dispersion Spectrum & Radiant Crystal","category":"aurora","image":"https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1920&q=80","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.34)","liquidHue":330,"tint":"rgba(16, 8, 20, 0.68)","orb1":"rgba(236, 72, 153, 0.15)","orb2":"rgba(56, 189, 248, 0.11)","orb3":"rgba(234, 179, 8, 0.07)","palette":["#ec4899","#38bdf8","#100814"]},{"id":"velvet-lavender-mesh","name":"Velvet Lavender Fluid","sub":"Smooth Liquid Silk Mesh Gradient","category":"aurora","image":"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=80","accent":"#c084fc","accentGlow":"rgba(192, 132, 252, 0.32)","liquidHue":275,"tint":"rgba(14, 6, 24, 0.68)","orb1":"rgba(192, 132, 252, 0.15)","orb2":"rgba(147, 51, 234, 0.1)","orb3":"rgba(244, 114, 182, 0.06)","palette":["#c084fc","#9333ea","#0e0618"]},{"id":"solar-amber-gradient","name":"Solar Amber Flare Mesh","sub":"Golden Ratio Warm Atmospheric Glow","category":"aurora","image":"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.32)","liquidHue":38,"tint":"rgba(22, 14, 6, 0.66)","orb1":"rgba(245, 158, 11, 0.14)","orb2":"rgba(239, 68, 68, 0.09)","orb3":"rgba(251, 191, 36, 0.05)","palette":["#f59e0b","#ef4444","#160e06"]},{"id":"emerald-abyss","name":"Emerald Deep Abyss","sub":"Deep Oceanic Green & Luminous Shimmer","category":"aurora","image":"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=80","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.34)","liquidHue":160,"tint":"rgba(4, 18, 14, 0.68)","orb1":"rgba(16, 185, 129, 0.15)","orb2":"rgba(6, 182, 212, 0.1)","orb3":"rgba(52, 211, 153, 0.06)","palette":["#10b981","#059669","#04120e"]},{"id":"twilight-spectrum","name":"Twilight Horizon Ray","sub":"Violet-Orange Dusk Boundary Layer","category":"aurora","image":"https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1920&q=80","accent":"#8b5cf6","accentGlow":"rgba(139, 92, 246, 0.34)","liquidHue":265,"tint":"rgba(16, 6, 24, 0.66)","orb1":"rgba(139, 92, 246, 0.15)","orb2":"rgba(244, 63, 94, 0.1)","orb3":"rgba(56, 189, 248, 0.06)","palette":["#8b5cf6","#f43f5e","#100618"]},{"id":"nordic-fjord-dawn","name":"Norwegian Fjord Dawn","sub":"Mist Drifting Over Still Glacial Waters","category":"nature","image":"backgrounds/zen-mist.jpg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.32)","liquidHue":198,"tint":"rgba(8, 16, 26, 0.65)","orb1":"rgba(56, 189, 248, 0.16)","orb2":"rgba(147, 197, 253, 0.10)","orb3":"rgba(224, 242, 254, 0.06)","palette":["#38bdf8","#0284c7","#08101a"]},{"id":"yosemite-granite-peak","name":"Yosemite Half Dome","sub":"Dawn Alpenglow on Sheer Granite Cliffs","category":"nature","image":"backgrounds/golden-dunes.jpg","accent":"#fb923c","accentGlow":"rgba(251, 146, 60, 0.34)","liquidHue":28,"tint":"rgba(22, 12, 8, 0.68)","orb1":"rgba(251, 146, 60, 0.18)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(254, 215, 170, 0.08)","palette":["#fb923c","#ea580c","#160c08"]},{"id":"bali-emerald-terraces","name":"Ubud Rice Terraces","sub":"Morning Dew on Cascading Palm Terraces","category":"nature","image":"backgrounds/zen-bamboo-sanctuary.jpg","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.32)","liquidHue":142,"tint":"rgba(6, 20, 10, 0.65)","orb1":"rgba(34, 197, 94, 0.16)","orb2":"rgba(74, 222, 128, 0.10)","orb3":"rgba(20, 83, 45, 0.06)","palette":["#22c55e","#16a34a","#06140a"]},{"id":"icelandic-black-sand","name":"Reynisfjara Basalt Beach","sub":"Towering Monoliths Against Arctic Surf","category":"nature","image":"backgrounds/stone-zen.jpg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.30)","liquidHue":215,"tint":"rgba(10, 14, 20, 0.72)","orb1":"rgba(148, 163, 184, 0.16)","orb2":"rgba(203, 213, 225, 0.10)","orb3":"rgba(51, 65, 85, 0.08)","palette":["#94a3b8","#64748b","#0a0e14"]},{"id":"swiss-alps-matterhorn","name":"Matterhorn Twilight","sub":"Powder Snow Under Cold Indigo Twilight","category":"nature","image":"backgrounds/zen-mist.jpg","accent":"#60a5fa","accentGlow":"rgba(96, 165, 250, 0.34)","liquidHue":217,"tint":"rgba(10, 16, 30, 0.68)","orb1":"rgba(96, 165, 250, 0.18)","orb2":"rgba(147, 197, 253, 0.12)","orb3":"rgba(30, 58, 138, 0.08)","palette":["#60a5fa","#2563eb","#0a101e"]},{"id":"sequoia-mist-canopy","name":"Giant Sequoia Grove","sub":"Ancient Redwood Silhouettes in Mountain Fog","category":"nature","image":"backgrounds/deep-forest.jpg","accent":"#15803d","accentGlow":"rgba(21, 128, 61, 0.35)","liquidHue":142,"tint":"rgba(6, 18, 10, 0.70)","orb1":"rgba(21, 128, 61, 0.18)","orb2":"rgba(74, 222, 128, 0.10)","orb3":"rgba(187, 247, 208, 0.06)","palette":["#15803d","#166534","#06120a"]},{"id":"santorini-caldera-sunset","name":"Santorini White Cliff","sub":"Aegean Blue Domes & Golden Terraces","category":"nature","image":"backgrounds/ocean-twilight.jpg","accent":"#0284c7","accentGlow":"rgba(2, 132, 199, 0.35)","liquidHue":200,"tint":"rgba(6, 16, 28, 0.66)","orb1":"rgba(2, 132, 199, 0.18)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#0284c7","#0369a1","#06101c"]},{"id":"atacama-desert-starlight","name":"Atacama Salt Flats","sub":"Pristine High-Altitude Desert Starlight","category":"nature","image":"backgrounds/golden-dunes.jpg","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.32)","liquidHue":235,"tint":"rgba(14, 10, 26, 0.68)","orb1":"rgba(129, 140, 248, 0.16)","orb2":"rgba(199, 210, 254, 0.10)","orb3":"rgba(99, 102, 241, 0.06)","palette":["#818cf8","#4f46e5","#0e0a1a"]},{"id":"patagonia-torres-peaks","name":"Torres Del Paine","sub":"Glacial Ice Lakes & Southern Patagonian Wind","category":"nature","image":"backgrounds/zen-mist.jpg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.34)","liquidHue":188,"tint":"rgba(6, 18, 24, 0.68)","orb1":"rgba(6, 182, 212, 0.18)","orb2":"rgba(103, 232, 249, 0.10)","orb3":"rgba(8, 145, 178, 0.08)","palette":["#06b6d4","#0891b2","#061218"]},{"id":"fuji-morning-clarity","name":"Mount Fuji Morning","sub":"Crisp Snow Crest Over Lake Kawaguchiko","category":"nature","image":"backgrounds/zen-bamboo-sanctuary.jpg","accent":"#e0e7ff","accentGlow":"rgba(224, 231, 255, 0.30)","liquidHue":228,"tint":"rgba(10, 14, 28, 0.65)","orb1":"rgba(224, 231, 255, 0.16)","orb2":"rgba(165, 180, 252, 0.12)","orb3":"rgba(67, 56, 202, 0.06)","palette":["#e0e7ff","#a5b4fc","#0a0e1c"]},{"id":"amalfi-coastal-cliff","name":"Amalfi Lemon Terraces","sub":"Warm Terracotta Heights & Azure Tyrrhenian Sea","category":"nature","image":"backgrounds/golden-dunes.jpg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.35)","liquidHue":48,"tint":"rgba(20, 14, 6, 0.66)","orb1":"rgba(234, 179, 8, 0.18)","orb2":"rgba(250, 204, 21, 0.12)","orb3":"rgba(14, 165, 233, 0.08)","palette":["#eab308","#ca8a04","#140e06"]},{"id":"scottish-highlands-glen","name":"Isle of Skye Glens","sub":"Purple Heather Moors & Passing Atlantic Squalls","category":"nature","image":"backgrounds/stone-zen.jpg","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.32)","liquidHue":271,"tint":"rgba(16, 10, 24, 0.70)","orb1":"rgba(168, 85, 247, 0.16)","orb2":"rgba(192, 132, 252, 0.10)","orb3":"rgba(88, 28, 135, 0.06)","palette":["#a855f7","#7e22ce","#100a18"]},{"id":"havasu-turquoise-falls","name":"Havasupai Canyon","sub":"Luminous Turquoise Minerals in Red Rock Chasm","category":"nature","image":"backgrounds/deep-forest.jpg","accent":"#14b8a6","accentGlow":"rgba(20, 184, 166, 0.36)","liquidHue":173,"tint":"rgba(6, 18, 18, 0.68)","orb1":"rgba(20, 184, 166, 0.18)","orb2":"rgba(45, 212, 191, 0.12)","orb3":"rgba(244, 63, 94, 0.06)","palette":["#14b8a6","#0f766e","#061212"]},{"id":"provence-lavender-dusk","name":"Valensole Lavender Fields","sub":"Endless Violet Ridges in Golden French Dusk","category":"nature","image":"backgrounds/zen-mist.jpg","accent":"#c084fc","accentGlow":"rgba(192, 132, 252, 0.35)","liquidHue":275,"tint":"rgba(18, 10, 28, 0.66)","orb1":"rgba(192, 132, 252, 0.18)","orb2":"rgba(232, 121, 249, 0.12)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#c084fc","#9333ea","#120a1c"]},{"id":"amazon-river-basin","name":"Amazonian Basin Dawn","sub":"Sun Breaking Over Rainforest Canopy River Mist","category":"nature","image":"backgrounds/deep-forest.jpg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.34)","liquidHue":158,"tint":"rgba(4, 18, 12, 0.70)","orb1":"rgba(16, 185, 129, 0.18)","orb2":"rgba(52, 211, 153, 0.10)","orb3":"rgba(234, 179, 8, 0.08)","palette":["#10b981","#047857","#04120c"]},{"id":"andromeda-spiral-arms","name":"Andromeda Spiral Core","sub":"Two Trillion Stars in Deep Cosmic Resonance","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#c084fc","accentGlow":"rgba(192, 132, 252, 0.38)","liquidHue":275,"tint":"rgba(14, 6, 26, 0.72)","orb1":"rgba(192, 132, 252, 0.20)","orb2":"rgba(96, 165, 250, 0.14)","orb3":"rgba(244, 114, 182, 0.08)","palette":["#c084fc","#7c3aed","#0e061a"]},{"id":"pillars-of-creation","name":"Eagle Nebula Pillars","sub":"Interstellar Gas Monoliths Sculpted by Star Winds","category":"cosmic","image":"backgrounds/cosmic-nebula.jpg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.40)","liquidHue":38,"tint":"rgba(18, 10, 4, 0.74)","orb1":"rgba(245, 158, 11, 0.20)","orb2":"rgba(6, 182, 212, 0.14)","orb3":"rgba(239, 68, 68, 0.10)","palette":["#f59e0b","#d97706","#120a04"]},{"id":"crab-supernova-remnant","name":"Crab Nebula Pulsar","sub":"Expanding Plasma Web from Historical Supernova","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.38)","liquidHue":188,"tint":"rgba(4, 16, 26, 0.72)","orb1":"rgba(6, 182, 212, 0.20)","orb2":"rgba(236, 72, 153, 0.14)","orb3":"rgba(59, 130, 246, 0.08)","palette":["#06b6d4","#0891b2","#04101a"]},{"id":"saturn-ring-crossing","name":"Cassini Ring Plane","sub":"Billions of Water Ice Chunks Casting Plane Shadows","category":"cosmic","image":"backgrounds/cosmic-nebula.jpg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.36)","liquidHue":48,"tint":"rgba(18, 14, 6, 0.70)","orb1":"rgba(234, 179, 8, 0.18)","orb2":"rgba(253, 224, 71, 0.10)","orb3":"rgba(148, 163, 184, 0.08)","palette":["#eab308","#ca8a04","#120e06"]},{"id":"jupiter-great-red-spot","name":"Jovian Great Red Spot","sub":"Centuries-Old Anticyclonic Storm Vortices","category":"cosmic","image":"backgrounds/golden-dunes.jpg","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.38)","liquidHue":24,"tint":"rgba(22, 8, 4, 0.72)","orb1":"rgba(249, 115, 22, 0.20)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#f97316","#c2410c","#160804"]},{"id":"orion-molecular-cloud","name":"Orion Molecular Veil","sub":"Deep Infrared Stardust & Protostellar Jets","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.38)","liquidHue":330,"tint":"rgba(20, 6, 18, 0.72)","orb1":"rgba(236, 72, 153, 0.20)","orb2":"rgba(168, 85, 247, 0.14)","orb3":"rgba(244, 114, 182, 0.08)","palette":["#ec4899","#be185d","#140612"]},{"id":"trappist-exoplanet-dawn","name":"TRAPPIST-1e Horizons","sub":"Crimson Dwarf Star Over Liquid Ocean World","category":"cosmic","image":"backgrounds/ocean-twilight.jpg","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.38)","liquidHue":0,"tint":"rgba(24, 6, 8, 0.72)","orb1":"rgba(239, 68, 68, 0.18)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(147, 51, 234, 0.08)","palette":["#ef4444","#b91c1c","#180608"]},{"id":"sombrero-galaxy-dust","name":"Sombrero Galaxy Rim","sub":"Perfect Symmetry & High-Inclination Dark Dust Lane","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#cbd5e1","accentGlow":"rgba(203, 213, 225, 0.32)","liquidHue":215,"tint":"rgba(8, 10, 16, 0.75)","orb1":"rgba(203, 213, 225, 0.18)","orb2":"rgba(148, 163, 184, 0.12)","orb3":"rgba(30, 41, 59, 0.08)","palette":["#cbd5e1","#94a3b8","#080a10"]},{"id":"carina-stellar-nursery","name":"Cosmic Cliffs of Carina","sub":"JWST Deep Infrared Sculpted Nebula Peaks","category":"cosmic","image":"backgrounds/cosmic-nebula.jpg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.40)","liquidHue":38,"tint":"rgba(20, 10, 4, 0.74)","orb1":"rgba(245, 158, 11, 0.22)","orb2":"rgba(217, 119, 6, 0.14)","orb3":"rgba(244, 63, 94, 0.08)","palette":["#f59e0b","#b45309","#140a04"]},{"id":"laniakea-supercluster","name":"Laniakea Cosmic Web","sub":"Immense Gravitational Watershed of 100,000 Galaxies","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.36)","liquidHue":235,"tint":"rgba(10, 8, 24, 0.74)","orb1":"rgba(129, 140, 248, 0.18)","orb2":"rgba(192, 132, 252, 0.12)","orb3":"rgba(59, 130, 246, 0.08)","palette":["#818cf8","#6366f1","#0a0818"]},{"id":"europa-subsurface-ocean","name":"Europa Ice Fractures","sub":"Brine Vapor Geysers Breaking Global Ice Crust","category":"cosmic","image":"backgrounds/zen-mist.jpg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.36)","liquidHue":198,"tint":"rgba(6, 16, 28, 0.70)","orb1":"rgba(56, 189, 248, 0.18)","orb2":"rgba(125, 211, 252, 0.12)","orb3":"rgba(14, 116, 144, 0.08)","palette":["#38bdf8","#0284c7","#06101c"]},{"id":"titan-methane-lakes","name":"Kraken Mare on Titan","sub":"Liquid Hydrocarbon Mirrors Under Dense Nitrogen Haze","category":"cosmic","image":"backgrounds/golden-dunes.jpg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.38)","liquidHue":38,"tint":"rgba(22, 12, 4, 0.72)","orb1":"rgba(245, 158, 11, 0.18)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(180, 83, 9, 0.08)","palette":["#f59e0b","#d97706","#160c04"]},{"id":"sagittarius-a-core","name":"Sagittarius A* Gravity Well","sub":"Center of the Milky Way Orbiting 4 Million Solar Masses","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.40)","liquidHue":271,"tint":"rgba(12, 4, 22, 0.76)","orb1":"rgba(168, 85, 247, 0.22)","orb2":"rgba(236, 72, 153, 0.14)","orb3":"rgba(67, 56, 202, 0.08)","palette":["#a855f7","#6b21a8","#0c0416"]},{"id":"horsehead-dark-nebula","name":"Horsehead Nebula Shadow","sub":"Cold Molecular Dust Silhouette Against Ionized Hydrogen","category":"cosmic","image":"backgrounds/cosmic-nebula.jpg","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.38)","liquidHue":348,"tint":"rgba(22, 4, 10, 0.74)","orb1":"rgba(244, 63, 94, 0.20)","orb2":"rgba(251, 113, 133, 0.12)","orb3":"rgba(159, 18, 57, 0.08)","palette":["#f43f5e","#be123c","#16040a"]},{"id":"voyager-interstellar-void","name":"Voyager Heliopause","sub":"Crossing the Solar Wind Boundary into Pure Starlight","category":"cosmic","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#3b82f6","accentGlow":"rgba(59, 130, 246, 0.35)","liquidHue":217,"tint":"rgba(4, 8, 20, 0.78)","orb1":"rgba(59, 130, 246, 0.18)","orb2":"rgba(96, 165, 250, 0.10)","orb3":"rgba(29, 78, 216, 0.06)","palette":["#3b82f6","#1d4ed8","#040814"]},{"id":"shinjuku-neon-alley","name":"Shinjuku Alley 2099","sub":"Rain Reflections on Sizzling Neon Ramen Billboards","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.40)","liquidHue":188,"tint":"rgba(4, 14, 24, 0.72)","orb1":"rgba(6, 182, 212, 0.20)","orb2":"rgba(244, 63, 94, 0.14)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#06b6d4","#f43f5e","#040e18"]},{"id":"blade-runner-los-angeles","name":"Tyrell Spire Skyway","sub":"Volumetric Smog & Heavy Industrial Chimney Flashes","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.40)","liquidHue":24,"tint":"rgba(18, 8, 4, 0.74)","orb1":"rgba(249, 115, 22, 0.20)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(245, 158, 11, 0.08)","palette":["#f97316","#c2410c","#120804"]},{"id":"hong-kong-vertical-slum","name":"Kowloon Quantum High-Rise","sub":"Interlocking Multi-Level Optical Cables & Damp Balconies","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.38)","liquidHue":155,"tint":"rgba(4, 18, 12, 0.74)","orb1":"rgba(16, 185, 129, 0.20)","orb2":"rgba(6, 182, 212, 0.12)","orb3":"rgba(245, 158, 11, 0.08)","palette":["#10b981","#059669","#04120c"]},{"id":"neural-net-hyperstream","name":"Neural Interface Grid","sub":"Cerebral Synaptic Currents Across Wetware Cores","category":"cyberpunk","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.40)","liquidHue":271,"tint":"rgba(12, 6, 22, 0.74)","orb1":"rgba(168, 85, 247, 0.22)","orb2":"rgba(59, 130, 246, 0.14)","orb3":"rgba(236, 72, 153, 0.08)","palette":["#a855f7","#7e22ce","#0c0616"]},{"id":"night-city-afterlife","name":"Afterlife Sub-Basement","sub":"Low Frequency Sub-Bass & Holographic Highballs","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.40)","liquidHue":330,"tint":"rgba(18, 4, 16, 0.74)","orb1":"rgba(236, 72, 153, 0.22)","orb2":"rgba(6, 182, 212, 0.14)","orb3":"rgba(168, 85, 247, 0.08)","palette":["#ec4899","#db2777","#120410"]},{"id":"akira-neo-tokyo-highway","name":"Neo-Tokyo Overpass","sub":"Laser Tail-Light Streaks Over Express Monorail","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.40)","liquidHue":0,"tint":"rgba(20, 4, 6, 0.74)","orb1":"rgba(239, 68, 68, 0.22)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(147, 51, 234, 0.08)","palette":["#ef4444","#dc2626","#140406"]},{"id":"sub-orbital-spaceway","name":"Space Elevator Base","sub":"Atmospheric Shield Ionization & Hypervelocity Climbers","category":"cyberpunk","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.38)","liquidHue":198,"tint":"rgba(6, 14, 26, 0.72)","orb1":"rgba(56, 189, 248, 0.20)","orb2":"rgba(99, 102, 241, 0.12)","orb3":"rgba(224, 242, 254, 0.08)","palette":["#38bdf8","#0284c7","#060e1a"]},{"id":"crypto-vault-mainframe","name":"Quantum Mainframe","sub":"Sub-Zero Liquid Nitrogen Vapor Over Superconducting Cubits","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#00f0ff","accentGlow":"rgba(0, 240, 255, 0.42)","liquidHue":184,"tint":"rgba(2, 14, 22, 0.74)","orb1":"rgba(0, 240, 255, 0.22)","orb2":"rgba(16, 185, 129, 0.12)","orb3":"rgba(59, 130, 246, 0.08)","palette":["#00f0ff","#0891b2","#020e16"]},{"id":"cyber-monolith-megacorp","name":"Megacorp Glass Atrium","sub":"Polished Obsidian Slabs & High-Resolution Floor Projections","category":"cyberpunk","image":"backgrounds/stone-zen.jpg","accent":"#e2e8f0","accentGlow":"rgba(226, 232, 240, 0.32)","liquidHue":215,"tint":"rgba(10, 12, 18, 0.76)","orb1":"rgba(226, 232, 240, 0.18)","orb2":"rgba(148, 163, 184, 0.10)","orb3":"rgba(2, 132, 199, 0.06)","palette":["#e2e8f0","#94a3b8","#0a0c12"]},{"id":"underground-cyber-bazaar","name":"Solder & Neon Bazaar","sub":"Black Market Cyberware Scrappers Under Heavy Rainfall","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.38)","liquidHue":48,"tint":"rgba(18, 12, 4, 0.74)","orb1":"rgba(234, 179, 8, 0.20)","orb2":"rgba(239, 68, 68, 0.12)","orb3":"rgba(16, 185, 129, 0.08)","palette":["#eab308","#ca8a04","#120c04"]},{"id":"synthwave-retrowave-grid","name":"Outrun Sunset Grid","sub":"Chrome Testarossa Heading into Vector Grid Horizon","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#d946ef","accentGlow":"rgba(217, 70, 239, 0.40)","liquidHue":292,"tint":"rgba(18, 4, 20, 0.72)","orb1":"rgba(217, 70, 239, 0.22)","orb2":"rgba(249, 115, 22, 0.14)","orb3":"rgba(6, 182, 212, 0.08)","palette":["#d946ef","#c026d3","#120414"]},{"id":"orbital-drop-pod-bay","name":"Drop-Pod Hangar 4","sub":"Decompression Sirens & Caution Orange Hydraulic Glow","category":"cyberpunk","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.40)","liquidHue":38,"tint":"rgba(18, 10, 4, 0.74)","orb1":"rgba(245, 158, 11, 0.22)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(71, 85, 105, 0.08)","palette":["#f59e0b","#d97706","#120a04"]},{"id":"augmented-rain-street","name":"Chongqing Skywalk","sub":"Multi-Tiered Bridge System Shrouded in Neon Drizzle","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#0ea5e9","accentGlow":"rgba(14, 165, 233, 0.38)","liquidHue":198,"tint":"rgba(4, 14, 26, 0.74)","orb1":"rgba(14, 165, 233, 0.20)","orb2":"rgba(168, 85, 247, 0.12)","orb3":"rgba(244, 63, 94, 0.08)","palette":["#0ea5e9","#0284c7","#040e1a"]},{"id":"hacker-black-hat-terminal","name":"Off-Grid Terminal","sub":"High-Contrast Green Phosphor CRT Display Glow","category":"cyberpunk","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.42)","liquidHue":142,"tint":"rgba(2, 16, 6, 0.76)","orb1":"rgba(34, 197, 94, 0.22)","orb2":"rgba(74, 222, 128, 0.14)","orb3":"rgba(20, 83, 45, 0.08)","palette":["#22c55e","#16a34a","#021006"]},{"id":"shibuya-midnight-cafe","name":"Shibuya Vinyl Cafe","sub":"Espresso Steam Rising in Warm Amber Tungsten Light","category":"lofi","image":"backgrounds/golden-dunes.jpg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.35)","liquidHue":38,"tint":"rgba(20, 12, 4, 0.68)","orb1":"rgba(245, 158, 11, 0.18)","orb2":"rgba(217, 119, 6, 0.12)","orb3":"rgba(254, 240, 138, 0.06)","palette":["#f59e0b","#d97706","#140c04"]},{"id":"rainy-study-library","name":"Old University Library","sub":"Dark Oak Desks & Rain Striking Leaded Glass Arches","category":"lofi","image":"backgrounds/rainy-window.jpg","accent":"#b45309","accentGlow":"rgba(180, 83, 9, 0.36)","liquidHue":30,"tint":"rgba(18, 10, 6, 0.70)","orb1":"rgba(180, 83, 9, 0.18)","orb2":"rgba(245, 158, 11, 0.12)","orb3":"rgba(100, 116, 139, 0.08)","palette":["#b45309","#92400e","#120a06"]},{"id":"paris-attic-skylight","name":"Montmartre Loft","sub":"Zinc Rooftops in Gentle Parisian Overcast Drizzle","category":"lofi","image":"backgrounds/zen-mist.jpg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.32)","liquidHue":215,"tint":"rgba(12, 14, 20, 0.66)","orb1":"rgba(148, 163, 184, 0.16)","orb2":"rgba(203, 213, 225, 0.10)","orb3":"rgba(51, 65, 85, 0.06)","palette":["#94a3b8","#64748b","#0c0e14"]},{"id":"kyoto-tea-ceremony","name":"Uji Matcha Chamber","sub":"Cedar Fragrance, Tatami Mats & Garden Moss","category":"lofi","image":"backgrounds/zen-bamboo-sanctuary.jpg","accent":"#65a30d","accentGlow":"rgba(101, 163, 13, 0.34)","liquidHue":84,"tint":"rgba(10, 18, 6, 0.68)","orb1":"rgba(101, 163, 13, 0.18)","orb2":"rgba(132, 204, 22, 0.12)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#65a30d","#4d7c0f","#0a1206"]},{"id":"vinyl-record-listening","name":"Late Night Jazz Bar","sub":"Warm Vacuum Tube Amps & Brushed Brass Bells","category":"lofi","image":"backgrounds/golden-dunes.jpg","accent":"#d97706","accentGlow":"rgba(217, 119, 6, 0.36)","liquidHue":35,"tint":"rgba(20, 10, 4, 0.70)","orb1":"rgba(217, 119, 6, 0.18)","orb2":"rgba(245, 158, 11, 0.12)","orb3":"rgba(239, 68, 68, 0.08)","palette":["#d97706","#b45309","#140a04"]},{"id":"cozy-plant-conservatory","name":"Botanist Sunroom","sub":"Clay Pots, Monstera Leaves & Soft Rainy Afternoon","category":"lofi","image":"backgrounds/deep-forest.jpg","accent":"#16a34a","accentGlow":"rgba(22, 163, 74, 0.34)","liquidHue":142,"tint":"rgba(8, 20, 10, 0.66)","orb1":"rgba(22, 163, 74, 0.18)","orb2":"rgba(74, 222, 128, 0.12)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#16a34a","#15803d","#08140a"]},{"id":"rainy-bus-commute","name":"Midnight City Bus","sub":"Blurred Sodium Lights Smearing Across Condensation","category":"lofi","image":"backgrounds/rainy-window.jpg","accent":"#6366f1","accentGlow":"rgba(99, 102, 241, 0.35)","liquidHue":239,"tint":"rgba(8, 10, 26, 0.70)","orb1":"rgba(99, 102, 241, 0.18)","orb2":"rgba(168, 85, 247, 0.12)","orb3":"rgba(236, 72, 153, 0.08)","palette":["#6366f1","#4f46e5","#080a1a"]},{"id":"cabin-woodstove-hearth","name":"Vermont Log Cabin","sub":"Crackling Birch Embers & Heavy Wool Blankets","category":"lofi","image":"backgrounds/golden-dunes.jpg","accent":"#ea580c","accentGlow":"rgba(234, 88, 12, 0.38)","liquidHue":20,"tint":"rgba(22, 8, 4, 0.70)","orb1":"rgba(234, 88, 12, 0.20)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#ea580c","#c2410c","#160804"]},{"id":"midnight-lofi-beats","name":"Cozy Lofi Bedroom","sub":"Fairy Lights & Analog Cassette Tape Warble","category":"lofi","image":"backgrounds/ocean-twilight.jpg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.35)","liquidHue":330,"tint":"rgba(18, 6, 20, 0.68)","orb1":"rgba(236, 72, 153, 0.18)","orb2":"rgba(168, 85, 247, 0.14)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#ec4899","#db2777","#120614"]},{"id":"tokyo-convenience-store","name":"Midnight Konbini","sub":"Calm Clean Fluorescent Oasis on Empty Rain Street","category":"lofi","image":"backgrounds/zen-mist.jpg","accent":"#0284c7","accentGlow":"rgba(2, 132, 199, 0.34)","liquidHue":200,"tint":"rgba(6, 16, 26, 0.66)","orb1":"rgba(2, 132, 199, 0.18)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(255, 255, 255, 0.08)","palette":["#0284c7","#0369a1","#06101a"]},{"id":"used-bookstore-alley","name":"Edinburgh Book Nook","sub":"Weathered Leather Bindings & Afternoon Bergamot Tea","category":"lofi","image":"backgrounds/golden-dunes.jpg","accent":"#78350f","accentGlow":"rgba(120, 53, 15, 0.38)","liquidHue":28,"tint":"rgba(16, 8, 4, 0.72)","orb1":"rgba(120, 53, 15, 0.18)","orb2":"rgba(180, 83, 9, 0.12)","orb3":"rgba(245, 158, 11, 0.08)","palette":["#78350f","#451a03","#100804"]},{"id":"autumn-coffee-walk","name":"Central Park Autumn","sub":"Warm Coffee Steam & Amber Leaves Crunching Underfoot","category":"lofi","image":"backgrounds/golden-dunes.jpg","accent":"#c2410c","accentGlow":"rgba(194, 65, 12, 0.36)","liquidHue":18,"tint":"rgba(20, 10, 4, 0.68)","orb1":"rgba(194, 65, 12, 0.18)","orb2":"rgba(234, 88, 12, 0.12)","orb3":"rgba(251, 146, 60, 0.08)","palette":["#c2410c","#9a3412","#140a04"]},{"id":"cozy-sleeper-train","name":"Midnight Sleeper Car","sub":"Gentle Rail Clatter & Distant Moonlit Prairie","category":"lofi","image":"backgrounds/stone-zen.jpg","accent":"#475569","accentGlow":"rgba(71, 85, 105, 0.32)","liquidHue":215,"tint":"rgba(8, 10, 16, 0.72)","orb1":"rgba(71, 85, 105, 0.16)","orb2":"rgba(148, 163, 184, 0.10)","orb3":"rgba(30, 41, 59, 0.08)","palette":["#475569","#334155","#080a10"]},{"id":"seaside-lighthouse-cottage","name":"Atlantic Lightkeeper","sub":"Salty Wind, Ocean Foghorn & Cozy Hearth Warmth","category":"lofi","image":"backgrounds/ocean-twilight.jpg","accent":"#0284c7","accentGlow":"rgba(2, 132, 199, 0.35)","liquidHue":200,"tint":"rgba(6, 14, 24, 0.70)","orb1":"rgba(2, 132, 199, 0.18)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(251, 191, 36, 0.06)","palette":["#0284c7","#0369a1","#060e18"]},{"id":"bauhaus-concrete-form","name":"Dessau Bauhaus Atelier","sub":"Architectural Clean Planes & Primary Crimson Accent","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#e11d48","accentGlow":"rgba(225, 29, 72, 0.35)","liquidHue":345,"tint":"rgba(16, 16, 18, 0.74)","orb1":"rgba(225, 29, 72, 0.18)","orb2":"rgba(244, 63, 94, 0.10)","orb3":"rgba(241, 245, 249, 0.06)","palette":["#e11d48","#be123c","#101012"]},{"id":"swiss-international-grid","name":"Zurich Typographic Studio","sub":"Strict Baseline Rhythm & Uncompromising Neutral Clarity","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#18181b","accentGlow":"rgba(255, 255, 255, 0.20)","liquidHue":240,"tint":"rgba(8, 8, 10, 0.82)","orb1":"rgba(255, 255, 255, 0.12)","orb2":"rgba(161, 161, 170, 0.08)","orb3":"rgba(39, 39, 42, 0.06)","palette":["#18181b","#ffffff","#08080a"]},{"id":"monochrome-obsidian-slab","name":"Brutalist Obsidian Gallery","sub":"Matte Black Natural Stone & Razor Geometric Shadows","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#71717a","accentGlow":"rgba(113, 113, 122, 0.28)","liquidHue":240,"tint":"rgba(6, 6, 8, 0.84)","orb1":"rgba(113, 113, 122, 0.14)","orb2":"rgba(161, 161, 170, 0.08)","orb3":"rgba(39, 39, 42, 0.06)","palette":["#71717a","#52525b","#060608"]},{"id":"scandinavian-birch-studio","name":"Stockholm Daylight Studio","sub":"Blonde Ash Grain, Clean Linen & Muted Nordic Light","category":"minimal","image":"backgrounds/zen-mist.jpg","accent":"#e2e8f0","accentGlow":"rgba(226, 232, 240, 0.30)","liquidHue":215,"tint":"rgba(14, 16, 20, 0.66)","orb1":"rgba(226, 232, 240, 0.16)","orb2":"rgba(248, 250, 252, 0.10)","orb3":"rgba(148, 163, 184, 0.06)","palette":["#e2e8f0","#cbd5e1","#0e1014"]},{"id":"japanese-wabi-sabi","name":"Raked Stone Garden","sub":"Dry Landscape Sand Waves & Single Weathered Boulder","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#a1a1aa","accentGlow":"rgba(161, 161, 170, 0.28)","liquidHue":240,"tint":"rgba(12, 12, 14, 0.76)","orb1":"rgba(161, 161, 170, 0.16)","orb2":"rgba(212, 212, 216, 0.10)","orb3":"rgba(63, 63, 70, 0.06)","palette":["#a1a1aa","#71717a","#0c0c0e"]},{"id":"frosted-smoked-glass","name":"Smoked Glass Partition","sub":"Deep Frosted Acrylic Refractions in Minimalist Loft","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#64748b","accentGlow":"rgba(100, 116, 139, 0.30)","liquidHue":215,"tint":"rgba(8, 10, 14, 0.78)","orb1":"rgba(100, 116, 139, 0.16)","orb2":"rgba(148, 163, 184, 0.10)","orb3":"rgba(30, 41, 59, 0.06)","palette":["#64748b","#475569","#080a0e"]},{"id":"brutalist-tate-modern","name":"Turbine Hall Concrete","sub":"Monumental Industrial Void & Pale Skylight Grey","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.30)","liquidHue":215,"tint":"rgba(10, 12, 16, 0.76)","orb1":"rgba(148, 163, 184, 0.16)","orb2":"rgba(203, 213, 225, 0.10)","orb3":"rgba(51, 65, 85, 0.06)","palette":["#94a3b8","#64748b","#0a0c10"]},{"id":"alabaster-marble-atrium","name":"Carrara Marble Basin","sub":"Subtle Grey Veining in Polished Italian Alabaster","category":"minimal","image":"backgrounds/zen-mist.jpg","accent":"#cbd5e1","accentGlow":"rgba(203, 213, 225, 0.32)","liquidHue":215,"tint":"rgba(12, 14, 18, 0.72)","orb1":"rgba(203, 213, 225, 0.16)","orb2":"rgba(241, 245, 249, 0.10)","orb3":"rgba(100, 116, 139, 0.06)","palette":["#cbd5e1","#94a3b8","#0c0e12"]},{"id":"monochrome-hyper-matte","name":"Zero-Reflection Matte","sub":"Deep Light Absorption & Pure Laser White Typography","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#ffffff","accentGlow":"rgba(255, 255, 255, 0.25)","liquidHue":0,"tint":"rgba(4, 4, 6, 0.88)","orb1":"rgba(255, 255, 255, 0.12)","orb2":"rgba(203, 213, 225, 0.08)","orb3":"rgba(30, 41, 59, 0.04)","palette":["#ffffff","#cbd5e1","#040406"]},{"id":"architectural-titanium-mesh","name":"Curved Titanium Shell","sub":"Anodized Aerospace Titanium with Micro Specular Shimmer","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.32)","liquidHue":215,"tint":"rgba(10, 12, 16, 0.76)","orb1":"rgba(148, 163, 184, 0.16)","orb2":"rgba(226, 232, 240, 0.10)","orb3":"rgba(51, 65, 85, 0.06)","palette":["#94a3b8","#64748b","#0a0c10"]},{"id":"zen-clay-pottery","name":"Stoneware Ceramic Studio","sub":"Tactile Unfinished Mineral Earth & Natural Wool","category":"minimal","image":"backgrounds/golden-dunes.jpg","accent":"#78716c","accentGlow":"rgba(120, 113, 108, 0.30)","liquidHue":24,"tint":"rgba(14, 12, 10, 0.74)","orb1":"rgba(120, 113, 108, 0.16)","orb2":"rgba(168, 162, 158, 0.10)","orb3":"rgba(68, 64, 60, 0.06)","palette":["#78716c","#57534e","#0e0c0a"]},{"id":"silicon-monolith-clean","name":"Silicon Substrate","sub":"Microscopic Monocrystalline Wafer & Gold Bus Lines","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.34)","liquidHue":48,"tint":"rgba(8, 8, 10, 0.80)","orb1":"rgba(234, 179, 8, 0.18)","orb2":"rgba(250, 204, 21, 0.10)","orb3":"rgba(39, 39, 42, 0.06)","palette":["#eab308","#ca8a04","#08080a"]},{"id":"berlin-gallery-concrete","name":"Kreuzberg Gallery","sub":"Raw Poured Concrete Walls & High Clerestory Skylights","category":"minimal","image":"backgrounds/stone-zen.jpg","accent":"#71717a","accentGlow":"rgba(113, 113, 122, 0.30)","liquidHue":240,"tint":"rgba(10, 10, 12, 0.78)","orb1":"rgba(113, 113, 122, 0.16)","orb2":"rgba(161, 161, 170, 0.10)","orb3":"rgba(39, 39, 42, 0.06)","palette":["#71717a","#52525b","#0a0a0c"]},{"id":"minimalist-tea-pavilion","name":"Roji Sugi Pavilion","sub":"Slatted Smoked Cedar Louvers & Diffused Rice Paper","category":"minimal","image":"backgrounds/zen-bamboo-sanctuary.jpg","accent":"#a8a29e","accentGlow":"rgba(168, 162, 158, 0.30)","liquidHue":30,"tint":"rgba(14, 12, 10, 0.72)","orb1":"rgba(168, 162, 158, 0.16)","orb2":"rgba(214, 211, 209, 0.10)","orb3":"rgba(87, 83, 78, 0.06)","palette":["#a8a29e","#78716c","#0e0c0a"]},{"id":"boreal-emerald-curtain","name":"Tromsø Aurora Ribbon","sub":"Deep Polar Oxygen Green Cascading Over Mountain Peaks","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.38)","liquidHue":155,"tint":"rgba(4, 16, 14, 0.68)","orb1":"rgba(16, 185, 129, 0.20)","orb2":"rgba(52, 211, 153, 0.12)","orb3":"rgba(6, 182, 212, 0.08)","palette":["#10b981","#059669","#04100e"]},{"id":"violet-polar-magnetic","name":"Lapland Violet Corona","sub":"Rare Nitrogen Ionization in Uppermost Arctic Atmosphere","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.40)","liquidHue":271,"tint":"rgba(12, 6, 24, 0.70)","orb1":"rgba(168, 85, 247, 0.20)","orb2":"rgba(192, 132, 252, 0.12)","orb3":"rgba(16, 185, 129, 0.08)","palette":["#a855f7","#7e22ce","#0c0618"]},{"id":"crimson-geomagnetic-storm","name":"Solar Storm G5 Crimson","sub":"High-Altitude Atomic Oxygen Blood Red Aurora Arc","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.40)","liquidHue":0,"tint":"rgba(22, 6, 8, 0.72)","orb1":"rgba(239, 68, 68, 0.22)","orb2":"rgba(244, 63, 94, 0.14)","orb3":"rgba(168, 85, 247, 0.08)","palette":["#ef4444","#dc2626","#160608"]},{"id":"svalbard-polar-night","name":"Longyearbyen Blue Hour","sub":"Eerie Deep Polar Twilight on Glacial Ice Fields","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#0284c7","accentGlow":"rgba(2, 132, 199, 0.36)","liquidHue":200,"tint":"rgba(4, 14, 26, 0.70)","orb1":"rgba(2, 132, 199, 0.18)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(30, 58, 138, 0.08)","palette":["#0284c7","#0369a1","#040e1a"]},{"id":"arctic-circle-mirage","name":"Fata Morgana Horizon","sub":"Thermal Inversion Mirrored Ice Castles in Golden Air","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.36)","liquidHue":38,"tint":"rgba(16, 10, 4, 0.68)","orb1":"rgba(245, 158, 11, 0.18)","orb2":"rgba(251, 191, 36, 0.12)","orb3":"rgba(56, 189, 248, 0.06)","palette":["#f59e0b","#d97706","#100a04"]},{"id":"solar-wind-heliosphere","name":"Solar Wind Shockfront","sub":"Magnetopause Plasma Compression Glowing Cyan","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.38)","liquidHue":188,"tint":"rgba(4, 16, 24, 0.70)","orb1":"rgba(6, 182, 212, 0.20)","orb2":"rgba(103, 232, 249, 0.12)","orb3":"rgba(16, 185, 129, 0.08)","palette":["#06b6d4","#0891b2","#041018"]},{"id":"fairbanks-sub-arctic","name":"Chena Hot Springs","sub":"Mineral Steam Clouds Rising Into -30° Emerald Sky","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.36)","liquidHue":142,"tint":"rgba(4, 18, 10, 0.68)","orb1":"rgba(34, 197, 94, 0.18)","orb2":"rgba(74, 222, 128, 0.12)","orb3":"rgba(20, 83, 45, 0.06)","palette":["#22c55e","#16a34a","#04120a"]},{"id":"antarctic-mcmurdo-twilight","name":"Ross Ice Shelf Night","sub":"Southern Lights Aurora Australis Over Infinite White Plain","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.36)","liquidHue":198,"tint":"rgba(4, 14, 28, 0.72)","orb1":"rgba(56, 189, 248, 0.18)","orb2":"rgba(125, 211, 252, 0.12)","orb3":"rgba(168, 85, 247, 0.08)","palette":["#38bdf8","#0284c7","#040e1c"]},{"id":"spectral-polar-prism","name":"Diamond Dust Prism","sub":"Suspended Ice Crystals Refracting Hexagonal Halo Arcs","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.38)","liquidHue":330,"tint":"rgba(18, 6, 20, 0.68)","orb1":"rgba(236, 72, 153, 0.20)","orb2":"rgba(168, 85, 247, 0.14)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#ec4899","#db2777","#120614"]},{"id":"iceland-glacier-lagoon","name":"Jökulsárlón Iceberg Mirror","sub":"Mirror Lagoon Reflecting Celestial Emerald Veil","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#14b8a6","accentGlow":"rgba(20, 184, 166, 0.36)","liquidHue":173,"tint":"rgba(4, 18, 18, 0.70)","orb1":"rgba(20, 184, 166, 0.18)","orb2":"rgba(45, 212, 191, 0.12)","orb3":"rgba(13, 148, 136, 0.08)","palette":["#14b8a6","#0f766e","#041212"]},{"id":"norwegian-sea-reflection","name":"Lofoten Midnight Aurora","sub":"Swell Waves Reflecting Moving Green Veils Under Peaks","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#00e5ff","accentGlow":"rgba(0, 229, 255, 0.40)","liquidHue":186,"tint":"rgba(2, 16, 24, 0.70)","orb1":"rgba(0, 229, 255, 0.22)","orb2":"rgba(16, 185, 129, 0.12)","orb3":"rgba(59, 130, 246, 0.08)","palette":["#00e5ff","#0284c7","#021018"]},{"id":"magnetic-zenith-corona","name":"Geomagnetic Zenith Crown","sub":"Radial Rays Converging Directly Overhead Into Corona","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.38)","liquidHue":235,"tint":"rgba(10, 8, 26, 0.70)","orb1":"rgba(129, 140, 248, 0.20)","orb2":"rgba(192, 132, 252, 0.14)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#818cf8","#6366f1","#0a081a"]},{"id":"greenland-inland-ice","name":"Summit Camp Midnight","sub":"Infinite 3,000m Ice Cap Under Violet Starlight","category":"aurora","image":"backgrounds/nordic-aurora.jpg","accent":"#93c5fd","accentGlow":"rgba(147, 197, 253, 0.34)","liquidHue":213,"tint":"rgba(6, 14, 26, 0.72)","orb1":"rgba(147, 197, 253, 0.18)","orb2":"rgba(168, 85, 247, 0.12)","orb3":"rgba(30, 58, 138, 0.08)","palette":["#93c5fd","#60a5fa","#060e1a"]}];
+const THEMES = [{"id":"black-hole-singularity","name":"Black Hole Singularity","sub":"Relativistic Accretion Vortex & Gravitational Lensing","category":"cosmic","image":"backgrounds/zen-mist.jpg","liveType":"shader","shaderPreset":"black-hole","particlePreset":"stardust","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.42)","liquidHue":38,"tint":"rgba(10, 6, 2, 0.72)","orb1":"rgba(245, 158, 11, 0.22)","orb2":"rgba(234, 88, 12, 0.16)","orb3":"rgba(251, 191, 36, 0.12)","palette":["#f59e0b","#fbbf24","#080402"]},{"id":"tokyo-sakura-twilight","name":"Tokyo Twilight Sakura","sub":"Fluttering Cherry Blossoms on Sunset Breeze","category":"nature","image":"backgrounds/zen-bamboo-sanctuary.jpg","liveType":"particles","particlePreset":"sakura","accent":"#f472b6","accentGlow":"rgba(244, 114, 182, 0.38)","liquidHue":330,"tint":"rgba(18, 8, 16, 0.65)","orb1":"rgba(244, 114, 182, 0.2)","orb2":"rgba(251, 113, 133, 0.14)","orb3":"rgba(253, 164, 175, 0.08)","palette":["#f472b6","#fda4af","#140812"]},{"id":"bioluminescent-abyss","name":"Bioluminescent Deep Abyss","sub":"Glowing Ocean Jelly Spores & Deep Marine Drift","category":"nature","image":"backgrounds/nordic-aurora.jpg","liveType":"shader","shaderPreset":"bioluminescent","particlePreset":"stardust","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.38)","liquidHue":165,"tint":"rgba(2, 16, 18, 0.7)","orb1":"rgba(16, 185, 129, 0.2)","orb2":"rgba(6, 182, 212, 0.16)","orb3":"rgba(45, 212, 191, 0.1)","palette":["#10b981","#06b6d4","#021012"]},{"id":"matrix-digital-rain","name":"Matrix Terminal Code","sub":"Cascading Phosphor Streams & Cyber Glyph Trails","category":"cyberpunk","image":"backgrounds/deep-forest.jpg","liveType":"shader","shaderPreset":"matrix-code","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.42)","liquidHue":142,"tint":"rgba(2, 14, 6, 0.72)","orb1":"rgba(34, 197, 94, 0.22)","orb2":"rgba(74, 222, 128, 0.15)","orb3":"rgba(134, 239, 172, 0.08)","palette":["#22c55e","#86efac","#020a04"]},{"id":"cozy-fireplace-hearth","name":"Nordic Hearth & Embers","sub":"Dancing Warm Timber Sparks & Cabin Ambience","category":"lofi","image":"backgrounds/golden-dunes.jpg","liveType":"particles","particlePreset":"embers","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.38)","liquidHue":25,"tint":"rgba(22, 10, 4, 0.68)","orb1":"rgba(249, 115, 22, 0.2)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(251, 191, 36, 0.09)","palette":["#f97316","#ef4444","#160804"]},{"id":"zen-bamboo-sanctuary","name":"Kyoto Bamboo Sanctuary","sub":"Ethereal Dawn Rays & Moss Pathway","category":"nature","image":"backgrounds/cosmic-nebula.jpg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.32)","liquidHue":155,"tint":"rgba(6, 20, 14, 0.62)","orb1":"rgba(16, 185, 129, 0.14)","orb2":"rgba(52, 211, 153, 0.08)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#10b981","#059669","#06140e"]},{"id":"zen-mist","name":"Zen Mist Mountain","sub":"Silent Misty Mountain Peaks","category":"nature","image":"backgrounds/cosmic-stellar-void.jpg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.3)","liquidHue":198,"tint":"rgba(8, 14, 24, 0.64)","orb1":"rgba(56, 189, 248, 0.12)","orb2":"rgba(147, 197, 253, 0.08)","orb3":"rgba(224, 242, 254, 0.06)","palette":["#38bdf8","#0284c7","#080e18"]},{"id":"deep-forest","name":"Deep Forest Canopy","sub":"Emerald Moss & Filtered Sunbeams","category":"nature","image":"backgrounds/cyberpunk-neo-tokyo.jpg","accent":"#34d399","accentGlow":"rgba(52, 211, 153, 0.3)","liquidHue":155,"tint":"rgba(5, 18, 12, 0.68)","orb1":"rgba(52, 211, 153, 0.12)","orb2":"rgba(16, 185, 129, 0.08)","orb3":"rgba(110, 231, 183, 0.06)","palette":["#34d399","#059669","#05120c"]},{"id":"rainy-window","name":"Rainy Kyoto Teahouse","sub":"Quiet Raindrops on Japanese Glass","category":"nature","image":"backgrounds/ocean-twilight.jpg","liveType":"particles","particlePreset":"rain","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.3)","liquidHue":235,"tint":"rgba(10, 10, 20, 0.65)","orb1":"rgba(129, 140, 248, 0.12)","orb2":"rgba(99, 102, 241, 0.08)","orb3":"rgba(199, 210, 254, 0.06)","palette":["#818cf8","#4f46e5","#0a0a14"]},{"id":"golden-dunes","name":"Golden Sahara Dunes","sub":"Warm Sunlit Windblown Sand Ridges","category":"nature","image":"backgrounds/rainy-window.jpg","accent":"#fbbf24","accentGlow":"rgba(251, 191, 36, 0.32)","liquidHue":38,"tint":"rgba(24, 14, 6, 0.66)","orb1":"rgba(251, 191, 36, 0.12)","orb2":"rgba(249, 115, 22, 0.08)","orb3":"rgba(217, 119, 6, 0.06)","palette":["#fbbf24","#f97316","#180e06"]},{"id":"ocean-twilight","name":"Pacific Twilight Waves","sub":"Deep Indigo Ocean Swell at Sunset","category":"nature","image":"backgrounds/stone-zen.jpg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.3)","liquidHue":205,"tint":"rgba(6, 12, 24, 0.68)","orb1":"rgba(56, 189, 248, 0.12)","orb2":"rgba(14, 165, 233, 0.08)","orb3":"rgba(59, 130, 246, 0.06)","palette":["#38bdf8","#0284c7","#060c18"]},{"id":"stone-zen","name":"Stone Zen Garden","sub":"Meditative Raked Gravel & Granite","category":"nature","image":"backgrounds/bg-stone-zen.svg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.28)","liquidHue":215,"tint":"rgba(15, 17, 23, 0.72)","orb1":"rgba(148, 163, 184, 0.1)","orb2":"rgba(203, 213, 225, 0.06)","orb3":"rgba(100, 116, 139, 0.05)","palette":["#94a3b8","#64748b","#0f1117"]},{"id":"misty-alps","name":"Swiss Alpine Mist","sub":"Snow-Capped Granite & Valley Clouds","category":"nature","image":"backgrounds/bg-misty-alps.svg","accent":"#67e8f9","accentGlow":"rgba(103, 232, 249, 0.32)","liquidHue":188,"tint":"rgba(10, 18, 28, 0.65)","orb1":"rgba(103, 232, 249, 0.12)","orb2":"rgba(56, 189, 248, 0.08)","orb3":"rgba(186, 230, 253, 0.05)","palette":["#67e8f9","#06b6d4","#0a121c"]},{"id":"cherry-blossom","name":"Sakura Night Garden","sub":"Soft Pink Cherry Blossoms Under Stars","category":"nature","image":"backgrounds/bg-cherry-blossom.svg","accent":"#f472b6","accentGlow":"rgba(244, 114, 182, 0.34)","liquidHue":330,"tint":"rgba(26, 10, 20, 0.64)","orb1":"rgba(244, 114, 182, 0.14)","orb2":"rgba(251, 113, 133, 0.09)","orb3":"rgba(244, 63, 94, 0.06)","palette":["#f472b6","#db2777","#1a0a14"]},{"id":"arctic-glacier","name":"Nordic Blue Glacier","sub":"Ancient Crystalline Ice Caverns","category":"nature","image":"backgrounds/bg-arctic-glacier.svg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.35)","liquidHue":200,"tint":"rgba(4, 16, 28, 0.66)","orb1":"rgba(56, 189, 248, 0.14)","orb2":"rgba(14, 165, 233, 0.09)","orb3":"rgba(186, 230, 253, 0.06)","palette":["#38bdf8","#0284c7","#04101c"]},{"id":"cosmic-stellar-void","name":"Stellar Nebula Void","sub":"Violet Interstellar Clouds & Stardust","category":"cosmic","image":"backgrounds/bg-cosmic-stellar-void.svg","liveType":"shader","shaderPreset":"cosmic-void","particlePreset":"stardust","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.35)","liquidHue":275,"tint":"rgba(12, 6, 26, 0.65)","orb1":"rgba(168, 85, 247, 0.16)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(236, 72, 153, 0.08)","palette":["#a855f7","#38bdf8","#0c061a"]},{"id":"cosmic-nebula","name":"Deep Space Nebula","sub":"Orion Starfield & Gaseous Nursery","category":"cosmic","image":"backgrounds/bg-cosmic-nebula.svg","accent":"#c084fc","accentGlow":"rgba(192, 132, 252, 0.32)","liquidHue":270,"tint":"rgba(14, 8, 28, 0.65)","orb1":"rgba(192, 132, 252, 0.14)","orb2":"rgba(147, 51, 234, 0.1)","orb3":"rgba(232, 121, 249, 0.06)","palette":["#c084fc","#9333ea","#0e081c"]},{"id":"andromeda-galaxy","name":"Andromeda Spiral","sub":"Trillion Stars in Celestial Motion","category":"cosmic","image":"backgrounds/bg-andromeda-galaxy.svg","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.32)","liquidHue":240,"tint":"rgba(8, 8, 24, 0.68)","orb1":"rgba(129, 140, 248, 0.14)","orb2":"rgba(168, 85, 247, 0.09)","orb3":"rgba(59, 130, 246, 0.06)","palette":["#818cf8","#6366f1","#080818"]},{"id":"pillars-creation","name":"Pillars of Creation","sub":"Towering Gas Columns in Eagle Nebula","category":"cosmic","image":"backgrounds/bg-pillars-creation.svg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.34)","liquidHue":205,"tint":"rgba(4, 14, 28, 0.68)","orb1":"rgba(56, 189, 248, 0.15)","orb2":"rgba(14, 165, 233, 0.1)","orb3":"rgba(99, 102, 241, 0.06)","palette":["#38bdf8","#0284c7","#040e1c"]},{"id":"lunar-eclipse","name":"Blood Moon Eclipse","sub":"Atmospheric Earth Shadow on the Moon","category":"cosmic","image":"backgrounds/bg-lunar-eclipse.svg","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.35)","liquidHue":350,"tint":"rgba(26, 6, 10, 0.68)","orb1":"rgba(244, 63, 94, 0.15)","orb2":"rgba(225, 29, 72, 0.1)","orb3":"rgba(249, 115, 22, 0.06)","palette":["#f43f5e","#be123c","#1a060a"]},{"id":"pulsar-core","name":"Pulsar Magnetosphere","sub":"High-Energy Relativistic Jet Beam","category":"cosmic","image":"backgrounds/bg-pulsar-core.svg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.35)","liquidHue":190,"tint":"rgba(4, 18, 24, 0.66)","orb1":"rgba(6, 182, 212, 0.16)","orb2":"rgba(14, 165, 233, 0.1)","orb3":"rgba(99, 102, 241, 0.06)","palette":["#06b6d4","#0891b2","#041218"]},{"id":"mars-sol","name":"Martian Horizon Sol","sub":"Rusty Iron Dunes & Sunset Blue Halo","category":"cosmic","image":"backgrounds/bg-mars-sol.svg","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.32)","liquidHue":25,"tint":"rgba(26, 10, 4, 0.68)","orb1":"rgba(249, 115, 22, 0.14)","orb2":"rgba(234, 88, 12, 0.09)","orb3":"rgba(56, 189, 248, 0.06)","palette":["#f97316","#c2410c","#1a0a04"]},{"id":"solar-corona","name":"Solar Flare Corona","sub":"Magnetic Loops & Thermonuclear Fire","category":"cosmic","image":"backgrounds/bg-solar-corona.svg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.32)","liquidHue":48,"tint":"rgba(24, 16, 4, 0.68)","orb1":"rgba(234, 179, 8, 0.14)","orb2":"rgba(249, 115, 22, 0.1)","orb3":"rgba(239, 68, 68, 0.06)","palette":["#eab308","#ca8a04","#181004"]},{"id":"dark-matter-web","name":"Cosmic Web Filaments","sub":"Gravitational Scaffolding of the Universe","category":"cosmic","image":"backgrounds/bg-dark-matter-web.svg","accent":"#8b5cf6","accentGlow":"rgba(139, 92, 246, 0.32)","liquidHue":260,"tint":"rgba(10, 6, 22, 0.72)","orb1":"rgba(139, 92, 246, 0.14)","orb2":"rgba(99, 102, 241, 0.08)","orb3":"rgba(192, 132, 252, 0.05)","palette":["#8b5cf6","#6d28d9","#0a0616"]},{"id":"milkyway-arch","name":"Milky Way Observatory","sub":"Galactic Core Over Dark Desert Sky","category":"cosmic","image":"backgrounds/bg-milkyway-arch.svg","accent":"#a78bfa","accentGlow":"rgba(167, 139, 250, 0.32)","liquidHue":255,"tint":"rgba(8, 8, 20, 0.68)","orb1":"rgba(167, 139, 250, 0.14)","orb2":"rgba(192, 132, 252, 0.09)","orb3":"rgba(56, 189, 248, 0.06)","palette":["#a78bfa","#7c3aed","#080814"]},{"id":"cyberpunk-neo-tokyo","name":"Neo Tokyo Midnight","sub":"Rainy Cyber Street & Cyan Neon Glow","category":"cyberpunk","image":"backgrounds/bg-cyberpunk-neo-tokyo.svg","liveType":"shader","shaderPreset":"cyber-rain","particlePreset":"rain","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.35)","liquidHue":188,"tint":"rgba(4, 14, 24, 0.65)","orb1":"rgba(6, 182, 212, 0.16)","orb2":"rgba(236, 72, 153, 0.12)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#06b6d4","#ec4899","#040e18"]},{"id":"shinjuku-overdrive","name":"Shinjuku Cyberflow","sub":"High-Density Neon Hologram Canyon","category":"cyberpunk","image":"backgrounds/bg-shinjuku-overdrive.svg","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.35)","liquidHue":345,"tint":"rgba(20, 4, 12, 0.66)","orb1":"rgba(244, 63, 94, 0.16)","orb2":"rgba(6, 182, 212, 0.1)","orb3":"rgba(168, 85, 247, 0.06)","palette":["#f43f5e","#06b6d4","#14040c"]},{"id":"blade-runner-rain","name":"Blade Runner Drizzle","sub":"Retro Noir Cyberpunk Skyscrapers","category":"cyberpunk","image":"backgrounds/bg-blade-runner-rain.svg","accent":"#0ea5e9","accentGlow":"rgba(14, 165, 233, 0.34)","liquidHue":200,"tint":"rgba(6, 14, 22, 0.68)","orb1":"rgba(14, 165, 233, 0.14)","orb2":"rgba(244, 63, 94, 0.09)","orb3":"rgba(168, 85, 247, 0.06)","palette":["#0ea5e9","#f43f5e","#060e16"]},{"id":"synthwave-highway","name":"Synthwave Grid Highway","sub":"Outrun Palm Trees & Wireframe Horizon","category":"cyberpunk","image":"backgrounds/bg-synthwave-highway.svg","accent":"#d946ef","accentGlow":"rgba(217, 70, 239, 0.35)","liquidHue":290,"tint":"rgba(20, 4, 26, 0.68)","orb1":"rgba(217, 70, 239, 0.16)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(249, 115, 22, 0.08)","palette":["#d946ef","#38bdf8","#14041a"]},{"id":"hongkong-neon","name":"Kowloon Neon Density","sub":"Overhead Glowing Signs & Humid Night","category":"cyberpunk","image":"backgrounds/bg-hongkong-neon.svg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.34)","liquidHue":158,"tint":"rgba(4, 18, 14, 0.68)","orb1":"rgba(16, 185, 129, 0.15)","orb2":"rgba(244, 63, 94, 0.1)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#10b981","#f43f5e","#04120e"]},{"id":"matrix-dataflow","name":"Matrix Data Stream","sub":"Cascading Phosphor Digital Rain","category":"cyberpunk","image":"backgrounds/bg-matrix-dataflow.svg","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.36)","liquidHue":142,"tint":"rgba(2, 16, 6, 0.72)","orb1":"rgba(34, 197, 94, 0.16)","orb2":"rgba(16, 185, 129, 0.1)","orb3":"rgba(74, 222, 128, 0.06)","palette":["#22c55e","#16a34a","#021006"]},{"id":"cyber-arcade","name":"Holographic Arcade 2084","sub":"CRT Glow & Retro Gaming Cabinets","category":"cyberpunk","image":"backgrounds/bg-cyber-arcade.svg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.35)","liquidHue":330,"tint":"rgba(18, 4, 18, 0.68)","orb1":"rgba(236, 72, 153, 0.15)","orb2":"rgba(56, 189, 248, 0.1)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#ec4899","#38bdf8","#120412"]},{"id":"tokyo-tower-night","name":"Tokyo Tower Crimson","sub":"Illuminated Spire Over City Skyline","category":"cyberpunk","image":"backgrounds/bg-tokyo-tower-night.svg","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.35)","liquidHue":0,"tint":"rgba(22, 6, 6, 0.68)","orb1":"rgba(239, 68, 68, 0.15)","orb2":"rgba(249, 115, 22, 0.1)","orb3":"rgba(168, 85, 247, 0.05)","palette":["#ef4444","#dc2626","#160606"]},{"id":"cyber-metro","name":"Cyber Subway Transit","sub":"Subterranean Tube With Fluorescent Glow","category":"cyberpunk","image":"backgrounds/bg-cyber-metro.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.34)","liquidHue":38,"tint":"rgba(20, 14, 4, 0.68)","orb1":"rgba(245, 158, 11, 0.15)","orb2":"rgba(234, 88, 12, 0.09)","orb3":"rgba(6, 182, 212, 0.06)","palette":["#f59e0b","#d97706","#140e04"]},{"id":"obsidian-monolith","name":"Obsidian Monolith","sub":"Pure Black Titanium Minimalist Glass","category":"minimal","image":"backgrounds/bg-obsidian-monolith.svg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.28)","liquidHue":198,"tint":"rgba(6, 8, 14, 0.88)","orb1":"rgba(56, 189, 248, 0.08)","orb2":"rgba(99, 102, 241, 0.06)","orb3":"rgba(255, 255, 255, 0.03)","palette":["#38bdf8","#0284c7","#06080e"]},{"id":"studio-minimal","name":"Industrial Studio Minimal","sub":"Brushed Aluminum & Pure Clean Space","category":"minimal","image":"backgrounds/bg-studio-minimal.svg","accent":"#e2e8f0","accentGlow":"rgba(226, 232, 240, 0.28)","liquidHue":215,"tint":"rgba(12, 14, 18, 0.72)","orb1":"rgba(226, 232, 240, 0.08)","orb2":"rgba(148, 163, 184, 0.06)","orb3":"rgba(255, 255, 255, 0.04)","palette":["#e2e8f0","#94a3b8","#0c0e12"]},{"id":"brutalist-concrete","name":"Brutalist Concrete Arch","sub":"Monolithic Shadows & Architectural Lines","category":"minimal","image":"backgrounds/bg-brutalist-concrete.svg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.26)","liquidHue":215,"tint":"rgba(16, 18, 22, 0.75)","orb1":"rgba(148, 163, 184, 0.09)","orb2":"rgba(203, 213, 225, 0.06)","orb3":"rgba(71, 85, 105, 0.04)","palette":["#94a3b8","#64748b","#101216"]},{"id":"bauhaus-grid","name":"Bauhaus Spatial Geometry","sub":"Pure Contrast, Asymmetry & Rhythm","category":"minimal","image":"backgrounds/bg-bauhaus-grid.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.3)","liquidHue":38,"tint":"rgba(14, 14, 18, 0.72)","orb1":"rgba(245, 158, 11, 0.12)","orb2":"rgba(239, 68, 68, 0.08)","orb3":"rgba(59, 130, 246, 0.06)","palette":["#f59e0b","#ef4444","#0e0e12"]},{"id":"scandinavian-loft","name":"Nordic Oak & Linen","sub":"Warm Ash Wood & Sunlight Gradients","category":"minimal","image":"backgrounds/bg-scandinavian-loft.svg","accent":"#d97706","accentGlow":"rgba(217, 119, 6, 0.3)","liquidHue":34,"tint":"rgba(20, 16, 12, 0.68)","orb1":"rgba(217, 119, 6, 0.12)","orb2":"rgba(245, 158, 11, 0.08)","orb3":"rgba(251, 191, 36, 0.05)","palette":["#d97706","#b45309","#14100c"]},{"id":"titanium-stealth","name":"Titanium Stealth Lab","sub":"Matte Carbon Fiber & Aircraft Alloy","category":"minimal","image":"backgrounds/bg-titanium-stealth.svg","accent":"#64748b","accentGlow":"rgba(100, 116, 139, 0.28)","liquidHue":215,"tint":"rgba(8, 10, 14, 0.82)","orb1":"rgba(100, 116, 139, 0.1)","orb2":"rgba(148, 163, 184, 0.06)","orb3":"rgba(255, 255, 255, 0.03)","palette":["#64748b","#475569","#080a0e"]},{"id":"frosted-pavilion","name":"Frosted Glass Pavilion","sub":"Translucent Acrylic & Diffused Horizon","category":"minimal","image":"backgrounds/bg-frosted-pavilion.svg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.3)","liquidHue":190,"tint":"rgba(8, 16, 24, 0.68)","orb1":"rgba(6, 182, 212, 0.12)","orb2":"rgba(56, 189, 248, 0.08)","orb3":"rgba(207, 250, 254, 0.05)","palette":["#06b6d4","#0891b2","#081018"]},{"id":"pure-zen-obsidian","name":"Pure OLED Zero","sub":"Infinite Contrast Absolute True Black","category":"minimal","image":"backgrounds/bg-pure-zen-obsidian.svg","accent":"#0a84ff","accentGlow":"rgba(10, 132, 255, 0.26)","liquidHue":210,"tint":"rgba(0, 0, 0, 0.98)","orb1":"rgba(10, 132, 255, 0.05)","orb2":"rgba(255, 255, 255, 0.02)","orb3":"rgba(0, 0, 0, 0)","palette":["#0a84ff","#0066cc","#000000"]},{"id":"lofi-coffee-rain","name":"Midnight Espresso Bar","sub":"Warm Steam, Rainy Street & Amber Bulbs","category":"lofi","image":"backgrounds/bg-lofi-coffee-rain.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.32)","liquidHue":38,"tint":"rgba(22, 14, 8, 0.68)","orb1":"rgba(245, 158, 11, 0.14)","orb2":"rgba(217, 119, 6, 0.09)","orb3":"rgba(251, 191, 36, 0.05)","palette":["#f59e0b","#d97706","#160e08"]},{"id":"vinyl-listening-room","name":"Vinyl Lounge & Turntable","sub":"Warm Analog Crackle & Rosewood Cabinet","category":"lofi","image":"backgrounds/bg-vinyl-listening-room.svg","accent":"#fb923c","accentGlow":"rgba(251, 146, 60, 0.32)","liquidHue":28,"tint":"rgba(22, 12, 6, 0.68)","orb1":"rgba(251, 146, 60, 0.14)","orb2":"rgba(234, 88, 12, 0.09)","orb3":"rgba(253, 186, 116, 0.05)","palette":["#fb923c","#ea580c","#160c06"]},{"id":"attic-library-study","name":"Old Attic Book Nook","sub":"Leatherbound Tomes & Rain on Skylight","category":"lofi","image":"backgrounds/bg-attic-library-study.svg","accent":"#d97706","accentGlow":"rgba(217, 119, 6, 0.32)","liquidHue":34,"tint":"rgba(20, 14, 8, 0.7)","orb1":"rgba(217, 119, 6, 0.14)","orb2":"rgba(180, 83, 9, 0.09)","orb3":"rgba(251, 191, 36, 0.05)","palette":["#d97706","#b45309","#140e08"]},{"id":"campfire-stargaze","name":"Pine Woods Campfire","sub":"Flickering Embers Under Summer Milky Way","category":"lofi","image":"backgrounds/bg-campfire-stargaze.svg","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.34)","liquidHue":24,"tint":"rgba(24, 10, 4, 0.68)","orb1":"rgba(249, 115, 22, 0.15)","orb2":"rgba(234, 179, 8, 0.1)","orb3":"rgba(239, 68, 68, 0.06)","palette":["#f97316","#ea580c","#180a04"]},{"id":"train-sunset-window","name":"Shinkansen Dusk Horizon","sub":"Evening Commute Through Golden Rice Fields","category":"lofi","image":"backgrounds/bg-train-sunset-window.svg","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.32)","liquidHue":345,"tint":"rgba(24, 8, 14, 0.66)","orb1":"rgba(244, 63, 94, 0.14)","orb2":"rgba(251, 146, 60, 0.09)","orb3":"rgba(245, 158, 11, 0.06)","palette":["#f43f5e","#e11d48","#18080e"]},{"id":"lofi-bedroom-desk","name":"Late Night Coding Desk","sub":"Warm Desk Lamp & Monitor Amber Glow","category":"lofi","image":"backgrounds/bg-lofi-bedroom-desk.svg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.32)","liquidHue":200,"tint":"rgba(8, 14, 24, 0.68)","orb1":"rgba(56, 189, 248, 0.14)","orb2":"rgba(251, 191, 36, 0.09)","orb3":"rgba(129, 140, 248, 0.05)","palette":["#38bdf8","#0284c7","#080e18"]},{"id":"autumn-tea-leaves","name":"Autumn Maple Tearoom","sub":"Crimson Japanese Maples & Steaming Tea","category":"lofi","image":"backgrounds/bg-autumn-tea-leaves.svg","accent":"#ea580c","accentGlow":"rgba(234, 88, 12, 0.34)","liquidHue":22,"tint":"rgba(26, 10, 6, 0.68)","orb1":"rgba(234, 88, 12, 0.15)","orb2":"rgba(220, 38, 38, 0.1)","orb3":"rgba(245, 158, 11, 0.06)","palette":["#ea580c","#c2410c","#1a0a06"]},{"id":"ghibli-summer-cloud","name":"Summer Wind & Cumulus","sub":"Nostalgic Coastal Sky & Grassy Hills","category":"lofi","image":"backgrounds/bg-ghibli-summer-cloud.svg","accent":"#0ea5e9","accentGlow":"rgba(14, 165, 233, 0.32)","liquidHue":198,"tint":"rgba(6, 16, 26, 0.64)","orb1":"rgba(14, 165, 233, 0.14)","orb2":"rgba(34, 197, 94, 0.09)","orb3":"rgba(253, 224, 71, 0.05)","palette":["#0ea5e9","#0284c7","#06101a"]},{"id":"nordic-aurora","name":"Nordic Aurora Borealis","sub":"Boreal Night & Celestial Emerald Veil","category":"aurora","image":"backgrounds/bg-nordic-aurora.svg","liveType":"shader","shaderPreset":"aurora-waves","accent":"#2dd4bf","accentGlow":"rgba(45, 212, 191, 0.32)","liquidHue":172,"tint":"rgba(4, 15, 22, 0.62)","orb1":"rgba(45, 212, 191, 0.14)","orb2":"rgba(168, 85, 247, 0.1)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#2dd4bf","#a855f7","#040f16"]},{"id":"bioluminescent-bay","name":"Bioluminescent Shoreline","sub":"Glowing Cyan Plankton Breaking on Sand","category":"aurora","image":"backgrounds/bg-bioluminescent-bay.svg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.36)","liquidHue":188,"tint":"rgba(4, 14, 24, 0.66)","orb1":"rgba(6, 182, 212, 0.16)","orb2":"rgba(56, 189, 248, 0.11)","orb3":"rgba(168, 85, 247, 0.06)","palette":["#06b6d4","#0891b2","#040e18"]},{"id":"prismatic-refraction","name":"Prismatic Glass Caustic","sub":"Dispersion Spectrum & Radiant Crystal","category":"aurora","image":"backgrounds/bg-prismatic-refraction.svg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.34)","liquidHue":330,"tint":"rgba(16, 8, 20, 0.68)","orb1":"rgba(236, 72, 153, 0.15)","orb2":"rgba(56, 189, 248, 0.11)","orb3":"rgba(234, 179, 8, 0.07)","palette":["#ec4899","#38bdf8","#100814"]},{"id":"velvet-lavender-mesh","name":"Velvet Lavender Fluid","sub":"Smooth Liquid Silk Mesh Gradient","category":"aurora","image":"backgrounds/bg-velvet-lavender-mesh.svg","accent":"#c084fc","accentGlow":"rgba(192, 132, 252, 0.32)","liquidHue":275,"tint":"rgba(14, 6, 24, 0.68)","orb1":"rgba(192, 132, 252, 0.15)","orb2":"rgba(147, 51, 234, 0.1)","orb3":"rgba(244, 114, 182, 0.06)","palette":["#c084fc","#9333ea","#0e0618"]},{"id":"solar-amber-gradient","name":"Solar Amber Flare Mesh","sub":"Golden Ratio Warm Atmospheric Glow","category":"aurora","image":"backgrounds/bg-solar-amber-gradient.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.32)","liquidHue":38,"tint":"rgba(22, 14, 6, 0.66)","orb1":"rgba(245, 158, 11, 0.14)","orb2":"rgba(239, 68, 68, 0.09)","orb3":"rgba(251, 191, 36, 0.05)","palette":["#f59e0b","#ef4444","#160e06"]},{"id":"emerald-abyss","name":"Emerald Deep Abyss","sub":"Deep Oceanic Green & Luminous Shimmer","category":"aurora","image":"backgrounds/bg-emerald-abyss.svg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.34)","liquidHue":160,"tint":"rgba(4, 18, 14, 0.68)","orb1":"rgba(16, 185, 129, 0.15)","orb2":"rgba(6, 182, 212, 0.1)","orb3":"rgba(52, 211, 153, 0.06)","palette":["#10b981","#059669","#04120e"]},{"id":"twilight-spectrum","name":"Twilight Horizon Ray","sub":"Violet-Orange Dusk Boundary Layer","category":"aurora","image":"backgrounds/bg-twilight-spectrum.svg","accent":"#8b5cf6","accentGlow":"rgba(139, 92, 246, 0.34)","liquidHue":265,"tint":"rgba(16, 6, 24, 0.66)","orb1":"rgba(139, 92, 246, 0.15)","orb2":"rgba(244, 63, 94, 0.1)","orb3":"rgba(56, 189, 248, 0.06)","palette":["#8b5cf6","#f43f5e","#100618"]},{"id":"nordic-fjord-dawn","name":"Norwegian Fjord Dawn","sub":"Mist Drifting Over Still Glacial Waters","category":"nature","image":"backgrounds/bg-nordic-fjord-dawn.svg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.32)","liquidHue":198,"tint":"rgba(8, 16, 26, 0.65)","orb1":"rgba(56, 189, 248, 0.16)","orb2":"rgba(147, 197, 253, 0.10)","orb3":"rgba(224, 242, 254, 0.06)","palette":["#38bdf8","#0284c7","#08101a"]},{"id":"yosemite-granite-peak","name":"Yosemite Half Dome","sub":"Dawn Alpenglow on Sheer Granite Cliffs","category":"nature","image":"backgrounds/bg-yosemite-granite-peak.svg","accent":"#fb923c","accentGlow":"rgba(251, 146, 60, 0.34)","liquidHue":28,"tint":"rgba(22, 12, 8, 0.68)","orb1":"rgba(251, 146, 60, 0.18)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(254, 215, 170, 0.08)","palette":["#fb923c","#ea580c","#160c08"]},{"id":"bali-emerald-terraces","name":"Ubud Rice Terraces","sub":"Morning Dew on Cascading Palm Terraces","category":"nature","image":"backgrounds/bg-bali-emerald-terraces.svg","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.32)","liquidHue":142,"tint":"rgba(6, 20, 10, 0.65)","orb1":"rgba(34, 197, 94, 0.16)","orb2":"rgba(74, 222, 128, 0.10)","orb3":"rgba(20, 83, 45, 0.06)","palette":["#22c55e","#16a34a","#06140a"]},{"id":"icelandic-black-sand","name":"Reynisfjara Basalt Beach","sub":"Towering Monoliths Against Arctic Surf","category":"nature","image":"backgrounds/bg-icelandic-black-sand.svg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.30)","liquidHue":215,"tint":"rgba(10, 14, 20, 0.72)","orb1":"rgba(148, 163, 184, 0.16)","orb2":"rgba(203, 213, 225, 0.10)","orb3":"rgba(51, 65, 85, 0.08)","palette":["#94a3b8","#64748b","#0a0e14"]},{"id":"swiss-alps-matterhorn","name":"Matterhorn Twilight","sub":"Powder Snow Under Cold Indigo Twilight","category":"nature","image":"backgrounds/bg-swiss-alps-matterhorn.svg","accent":"#60a5fa","accentGlow":"rgba(96, 165, 250, 0.34)","liquidHue":217,"tint":"rgba(10, 16, 30, 0.68)","orb1":"rgba(96, 165, 250, 0.18)","orb2":"rgba(147, 197, 253, 0.12)","orb3":"rgba(30, 58, 138, 0.08)","palette":["#60a5fa","#2563eb","#0a101e"]},{"id":"sequoia-mist-canopy","name":"Giant Sequoia Grove","sub":"Ancient Redwood Silhouettes in Mountain Fog","category":"nature","image":"backgrounds/bg-sequoia-mist-canopy.svg","accent":"#15803d","accentGlow":"rgba(21, 128, 61, 0.35)","liquidHue":142,"tint":"rgba(6, 18, 10, 0.70)","orb1":"rgba(21, 128, 61, 0.18)","orb2":"rgba(74, 222, 128, 0.10)","orb3":"rgba(187, 247, 208, 0.06)","palette":["#15803d","#166534","#06120a"]},{"id":"santorini-caldera-sunset","name":"Santorini White Cliff","sub":"Aegean Blue Domes & Golden Terraces","category":"nature","image":"backgrounds/bg-santorini-caldera-sunset.svg","accent":"#0284c7","accentGlow":"rgba(2, 132, 199, 0.35)","liquidHue":200,"tint":"rgba(6, 16, 28, 0.66)","orb1":"rgba(2, 132, 199, 0.18)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#0284c7","#0369a1","#06101c"]},{"id":"atacama-desert-starlight","name":"Atacama Salt Flats","sub":"Pristine High-Altitude Desert Starlight","category":"nature","image":"backgrounds/bg-atacama-desert-starlight.svg","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.32)","liquidHue":235,"tint":"rgba(14, 10, 26, 0.68)","orb1":"rgba(129, 140, 248, 0.16)","orb2":"rgba(199, 210, 254, 0.10)","orb3":"rgba(99, 102, 241, 0.06)","palette":["#818cf8","#4f46e5","#0e0a1a"]},{"id":"patagonia-torres-peaks","name":"Torres Del Paine","sub":"Glacial Ice Lakes & Southern Patagonian Wind","category":"nature","image":"backgrounds/bg-patagonia-torres-peaks.svg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.34)","liquidHue":188,"tint":"rgba(6, 18, 24, 0.68)","orb1":"rgba(6, 182, 212, 0.18)","orb2":"rgba(103, 232, 249, 0.10)","orb3":"rgba(8, 145, 178, 0.08)","palette":["#06b6d4","#0891b2","#061218"]},{"id":"fuji-morning-clarity","name":"Mount Fuji Morning","sub":"Crisp Snow Crest Over Lake Kawaguchiko","category":"nature","image":"backgrounds/bg-fuji-morning-clarity.svg","accent":"#e0e7ff","accentGlow":"rgba(224, 231, 255, 0.30)","liquidHue":228,"tint":"rgba(10, 14, 28, 0.65)","orb1":"rgba(224, 231, 255, 0.16)","orb2":"rgba(165, 180, 252, 0.12)","orb3":"rgba(67, 56, 202, 0.06)","palette":["#e0e7ff","#a5b4fc","#0a0e1c"]},{"id":"amalfi-coastal-cliff","name":"Amalfi Lemon Terraces","sub":"Warm Terracotta Heights & Azure Tyrrhenian Sea","category":"nature","image":"backgrounds/bg-amalfi-coastal-cliff.svg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.35)","liquidHue":48,"tint":"rgba(20, 14, 6, 0.66)","orb1":"rgba(234, 179, 8, 0.18)","orb2":"rgba(250, 204, 21, 0.12)","orb3":"rgba(14, 165, 233, 0.08)","palette":["#eab308","#ca8a04","#140e06"]},{"id":"scottish-highlands-glen","name":"Isle of Skye Glens","sub":"Purple Heather Moors & Passing Atlantic Squalls","category":"nature","image":"backgrounds/bg-scottish-highlands-glen.svg","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.32)","liquidHue":271,"tint":"rgba(16, 10, 24, 0.70)","orb1":"rgba(168, 85, 247, 0.16)","orb2":"rgba(192, 132, 252, 0.10)","orb3":"rgba(88, 28, 135, 0.06)","palette":["#a855f7","#7e22ce","#100a18"]},{"id":"havasu-turquoise-falls","name":"Havasupai Canyon","sub":"Luminous Turquoise Minerals in Red Rock Chasm","category":"nature","image":"backgrounds/bg-havasu-turquoise-falls.svg","accent":"#14b8a6","accentGlow":"rgba(20, 184, 166, 0.36)","liquidHue":173,"tint":"rgba(6, 18, 18, 0.68)","orb1":"rgba(20, 184, 166, 0.18)","orb2":"rgba(45, 212, 191, 0.12)","orb3":"rgba(244, 63, 94, 0.06)","palette":["#14b8a6","#0f766e","#061212"]},{"id":"provence-lavender-dusk","name":"Valensole Lavender Fields","sub":"Endless Violet Ridges in Golden French Dusk","category":"nature","image":"backgrounds/bg-provence-lavender-dusk.svg","accent":"#c084fc","accentGlow":"rgba(192, 132, 252, 0.35)","liquidHue":275,"tint":"rgba(18, 10, 28, 0.66)","orb1":"rgba(192, 132, 252, 0.18)","orb2":"rgba(232, 121, 249, 0.12)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#c084fc","#9333ea","#120a1c"]},{"id":"amazon-river-basin","name":"Amazonian Basin Dawn","sub":"Sun Breaking Over Rainforest Canopy River Mist","category":"nature","image":"backgrounds/bg-amazon-river-basin.svg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.34)","liquidHue":158,"tint":"rgba(4, 18, 12, 0.70)","orb1":"rgba(16, 185, 129, 0.18)","orb2":"rgba(52, 211, 153, 0.10)","orb3":"rgba(234, 179, 8, 0.08)","palette":["#10b981","#047857","#04120c"]},{"id":"andromeda-spiral-arms","name":"Andromeda Spiral Core","sub":"Two Trillion Stars in Deep Cosmic Resonance","category":"cosmic","image":"backgrounds/bg-andromeda-spiral-arms.svg","accent":"#c084fc","accentGlow":"rgba(192, 132, 252, 0.38)","liquidHue":275,"tint":"rgba(14, 6, 26, 0.72)","orb1":"rgba(192, 132, 252, 0.20)","orb2":"rgba(96, 165, 250, 0.14)","orb3":"rgba(244, 114, 182, 0.08)","palette":["#c084fc","#7c3aed","#0e061a"]},{"id":"pillars-of-creation","name":"Eagle Nebula Pillars","sub":"Interstellar Gas Monoliths Sculpted by Star Winds","category":"cosmic","image":"backgrounds/bg-pillars-of-creation.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.40)","liquidHue":38,"tint":"rgba(18, 10, 4, 0.74)","orb1":"rgba(245, 158, 11, 0.20)","orb2":"rgba(6, 182, 212, 0.14)","orb3":"rgba(239, 68, 68, 0.10)","palette":["#f59e0b","#d97706","#120a04"]},{"id":"crab-supernova-remnant","name":"Crab Nebula Pulsar","sub":"Expanding Plasma Web from Historical Supernova","category":"cosmic","image":"backgrounds/bg-crab-supernova-remnant.svg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.38)","liquidHue":188,"tint":"rgba(4, 16, 26, 0.72)","orb1":"rgba(6, 182, 212, 0.20)","orb2":"rgba(236, 72, 153, 0.14)","orb3":"rgba(59, 130, 246, 0.08)","palette":["#06b6d4","#0891b2","#04101a"]},{"id":"saturn-ring-crossing","name":"Cassini Ring Plane","sub":"Billions of Water Ice Chunks Casting Plane Shadows","category":"cosmic","image":"backgrounds/bg-saturn-ring-crossing.svg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.36)","liquidHue":48,"tint":"rgba(18, 14, 6, 0.70)","orb1":"rgba(234, 179, 8, 0.18)","orb2":"rgba(253, 224, 71, 0.10)","orb3":"rgba(148, 163, 184, 0.08)","palette":["#eab308","#ca8a04","#120e06"]},{"id":"jupiter-great-red-spot","name":"Jovian Great Red Spot","sub":"Centuries-Old Anticyclonic Storm Vortices","category":"cosmic","image":"backgrounds/bg-jupiter-great-red-spot.svg","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.38)","liquidHue":24,"tint":"rgba(22, 8, 4, 0.72)","orb1":"rgba(249, 115, 22, 0.20)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#f97316","#c2410c","#160804"]},{"id":"orion-molecular-cloud","name":"Orion Molecular Veil","sub":"Deep Infrared Stardust & Protostellar Jets","category":"cosmic","image":"backgrounds/bg-orion-molecular-cloud.svg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.38)","liquidHue":330,"tint":"rgba(20, 6, 18, 0.72)","orb1":"rgba(236, 72, 153, 0.20)","orb2":"rgba(168, 85, 247, 0.14)","orb3":"rgba(244, 114, 182, 0.08)","palette":["#ec4899","#be185d","#140612"]},{"id":"trappist-exoplanet-dawn","name":"TRAPPIST-1e Horizons","sub":"Crimson Dwarf Star Over Liquid Ocean World","category":"cosmic","image":"backgrounds/bg-trappist-exoplanet-dawn.svg","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.38)","liquidHue":0,"tint":"rgba(24, 6, 8, 0.72)","orb1":"rgba(239, 68, 68, 0.18)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(147, 51, 234, 0.08)","palette":["#ef4444","#b91c1c","#180608"]},{"id":"sombrero-galaxy-dust","name":"Sombrero Galaxy Rim","sub":"Perfect Symmetry & High-Inclination Dark Dust Lane","category":"cosmic","image":"backgrounds/bg-sombrero-galaxy-dust.svg","accent":"#cbd5e1","accentGlow":"rgba(203, 213, 225, 0.32)","liquidHue":215,"tint":"rgba(8, 10, 16, 0.75)","orb1":"rgba(203, 213, 225, 0.18)","orb2":"rgba(148, 163, 184, 0.12)","orb3":"rgba(30, 41, 59, 0.08)","palette":["#cbd5e1","#94a3b8","#080a10"]},{"id":"carina-stellar-nursery","name":"Cosmic Cliffs of Carina","sub":"JWST Deep Infrared Sculpted Nebula Peaks","category":"cosmic","image":"backgrounds/bg-carina-stellar-nursery.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.40)","liquidHue":38,"tint":"rgba(20, 10, 4, 0.74)","orb1":"rgba(245, 158, 11, 0.22)","orb2":"rgba(217, 119, 6, 0.14)","orb3":"rgba(244, 63, 94, 0.08)","palette":["#f59e0b","#b45309","#140a04"]},{"id":"laniakea-supercluster","name":"Laniakea Cosmic Web","sub":"Immense Gravitational Watershed of 100,000 Galaxies","category":"cosmic","image":"backgrounds/bg-laniakea-supercluster.svg","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.36)","liquidHue":235,"tint":"rgba(10, 8, 24, 0.74)","orb1":"rgba(129, 140, 248, 0.18)","orb2":"rgba(192, 132, 252, 0.12)","orb3":"rgba(59, 130, 246, 0.08)","palette":["#818cf8","#6366f1","#0a0818"]},{"id":"europa-subsurface-ocean","name":"Europa Ice Fractures","sub":"Brine Vapor Geysers Breaking Global Ice Crust","category":"cosmic","image":"backgrounds/bg-europa-subsurface-ocean.svg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.36)","liquidHue":198,"tint":"rgba(6, 16, 28, 0.70)","orb1":"rgba(56, 189, 248, 0.18)","orb2":"rgba(125, 211, 252, 0.12)","orb3":"rgba(14, 116, 144, 0.08)","palette":["#38bdf8","#0284c7","#06101c"]},{"id":"titan-methane-lakes","name":"Kraken Mare on Titan","sub":"Liquid Hydrocarbon Mirrors Under Dense Nitrogen Haze","category":"cosmic","image":"backgrounds/bg-titan-methane-lakes.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.38)","liquidHue":38,"tint":"rgba(22, 12, 4, 0.72)","orb1":"rgba(245, 158, 11, 0.18)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(180, 83, 9, 0.08)","palette":["#f59e0b","#d97706","#160c04"]},{"id":"sagittarius-a-core","name":"Sagittarius A* Gravity Well","sub":"Center of the Milky Way Orbiting 4 Million Solar Masses","category":"cosmic","image":"backgrounds/bg-sagittarius-a-core.svg","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.40)","liquidHue":271,"tint":"rgba(12, 4, 22, 0.76)","orb1":"rgba(168, 85, 247, 0.22)","orb2":"rgba(236, 72, 153, 0.14)","orb3":"rgba(67, 56, 202, 0.08)","palette":["#a855f7","#6b21a8","#0c0416"]},{"id":"horsehead-dark-nebula","name":"Horsehead Nebula Shadow","sub":"Cold Molecular Dust Silhouette Against Ionized Hydrogen","category":"cosmic","image":"backgrounds/bg-horsehead-dark-nebula.svg","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.38)","liquidHue":348,"tint":"rgba(22, 4, 10, 0.74)","orb1":"rgba(244, 63, 94, 0.20)","orb2":"rgba(251, 113, 133, 0.12)","orb3":"rgba(159, 18, 57, 0.08)","palette":["#f43f5e","#be123c","#16040a"]},{"id":"voyager-interstellar-void","name":"Voyager Heliopause","sub":"Crossing the Solar Wind Boundary into Pure Starlight","category":"cosmic","image":"backgrounds/bg-voyager-interstellar-void.svg","accent":"#3b82f6","accentGlow":"rgba(59, 130, 246, 0.35)","liquidHue":217,"tint":"rgba(4, 8, 20, 0.78)","orb1":"rgba(59, 130, 246, 0.18)","orb2":"rgba(96, 165, 250, 0.10)","orb3":"rgba(29, 78, 216, 0.06)","palette":["#3b82f6","#1d4ed8","#040814"]},{"id":"shinjuku-neon-alley","name":"Shinjuku Alley 2099","sub":"Rain Reflections on Sizzling Neon Ramen Billboards","category":"cyberpunk","image":"backgrounds/bg-shinjuku-neon-alley.svg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.40)","liquidHue":188,"tint":"rgba(4, 14, 24, 0.72)","orb1":"rgba(6, 182, 212, 0.20)","orb2":"rgba(244, 63, 94, 0.14)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#06b6d4","#f43f5e","#040e18"]},{"id":"blade-runner-los-angeles","name":"Tyrell Spire Skyway","sub":"Volumetric Smog & Heavy Industrial Chimney Flashes","category":"cyberpunk","image":"backgrounds/bg-blade-runner-los-angeles.svg","accent":"#f97316","accentGlow":"rgba(249, 115, 22, 0.40)","liquidHue":24,"tint":"rgba(18, 8, 4, 0.74)","orb1":"rgba(249, 115, 22, 0.20)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(245, 158, 11, 0.08)","palette":["#f97316","#c2410c","#120804"]},{"id":"hong-kong-vertical-slum","name":"Kowloon Quantum High-Rise","sub":"Interlocking Multi-Level Optical Cables & Damp Balconies","category":"cyberpunk","image":"backgrounds/bg-hong-kong-vertical-slum.svg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.38)","liquidHue":155,"tint":"rgba(4, 18, 12, 0.74)","orb1":"rgba(16, 185, 129, 0.20)","orb2":"rgba(6, 182, 212, 0.12)","orb3":"rgba(245, 158, 11, 0.08)","palette":["#10b981","#059669","#04120c"]},{"id":"neural-net-hyperstream","name":"Neural Interface Grid","sub":"Cerebral Synaptic Currents Across Wetware Cores","category":"cyberpunk","image":"backgrounds/bg-neural-net-hyperstream.svg","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.40)","liquidHue":271,"tint":"rgba(12, 6, 22, 0.74)","orb1":"rgba(168, 85, 247, 0.22)","orb2":"rgba(59, 130, 246, 0.14)","orb3":"rgba(236, 72, 153, 0.08)","palette":["#a855f7","#7e22ce","#0c0616"]},{"id":"night-city-afterlife","name":"Afterlife Sub-Basement","sub":"Low Frequency Sub-Bass & Holographic Highballs","category":"cyberpunk","image":"backgrounds/bg-night-city-afterlife.svg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.40)","liquidHue":330,"tint":"rgba(18, 4, 16, 0.74)","orb1":"rgba(236, 72, 153, 0.22)","orb2":"rgba(6, 182, 212, 0.14)","orb3":"rgba(168, 85, 247, 0.08)","palette":["#ec4899","#db2777","#120410"]},{"id":"akira-neo-tokyo-highway","name":"Neo-Tokyo Overpass","sub":"Laser Tail-Light Streaks Over Express Monorail","category":"cyberpunk","image":"backgrounds/bg-akira-neo-tokyo-highway.svg","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.40)","liquidHue":0,"tint":"rgba(20, 4, 6, 0.74)","orb1":"rgba(239, 68, 68, 0.22)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(147, 51, 234, 0.08)","palette":["#ef4444","#dc2626","#140406"]},{"id":"sub-orbital-spaceway","name":"Space Elevator Base","sub":"Atmospheric Shield Ionization & Hypervelocity Climbers","category":"cyberpunk","image":"backgrounds/bg-sub-orbital-spaceway.svg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.38)","liquidHue":198,"tint":"rgba(6, 14, 26, 0.72)","orb1":"rgba(56, 189, 248, 0.20)","orb2":"rgba(99, 102, 241, 0.12)","orb3":"rgba(224, 242, 254, 0.08)","palette":["#38bdf8","#0284c7","#060e1a"]},{"id":"crypto-vault-mainframe","name":"Quantum Mainframe","sub":"Sub-Zero Liquid Nitrogen Vapor Over Superconducting Cubits","category":"cyberpunk","image":"backgrounds/bg-crypto-vault-mainframe.svg","accent":"#00f0ff","accentGlow":"rgba(0, 240, 255, 0.42)","liquidHue":184,"tint":"rgba(2, 14, 22, 0.74)","orb1":"rgba(0, 240, 255, 0.22)","orb2":"rgba(16, 185, 129, 0.12)","orb3":"rgba(59, 130, 246, 0.08)","palette":["#00f0ff","#0891b2","#020e16"]},{"id":"cyber-monolith-megacorp","name":"Megacorp Glass Atrium","sub":"Polished Obsidian Slabs & High-Resolution Floor Projections","category":"cyberpunk","image":"backgrounds/bg-cyber-monolith-megacorp.svg","accent":"#e2e8f0","accentGlow":"rgba(226, 232, 240, 0.32)","liquidHue":215,"tint":"rgba(10, 12, 18, 0.76)","orb1":"rgba(226, 232, 240, 0.18)","orb2":"rgba(148, 163, 184, 0.10)","orb3":"rgba(2, 132, 199, 0.06)","palette":["#e2e8f0","#94a3b8","#0a0c12"]},{"id":"underground-cyber-bazaar","name":"Solder & Neon Bazaar","sub":"Black Market Cyberware Scrappers Under Heavy Rainfall","category":"cyberpunk","image":"backgrounds/bg-underground-cyber-bazaar.svg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.38)","liquidHue":48,"tint":"rgba(18, 12, 4, 0.74)","orb1":"rgba(234, 179, 8, 0.20)","orb2":"rgba(239, 68, 68, 0.12)","orb3":"rgba(16, 185, 129, 0.08)","palette":["#eab308","#ca8a04","#120c04"]},{"id":"synthwave-retrowave-grid","name":"Outrun Sunset Grid","sub":"Chrome Testarossa Heading into Vector Grid Horizon","category":"cyberpunk","image":"backgrounds/bg-synthwave-retrowave-grid.svg","accent":"#d946ef","accentGlow":"rgba(217, 70, 239, 0.40)","liquidHue":292,"tint":"rgba(18, 4, 20, 0.72)","orb1":"rgba(217, 70, 239, 0.22)","orb2":"rgba(249, 115, 22, 0.14)","orb3":"rgba(6, 182, 212, 0.08)","palette":["#d946ef","#c026d3","#120414"]},{"id":"orbital-drop-pod-bay","name":"Drop-Pod Hangar 4","sub":"Decompression Sirens & Caution Orange Hydraulic Glow","category":"cyberpunk","image":"backgrounds/bg-orbital-drop-pod-bay.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.40)","liquidHue":38,"tint":"rgba(18, 10, 4, 0.74)","orb1":"rgba(245, 158, 11, 0.22)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(71, 85, 105, 0.08)","palette":["#f59e0b","#d97706","#120a04"]},{"id":"augmented-rain-street","name":"Chongqing Skywalk","sub":"Multi-Tiered Bridge System Shrouded in Neon Drizzle","category":"cyberpunk","image":"backgrounds/bg-augmented-rain-street.svg","accent":"#0ea5e9","accentGlow":"rgba(14, 165, 233, 0.38)","liquidHue":198,"tint":"rgba(4, 14, 26, 0.74)","orb1":"rgba(14, 165, 233, 0.20)","orb2":"rgba(168, 85, 247, 0.12)","orb3":"rgba(244, 63, 94, 0.08)","palette":["#0ea5e9","#0284c7","#040e1a"]},{"id":"hacker-black-hat-terminal","name":"Off-Grid Terminal","sub":"High-Contrast Green Phosphor CRT Display Glow","category":"cyberpunk","image":"backgrounds/bg-hacker-black-hat-terminal.svg","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.42)","liquidHue":142,"tint":"rgba(2, 16, 6, 0.76)","orb1":"rgba(34, 197, 94, 0.22)","orb2":"rgba(74, 222, 128, 0.14)","orb3":"rgba(20, 83, 45, 0.08)","palette":["#22c55e","#16a34a","#021006"]},{"id":"shibuya-midnight-cafe","name":"Shibuya Vinyl Cafe","sub":"Espresso Steam Rising in Warm Amber Tungsten Light","category":"lofi","image":"backgrounds/bg-shibuya-midnight-cafe.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.35)","liquidHue":38,"tint":"rgba(20, 12, 4, 0.68)","orb1":"rgba(245, 158, 11, 0.18)","orb2":"rgba(217, 119, 6, 0.12)","orb3":"rgba(254, 240, 138, 0.06)","palette":["#f59e0b","#d97706","#140c04"]},{"id":"rainy-study-library","name":"Old University Library","sub":"Dark Oak Desks & Rain Striking Leaded Glass Arches","category":"lofi","image":"backgrounds/bg-rainy-study-library.svg","accent":"#b45309","accentGlow":"rgba(180, 83, 9, 0.36)","liquidHue":30,"tint":"rgba(18, 10, 6, 0.70)","orb1":"rgba(180, 83, 9, 0.18)","orb2":"rgba(245, 158, 11, 0.12)","orb3":"rgba(100, 116, 139, 0.08)","palette":["#b45309","#92400e","#120a06"]},{"id":"paris-attic-skylight","name":"Montmartre Loft","sub":"Zinc Rooftops in Gentle Parisian Overcast Drizzle","category":"lofi","image":"backgrounds/bg-paris-attic-skylight.svg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.32)","liquidHue":215,"tint":"rgba(12, 14, 20, 0.66)","orb1":"rgba(148, 163, 184, 0.16)","orb2":"rgba(203, 213, 225, 0.10)","orb3":"rgba(51, 65, 85, 0.06)","palette":["#94a3b8","#64748b","#0c0e14"]},{"id":"kyoto-tea-ceremony","name":"Uji Matcha Chamber","sub":"Cedar Fragrance, Tatami Mats & Garden Moss","category":"lofi","image":"backgrounds/bg-kyoto-tea-ceremony.svg","accent":"#65a30d","accentGlow":"rgba(101, 163, 13, 0.34)","liquidHue":84,"tint":"rgba(10, 18, 6, 0.68)","orb1":"rgba(101, 163, 13, 0.18)","orb2":"rgba(132, 204, 22, 0.12)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#65a30d","#4d7c0f","#0a1206"]},{"id":"vinyl-record-listening","name":"Late Night Jazz Bar","sub":"Warm Vacuum Tube Amps & Brushed Brass Bells","category":"lofi","image":"backgrounds/bg-vinyl-record-listening.svg","accent":"#d97706","accentGlow":"rgba(217, 119, 6, 0.36)","liquidHue":35,"tint":"rgba(20, 10, 4, 0.70)","orb1":"rgba(217, 119, 6, 0.18)","orb2":"rgba(245, 158, 11, 0.12)","orb3":"rgba(239, 68, 68, 0.08)","palette":["#d97706","#b45309","#140a04"]},{"id":"cozy-plant-conservatory","name":"Botanist Sunroom","sub":"Clay Pots, Monstera Leaves & Soft Rainy Afternoon","category":"lofi","image":"backgrounds/bg-cozy-plant-conservatory.svg","accent":"#16a34a","accentGlow":"rgba(22, 163, 74, 0.34)","liquidHue":142,"tint":"rgba(8, 20, 10, 0.66)","orb1":"rgba(22, 163, 74, 0.18)","orb2":"rgba(74, 222, 128, 0.12)","orb3":"rgba(234, 179, 8, 0.06)","palette":["#16a34a","#15803d","#08140a"]},{"id":"rainy-bus-commute","name":"Midnight City Bus","sub":"Blurred Sodium Lights Smearing Across Condensation","category":"lofi","image":"backgrounds/bg-rainy-bus-commute.svg","accent":"#6366f1","accentGlow":"rgba(99, 102, 241, 0.35)","liquidHue":239,"tint":"rgba(8, 10, 26, 0.70)","orb1":"rgba(99, 102, 241, 0.18)","orb2":"rgba(168, 85, 247, 0.12)","orb3":"rgba(236, 72, 153, 0.08)","palette":["#6366f1","#4f46e5","#080a1a"]},{"id":"cabin-woodstove-hearth","name":"Vermont Log Cabin","sub":"Crackling Birch Embers & Heavy Wool Blankets","category":"lofi","image":"backgrounds/bg-cabin-woodstove-hearth.svg","accent":"#ea580c","accentGlow":"rgba(234, 88, 12, 0.38)","liquidHue":20,"tint":"rgba(22, 8, 4, 0.70)","orb1":"rgba(234, 88, 12, 0.20)","orb2":"rgba(249, 115, 22, 0.12)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#ea580c","#c2410c","#160804"]},{"id":"midnight-lofi-beats","name":"Cozy Lofi Bedroom","sub":"Fairy Lights & Analog Cassette Tape Warble","category":"lofi","image":"backgrounds/bg-midnight-lofi-beats.svg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.35)","liquidHue":330,"tint":"rgba(18, 6, 20, 0.68)","orb1":"rgba(236, 72, 153, 0.18)","orb2":"rgba(168, 85, 247, 0.14)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#ec4899","#db2777","#120614"]},{"id":"tokyo-convenience-store","name":"Midnight Konbini","sub":"Calm Clean Fluorescent Oasis on Empty Rain Street","category":"lofi","image":"backgrounds/bg-tokyo-convenience-store.svg","accent":"#0284c7","accentGlow":"rgba(2, 132, 199, 0.34)","liquidHue":200,"tint":"rgba(6, 16, 26, 0.66)","orb1":"rgba(2, 132, 199, 0.18)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(255, 255, 255, 0.08)","palette":["#0284c7","#0369a1","#06101a"]},{"id":"used-bookstore-alley","name":"Edinburgh Book Nook","sub":"Weathered Leather Bindings & Afternoon Bergamot Tea","category":"lofi","image":"backgrounds/bg-used-bookstore-alley.svg","accent":"#78350f","accentGlow":"rgba(120, 53, 15, 0.38)","liquidHue":28,"tint":"rgba(16, 8, 4, 0.72)","orb1":"rgba(120, 53, 15, 0.18)","orb2":"rgba(180, 83, 9, 0.12)","orb3":"rgba(245, 158, 11, 0.08)","palette":["#78350f","#451a03","#100804"]},{"id":"autumn-coffee-walk","name":"Central Park Autumn","sub":"Warm Coffee Steam & Amber Leaves Crunching Underfoot","category":"lofi","image":"backgrounds/bg-autumn-coffee-walk.svg","accent":"#c2410c","accentGlow":"rgba(194, 65, 12, 0.36)","liquidHue":18,"tint":"rgba(20, 10, 4, 0.68)","orb1":"rgba(194, 65, 12, 0.18)","orb2":"rgba(234, 88, 12, 0.12)","orb3":"rgba(251, 146, 60, 0.08)","palette":["#c2410c","#9a3412","#140a04"]},{"id":"cozy-sleeper-train","name":"Midnight Sleeper Car","sub":"Gentle Rail Clatter & Distant Moonlit Prairie","category":"lofi","image":"backgrounds/bg-cozy-sleeper-train.svg","accent":"#475569","accentGlow":"rgba(71, 85, 105, 0.32)","liquidHue":215,"tint":"rgba(8, 10, 16, 0.72)","orb1":"rgba(71, 85, 105, 0.16)","orb2":"rgba(148, 163, 184, 0.10)","orb3":"rgba(30, 41, 59, 0.08)","palette":["#475569","#334155","#080a10"]},{"id":"seaside-lighthouse-cottage","name":"Atlantic Lightkeeper","sub":"Salty Wind, Ocean Foghorn & Cozy Hearth Warmth","category":"lofi","image":"backgrounds/bg-seaside-lighthouse-cottage.svg","accent":"#0284c7","accentGlow":"rgba(2, 132, 199, 0.35)","liquidHue":200,"tint":"rgba(6, 14, 24, 0.70)","orb1":"rgba(2, 132, 199, 0.18)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(251, 191, 36, 0.06)","palette":["#0284c7","#0369a1","#060e18"]},{"id":"bauhaus-concrete-form","name":"Dessau Bauhaus Atelier","sub":"Architectural Clean Planes & Primary Crimson Accent","category":"minimal","image":"backgrounds/bg-bauhaus-concrete-form.svg","accent":"#e11d48","accentGlow":"rgba(225, 29, 72, 0.35)","liquidHue":345,"tint":"rgba(16, 16, 18, 0.74)","orb1":"rgba(225, 29, 72, 0.18)","orb2":"rgba(244, 63, 94, 0.10)","orb3":"rgba(241, 245, 249, 0.06)","palette":["#e11d48","#be123c","#101012"]},{"id":"swiss-international-grid","name":"Zurich Typographic Studio","sub":"Strict Baseline Rhythm & Uncompromising Neutral Clarity","category":"minimal","image":"backgrounds/bg-swiss-international-grid.svg","accent":"#18181b","accentGlow":"rgba(255, 255, 255, 0.20)","liquidHue":240,"tint":"rgba(8, 8, 10, 0.82)","orb1":"rgba(255, 255, 255, 0.12)","orb2":"rgba(161, 161, 170, 0.08)","orb3":"rgba(39, 39, 42, 0.06)","palette":["#18181b","#ffffff","#08080a"]},{"id":"monochrome-obsidian-slab","name":"Brutalist Obsidian Gallery","sub":"Matte Black Natural Stone & Razor Geometric Shadows","category":"minimal","image":"backgrounds/bg-monochrome-obsidian-slab.svg","accent":"#71717a","accentGlow":"rgba(113, 113, 122, 0.28)","liquidHue":240,"tint":"rgba(6, 6, 8, 0.84)","orb1":"rgba(113, 113, 122, 0.14)","orb2":"rgba(161, 161, 170, 0.08)","orb3":"rgba(39, 39, 42, 0.06)","palette":["#71717a","#52525b","#060608"]},{"id":"scandinavian-birch-studio","name":"Stockholm Daylight Studio","sub":"Blonde Ash Grain, Clean Linen & Muted Nordic Light","category":"minimal","image":"backgrounds/bg-scandinavian-birch-studio.svg","accent":"#e2e8f0","accentGlow":"rgba(226, 232, 240, 0.30)","liquidHue":215,"tint":"rgba(14, 16, 20, 0.66)","orb1":"rgba(226, 232, 240, 0.16)","orb2":"rgba(248, 250, 252, 0.10)","orb3":"rgba(148, 163, 184, 0.06)","palette":["#e2e8f0","#cbd5e1","#0e1014"]},{"id":"japanese-wabi-sabi","name":"Raked Stone Garden","sub":"Dry Landscape Sand Waves & Single Weathered Boulder","category":"minimal","image":"backgrounds/bg-japanese-wabi-sabi.svg","accent":"#a1a1aa","accentGlow":"rgba(161, 161, 170, 0.28)","liquidHue":240,"tint":"rgba(12, 12, 14, 0.76)","orb1":"rgba(161, 161, 170, 0.16)","orb2":"rgba(212, 212, 216, 0.10)","orb3":"rgba(63, 63, 70, 0.06)","palette":["#a1a1aa","#71717a","#0c0c0e"]},{"id":"frosted-smoked-glass","name":"Smoked Glass Partition","sub":"Deep Frosted Acrylic Refractions in Minimalist Loft","category":"minimal","image":"backgrounds/bg-frosted-smoked-glass.svg","accent":"#64748b","accentGlow":"rgba(100, 116, 139, 0.30)","liquidHue":215,"tint":"rgba(8, 10, 14, 0.78)","orb1":"rgba(100, 116, 139, 0.16)","orb2":"rgba(148, 163, 184, 0.10)","orb3":"rgba(30, 41, 59, 0.06)","palette":["#64748b","#475569","#080a0e"]},{"id":"brutalist-tate-modern","name":"Turbine Hall Concrete","sub":"Monumental Industrial Void & Pale Skylight Grey","category":"minimal","image":"backgrounds/bg-brutalist-tate-modern.svg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.30)","liquidHue":215,"tint":"rgba(10, 12, 16, 0.76)","orb1":"rgba(148, 163, 184, 0.16)","orb2":"rgba(203, 213, 225, 0.10)","orb3":"rgba(51, 65, 85, 0.06)","palette":["#94a3b8","#64748b","#0a0c10"]},{"id":"alabaster-marble-atrium","name":"Carrara Marble Basin","sub":"Subtle Grey Veining in Polished Italian Alabaster","category":"minimal","image":"backgrounds/bg-alabaster-marble-atrium.svg","accent":"#cbd5e1","accentGlow":"rgba(203, 213, 225, 0.32)","liquidHue":215,"tint":"rgba(12, 14, 18, 0.72)","orb1":"rgba(203, 213, 225, 0.16)","orb2":"rgba(241, 245, 249, 0.10)","orb3":"rgba(100, 116, 139, 0.06)","palette":["#cbd5e1","#94a3b8","#0c0e12"]},{"id":"monochrome-hyper-matte","name":"Zero-Reflection Matte","sub":"Deep Light Absorption & Pure Laser White Typography","category":"minimal","image":"backgrounds/bg-monochrome-hyper-matte.svg","accent":"#ffffff","accentGlow":"rgba(255, 255, 255, 0.25)","liquidHue":0,"tint":"rgba(4, 4, 6, 0.88)","orb1":"rgba(255, 255, 255, 0.12)","orb2":"rgba(203, 213, 225, 0.08)","orb3":"rgba(30, 41, 59, 0.04)","palette":["#ffffff","#cbd5e1","#040406"]},{"id":"architectural-titanium-mesh","name":"Curved Titanium Shell","sub":"Anodized Aerospace Titanium with Micro Specular Shimmer","category":"minimal","image":"backgrounds/bg-architectural-titanium-mesh.svg","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.32)","liquidHue":215,"tint":"rgba(10, 12, 16, 0.76)","orb1":"rgba(148, 163, 184, 0.16)","orb2":"rgba(226, 232, 240, 0.10)","orb3":"rgba(51, 65, 85, 0.06)","palette":["#94a3b8","#64748b","#0a0c10"]},{"id":"zen-clay-pottery","name":"Stoneware Ceramic Studio","sub":"Tactile Unfinished Mineral Earth & Natural Wool","category":"minimal","image":"backgrounds/bg-zen-clay-pottery.svg","accent":"#78716c","accentGlow":"rgba(120, 113, 108, 0.30)","liquidHue":24,"tint":"rgba(14, 12, 10, 0.74)","orb1":"rgba(120, 113, 108, 0.16)","orb2":"rgba(168, 162, 158, 0.10)","orb3":"rgba(68, 64, 60, 0.06)","palette":["#78716c","#57534e","#0e0c0a"]},{"id":"silicon-monolith-clean","name":"Silicon Substrate","sub":"Microscopic Monocrystalline Wafer & Gold Bus Lines","category":"minimal","image":"backgrounds/bg-silicon-monolith-clean.svg","accent":"#eab308","accentGlow":"rgba(234, 179, 8, 0.34)","liquidHue":48,"tint":"rgba(8, 8, 10, 0.80)","orb1":"rgba(234, 179, 8, 0.18)","orb2":"rgba(250, 204, 21, 0.10)","orb3":"rgba(39, 39, 42, 0.06)","palette":["#eab308","#ca8a04","#08080a"]},{"id":"berlin-gallery-concrete","name":"Kreuzberg Gallery","sub":"Raw Poured Concrete Walls & High Clerestory Skylights","category":"minimal","image":"backgrounds/bg-berlin-gallery-concrete.svg","accent":"#71717a","accentGlow":"rgba(113, 113, 122, 0.30)","liquidHue":240,"tint":"rgba(10, 10, 12, 0.78)","orb1":"rgba(113, 113, 122, 0.16)","orb2":"rgba(161, 161, 170, 0.10)","orb3":"rgba(39, 39, 42, 0.06)","palette":["#71717a","#52525b","#0a0a0c"]},{"id":"minimalist-tea-pavilion","name":"Roji Sugi Pavilion","sub":"Slatted Smoked Cedar Louvers & Diffused Rice Paper","category":"minimal","image":"backgrounds/bg-minimalist-tea-pavilion.svg","accent":"#a8a29e","accentGlow":"rgba(168, 162, 158, 0.30)","liquidHue":30,"tint":"rgba(14, 12, 10, 0.72)","orb1":"rgba(168, 162, 158, 0.16)","orb2":"rgba(214, 211, 209, 0.10)","orb3":"rgba(87, 83, 78, 0.06)","palette":["#a8a29e","#78716c","#0e0c0a"]},{"id":"boreal-emerald-curtain","name":"Tromsø Aurora Ribbon","sub":"Deep Polar Oxygen Green Cascading Over Mountain Peaks","category":"aurora","image":"backgrounds/bg-boreal-emerald-curtain.svg","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.38)","liquidHue":155,"tint":"rgba(4, 16, 14, 0.68)","orb1":"rgba(16, 185, 129, 0.20)","orb2":"rgba(52, 211, 153, 0.12)","orb3":"rgba(6, 182, 212, 0.08)","palette":["#10b981","#059669","#04100e"]},{"id":"violet-polar-magnetic","name":"Lapland Violet Corona","sub":"Rare Nitrogen Ionization in Uppermost Arctic Atmosphere","category":"aurora","image":"backgrounds/bg-violet-polar-magnetic.svg","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.40)","liquidHue":271,"tint":"rgba(12, 6, 24, 0.70)","orb1":"rgba(168, 85, 247, 0.20)","orb2":"rgba(192, 132, 252, 0.12)","orb3":"rgba(16, 185, 129, 0.08)","palette":["#a855f7","#7e22ce","#0c0618"]},{"id":"crimson-geomagnetic-storm","name":"Solar Storm G5 Crimson","sub":"High-Altitude Atomic Oxygen Blood Red Aurora Arc","category":"aurora","image":"backgrounds/bg-crimson-geomagnetic-storm.svg","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.40)","liquidHue":0,"tint":"rgba(22, 6, 8, 0.72)","orb1":"rgba(239, 68, 68, 0.22)","orb2":"rgba(244, 63, 94, 0.14)","orb3":"rgba(168, 85, 247, 0.08)","palette":["#ef4444","#dc2626","#160608"]},{"id":"svalbard-polar-night","name":"Longyearbyen Blue Hour","sub":"Eerie Deep Polar Twilight on Glacial Ice Fields","category":"aurora","image":"backgrounds/bg-svalbard-polar-night.svg","accent":"#0284c7","accentGlow":"rgba(2, 132, 199, 0.36)","liquidHue":200,"tint":"rgba(4, 14, 26, 0.70)","orb1":"rgba(2, 132, 199, 0.18)","orb2":"rgba(56, 189, 248, 0.12)","orb3":"rgba(30, 58, 138, 0.08)","palette":["#0284c7","#0369a1","#040e1a"]},{"id":"arctic-circle-mirage","name":"Fata Morgana Horizon","sub":"Thermal Inversion Mirrored Ice Castles in Golden Air","category":"aurora","image":"backgrounds/bg-arctic-circle-mirage.svg","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.36)","liquidHue":38,"tint":"rgba(16, 10, 4, 0.68)","orb1":"rgba(245, 158, 11, 0.18)","orb2":"rgba(251, 191, 36, 0.12)","orb3":"rgba(56, 189, 248, 0.06)","palette":["#f59e0b","#d97706","#100a04"]},{"id":"solar-wind-heliosphere","name":"Solar Wind Shockfront","sub":"Magnetopause Plasma Compression Glowing Cyan","category":"aurora","image":"backgrounds/bg-solar-wind-heliosphere.svg","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.38)","liquidHue":188,"tint":"rgba(4, 16, 24, 0.70)","orb1":"rgba(6, 182, 212, 0.20)","orb2":"rgba(103, 232, 249, 0.12)","orb3":"rgba(16, 185, 129, 0.08)","palette":["#06b6d4","#0891b2","#041018"]},{"id":"fairbanks-sub-arctic","name":"Chena Hot Springs","sub":"Mineral Steam Clouds Rising Into -30° Emerald Sky","category":"aurora","image":"backgrounds/bg-fairbanks-sub-arctic.svg","accent":"#22c55e","accentGlow":"rgba(34, 197, 94, 0.36)","liquidHue":142,"tint":"rgba(4, 18, 10, 0.68)","orb1":"rgba(34, 197, 94, 0.18)","orb2":"rgba(74, 222, 128, 0.12)","orb3":"rgba(20, 83, 45, 0.06)","palette":["#22c55e","#16a34a","#04120a"]},{"id":"antarctic-mcmurdo-twilight","name":"Ross Ice Shelf Night","sub":"Southern Lights Aurora Australis Over Infinite White Plain","category":"aurora","image":"backgrounds/bg-antarctic-mcmurdo-twilight.svg","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.36)","liquidHue":198,"tint":"rgba(4, 14, 28, 0.72)","orb1":"rgba(56, 189, 248, 0.18)","orb2":"rgba(125, 211, 252, 0.12)","orb3":"rgba(168, 85, 247, 0.08)","palette":["#38bdf8","#0284c7","#040e1c"]},{"id":"spectral-polar-prism","name":"Diamond Dust Prism","sub":"Suspended Ice Crystals Refracting Hexagonal Halo Arcs","category":"aurora","image":"backgrounds/bg-spectral-polar-prism.svg","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.38)","liquidHue":330,"tint":"rgba(18, 6, 20, 0.68)","orb1":"rgba(236, 72, 153, 0.20)","orb2":"rgba(168, 85, 247, 0.14)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#ec4899","#db2777","#120614"]},{"id":"iceland-glacier-lagoon","name":"Jökulsárlón Iceberg Mirror","sub":"Mirror Lagoon Reflecting Celestial Emerald Veil","category":"aurora","image":"backgrounds/bg-iceland-glacier-lagoon.svg","accent":"#14b8a6","accentGlow":"rgba(20, 184, 166, 0.36)","liquidHue":173,"tint":"rgba(4, 18, 18, 0.70)","orb1":"rgba(20, 184, 166, 0.18)","orb2":"rgba(45, 212, 191, 0.12)","orb3":"rgba(13, 148, 136, 0.08)","palette":["#14b8a6","#0f766e","#041212"]},{"id":"norwegian-sea-reflection","name":"Lofoten Midnight Aurora","sub":"Swell Waves Reflecting Moving Green Veils Under Peaks","category":"aurora","image":"backgrounds/bg-norwegian-sea-reflection.svg","accent":"#00e5ff","accentGlow":"rgba(0, 229, 255, 0.40)","liquidHue":186,"tint":"rgba(2, 16, 24, 0.70)","orb1":"rgba(0, 229, 255, 0.22)","orb2":"rgba(16, 185, 129, 0.12)","orb3":"rgba(59, 130, 246, 0.08)","palette":["#00e5ff","#0284c7","#021018"]},{"id":"magnetic-zenith-corona","name":"Geomagnetic Zenith Crown","sub":"Radial Rays Converging Directly Overhead Into Corona","category":"aurora","image":"backgrounds/bg-magnetic-zenith-corona.svg","accent":"#818cf8","accentGlow":"rgba(129, 140, 248, 0.38)","liquidHue":235,"tint":"rgba(10, 8, 26, 0.70)","orb1":"rgba(129, 140, 248, 0.20)","orb2":"rgba(192, 132, 252, 0.14)","orb3":"rgba(56, 189, 248, 0.08)","palette":["#818cf8","#6366f1","#0a081a"]},{"id":"greenland-inland-ice","name":"Summit Camp Midnight","sub":"Infinite 3,000m Ice Cap Under Violet Starlight","category":"aurora","image":"backgrounds/bg-greenland-inland-ice.svg","accent":"#93c5fd","accentGlow":"rgba(147, 197, 253, 0.34)","liquidHue":213,"tint":"rgba(6, 14, 26, 0.72)","orb1":"rgba(147, 197, 253, 0.18)","orb2":"rgba(168, 85, 247, 0.12)","orb3":"rgba(30, 58, 138, 0.08)","palette":["#93c5fd","#60a5fa","#060e1a"]},{"id":"visionos-spatial-sanctuary","name":"VisionOS Spatial Glass","sub":"Refractive Anisotropic Prisms & Ambient Dark Matter","category":"minimal","liveType":"shader","shaderPreset":"minimal-prism","particlePreset":"stardust","accent":"#38bdf8","accentGlow":"rgba(56, 189, 248, 0.42)","liquidHue":198,"tint":"rgba(8, 12, 22, 0.72)","orb1":"rgba(56, 189, 248, 0.22)","orb2":"rgba(147, 197, 253, 0.16)","orb3":"rgba(192, 132, 252, 0.10)","palette":["#38bdf8","#818cf8","#080c16"],"image":"backgrounds/bg-visionos-spatial-sanctuary.svg"},{"id":"supernova-stellar-remnant","name":"Crab Nebula Pulsar","sub":"High-Energy Relativistic Shockwaves & Magnetar Flare","category":"cosmic","liveType":"shader","shaderPreset":"black-hole","particlePreset":"stardust","accent":"#ec4899","accentGlow":"rgba(236, 72, 153, 0.42)","liquidHue":330,"tint":"rgba(14, 4, 18, 0.72)","orb1":"rgba(236, 72, 153, 0.22)","orb2":"rgba(168, 85, 247, 0.16)","orb3":"rgba(56, 189, 248, 0.10)","palette":["#ec4899","#a855f7","#0e0412"],"image":"backgrounds/bg-supernova-stellar-remnant.svg"},{"id":"cyber-synth-grid","name":"Synthwave Horizon 2099","sub":"Wireframe Vector Sunset & Retro Laser Highway","category":"cyberpunk","liveType":"shader","shaderPreset":"matrix-code","particlePreset":"stardust","accent":"#f43f5e","accentGlow":"rgba(244, 63, 94, 0.42)","liquidHue":345,"tint":"rgba(18, 4, 12, 0.72)","orb1":"rgba(244, 63, 94, 0.24)","orb2":"rgba(168, 85, 247, 0.18)","orb3":"rgba(6, 182, 212, 0.10)","palette":["#f43f5e","#a855f7","#12040c"],"image":"backgrounds/bg-cyber-synth-grid.svg"},{"id":"ethereal-cloud-summit","name":"Olympus Mons Stratosphere","sub":"Volumetric Clouds Pierced by Martian Twilight","category":"nature","liveType":"particles","particlePreset":"stardust","accent":"#fb923c","accentGlow":"rgba(251, 146, 60, 0.38)","liquidHue":30,"tint":"rgba(18, 8, 4, 0.68)","orb1":"rgba(251, 146, 60, 0.20)","orb2":"rgba(239, 68, 68, 0.14)","orb3":"rgba(253, 186, 116, 0.08)","palette":["#fb923c","#f43f5e","#120804"],"image":"backgrounds/bg-ethereal-cloud-summit.svg"},{"id":"obsidian-geometric-void","name":"Matte Obsidian Monolith","sub":"Brutalist Monolith with Chiseled Titanium Bevels","category":"minimal","liveType":"shader","shaderPreset":"minimal-prism","particlePreset":"none","accent":"#94a3b8","accentGlow":"rgba(148, 163, 184, 0.32)","liquidHue":215,"tint":"rgba(8, 9, 12, 0.75)","orb1":"rgba(148, 163, 184, 0.14)","orb2":"rgba(71, 85, 105, 0.10)","orb3":"rgba(30, 41, 59, 0.08)","palette":["#94a3b8","#475569","#08090c"],"image":"backgrounds/bg-obsidian-geometric-void.svg"},{"id":"aurora-australis-vortex","name":"Queen Maud Polar Vortex","sub":"Curtains of Emerald & Crimson Atmospheric Ionization","category":"aurora","liveType":"particles","particlePreset":"stardust","accent":"#10b981","accentGlow":"rgba(16, 185, 129, 0.40)","liquidHue":160,"tint":"rgba(4, 16, 18, 0.70)","orb1":"rgba(16, 185, 129, 0.22)","orb2":"rgba(6, 182, 212, 0.16)","orb3":"rgba(147, 51, 234, 0.10)","palette":["#10b981","#06b6d4","#041012"],"image":"backgrounds/bg-aurora-australis-vortex.svg"},{"id":"deep-trench-bioluminescence","name":"Mariana Hadal Trench","sub":"Abyssal Hydrothermal Chimneys & Ghost Spore Plumes","category":"nature","liveType":"shader","shaderPreset":"bioluminescent","particlePreset":"stardust","accent":"#06b6d4","accentGlow":"rgba(6, 182, 212, 0.42)","liquidHue":190,"tint":"rgba(2, 10, 20, 0.74)","orb1":"rgba(6, 182, 212, 0.24)","orb2":"rgba(59, 130, 246, 0.16)","orb3":"rgba(16, 185, 129, 0.10)","palette":["#06b6d4","#3b82f6","#020a14"],"image":"backgrounds/bg-deep-trench-bioluminescence.svg"},{"id":"lofi-velvet-study","name":"Midnight Vinyl Atelier","sub":"Amber Desk Lamp Rays on Rain-Washed Skylight","category":"lofi","liveType":"particles","particlePreset":"rain","accent":"#f59e0b","accentGlow":"rgba(245, 158, 11, 0.38)","liquidHue":38,"tint":"rgba(18, 12, 6, 0.68)","orb1":"rgba(245, 158, 11, 0.20)","orb2":"rgba(234, 88, 12, 0.14)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#f59e0b","#d97706","#120c06"],"image":"backgrounds/bg-lofi-velvet-study.svg"},{"id":"kyoto-autumn-shrine","name":"Tofukuji Maple Cloister","sub":"Crimson Autumn Foliage Shrouded in Mountain Vapour","category":"nature","liveType":"particles","particlePreset":"sakura","accent":"#ef4444","accentGlow":"rgba(239, 68, 68, 0.38)","liquidHue":0,"tint":"rgba(18, 6, 6, 0.68)","orb1":"rgba(239, 68, 68, 0.22)","orb2":"rgba(249, 115, 22, 0.16)","orb3":"rgba(251, 191, 36, 0.08)","palette":["#ef4444","#f97316","#120606"],"image":"backgrounds/bg-kyoto-autumn-shrine.svg"},{"id":"quantum-superposition-lattice","name":"Superconducting Qubit Matrix","sub":"Cryogenic Dilution Chamber Glowing with Quantum State","category":"cyberpunk","liveType":"shader","shaderPreset":"matrix-code","particlePreset":"stardust","accent":"#a855f7","accentGlow":"rgba(168, 85, 247, 0.42)","liquidHue":270,"tint":"rgba(12, 4, 22, 0.72)","orb1":"rgba(168, 85, 247, 0.24)","orb2":"rgba(56, 189, 248, 0.16)","orb3":"rgba(236, 72, 153, 0.10)","palette":["#a855f7","#38bdf8","#0c0416"],"image":"backgrounds/bg-quantum-superposition-lattice.svg"}];
 
 let themeConfig = {
     themeId: 'zen-bamboo-sanctuary',
@@ -10666,6 +10670,9 @@ const WallpaperMarketplace = {
                             <button class="market-btn-apply" data-theme-id="${t.id}">
                                 <span>${isActive ? 'Active Atmosphere' : 'Apply Atmosphere'}</span>
                             </button>
+                            <button class="market-btn-generate-card" data-video-theme-id="${t.id}" title="Generate 3D Live Video Wallpaper for ${t.name}">
+                                <span>🎬 3D Live Video</span>
+                            </button>
                         </div>
                     </div>
                     <div class="market-card-info">
@@ -10689,6 +10696,22 @@ const WallpaperMarketplace = {
                     this.updateCustomCountBadge();
                     this.renderGrid();
                     showToast('Custom atmosphere deleted.', '', 2500);
+                }
+            });
+        });
+
+        // Attach 3D Live Video generation listeners
+        container.querySelectorAll('.market-btn-generate-card').forEach(vBtn => {
+            vBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const themeId = vBtn.dataset.videoThemeId;
+                const all = this.getAllThemes();
+                const t = all.find(x => x.id === themeId);
+                if (t && window.LiveWallpaperManager && window.LiveWallpaperManager.generate3DVideoWallpaper) {
+                    applyTheme(themeId, undefined, undefined, true);
+                    window.LiveWallpaperManager.generate3DVideoWallpaper(t);
+                    showToast('🎬 Generating 3D Live Video for ' + t.name + '...', '', 3500);
+                    setTimeout(() => this.close(), 260);
                 }
             });
         });
@@ -10757,6 +10780,30 @@ const FocusPassport = {
         { id: 'def_10', type: 'process', pattern: 'Figma.exe', label: 'Figma' },
         { id: 'def_11', type: 'process', pattern: 'Obsidian.exe', label: 'Obsidian' },
         { id: 'def_12', type: 'process', pattern: 'devenv.exe', label: 'Visual Studio' }
+    ],
+    CURATED_DEVELOPER_APPS: [
+        { processName: 'Code.exe', displayName: 'Visual Studio Code', icon: '💻', category: 'Dev' },
+        { processName: 'Cursor.exe', displayName: 'Cursor AI Editor', icon: '⚡', category: 'Dev' },
+        { processName: 'WindowsTerminal.exe', displayName: 'Windows Terminal / PowerShell', icon: '⌨️', category: 'Terminal' },
+        { processName: 'Figma.exe', displayName: 'Figma Desktop', icon: '🎨', category: 'Design' },
+        { processName: 'Obsidian.exe', displayName: 'Obsidian Notes', icon: '📓', category: 'Productivity' },
+        { processName: 'devenv.exe', displayName: 'Visual Studio IDE', icon: '🛠️', category: 'Dev' },
+        { processName: 'slack.exe', displayName: 'Slack', icon: '💬', category: 'Communication' },
+        { processName: 'Discord.exe', displayName: 'Discord', icon: '🎧', category: 'Communication' },
+        { processName: 'Notion.exe', displayName: 'Notion', icon: '📝', category: 'Notes' },
+        { processName: 'Docker Desktop.exe', displayName: 'Docker Desktop', icon: '🐳', category: 'DevOps' }
+    ],
+    CURATED_WORK_TABS: [
+        { domain: 'github.com', title: 'GitHub — Code & Repositories', icon: '🐙' },
+        { domain: '*.github.com', title: 'GitHub Subdomains (*.github.com)', icon: '🐙' },
+        { domain: 'stackoverflow.com', title: 'Stack Overflow — Q&A', icon: '📚' },
+        { domain: 'claude.ai', title: 'Claude AI Assistant', icon: '🧠' },
+        { domain: 'chatgpt.com', title: 'ChatGPT AI Assistant', icon: '🤖' },
+        { domain: 'developer.mozilla.org', title: 'MDN Web Docs', icon: '📖' },
+        { domain: 'docs.google.com', title: 'Google Docs / Sheets', icon: '📄' },
+        { domain: 'linear.app', title: 'Linear Issue Tracker', icon: '📐' },
+        { domain: 'vercel.com', title: 'Vercel Platform', icon: '▲' },
+        { domain: 'localhost:*', title: 'Local Development (localhost:*)', icon: '⚡' }
     ],
     whitelist: [],
     extensionConnected: false,
@@ -10901,6 +10948,9 @@ const FocusPassport = {
 
             if (type === 'FOCUSR_EXTENSION_READY' || type === 'FOCUSR_PONG') {
                 this.extensionConnected = true;
+                if (event.data.bridgeStatus && event.data.bridgeStatus.connected) {
+                    this.desktopBridgeConnected = true;
+                }
                 this.updateStatusBadges();
             } else if (type === 'FOCUSR_RESP_TABS') {
                 this.extensionConnected = true;
@@ -10912,6 +10962,24 @@ const FocusPassport = {
                 this.detectedHistory = event.data.history || [];
                 this.renderHistory();
                 this.updateStatusBadges();
+            } else if (type === 'FOCUSR_RESP_APPS') {
+                if (event.data.connected) {
+                    this.desktopBridgeConnected = true;
+                }
+                if (event.data.apps && event.data.apps.length > 0) {
+                    this.detectedApps = event.data.apps;
+                    this.renderApps();
+                }
+                this.updateStatusBadges();
+            } else if (type === 'FOCUSR_ACTIVE_APP_CHANGED') {
+                this.desktopBridgeConnected = true;
+                this.currentActiveProcess = {
+                    processName: event.data.processName || '',
+                    windowTitle: event.data.windowTitle || '',
+                    pid: event.data.pid || 0
+                };
+                this.updateStatusBadges();
+                this.onWorkspaceChanged();
             } else if (type === 'FOCUSR_ACTIVE_TAB_CHANGED') {
                 this.currentActiveTab = {
                     domain: event.data.domain,
@@ -10926,11 +10994,12 @@ const FocusPassport = {
         window.postMessage({ type: 'FOCUSR_PING' }, '*');
         this.requestTabs();
         this.requestHistory();
+        this.requestApps();
 
         // Periodic ping
         this.pingInterval = setInterval(() => {
             window.postMessage({ type: 'FOCUSR_PING' }, '*');
-        }, 6000);
+        }, 5000);
     },
 
     initDesktopBridge() {
@@ -11020,14 +11089,18 @@ const FocusPassport = {
     async requestApps() {
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
             this.ws.send(JSON.stringify({ type: 'GET_RUNNING_APPS' }));
-            return;
         }
+        window.postMessage({ type: 'FOCUSR_REQ_APPS' }, '*');
         try {
             const res = await fetch('http://127.0.0.1:42069/apps', { method: 'GET', mode: 'cors' });
             if (res.ok) {
                 const data = await res.json();
-                this.detectedApps = data.apps || [];
-                this.renderApps();
+                if (data.apps && data.apps.length > 0) {
+                    this.detectedApps = data.apps;
+                    this.desktopBridgeConnected = true;
+                    this.renderApps();
+                    this.updateStatusBadges();
+                }
             }
         } catch (e) {}
     },
@@ -11225,44 +11298,68 @@ const FocusPassport = {
         const list = $('passport-tabs-list');
         if (!list) return;
 
-        if (!this.extensionConnected) {
+        // If extension is connected and has detected tabs, show live open tabs
+        if (this.extensionConnected && this.detectedTabs && this.detectedTabs.length > 0) {
             list.innerHTML = `
-                <div class="passport-empty-state">
-                    <strong>Focusr Companion Extension not detected</strong><br/>
-                    Install from <code>extension/</code> folder via <em>chrome://extensions</em> ("Load unpacked").
+                <div style="font-size:0.7rem;font-weight:700;color:#10b981;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                    <span class="status-indicator-dot dot-green" style="width:6px;height:6px"></span>
+                    <span>Live Chrome Tabs (${this.detectedTabs.length} open)</span>
                 </div>
-            `;
-            return;
-        }
+            ` + this.detectedTabs.map(tab => {
+                const isWhitelisted = this.isPatternWhitelisted(tab.domain, 'domain');
+                const iconHtml = tab.favIconUrl 
+                    ? `<img src="${tab.favIconUrl}" alt="" onerror="this.style.display='none'">` 
+                    : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>`;
 
-        if (!this.detectedTabs || this.detectedTabs.length === 0) {
-            list.innerHTML = '<div class="passport-empty-state">No other tabs open.</div>';
-            return;
-        }
-
-        list.innerHTML = this.detectedTabs.map(tab => {
-            const isWhitelisted = this.isPatternWhitelisted(tab.domain, 'domain');
-            const iconHtml = tab.favIconUrl 
-                ? `<img src="${tab.favIconUrl}" alt="" onerror="this.style.display='none'">` 
-                : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>`;
-
-            return `
-                <div class="passport-item-row">
-                    <div class="passport-item-info">
-                        <div class="passport-item-icon">${iconHtml}</div>
-                        <div class="passport-item-text">
-                            <span class="passport-item-title">${tab.title || tab.domain}</span>
-                            <span class="passport-item-sub">${tab.domain}</span>
+                return `
+                    <div class="passport-item-row">
+                        <div class="passport-item-info">
+                            <div class="passport-item-icon">${iconHtml}</div>
+                            <div class="passport-item-text">
+                                <span class="passport-item-title">${tab.title || tab.domain}</span>
+                                <span class="passport-item-sub">${tab.domain}</span>
+                            </div>
                         </div>
+                        ${isWhitelisted ? `
+                            <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                        ` : `
+                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${tab.domain}', 'domain', '${tab.domain}')">+ Allow</button>
+                        `}
                     </div>
-                    ${isWhitelisted ? `
-                        <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
-                    ` : `
-                        <button class="passport-item-btn" onclick="FocusPassport.addPattern('${tab.domain}', 'domain', '${tab.domain}')">+ Allow</button>
-                    `}
+                `;
+            }).join('');
+            return;
+        }
+
+        // When extension not yet connected or no tabs: show popular work tabs library with 1-click whitelisting!
+        list.innerHTML = `
+            <div style="padding:0.6rem 0.8rem;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:12px;margin-bottom:0.75rem">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
+                    <span style="font-size:0.75rem;font-weight:700;color:#38bdf8">⚡ Popular Work Tabs</span>
+                    <button class="passport-item-btn" style="padding:2px 8px;font-size:0.65rem;border-radius:6px;" onclick="FocusPassport.showExtensionGuide()">Setup Live Extension ↗</button>
                 </div>
-            `;
-        }).join('');
+                <div style="font-size:0.68rem;color:rgba(255,255,255,0.65)">Whitelist legitimate developer sites below with 1-click.</div>
+            </div>
+            ${this.CURATED_WORK_TABS.map(item => {
+                const isWhitelisted = this.isPatternWhitelisted(item.domain, 'domain');
+                return `
+                    <div class="passport-item-row">
+                        <div class="passport-item-info">
+                            <div class="passport-item-icon">${item.icon}</div>
+                            <div class="passport-item-text">
+                                <span class="passport-item-title">${item.title}</span>
+                                <span class="passport-item-sub">${item.domain}</span>
+                            </div>
+                        </div>
+                        ${isWhitelisted ? `
+                            <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                        ` : `
+                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${item.domain}', 'domain', '${item.domain}')">+ Allow</button>
+                        `}
+                    </div>
+                `;
+            }).join('')}
+        `;
     },
 
     renderHistory() {
@@ -11304,40 +11401,82 @@ const FocusPassport = {
         const list = $('passport-apps-list');
         if (!list) return;
 
-        if (!this.desktopBridgeConnected) {
+        // If desktop bridge is connected and has apps, show live running applications
+        if (this.desktopBridgeConnected && this.detectedApps && this.detectedApps.length > 0) {
             list.innerHTML = `
-                <div class="passport-empty-state">
-                    <strong>Desktop Bridge is offline</strong><br/>
-                    Run <code>launch-bridge.bat</code> in the Focusr folder to detect active Windows applications.
+                <div style="font-size:0.7rem;font-weight:700;color:#10b981;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                    <span class="status-indicator-dot dot-green" style="width:6px;height:6px"></span>
+                    <span>Live Windows Apps (${this.detectedApps.length} running)</span>
                 </div>
-            `;
-            return;
-        }
-
-        if (!this.detectedApps || this.detectedApps.length === 0) {
-            list.innerHTML = '<div class="passport-empty-state">No windowed user applications detected.</div>';
-            return;
-        }
-
-        list.innerHTML = this.detectedApps.map(app => {
-            const isWhitelisted = this.isPatternWhitelisted(app.processName, 'process');
-            return `
-                <div class="passport-item-row">
-                    <div class="passport-item-info">
-                        <div class="passport-item-icon">💻</div>
-                        <div class="passport-item-text">
-                            <span class="passport-item-title">${app.displayName}</span>
-                            <span class="passport-item-sub">${app.processName}</span>
+            ` + this.detectedApps.map(app => {
+                const isWhitelisted = this.isPatternWhitelisted(app.processName, 'process');
+                return `
+                    <div class="passport-item-row">
+                        <div class="passport-item-info">
+                            <div class="passport-item-icon">💻</div>
+                            <div class="passport-item-text">
+                                <span class="passport-item-title">${app.displayName}</span>
+                                <span class="passport-item-sub">${app.processName}</span>
+                            </div>
                         </div>
+                        ${isWhitelisted ? `
+                            <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                        ` : `
+                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${app.processName}', 'process', '${app.displayName}')">+ Allow</button>
+                        `}
                     </div>
-                    ${isWhitelisted ? `
-                        <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
-                    ` : `
-                        <button class="passport-item-btn" onclick="FocusPassport.addPattern('${app.processName}', 'process', '${app.displayName}')">+ Allow</button>
-                    `}
+                `;
+            }).join('');
+            return;
+        }
+
+        // When bridge not yet connected: show curated developer apps library with 1-click whitelisting & download launcher!
+        list.innerHTML = `
+            <div style="padding:0.6rem 0.8rem;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.22);border-radius:12px;margin-bottom:0.75rem">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
+                    <span style="font-size:0.75rem;font-weight:700;color:#34d399">⚡ Popular Developer Apps</span>
+                    <button class="passport-item-btn" style="padding:2px 8px;font-size:0.65rem;border-radius:6px;background:rgba(16,185,129,0.2);border-color:#10b981;color:#6ee7b7" onclick="FocusPassport.downloadBridgeBat()">Download Launcher ↗</button>
                 </div>
-            `;
-        }).join('');
+                <div style="font-size:0.68rem;color:rgba(255,255,255,0.65)">Click below to whitelist your tools. Run <code>launch-bridge.bat</code> to stream live foreground window.</div>
+            </div>
+            ${this.CURATED_DEVELOPER_APPS.map(app => {
+                const isWhitelisted = this.isPatternWhitelisted(app.processName, 'process');
+                return `
+                    <div class="passport-item-row">
+                        <div class="passport-item-info">
+                            <div class="passport-item-icon">${app.icon}</div>
+                            <div class="passport-item-text">
+                                <span class="passport-item-title">${app.displayName}</span>
+                                <span class="passport-item-sub">${app.processName}</span>
+                            </div>
+                        </div>
+                        ${isWhitelisted ? `
+                            <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                        ` : `
+                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${app.processName}', 'process', '${app.displayName}')">+ Allow</button>
+                        `}
+                    </div>
+                `;
+            }).join('')}
+        `;
+    },
+
+    downloadBridgeBat() {
+        const batContent = `@echo off\r\ntitle Focusr Desktop Bridge\r\necho ======================================\r\necho Starting Focusr Windows Desktop Bridge\r\necho Listening on http://127.0.0.1:42069\r\necho ======================================\r\nnode "%~dp0scripts\\bridge.mjs"\r\npause\r\n`;
+        const blob = new Blob([batContent], { type: 'application/x-bat' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'launch-bridge.bat';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Downloaded launch-bridge.bat! Run it in your Focusr folder.', '', 4000);
+    },
+
+    showExtensionGuide() {
+        showToast('Load unpacked extension from "extension/" in chrome://extensions', '', 5000);
     },
 
     updateStatusBadges() {
@@ -12020,10 +12159,12 @@ window.S = S;
 window.navigate = navigate;
 window.screens = screens;
 
-/* ── Live Wallpaper Manager & Atmospheric Motion Engine ── */
+/* ── Live Wallpaper Manager & Atmospheric 3D Spatial Motion Engine ── */
 const LiveWallpaperManager = window.LiveWallpaperManager || {
     videoEl: null,
     canvasEl: null,
+    canvasCtx: null,
+    canvasAnimId: 0,
     particlesEl: null,
     particlesCtx: null,
     particlesList: [],
@@ -12036,18 +12177,55 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
     sampleCtx: null,
     adaptiveTimer: 0,
 
+    // 3D Spatial Camera & Parallax State
+    targetParallaxX: 0,
+    targetParallaxY: 0,
+    parallaxX: 0,
+    parallaxY: 0,
+    dpr: 1,
+
+    // Category 3D Scene Geometry & Particles
+    cosmicStars: [],
+    fireflies: [],
+    polyRotX: 0,
+    polyRotY: 0,
+    polyRotZ: 0,
+    gridOffsetZ: 0,
+    recordedVideoUrl: null,
+
     init() {
         this.videoEl = $('backdrop-video');
         this.canvasEl = $('backdrop-canvas');
         this.particlesEl = $('backdrop-particles');
-        if (this.particlesEl) {
-            this.particlesCtx = this.particlesEl.getContext('2d');
+        
+        if (this.canvasEl) {
+            this.canvasCtx = this.canvasEl.getContext('2d');
             this.resize();
         }
+        if (this.particlesEl) {
+            this.particlesCtx = this.particlesEl.getContext('2d');
+        }
+
         this.sampleCanvas = document.createElement('canvas');
         this.sampleCanvas.width = 32;
         this.sampleCanvas.height = 32;
         this.sampleCtx = this.sampleCanvas.getContext('2d', { willReadFrequently: true });
+
+        // Mouse Parallax Listener
+        window.addEventListener('mousemove', (e) => {
+            this.targetParallaxX = ((e.clientX / window.innerWidth) - 0.5) * 2;
+            this.targetParallaxY = ((e.clientY / window.innerHeight) - 0.5) * 2;
+        });
+
+        // Device Orientation Parallax for mobile / tablet
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                if (e.gamma !== null && e.beta !== null) {
+                    this.targetParallaxX = Math.max(-1, Math.min(1, e.gamma / 30));
+                    this.targetParallaxY = Math.max(-1, Math.min(1, (e.beta - 45) / 30));
+                }
+            }, { passive: true });
+        }
 
         window.addEventListener('resize', () => this.resize());
         document.addEventListener('visibilitychange', () => {
@@ -12055,14 +12233,61 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             if (this.isTabHidden) this.pauseAll();
             else this.resumeAll();
         });
+
+        this.initCosmicStars();
+        this.initFireflies();
     },
 
     resize() {
         const w = window.innerWidth;
         const h = window.innerHeight;
+        this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        if (this.canvasEl) {
+            this.canvasEl.width = Math.round(w * this.dpr);
+            this.canvasEl.height = Math.round(h * this.dpr);
+            this.canvasEl.style.width = w + 'px';
+            this.canvasEl.style.height = h + 'px';
+        }
         if (this.particlesEl) {
-            this.particlesEl.width = w;
-            this.particlesEl.height = h;
+            this.particlesEl.width = Math.round(w * this.dpr);
+            this.particlesEl.height = Math.round(h * this.dpr);
+            this.particlesEl.style.width = w + 'px';
+            this.particlesEl.style.height = h + 'px';
+        }
+    },
+
+    initCosmicStars() {
+        this.cosmicStars = [];
+        const count = 120;
+        for (let i = 0; i < count; i++) {
+            this.cosmicStars.push({
+                x: (Math.random() - 0.5) * 1600,
+                y: (Math.random() - 0.5) * 1200,
+                z: Math.random() * 1000 + 1,
+                size: 0.8 + Math.random() * 2,
+                speed: 0.8 + Math.random() * 1.6,
+                twinkle: Math.random() * Math.PI * 2
+            });
+        }
+    },
+
+    initFireflies() {
+        this.fireflies = [];
+        const count = 35;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        for (let i = 0; i < count; i++) {
+            this.fireflies.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                size: 2 + Math.random() * 3.5,
+                pulse: Math.random() * Math.PI * 2,
+                pulseSpeed: 0.02 + Math.random() * 0.03,
+                hueShift: Math.random() * 20 - 10
+            });
         }
     },
 
@@ -12071,19 +12296,553 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         if (!theme) return;
         const liveType = theme.liveType || 'none';
 
-        // 1. Video
+        // 1. Live Video (user uploaded or generated)
         if (liveType === 'video' && theme.videoUrl) {
             this.playVideo(theme.videoUrl);
+            this.stop3DMotion();
         } else {
             this.stopVideo();
+            // Start 3D spatial motion canvas for all atmospheres!
+            this.start3DMotion(theme);
         }
 
-        // 2. Particles
+        // 2. Extra particle atmospheric overlay
         const preset = theme.particlePreset || (liveType === 'particles' ? 'stardust' : 'none');
         if (preset && preset !== 'none') {
             this.startParticles(preset, theme.accent);
         } else {
             this.stopParticles();
+        }
+    },
+
+    start3DMotion(theme) {
+        if (!this.canvasEl || !this.canvasCtx) return;
+        this.currentTheme = theme;
+        this.canvasEl.style.display = 'block';
+        this.canvasEl.style.opacity = 'var(--backdrop-opacity, 0.85)';
+        if (!this.canvasAnimId) {
+            this.loop3D();
+        }
+    },
+
+    stop3DMotion() {
+        if (this.canvasAnimId) {
+            cancelAnimationFrame(this.canvasAnimId);
+            this.canvasAnimId = 0;
+        }
+        if (this.canvasEl) {
+            this.canvasEl.style.opacity = '0';
+            setTimeout(() => {
+                if (this.canvasEl && !this.canvasAnimId) {
+                    this.canvasEl.style.display = 'none';
+                }
+            }, 300);
+        }
+    },
+
+    loop3D() {
+        if (this.isTabHidden || !this.canvasCtx || !this.canvasEl) return;
+        this.canvasAnimId = requestAnimationFrame(() => this.loop3D());
+
+        const ctx = this.canvasCtx;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const dpr = this.dpr;
+
+        // Smooth Parallax Lerp
+        this.parallaxX += (this.targetParallaxX - this.parallaxX) * 0.05;
+        this.parallaxY += (this.targetParallaxY - this.parallaxY) * 0.05;
+
+        ctx.save();
+        ctx.scale(dpr, dpr);
+        ctx.clearRect(0, 0, w, h);
+
+        const category = (this.currentTheme && this.currentTheme.category) || 'cosmic';
+        const accent = (this.currentTheme && this.currentTheme.accent) || '#38bdf8';
+        const palette = (this.currentTheme && this.currentTheme.palette) || [accent, '#818cf8', '#080c16'];
+        const time = performance.now();
+
+        if (category === 'cosmic') {
+            this.render3DCosmic(ctx, w, h, time, accent, palette);
+        } else if (category === 'cyberpunk') {
+            this.render3DCyberpunk(ctx, w, h, time, accent, palette);
+        } else if (category === 'nature') {
+            this.render3DNature(ctx, w, h, time, accent, palette);
+        } else if (category === 'aurora') {
+            this.render3DAurora(ctx, w, h, time, accent, palette);
+        } else if (category === 'lofi') {
+            this.render3DLofi(ctx, w, h, time, accent, palette);
+        } else {
+            this.render3DMinimal(ctx, w, h, time, accent, palette);
+        }
+
+        ctx.restore();
+    },
+
+    // ── 3D Cosmic: Relativistic Accretion Vortex, Gravitational Lensing & 3D Starfield ──
+    render3DCosmic(ctx, w, h, time, accent, palette) {
+        const cx = w * 0.5 + this.parallaxX * 40;
+        const cy = h * 0.44 + this.parallaxY * 30;
+
+        // 1. 3D Starfield with perspective divide
+        const fov = 380;
+        for (let i = 0; i < this.cosmicStars.length; i++) {
+            const s = this.cosmicStars[i];
+            s.z -= s.speed;
+            if (s.z <= 0) s.z = 1000;
+
+            const k = fov / s.z;
+            const px = cx + s.x * k;
+            const py = cy + s.y * k;
+
+            if (px >= 0 && px <= w && py >= 0 && py <= h) {
+                const alpha = Math.min(1, (1000 - s.z) / 700) * (0.6 + Math.sin(time * 0.003 + s.twinkle) * 0.35);
+                const r = s.size * k * 0.8;
+                ctx.fillStyle = i % 3 === 0 ? accent : '#ffffff';
+                ctx.globalAlpha = Math.max(0, alpha);
+                ctx.beginPath();
+                ctx.arc(px, py, Math.max(0.5, r), 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // 2. Relativistic Accretion Disk with Gravitational Lensing
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(time * 0.0003);
+
+        const diskRadiusX = Math.min(w, h) * 0.42;
+        const diskRadiusY = diskRadiusX * 0.32;
+
+        // Outer Accretion Glow
+        const radGlow = ctx.createRadialGradient(0, 0, diskRadiusX * 0.3, 0, 0, diskRadiusX * 1.3);
+        radGlow.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        radGlow.addColorStop(0.35, accent);
+        radGlow.addColorStop(0.65, palette[1] || 'rgba(168, 85, 247, 0.4)');
+        radGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+        ctx.globalAlpha = 0.38;
+        ctx.fillStyle = radGlow;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, diskRadiusX, diskRadiusY, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Doppler Light Beaming Rings
+        for (let j = 0; j < 3; j++) {
+            ctx.beginPath();
+            ctx.lineWidth = 1.5 + j * 0.8;
+            ctx.strokeStyle = j === 0 ? accent : palette[1] || '#38bdf8';
+            ctx.globalAlpha = 0.45 - j * 0.12;
+            ctx.ellipse(0, 0, diskRadiusX * (0.6 + j * 0.18), diskRadiusY * (0.6 + j * 0.18), 0, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // 3. Central Event Horizon Shadow
+        ctx.globalAlpha = 0.88;
+        ctx.fillStyle = '#05070c';
+        ctx.beginPath();
+        ctx.arc(0, 0, diskRadiusX * 0.32, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Photon Sphere Ring
+        ctx.lineWidth = 2.2;
+        ctx.strokeStyle = accent;
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(0, 0, diskRadiusX * 0.32, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.restore();
+        ctx.globalAlpha = 1;
+    },
+
+    // ── 3D Cyberpunk: Perspective Retro Vector Grid & Distant Skyline Beacons ──
+    render3DCyberpunk(ctx, w, h, time, accent, palette) {
+        const horizonY = h * 0.52 + this.parallaxY * 25;
+        const vanishX = w * 0.5 + this.parallaxX * 45;
+
+        // Moving ground grid offset along z-axis
+        this.gridOffsetZ = (this.gridOffsetZ + 1.2) % 40;
+
+        // 1. Receding Perspective Grid Lines
+        ctx.save();
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 1;
+
+        const numLines = 16;
+        for (let i = 0; i <= numLines; i++) {
+            const z = (i * 30 + this.gridOffsetZ) / (numLines * 30);
+            const y = horizonY + (h - horizonY) * Math.pow(z, 2.2);
+            const alpha = Math.min(0.65, Math.pow(z, 1.4) * 0.7);
+
+            ctx.globalAlpha = alpha;
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(w, y);
+            ctx.stroke();
+        }
+
+        // 2. Converging Perspective Beams
+        const radialLines = 22;
+        ctx.globalAlpha = 0.35;
+        for (let r = -radialLines / 2; r <= radialLines / 2; r++) {
+            const bottomX = vanishX + r * (w / radialLines) * 2.8;
+            ctx.beginPath();
+            ctx.moveTo(vanishX, horizonY);
+            ctx.lineTo(bottomX, h);
+            ctx.stroke();
+        }
+
+        // 3. Distant City Skyline Silhouettes
+        ctx.fillStyle = 'rgba(6, 9, 16, 0.82)';
+        ctx.globalAlpha = 0.75;
+        const bWidth = 42;
+        const numBuildings = Math.ceil(w / bWidth) + 2;
+        for (let b = 0; b < numBuildings; b++) {
+            const bx = (b - 1) * bWidth + this.parallaxX * 15;
+            const seed = (b * 9301 + 49297) % 233280;
+            const bHeight = 40 + (seed % 140);
+            const by = horizonY - bHeight;
+            ctx.fillRect(bx, by, bWidth - 4, bHeight);
+
+            // Skyline Window Beacons
+            if (b % 2 === 0) {
+                ctx.fillStyle = (b % 4 === 0) ? accent : (palette[1] || '#06b6d4');
+                ctx.globalAlpha = 0.6;
+                ctx.fillRect(bx + 6, by + 10, 3, 3);
+                ctx.fillRect(bx + 16, by + 24, 3, 3);
+                ctx.fillStyle = 'rgba(6, 9, 16, 0.82)';
+            }
+        }
+
+        ctx.restore();
+        ctx.globalAlpha = 1;
+    },
+
+    // ── 3D Nature: Volumetric Mist Waves & Bioluminescent Fireflies ──
+    render3DNature(ctx, w, h, time, accent, palette) {
+        // 1. Multi-Layer Volumetric Mist Waves
+        ctx.save();
+        for (let layer = 0; layer < 4; layer++) {
+            const baseMistY = h * (0.35 + layer * 0.16) + this.parallaxY * (15 + layer * 8);
+            const speed = 0.0006 + layer * 0.0003;
+            const alpha = 0.08 + layer * 0.05;
+
+            ctx.fillStyle = layer % 2 === 0 ? accent : (palette[1] || '#10b981');
+            ctx.globalAlpha = alpha;
+            ctx.beginPath();
+            ctx.moveTo(0, h);
+            ctx.lineTo(0, baseMistY);
+
+            for (let x = 0; x <= w; x += 30) {
+                const wave1 = Math.sin(x * 0.003 + time * speed) * (18 + layer * 8);
+                const wave2 = Math.cos(x * 0.006 - time * speed * 0.8) * 12;
+                ctx.lineTo(x, baseMistY + wave1 + wave2);
+            }
+
+            ctx.lineTo(w, h);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // 2. 3D Bioluminescent Fireflies (Organic Brownian Drift)
+        for (let i = 0; i < this.fireflies.length; i++) {
+            const f = this.fireflies[i];
+            f.pulse += f.pulseSpeed;
+            f.x += f.vx + Math.sin(f.pulse) * 0.4;
+            f.y += f.vy + Math.cos(f.pulse * 0.8) * 0.3;
+
+            if (f.x < -20) f.x = w + 20;
+            if (f.x > w + 20) f.x = -20;
+            if (f.y < -20) f.y = h + 20;
+            if (f.y > h + 20) f.y = -20;
+
+            const glowAlpha = Math.max(0, 0.3 + Math.sin(f.pulse) * 0.45);
+            const rad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.size * 3.5);
+            rad.addColorStop(0, '#ffffff');
+            rad.addColorStop(0.3, accent);
+            rad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.fillStyle = rad;
+            ctx.globalAlpha = glowAlpha;
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.size * 3.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        ctx.restore();
+        ctx.globalAlpha = 1;
+    },
+
+    // ── 3D Aurora: Undulating Geomagnetic Spectral Curtains ──
+    render3DAurora(ctx, w, h, time, accent, palette) {
+        ctx.save();
+        const numRibbons = 5;
+
+        for (let i = 0; i < numRibbons; i++) {
+            const yOffset = h * 0.15 + i * 40 + this.parallaxY * 20;
+            const grad = ctx.createLinearGradient(0, yOffset - 80, 0, yOffset + 180);
+            grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+            grad.addColorStop(0.4, accent);
+            grad.addColorStop(0.7, palette[1] || '#06b6d4');
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.fillStyle = grad;
+            ctx.globalAlpha = 0.22 + i * 0.05;
+
+            ctx.beginPath();
+            ctx.moveTo(0, yOffset + 200);
+
+            for (let x = 0; x <= w; x += 25) {
+                const waveA = Math.sin(x * 0.0025 + time * 0.0008 + i * 1.2) * 45;
+                const waveB = Math.cos(x * 0.005 - time * 0.0005) * 25;
+                ctx.lineTo(x, yOffset + waveA + waveB);
+            }
+
+            ctx.lineTo(w, yOffset + 240);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        ctx.restore();
+        ctx.globalAlpha = 1;
+    },
+
+    // ── 3D Lo-Fi: Volumetric Window Sunbeam Corridor & Hearth Embers ──
+    render3DLofi(ctx, w, h, time, accent, palette) {
+        ctx.save();
+
+        // 1. Angled Sunbeam Corridor
+        const beamGrad = ctx.createLinearGradient(w * 0.7, 0, w * 0.2, h);
+        beamGrad.addColorStop(0, 'rgba(255, 235, 180, 0.15)');
+        beamGrad.addColorStop(0.5, accent);
+        beamGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+        ctx.fillStyle = beamGrad;
+        ctx.globalAlpha = 0.28;
+        ctx.beginPath();
+        ctx.moveTo(w * 0.55, 0);
+        ctx.lineTo(w * 0.95, 0);
+        ctx.lineTo(w * 0.45, h);
+        ctx.lineTo(0, h);
+        ctx.closePath();
+        ctx.fill();
+
+        // 2. Warm Floating Dust Motes & Embers
+        for (let i = 0; i < 40; i++) {
+            const seed = (i * 7919) % 1000;
+            const x = (seed * 3.7 + Math.sin(time * 0.0008 + i) * 60 + this.parallaxX * 25) % w;
+            const y = (h - ((time * (0.02 + (i % 3) * 0.01) + seed * 2) % h));
+            const size = 1.2 + (i % 4) * 0.8;
+            const alpha = 0.3 + Math.sin(time * 0.002 + i) * 0.3;
+
+            ctx.fillStyle = i % 2 === 0 ? accent : '#ffedd5';
+            ctx.globalAlpha = Math.max(0, alpha);
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        ctx.restore();
+        ctx.globalAlpha = 1;
+    },
+
+    // ── 3D Minimal: Floating Rotating Regular Icosahedron Wireframe with Specular Vertex Glints ──
+    render3DMinimal(ctx, w, h, time, accent, palette) {
+        ctx.save();
+        const cx = w * 0.5 + this.parallaxX * 35;
+        const cy = h * 0.48 + this.parallaxY * 25;
+
+        this.polyRotX += 0.005;
+        this.polyRotY += 0.008;
+
+        const phi = (1 + Math.sqrt(5)) / 2;
+        const scale = Math.min(w, h) * 0.16;
+
+        // Standard 12 Icosahedron Vertices
+        const rawVertices = [
+            [-1,  phi, 0], [ 1,  phi, 0], [-1, -phi, 0], [ 1, -phi, 0],
+            [ 0, -1,  phi], [ 0,  1,  phi], [ 0, -1, -phi], [ 0,  1, -phi],
+            [ phi, 0, -1], [ phi, 0,  1], [-phi, 0, -1], [-phi, 0,  1]
+        ];
+
+        // 3D Rotation Matrix Projection
+        const rx = this.polyRotX;
+        const ry = this.polyRotY;
+        const cosX = Math.cos(rx), sinX = Math.sin(rx);
+        const cosY = Math.cos(ry), sinY = Math.sin(ry);
+
+        const projected = rawVertices.map(v => {
+            let [x, y, z] = v;
+            // Normalize length
+            const len = Math.hypot(x, y, z);
+            x = (x / len) * scale;
+            y = (y / len) * scale;
+            z = (z / len) * scale;
+
+            // Rotate Y
+            const x1 = x * cosY + z * sinY;
+            const z1 = -x * sinY + z * cosY;
+
+            // Rotate X
+            const y2 = y * cosX - z1 * sinX;
+            const z2 = y * sinX + z1 * cosX;
+
+            const fov = 450;
+            const persp = fov / (fov + z2);
+            return {
+                x: cx + x1 * persp,
+                y: cy + y2 * persp,
+                z: z2
+            };
+        });
+
+        // Draw Wireframe Edges
+        ctx.lineWidth = 1.4;
+        ctx.strokeStyle = accent;
+        ctx.globalAlpha = 0.5;
+
+        for (let i = 0; i < projected.length; i++) {
+            for (let j = i + 1; j < projected.length; j++) {
+                const dist3D = Math.hypot(
+                    rawVertices[i][0] - rawVertices[j][0],
+                    rawVertices[i][1] - rawVertices[j][1],
+                    rawVertices[i][2] - rawVertices[j][2]
+                );
+                // In a unit icosahedron, adjacent vertices have distance ~2.0
+                if (dist3D < 2.05) {
+                    ctx.beginPath();
+                    ctx.moveTo(projected[i].x, projected[i].y);
+                    ctx.lineTo(projected[j].x, projected[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Draw Glowing Vertices
+        for (let i = 0; i < projected.length; i++) {
+            const p = projected[i];
+            ctx.fillStyle = '#ffffff';
+            ctx.globalAlpha = 0.85;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        ctx.restore();
+        ctx.globalAlpha = 1;
+    },
+
+    // ── Auto 3D Live Video Wallpaper Generator ──
+    async generate3DVideoWallpaper(theme, options = {}) {
+        if (!theme) theme = this.currentTheme || (typeof getActiveTheme === 'function' ? getActiveTheme() : null);
+        if (!theme) return;
+
+        showToast(`🎬 Generating 3D Spatial Live Video for "${theme.name}"...`, '', 4000);
+
+        // Ensure 3D motion is active on the canvas
+        this.start3DMotion(theme);
+
+        if (!this.canvasEl) return;
+
+        try {
+            // 1. Capture live canvas stream
+            const stream = this.canvasEl.captureStream(30);
+
+            // 2. Pipe directly to backdrop video element for instantaneous 60fps video playback
+            if (this.videoEl) {
+                this.videoEl.srcObject = stream;
+                this.videoEl.style.display = 'block';
+                this.videoEl.style.opacity = 'var(--backdrop-opacity, 0.85)';
+                this.videoEl.muted = true;
+                this.videoEl.playsInline = true;
+                await this.videoEl.play().catch(() => {});
+                this.startAdaptiveTheming();
+            }
+
+            // 3. Record a seamless 5-second WebM video loop in the background
+            if (typeof MediaRecorder !== 'undefined') {
+                const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+                    ? 'video/webm;codecs=vp9'
+                    : MediaRecorder.isTypeSupported('video/webm')
+                        ? 'video/webm'
+                        : '';
+
+                if (mimeType) {
+                    const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 4000000 });
+                    const chunks = [];
+
+                    recorder.ondataavailable = (e) => {
+                        if (e.data && e.data.size > 0) chunks.push(e.data);
+                    };
+
+                    recorder.onstop = async () => {
+                        const blob = new Blob(chunks, { type: 'video/webm' });
+                        const videoUrl = URL.createObjectURL(blob);
+                        this.recordedVideoUrl = videoUrl;
+
+                        const videoThemeId = '3d_vid_' + theme.id + '_' + Date.now();
+                        const videoTheme = {
+                            id: videoThemeId,
+                            name: `🎬 3D Live: ${theme.name}`,
+                            sub: 'Dynamic 3D Live Video Atmosphere',
+                            category: 'custom-video',
+                            isCustom: true,
+                            isVideo: true,
+                            liveType: 'video',
+                            videoUrl: videoUrl,
+                            image: theme.image,
+                            accent: theme.accent,
+                            accentGlow: theme.accentGlow,
+                            liquidHue: theme.liquidHue,
+                            tint: theme.tint,
+                            orb1: theme.orb1,
+                            orb2: theme.orb2,
+                            orb3: theme.orb3,
+                            palette: theme.palette
+                        };
+
+                        if (window.CustomThemeStorage) {
+                            window.CustomThemeStorage.addVideoTheme(videoTheme);
+                        }
+                        if (window.FocusrMediaDB) {
+                            window.FocusrMediaDB.saveVideo({
+                                id: videoThemeId,
+                                name: videoTheme.name,
+                                blob: blob,
+                                thumbnail: theme.image,
+                                accent: theme.accent,
+                                accentGlow: theme.accentGlow,
+                                liquidHue: theme.liquidHue,
+                                tint: theme.tint,
+                                orb1: theme.orb1,
+                                orb2: theme.orb2,
+                                orb3: theme.orb3,
+                                palette: theme.palette
+                            }).catch(() => {});
+                        }
+
+                        showToast(`✨ 3D Live Video for "${theme.name}" created! Interface colors dynamically adapting.`, '', 4500);
+
+                        // Trigger download if requested
+                        if (options.download) {
+                            const a = document.createElement('a');
+                            a.href = videoUrl;
+                            a.download = `focusr-3d-${theme.id}.webm`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        }
+                    };
+
+                    recorder.start();
+                    setTimeout(() => {
+                        if (recorder.state === 'recording') recorder.stop();
+                    }, 5000);
+                }
+            }
+        } catch (err) {
+            console.warn('3D Video Generation notice:', err);
         }
     },
 
@@ -12093,6 +12852,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         v.style.display = 'block';
         if (v.getAttribute('data-active-src') !== url) {
             v.setAttribute('data-active-src', url);
+            v.srcObject = null;
             v.src = url;
             v.load();
         }
@@ -12146,7 +12906,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     sampleVideoFrame() {
         if (!this.videoEl || !this.sampleCtx || !this.sampleCanvas) return;
-        if (this.videoEl.paused || this.videoEl.ended || this.videoEl.readyState < 2 || this.isTabHidden) return;
+        if (this.videoEl.paused || this.videoEl.ended || this.isTabHidden) return;
         if (!this.adaptiveThemingEnabled) return;
 
         try {
@@ -12241,8 +13001,8 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         this.activePreset = preset;
         this.particlesEl.style.display = 'block';
         this.particlesEl.style.opacity = '1';
-        const w = this.particlesEl.width = window.innerWidth;
-        const h = this.particlesEl.height = window.innerHeight;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
         const count = preset === 'rain' ? 120 : preset === 'sakura' ? 60 : preset === 'snow' ? 70 : 45;
         this.particlesList = [];
 
@@ -12281,8 +13041,10 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         if (!this.particlesCtx || !this.particlesEl || this.activePreset === 'none' || this.isTabHidden) return;
         this.particlesAnimId = requestAnimationFrame(() => this.loopParticles());
         const ctx = this.particlesCtx;
-        const w = this.particlesEl.width;
-        const h = this.particlesEl.height;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        ctx.save();
+        ctx.scale(this.dpr, this.dpr);
         ctx.clearRect(0, 0, w, h);
 
         for (let i = 0; i < this.particlesList.length; i++) {
@@ -12327,6 +13089,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
                 }
             }
         }
+        ctx.restore();
         ctx.globalAlpha = 1;
     },
 
@@ -12347,6 +13110,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         if (this.videoEl) this.videoEl.pause();
         this.stopAdaptiveTheming();
         if (this.particlesAnimId) cancelAnimationFrame(this.particlesAnimId);
+        if (this.canvasAnimId) cancelAnimationFrame(this.canvasAnimId);
     },
 
     resumeAll() {
@@ -12354,8 +13118,17 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         if (this.currentTheme.liveType === 'video' && this.videoEl) {
             this.videoEl.play().catch(() => {});
             this.startAdaptiveTheming();
+        } else {
+            this.start3DMotion(this.currentTheme);
         }
         if (this.activePreset !== 'none') this.loopParticles();
+    }
+};
+window.LiveWallpaperManager = LiveWallpaperManager;
+window.generateCurrentLive3DVideo = () => {
+    const t = (typeof getActiveTheme === 'function') ? getActiveTheme() : null;
+    if (window.LiveWallpaperManager && t) {
+        window.LiveWallpaperManager.generate3DVideoWallpaper(t);
     }
 };
 window.LiveWallpaperManager = LiveWallpaperManager;

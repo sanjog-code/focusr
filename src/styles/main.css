@@ -1800,6 +1800,39 @@ body.oled-true-black .glass {
     color: #fff !important;
     box-shadow: 0 0 20px rgba(14, 165, 233, 0.5) !important;
 }
+.market-btn-generate-video {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.22), rgba(6, 182, 212, 0.22)) !important;
+    border-color: rgba(168, 85, 247, 0.5) !important;
+    color: #e9d5ff !important;
+}
+.market-btn-generate-video:hover {
+    background: linear-gradient(135deg, #a855f7, #06b6d4) !important;
+    border-color: #c084fc !important;
+    color: #fff !important;
+    box-shadow: 0 0 24px rgba(168, 85, 247, 0.6) !important;
+}
+.market-btn-generate-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.35rem 0.65rem;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(168, 85, 247, 0.32);
+    border: 1px solid rgba(168, 85, 247, 0.65);
+    color: #f3e8ff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 4px;
+}
+.market-btn-generate-card:hover {
+    background: #a855f7;
+    border-color: #c084fc;
+    color: #fff;
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.7);
+    transform: translateY(-1px);
+}
 .market-adaptive-toggle {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 0.48rem 0.95rem; border-radius: 9999px;

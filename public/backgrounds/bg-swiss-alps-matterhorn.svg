@@ -1,0 +1,36 @@
+<!-- Focusr Spatial Wallpaper [Matterhorn Twilight] (Seed: 62) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sky_62" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#040b10"/>
+      <stop offset="50%" stop-color="#0a101e"/>
+      <stop offset="85%" stop-color="#0f261c"/>
+      <stop offset="100%" stop-color="#020906"/>
+    </linearGradient>
+    <radialGradient id="sun_62" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#2563eb" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="mist_62">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#sky_62)"/>
+
+  <!-- Glowing Sun/Moon Disk -->
+  <circle cx="1160" cy="460" r="180" fill="url(#sun_62)" opacity="0.75"/>
+
+  <!-- Distant Ridge -->
+  <path d="M0,640 Q400,542 960,536 T1920,620 L1920,1080 L0,1080 Z" fill="#0a1a14" opacity="0.7"/>
+
+  <!-- Midground Ridge -->
+  <path d="M0,740 Q550,584 1100,698 T1920,720 L1920,1080 L0,1080 Z" fill="#06120d" opacity="0.85"/>
+
+  <!-- Atmospheric Valley Mist Layer -->
+  <rect x="0" y="660" width="1920" height="140" fill="#60a5fa" opacity="0.12" filter="url(#mist_62)"/>
+
+  <!-- Foreground Mountains & Lake Reflection -->
+  <path d="M0,860 Q480,784 1020,800 T1920,850 L1920,1080 L0,1080 Z" fill="#020705"/>
+</svg>

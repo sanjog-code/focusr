@@ -1,0 +1,32 @@
+<!-- Focusr Spatial Wallpaper [Diamond Dust Prism] (Seed: 138) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="polarNight_138" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#020612"/>
+      <stop offset="40%" stop-color="#120614"/>
+      <stop offset="85%" stop-color="#051722"/>
+      <stop offset="100%" stop-color="#020a10"/>
+    </linearGradient>
+    <linearGradient id="auroraA_138" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.1"/>
+      <stop offset="35%" stop-color="#db2777" stop-opacity="0.75"/>
+      <stop offset="70%" stop-color="#ec4899" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#db2777" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="auroraBlur_138">
+      <feGaussianBlur stdDeviation="35"/>
+    </filter>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#polarNight_138)"/>
+
+  <!-- Undulating Aurora Ribbons -->
+  <path d="M-100,418 C400,186 800,400 1300,282 C1600,120 1800,300 2020,220 L2020,620 C1700,560 1300,700 800,560 C400,440 100,600 -100,540 Z" fill="url(#auroraA_138)" filter="url(#auroraBlur_138)" opacity="0.85"/>
+  <path d="M-100,264 C500,410 950,228 1450,346 C1750,260 1900,380 2020,320 L2020,540 C1600,480 1200,580 700,480 C300,400 50,500 -100,460 Z" fill="#ec4899" filter="url(#auroraBlur_138)" opacity="0.45"/>
+
+  <!-- Jagged Ice Mountains Silhouette -->
+  <path d="M0,780 L220,690 L440,790 L710,650 L960,760 L1280,630 L1560,770 L1780,680 L1920,770 L1920,1080 L0,1080 Z" fill="#01060c"/>
+
+  <!-- Polar Reflection Sea -->
+  <rect x="0" y="800" width="1920" height="280" fill="url(#auroraA_138)" opacity="0.22" filter="url(#auroraBlur_138)"/>
+</svg>
