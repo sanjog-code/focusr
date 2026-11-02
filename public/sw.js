@@ -1,4 +1,4 @@
-const CACHE_NAME = 'focusr-cache-v10-clean-stable';
+const CACHE_NAME = 'focusr-cache-v11-perf-instant';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
@@ -35,20 +35,21 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
 
-    // Network-First for HTML/navigation requests so user always gets the latest UI
+    // Fast Network-First with 1500ms timeout race for HTML/navigation requests
     if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
         event.respondWith(
-            fetch(event.request)
-                .then((response) => {
+            Promise.race([
+                fetch(event.request).then((response) => {
                     if (response && response.status === 200) {
                         const copy = response.clone();
                         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
                     }
                     return response;
-                })
-                .catch(() => {
-                    return caches.match(event.request).then((cached) => cached || caches.match('/index.html'));
-                })
+                }),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('NetworkTimeout')), 1500))
+            ]).catch(() => {
+                return caches.match(event.request).then((cached) => cached || caches.match('/index.html') || fetch(event.request));
+            })
         );
         return;
     }
