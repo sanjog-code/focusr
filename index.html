@@ -494,56 +494,83 @@
         <div class="setup-category-wrap">
             <label class="setup-category-title">Focus Category</label>
             <div class="category-chips setup-chips" id="category-chips-setup"></div>
-            <div class="super-strict-toggle-row">
-                <div class="strict-label-group">
-                    <span class="strict-badge-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-                    <div>
-                        <div class="strict-title-text">
-                            <span>Super Strict Mode</span>
-                            <span class="strict-tag-badge">Anti-Slacking</span>
+        </div>
+
+        <!-- Session Protocols & Focus Guard (Spatial Inset Group) -->
+        <div class="setup-protocols-wrap">
+            <label class="setup-protocols-title">Focus Protocols</label>
+            <div class="spatial-protocols-group glass">
+                <!-- 1. Super Strict Mode -->
+                <div class="spatial-protocol-row">
+                    <div class="protocol-leading">
+                        <div class="protocol-icon-squircle icon-strict">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <path d="m9 12 2 2 4-4"/>
+                            </svg>
                         </div>
-                        <div class="strict-sub-text">Continuous focus guard — halt timer if idle</div>
-                    </div>
-                </div>
-                <label class="spatial-switch">
-                    <input type="checkbox" id="toggle-super-strict-setup">
-                    <span class="spatial-slider"></span>
-                </label>
-            </div>
-            <div class="focus-alarm-toggle-row">
-                <div class="alarm-label-group">
-                    <span class="alarm-badge-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
-                    <div>
-                        <div class="alarm-title-text">
-                            <span>Loud Wake-up Siren</span>
-                            <span class="alarm-tag-badge">Every 2m</span>
+                        <div class="protocol-text">
+                            <div class="protocol-title">Super Strict Guard</div>
+                            <div class="protocol-caption">Halts timer if keyboard and mouse become idle</div>
                         </div>
-                        <div class="alarm-sub-text">Loud noise every 2 min when not focusing</div>
                     </div>
-                </div>
-                <div class="alarm-actions-group">
-                    <button type="button" class="btn-test-alarm" id="btn-test-alarm-setup" title="Preview loud alarm sound">Test Siren</button>
-                    <label class="spatial-switch">
-                        <input type="checkbox" id="toggle-loud-alarm-setup" checked>
-                        <span class="spatial-slider alarm-slider"></span>
+                    <label class="spatial-switch" title="Toggle Super Strict Guard">
+                        <input type="checkbox" id="toggle-super-strict-setup">
+                        <span class="spatial-slider slider-strict"></span>
                     </label>
                 </div>
-            </div>
-            <div class="zen-toggle-row">
-                <div class="strict-label-group">
-                    <span class="strict-badge-icon" style="background:rgba(56,189,248,.15);border-color:rgba(56,189,248,.3);color:#38bdf8"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg></span>
-                    <div>
-                        <div class="strict-title-text">
-                            <span>Zen Flow Default</span>
-                            <span class="strict-tag-badge" style="background:rgba(56,189,248,.18);color:#38bdf8;border-color:rgba(56,189,248,.35)">Ultra-Calm</span>
+
+                <!-- 2. Wake-up Siren -->
+                <div class="spatial-protocol-row">
+                    <div class="protocol-leading">
+                        <div class="protocol-icon-squircle icon-siren">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
                         </div>
-                        <div class="strict-sub-text">Matte obsidian backdrop, zero distractions & asleep GPU</div>
+                        <div class="protocol-text">
+                            <div class="protocol-title">
+                                <span>Wake-up Siren</span>
+                                <span class="protocol-meta-tag">Every 2m</span>
+                            </div>
+                            <div class="protocol-caption">Audible chime alerts when focus is interrupted</div>
+                        </div>
+                    </div>
+                    <div class="protocol-trailing">
+                        <button type="button" class="btn-protocol-preview btn-test-alarm" id="btn-test-alarm-setup" title="Preview wake-up siren" aria-label="Preview wake-up siren">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                            </svg>
+                            <span>Preview</span>
+                        </button>
+                        <label class="spatial-switch" title="Toggle Wake-up Siren">
+                            <input type="checkbox" id="toggle-loud-alarm-setup" checked>
+                            <span class="spatial-slider slider-siren"></span>
+                        </label>
                     </div>
                 </div>
-                <label class="spatial-switch">
-                    <input type="checkbox" id="toggle-zen-default">
-                    <span class="spatial-slider"></span>
-                </label>
+
+                <!-- 3. Zen Flow Default -->
+                <div class="spatial-protocol-row">
+                    <div class="protocol-leading">
+                        <div class="protocol-icon-squircle icon-zen">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 2a10 10 0 0 1 0 20z"/>
+                            </svg>
+                        </div>
+                        <div class="protocol-text">
+                            <div class="protocol-title">Zen Flow Canvas</div>
+                            <div class="protocol-caption">Matte obsidian backdrop with zero distractions & asleep GPU</div>
+                        </div>
+                    </div>
+                    <label class="spatial-switch" title="Toggle Zen Flow Canvas">
+                        <input type="checkbox" id="toggle-zen-default">
+                        <span class="spatial-slider slider-zen"></span>
+                    </label>
+                </div>
             </div>
         </div>
 
