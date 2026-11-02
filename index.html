@@ -1009,14 +1009,14 @@
 </div><!-- /app -->
 
 <!-- ═══ Spatial 3D Rocket Assistant (Cosmo) ═══ -->
-<div id="cosmo-stage" class="cosmo-stage hidden-offscreen">
+<div id="cosmo-stage" class="cosmo-stage">
     <!-- Notification Speech Bubble Card -->
     <div id="cosmo-bubble" class="cosmo-bubble glass">
         <div class="cosmo-bubble-header">
             <div class="cosmo-badge">
                 <img src="assets/rocket-assistant.jpg" alt="Cosmor" class="cosmo-avatar">
                 <span class="cosmo-name">Cosmor</span>
-                <span class="cosmo-status-tag" id="cosmo-mode-badge">COURIER</span>
+                <span class="cosmo-status-tag" id="cosmo-mode-badge">COMPANION</span>
             </div>
             <button class="cosmo-close-btn" id="cosmo-bubble-close" title="Dismiss message">✕</button>
         </div>
@@ -2637,14 +2637,6 @@ const themeModalBackdrop = $('theme-modal-backdrop');
 const themeModalClose    = $('theme-modal-close');
 const btnOpenThemes      = $('btn-open-themes');
 const btnFocusThemes     = $('btn-focus-themes');
-    $('btn-focus-cosmo')?.addEventListener('click', () => {
-        if (window.Cosmo && typeof Cosmo.trickRoll === 'function') {
-            Cosmo.trickRoll();
-        } else if (window.Cosmo && typeof Cosmo.cycleCompanionMode === 'function') {
-            Cosmo.cycleCompanionMode();
-        }
-        if (typeof soundClick === 'function') soundClick();
-    });
 
 const themeGrid          = $('theme-grid');
 const sliderBlur         = $('slider-backdrop-blur');
@@ -5335,11 +5327,12 @@ const AccountManager = {
         });
 
         const itemCosmo = $('menu-item-cosmo');
-        if (itemCosmo) itemCosmo.addEventListener('click', () => {
+        if (itemCosmo) itemCosmo.onclick = (e) => {
+            e.stopPropagation();
             this.closeDropdown();
-            if (window.Cosmo && Cosmo.cycleCompanionMode) Cosmo.cycleCompanionMode();
-            soundClick();
-        });
+            if (window.Cosmo && Cosmo.setEnabled) Cosmo.setEnabled(!Cosmo.enabled);
+            if (typeof soundClick === 'function') soundClick();
+        };
 
         const itemThemes = $('menu-item-themes');
         if (itemThemes) itemThemes.addEventListener('click', () => {
@@ -5678,12 +5671,12 @@ const Cosmo = {
     isBlinking: false,
 
     // States & Mode
-    mode: 'courier', // 'courier' or 'companion'
-    state: 'offscreen', // 'offscreen', 'flying_in', 'hovering', 'flying_out', 'trick'
+    mode: 'companion', // 'companion' or 'courier'
+    state: 'hovering', // 'offscreen', 'flying_in', 'hovering', 'flying_out', 'trick'
     time: 0,
     animId: null,
     isPaused: false,
-    enabled: false, // Default: OFF (Battery & GPU Saver)
+    enabled: true, // Default: Active Companion Mode ON
 
     pause() {
         this.isPaused = true;
@@ -5691,13 +5684,18 @@ const Cosmo = {
             cancelAnimationFrame(this.animId);
             this.animId = null;
         }
-        if (this.stage) this.stage.style.setProperty('display', 'none', 'important');
+        if (this.stage) {
+            this.stage.classList.add('hidden-offscreen');
+        }
     },
 
     resume() {
         if (!this.enabled) return;
         this.isPaused = false;
-        if (this.stage) this.stage.style.removeProperty('display');
+        if (this.stage) {
+            this.stage.style.removeProperty('display');
+            this.stage.classList.remove('hidden-offscreen');
+        }
         if (!this.animId) {
             this.animate();
         }
@@ -5714,10 +5712,16 @@ const Cosmo = {
         const toggleEl = document.getElementById('toggle-companion-mode');
         if (toggleEl && toggleEl.checked !== this.enabled) toggleEl.checked = this.enabled;
         if (this.enabled) {
+            this.mode = 'companion';
+            if (this.modeBadge) this.modeBadge.textContent = 'COMPANION';
             this.resume();
+            this.flyIn();
             if (typeof showToast === 'function') showToast('Companion Mode (Cosmo 3D): Active', '🚀');
         } else {
-            this.pause();
+            this.flyOut(true);
+            setTimeout(() => {
+                if (!this.enabled) this.pause();
+            }, 600);
             if (typeof showToast === 'function') showToast('Companion Mode: Off (GPU & Battery Saved)', '⚡');
         }
     },
@@ -5749,9 +5753,28 @@ const Cosmo = {
         this.bubbleIcon = $('cosmo-bubble-icon');
         this.modeBadge = $('cosmo-mode-badge');
 
-        if (!this.canvas || typeof THREE === 'undefined') {
-            console.warn('Three.js not found or canvas missing. Cosmo fallback active.');
+        if (!this.canvas) return;
+        if (this.renderer) return;
+
+        const _THREE = (typeof THREE !== 'undefined' ? THREE : null) || window.THREE;
+        if (!_THREE) {
+            let attempts = 0;
+            const checkThree = setInterval(() => {
+                attempts++;
+                const readyThree = (typeof THREE !== 'undefined' ? THREE : null) || window.THREE;
+                if (readyThree) {
+                    clearInterval(checkThree);
+                    window.THREE = readyThree;
+                    this.init();
+                } else if (attempts > 60) {
+                    clearInterval(checkThree);
+                    console.warn('Three.js not found after 6s. Cosmo fallback active.');
+                }
+            }, 100);
             return;
+        }
+        if (typeof THREE === 'undefined' && _THREE) {
+            window.THREE = _THREE;
         }
 
         // 1. Offscreen Visor Canvas & Dynamic Glowing LED Texture
@@ -5827,38 +5850,44 @@ const Cosmo = {
         // Animation loop setup
         this.animate = this.animate.bind(this);
 
-        // Default: OFF for GPU & battery preservation
+        // Default: Active Companion Mode ON
         try {
-            this.enabled = localStorage.getItem('focusr_companion_mode') === 'true';
+            const saved = localStorage.getItem('focusr_companion_mode');
+            this.enabled = saved !== null ? saved === 'true' : true;
         } catch {
-            this.enabled = false;
+            this.enabled = true;
         }
 
         const toggleComp = document.getElementById('toggle-companion-mode');
         if (toggleComp) {
             toggleComp.checked = this.enabled;
-            toggleComp.addEventListener('change', (e) => {
+            toggleComp.onchange = (e) => {
                 this.setEnabled(e.target.checked);
-            });
+            };
         }
 
         const btnMenuCosmo = document.getElementById('menu-item-cosmo');
         if (btnMenuCosmo) {
-            btnMenuCosmo.addEventListener('click', () => {
+            btnMenuCosmo.onclick = (e) => {
+                e.stopPropagation();
                 if (window.AccountManager) AccountManager.closeDropdown();
                 this.setEnabled(!this.enabled);
-            });
+            };
         }
 
         const btnDockCosmo = document.getElementById('btn-focus-cosmo');
         if (btnDockCosmo) {
-            btnDockCosmo.addEventListener('click', () => {
+            btnDockCosmo.onclick = (e) => {
+                e.stopPropagation();
                 this.setEnabled(!this.enabled);
-            });
+            };
         }
 
         if (this.enabled) {
+            this.mode = 'companion';
+            if (this.modeBadge) this.modeBadge.textContent = 'COMPANION';
             this.resume();
+            this.flyIn();
         } else {
             this.pause();
         }
@@ -6603,10 +6632,14 @@ const Cosmo = {
 
     deliver(msg, icon = '', duration = 3400) {
         if (!this.stage) return;
-        // Only display 3D courier if user explicitly toggled Cosmo into active companion mode
-        if (this.mode !== 'companion') {
+        if (!this.enabled) {
             if (typeof showToast === 'function') showToast(msg, icon, duration);
             return;
+        }
+
+        if (this.state === 'offscreen' || this.stage.classList.contains('hidden-offscreen')) {
+            this.resume();
+            this.flyIn();
         }
 
         this.setEyeState('happy');
@@ -6637,8 +6670,9 @@ const Cosmo = {
     flyIn() {
         if (!this.stage) return;
         this.state = 'flying_in';
+        this.stage.style.removeProperty('display');
         this.stage.classList.remove('hidden-offscreen');
-        CosmoAudio.playWhoosh();
+        if (window.CosmoAudio && CosmoAudio.playWhoosh) CosmoAudio.playWhoosh();
         setTimeout(() => {
             if (this.state === 'flying_in') {
                 this.state = 'hovering';
@@ -6646,10 +6680,11 @@ const Cosmo = {
         }, 550);
     },
 
-    flyOut() {
-        if (!this.stage || this.mode === 'companion') return;
+    flyOut(force = false) {
+        if (!this.stage) return;
+        if (!force && this.mode === 'companion') return;
         this.state = 'flying_out';
-        CosmoAudio.playWhoosh();
+        if (window.CosmoAudio && CosmoAudio.playWhoosh) CosmoAudio.playWhoosh();
         this.stage.classList.add('hidden-offscreen');
         setTimeout(() => {
             if (this.state === 'flying_out') {
@@ -6867,6 +6902,8 @@ const Cosmo = {
         this.renderer.render(this.scene, this.camera);
     }
 };
+window.Cosmo = Cosmo;
+window.Cosmor = Cosmo;
 
 /* ── Toast Notifications ── */
 function showToast(msg, icon = '', duration = 3200) {
@@ -8841,9 +8878,7 @@ if (sliderOpacity) {
 
 // Cosmo 3D Assistant Controls
 const btnToggleCosmo = $('btn-toggle-cosmo');
-const btnFocusCosmo = $('btn-focus-cosmo');
-if (btnToggleCosmo) btnToggleCosmo.addEventListener('click', () => Cosmo.toggleMode());
-if (btnFocusCosmo) btnFocusCosmo.addEventListener('click', () => Cosmo.toggleMode());
+if (btnToggleCosmo) btnToggleCosmo.onclick = () => Cosmo.setEnabled(!Cosmo.enabled);
 
 // Focusr Intro details (rendered inline without accordion)
 
