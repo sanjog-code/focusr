@@ -278,6 +278,11 @@
 
                     <div class="menu-divider"></div>
 
+                    <button class="menu-item-btn" id="menu-item-passport" onclick="if (window.AccountManager) AccountManager.closeDropdown(); if (window.FocusPassport) FocusPassport.open();">
+                        <span class="menu-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2"/><path d="M15 12h2"/><path d="M7 16h10"/></svg></span>
+                        <span class="menu-item-text">Focus Passport (Allowed Apps)</span>
+                    </button>
+
                     <button class="menu-item-btn" id="menu-item-support" onclick="if (window.AccountManager) AccountManager.closeDropdown(); if (window.Modals) Modals.openSupportAtelier();">
                         <span class="menu-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
                         <span class="menu-item-text">Support Indie Development</span>
@@ -287,6 +292,16 @@
                 </div>
             </div>
             <div class="spatial-action-island glass">
+                <button class="btn-icon btn-passport" id="btn-open-passport" title="Focus Passport — Allowed Tabs & Apps Whitelist" onclick="if(window.FocusPassport) FocusPassport.open();">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="16" rx="3"/>
+                        <circle cx="9" cy="10" r="2"/>
+                        <path d="M15 8h2"/>
+                        <path d="M15 12h2"/>
+                        <path d="M7 16h10"/>
+                    </svg>
+                    <span class="passport-pulse-dot" id="home-passport-pulse"></span>
+                </button>
                 <button class="btn-icon" id="btn-open-marketplace" title="Atmosphere & Wallpaper Marketplace (52+ Free Themes)" style="position:relative" onclick="if(window.WallpaperMarketplace) WallpaperMarketplace.open();">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                 </button>
@@ -625,6 +640,13 @@
                         <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
                         <span id="unfocused-badge-text">AWAY 0:00 (SIREN 2:00)</span>
                     </span>
+                    <span class="focus-protected-badge" id="focus-protected-badge" style="display:none">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <polyline points="9 12 11 14 15 10"/>
+                        </svg>
+                        <span id="protected-badge-text">Flow Protected: VS Code</span>
+                    </span>
                 </div>
                 <div class="focus-top-bar-controls">
                     <button id="btn-toggle-zen" class="action-pill zen-pill" title="Toggle Zen Mode (Z)"><span>✦ Zen Mode</span></button>
@@ -650,6 +672,16 @@
                     </span>
                     <span>Spotify</span>
                     <span class="pill-badge" id="focus-spotify-status-badge">READY</span>
+                </button>
+                <button class="studio-dock-btn" id="btn-focus-passport" title="Focus Passport (Allowed Workspaces)" onclick="if(window.FocusPassport) FocusPassport.open();">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="16" rx="3"/>
+                        <circle cx="9" cy="10" r="2"/>
+                        <path d="M15 8h2"/>
+                        <path d="M15 12h2"/>
+                        <path d="M7 16h10"/>
+                    </svg>
+                    <span>Passport</span>
                 </button>
                 <button class="studio-dock-btn" id="btn-focus-themes" title="Change Atmosphere & Audio Ambience">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
@@ -1890,6 +1922,141 @@
         </div>
     </div>
 </div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     FOCUS PASSPORT — ALLOWED WORKSPACES MODAL
+     ════════════════════════════════════════════════════════════════ -->
+<div class="passport-modal-backdrop" id="modal-focus-passport" aria-hidden="true">
+    <div class="passport-modal glass" role="dialog" aria-labelledby="passport-modal-title">
+        <!-- Header & Status Badges -->
+        <div class="passport-modal-header">
+            <div class="passport-header-content">
+                <div class="passport-title-row">
+                    <div class="passport-icon-badge">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="16" rx="3"/>
+                            <circle cx="9" cy="10" r="2"/>
+                            <path d="M15 8h2"/>
+                            <path d="M15 12h2"/>
+                            <path d="M7 16h10"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 id="passport-modal-title">Focus Passport — Allowed Workspaces</h2>
+                        <p class="passport-subtitle">Prevent distraction penalties and auto-pauses while working in authorized tabs & desktop apps.</p>
+                    </div>
+                </div>
+                
+                <div class="passport-status-row">
+                    <div class="passport-status-pill" id="passport-ext-status">
+                        <span class="status-indicator-dot dot-gray" id="dot-ext-status"></span>
+                        <span class="status-pill-title">Browser Extension:</span>
+                        <span class="status-pill-val" id="text-ext-status">Checking...</span>
+                    </div>
+                    <div class="passport-status-pill" id="passport-bridge-status">
+                        <span class="status-indicator-dot dot-gray" id="dot-bridge-status"></span>
+                        <span class="status-pill-title">Desktop Bridge:</span>
+                        <span class="status-pill-val" id="text-bridge-status">Checking...</span>
+                        <a href="javascript:void(0)" class="bridge-launcher-hint" id="hint-bridge-launcher" style="display:none" onclick="if(window.FocusPassport) FocusPassport.showBridgeGuide()">Run Launcher</a>
+                    </div>
+                </div>
+            </div>
+            <button class="modal-close-btn" id="btn-close-passport" title="Close Passport">✕</button>
+        </div>
+
+        <!-- Two-Column Selection View -->
+        <div class="passport-modal-body">
+            <!-- Left Column: Browser Tabs & History -->
+            <div class="passport-column">
+                <div class="passport-col-header">
+                    <div class="col-title-wrap">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <h3>Browser Tabs & History</h3>
+                    </div>
+                    <button class="passport-refresh-btn" id="btn-refresh-tabs" title="Refresh Tabs">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+
+                <div class="passport-input-group">
+                    <input type="text" id="input-custom-domain" placeholder="Enter custom domain, e.g. *.github.com" class="passport-input" spellcheck="false" autocomplete="off" />
+                    <button class="passport-add-btn" id="btn-add-domain">+ Add</button>
+                </div>
+
+                <div class="passport-section-label">Currently Open Tabs</div>
+                <div class="passport-scroll-list" id="passport-tabs-list">
+                    <div class="passport-empty-state">Loading tabs...</div>
+                </div>
+
+                <div class="passport-section-label">Frequent Work Domains (Past 7 Days)</div>
+                <div class="passport-scroll-list" id="passport-history-list">
+                    <div class="passport-empty-state">Loading browsing history...</div>
+                </div>
+            </div>
+
+            <!-- Right Column: Detected Desktop Apps -->
+            <div class="passport-column">
+                <div class="passport-col-header">
+                    <div class="col-title-wrap">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        <h3>Detected Desktop Apps</h3>
+                    </div>
+                    <button class="passport-refresh-btn" id="btn-refresh-apps" title="Refresh Running Apps">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+
+                <div class="passport-input-group">
+                    <input type="text" id="input-custom-app" placeholder="Enter process name, e.g. Figma.exe" class="passport-input" spellcheck="false" autocomplete="off" />
+                    <button class="passport-add-btn" id="btn-add-app">+ Add</button>
+                </div>
+
+                <div class="passport-section-label">Running Applications</div>
+                <div class="passport-scroll-list" id="passport-apps-list">
+                    <div class="passport-empty-state">Desktop bridge offline. Run launch-bridge.bat to detect apps.</div>
+                </div>
+
+                <div class="passport-bridge-callout glass" id="passport-bridge-callout">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-body">
+                        <strong>Windows Desktop Integration:</strong>
+                        <span>Launch <code>launch-bridge.bat</code> in the Focusr directory to stream active desktop apps (VS Code, Terminal, Figma) to Focusr with zero distraction alerts.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Whitelist Shelf (Bottom Panel) -->
+        <div class="passport-shelf">
+            <div class="passport-shelf-header">
+                <div class="shelf-title-wrap">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <h4>Active Whitelist (<span id="passport-count">0</span> allowed)</h4>
+                </div>
+                <div class="shelf-actions">
+                    <button class="passport-shelf-action" id="btn-passport-reset">Reset Defaults</button>
+                    <button class="passport-shelf-action" id="btn-passport-clear">Clear All</button>
+                </div>
+            </div>
+            <div class="passport-tags-shelf" id="passport-tags-shelf">
+                <!-- Whitelist tags dynamically rendered here -->
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <!-- Three.js bundled via modern ES modules in src/canvas/CosmoCompanion.ts -->
@@ -9057,6 +9224,11 @@ document.addEventListener('keydown', e => {
         SpotifyManager.closeModal();
         return;
     }
+    if (e.code === 'Escape' && $('modal-focus-passport')?.classList.contains('active')) {
+        e.preventDefault();
+        if (window.FocusPassport) FocusPassport.close();
+        return;
+    }
 
     if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
 
@@ -9104,18 +9276,30 @@ function handleWindowOrTabDesertion(source = 'window') {
 
     // Guard: If focus moved into an internal iframe (e.g. Spotify embed player) or an internal modal is open,
     // this is active in-app interaction, not desertion!
-    if (document.activeElement && (document.activeElement.tagName === 'IFRAME' || document.activeElement.closest?.('.spotify-modal, .theme-modal, .target-modal, .login-modal'))) {
+    if (document.activeElement && (document.activeElement.tagName === 'IFRAME' || document.activeElement.closest?.('.spotify-modal, .theme-modal, .target-modal, .login-modal, .passport-modal'))) {
         return;
     }
     const isModalOpen = $('spotify-modal-backdrop')?.classList.contains('active') ||
                         $('target-modal-backdrop')?.classList.contains('active') ||
                         $('theme-modal-backdrop')?.classList.contains('active') ||
-                        $('login-modal-backdrop')?.classList.contains('active');
+                        $('login-modal-backdrop')?.classList.contains('active') ||
+                        $('modal-focus-passport')?.classList.contains('active');
     if (isModalOpen && !document.hidden) return;
 
     // Check if truly away: document is either hidden or window has lost focus
     const isAway = document.hidden || !document.hasFocus();
     if (!isAway) return;
+
+    // Focus Passport Guard:
+    // If user navigated to an authorized browser tab or switched to an authorized desktop process,
+    // maintain active session flow with zero distraction penalties and continuous soundscape.
+    if (window.FocusPassport) {
+        const passportCheck = window.FocusPassport.isCurrentlyInAllowedWorkspace();
+        if (passportCheck && passportCheck.allowed) {
+            window.FocusPassport.showFlowProtectionBadge(passportCheck.label || passportCheck.target);
+            return; // Zero penalty, keep timer running smoothly!
+        }
+    }
 
     if (S.running && !S.paused) {
         pauseSession(true);
@@ -9191,6 +9375,11 @@ function handleWindowOrTabReturn(source = 'window') {
 
     // Check if truly focused and visible
     if (document.hidden || !document.hasFocus()) return;
+
+    // Clear flow protection status badge upon returning to Focusr
+    if (window.FocusPassport) {
+        window.FocusPassport.hideFlowProtectionBadge();
+    }
 
     if (S.autoPausedByTab && S.paused) {
         resumeSession(true);
@@ -10550,6 +10739,654 @@ const WallpaperMarketplace = {
     }
 };
 
+/* ════════════════════════════════════════════════════════════════
+   FOCUS PASSPORT — ALLOWED WORKSPACES CONTROLLER & BRIDGE
+   ════════════════════════════════════════════════════════════════ */
+const FocusPassport = {
+    STORAGE_KEY: 'focusr_allowed_workspaces_v1',
+    DEFAULT_ITEMS: [
+        { id: 'def_1', type: 'domain', pattern: 'localhost', label: 'localhost' },
+        { id: 'def_2', type: 'domain', pattern: '127.0.0.1', label: '127.0.0.1' },
+        { id: 'def_3', type: 'domain', pattern: 'github.com', label: 'github.com' },
+        { id: 'def_4', type: 'domain', pattern: '*.github.com', label: '*.github.com' },
+        { id: 'def_5', type: 'domain', pattern: 'stackoverflow.com', label: 'stackoverflow.com' },
+        { id: 'def_6', type: 'domain', pattern: 'developer.mozilla.org', label: 'developer.mozilla.org' },
+        { id: 'def_7', type: 'domain', pattern: 'docs.google.com', label: 'docs.google.com' },
+        { id: 'def_8', type: 'process', pattern: 'Code.exe', label: 'VS Code (Code.exe)' },
+        { id: 'def_9', type: 'process', pattern: 'WindowsTerminal.exe', label: 'Windows Terminal' },
+        { id: 'def_10', type: 'process', pattern: 'Figma.exe', label: 'Figma' },
+        { id: 'def_11', type: 'process', pattern: 'Obsidian.exe', label: 'Obsidian' },
+        { id: 'def_12', type: 'process', pattern: 'devenv.exe', label: 'Visual Studio' }
+    ],
+    whitelist: [],
+    extensionConnected: false,
+    desktopBridgeConnected: false,
+    currentActiveTab: null,
+    currentActiveProcess: null,
+    detectedTabs: [],
+    detectedHistory: [],
+    detectedApps: [],
+    ws: null,
+    reconnectTimer: null,
+    pingInterval: null,
+    isAwayInProtectedWorkspace: false,
+    protectedLabel: '',
+
+    init() {
+        this.loadWhitelist();
+        this.initExtensionBridge();
+        this.initDesktopBridge();
+        this.bindEvents();
+        this.updateStatusBadges();
+        this.renderShelf();
+    },
+
+    loadWhitelist() {
+        try {
+            const raw = localStorage.getItem(this.STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    this.whitelist = parsed;
+                    return;
+                }
+            }
+        } catch (e) {}
+        this.whitelist = JSON.parse(JSON.stringify(this.DEFAULT_ITEMS));
+        this.saveWhitelist();
+    },
+
+    saveWhitelist() {
+        try {
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.whitelist));
+        } catch (e) {}
+        const countEl = $('passport-count');
+        if (countEl) countEl.textContent = this.whitelist.length;
+    },
+
+    bindEvents() {
+        // Top action button & Studio button
+        const btnOpen = $('btn-open-passport');
+        if (btnOpen) btnOpen.addEventListener('click', () => this.open());
+
+        const btnClose = $('btn-close-passport');
+        if (btnClose) btnClose.addEventListener('click', () => this.close());
+
+        // Backdrop click to close
+        const backdrop = $('modal-focus-passport');
+        if (backdrop) {
+            backdrop.addEventListener('click', (e) => {
+                if (e.target === backdrop) this.close();
+            });
+        }
+
+        // Refresh buttons
+        const btnRefTabs = $('btn-refresh-tabs');
+        if (btnRefTabs) btnRefTabs.addEventListener('click', () => {
+            this.requestTabs();
+            this.requestHistory();
+            showToast('Refreshing browser tabs & history...', '', 1500);
+        });
+
+        const btnRefApps = $('btn-refresh-apps');
+        if (btnRefApps) btnRefApps.addEventListener('click', () => {
+            this.requestApps();
+            showToast('Refreshing desktop applications...', '', 1500);
+        });
+
+        // Add domain
+        const btnAddDomain = $('btn-add-domain');
+        const inputDomain = $('input-custom-domain');
+        if (btnAddDomain && inputDomain) {
+            const handleAdd = () => {
+                const val = inputDomain.value.trim();
+                if (val) {
+                    this.addPattern(val, 'domain', val);
+                    inputDomain.value = '';
+                }
+            };
+            btnAddDomain.addEventListener('click', handleAdd);
+            inputDomain.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') { e.preventDefault(); handleAdd(); }
+            });
+        }
+
+        // Add app
+        const btnAddApp = $('btn-add-app');
+        const inputApp = $('input-custom-app');
+        if (btnAddApp && inputApp) {
+            const handleAddApp = () => {
+                const val = inputApp.value.trim();
+                if (val) {
+                    const clean = val.endsWith('.exe') ? val : `${val}.exe`;
+                    this.addPattern(clean, 'process', clean);
+                    inputApp.value = '';
+                }
+            };
+            btnAddApp.addEventListener('click', handleAddApp);
+            inputApp.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') { e.preventDefault(); handleAddApp(); }
+            });
+        }
+
+        // Reset & Clear
+        const btnReset = $('btn-passport-reset');
+        if (btnReset) btnReset.addEventListener('click', () => this.resetDefaults());
+
+        const btnClear = $('btn-passport-clear');
+        if (btnClear) btnClear.addEventListener('click', () => this.clearAll());
+    },
+
+    open() {
+        const modal = $('modal-focus-passport');
+        if (!modal) return;
+        modal.classList.add('active');
+        this.requestTabs();
+        this.requestHistory();
+        this.requestApps();
+        this.renderShelf();
+        this.updateStatusBadges();
+    },
+
+    close() {
+        const modal = $('modal-focus-passport');
+        if (modal) modal.classList.remove('active');
+    },
+
+    initExtensionBridge() {
+        // Listen to messages from content script
+        window.addEventListener('message', (event) => {
+            if (!event.data || typeof event.data !== 'object') return;
+            const { type } = event.data;
+
+            if (type === 'FOCUSR_EXTENSION_READY' || type === 'FOCUSR_PONG') {
+                this.extensionConnected = true;
+                this.updateStatusBadges();
+            } else if (type === 'FOCUSR_RESP_TABS') {
+                this.extensionConnected = true;
+                this.detectedTabs = event.data.tabs || [];
+                this.renderTabs();
+                this.updateStatusBadges();
+            } else if (type === 'FOCUSR_RESP_HISTORY') {
+                this.extensionConnected = true;
+                this.detectedHistory = event.data.history || [];
+                this.renderHistory();
+                this.updateStatusBadges();
+            } else if (type === 'FOCUSR_ACTIVE_TAB_CHANGED') {
+                this.currentActiveTab = {
+                    domain: event.data.domain,
+                    url: event.data.url,
+                    title: event.data.title
+                };
+                this.onWorkspaceChanged();
+            }
+        });
+
+        // Ping check
+        window.postMessage({ type: 'FOCUSR_PING' }, '*');
+        this.requestTabs();
+        this.requestHistory();
+
+        // Periodic ping
+        this.pingInterval = setInterval(() => {
+            window.postMessage({ type: 'FOCUSR_PING' }, '*');
+        }, 6000);
+    },
+
+    initDesktopBridge() {
+        try {
+            if (this.ws) {
+                try { this.ws.close(); } catch (e) {}
+                this.ws = null;
+            }
+
+            const ws = new WebSocket('ws://127.0.0.1:42069');
+            this.ws = ws;
+
+            ws.onopen = () => {
+                this.desktopBridgeConnected = true;
+                this.updateStatusBadges();
+                this.requestApps();
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.type === 'BRIDGE_CONNECTED') {
+                        this.desktopBridgeConnected = true;
+                        this.updateStatusBadges();
+                        if (data.activeWindow) {
+                            this.currentActiveProcess = data.activeWindow;
+                        }
+                    } else if (data.type === 'RUNNING_APPS') {
+                        this.detectedApps = data.apps || [];
+                        this.renderApps();
+                    } else if (data.type === 'ACTIVE_WINDOW') {
+                        this.currentActiveProcess = {
+                            processName: data.processName || '',
+                            windowTitle: data.windowTitle || '',
+                            pid: data.pid || 0
+                        };
+                        this.onWorkspaceChanged();
+                    }
+                } catch (err) {}
+            };
+
+            ws.onclose = () => {
+                this.desktopBridgeConnected = false;
+                this.updateStatusBadges();
+                this.scheduleBridgeReconnect();
+            };
+
+            ws.onerror = () => {
+                this.desktopBridgeConnected = false;
+                this.updateStatusBadges();
+                this.checkHttpBridgeFallback();
+            };
+        } catch (e) {
+            this.desktopBridgeConnected = false;
+            this.updateStatusBadges();
+            this.scheduleBridgeReconnect();
+        }
+    },
+
+    scheduleBridgeReconnect() {
+        if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+        this.reconnectTimer = setTimeout(() => {
+            this.initDesktopBridge();
+        }, 5000);
+    },
+
+    async checkHttpBridgeFallback() {
+        try {
+            const res = await fetch('http://127.0.0.1:42069/status', { method: 'GET', mode: 'cors' });
+            if (res.ok) {
+                const data = await res.json();
+                this.desktopBridgeConnected = true;
+                if (data.activeWindow) this.currentActiveProcess = data.activeWindow;
+                this.updateStatusBadges();
+            }
+        } catch (e) {}
+    },
+
+    requestTabs() {
+        window.postMessage({ type: 'FOCUSR_REQ_TABS' }, '*');
+    },
+
+    requestHistory() {
+        window.postMessage({ type: 'FOCUSR_REQ_HISTORY' }, '*');
+    },
+
+    async requestApps() {
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            this.ws.send(JSON.stringify({ type: 'GET_RUNNING_APPS' }));
+            return;
+        }
+        try {
+            const res = await fetch('http://127.0.0.1:42069/apps', { method: 'GET', mode: 'cors' });
+            if (res.ok) {
+                const data = await res.json();
+                this.detectedApps = data.apps || [];
+                this.renderApps();
+            }
+        } catch (e) {}
+    },
+
+    matchPattern(pattern, target) {
+        if (!pattern || !target) return false;
+        const pat = String(pattern).trim().toLowerCase();
+        const tgt = String(target).trim().toLowerCase();
+
+        // Exact match
+        if (pat === tgt) return true;
+
+        // Process extension agnostic match
+        if (pat.replace(/\.exe$/, '') === tgt.replace(/\.exe$/, '')) return true;
+
+        // Subdomain wildcard: *.github.com matches github.com and api.github.com
+        if (pat.startsWith('*.')) {
+            const root = pat.slice(2);
+            if (tgt === root || tgt.endsWith('.' + root)) return true;
+        }
+
+        // Port wildcard: localhost:* matches localhost:3000
+        if (pat.endsWith(':*')) {
+            const host = pat.slice(0, -2);
+            const targetHost = tgt.split(':')[0];
+            if (targetHost === host) return true;
+        }
+
+        return false;
+    },
+
+    isPatternWhitelisted(pattern, type) {
+        return this.whitelist.some(item => {
+            if (type && item.type !== type) return false;
+            return this.matchPattern(item.pattern, pattern);
+        });
+    },
+
+    isCurrentlyInAllowedWorkspace() {
+        // 1. Check active desktop application from bridge
+        if (this.currentActiveProcess && this.currentActiveProcess.processName) {
+            const proc = this.currentActiveProcess.processName;
+            for (const item of this.whitelist) {
+                if (item.type === 'process' && this.matchPattern(item.pattern, proc)) {
+                    return {
+                        allowed: true,
+                        type: 'process',
+                        target: proc,
+                        label: item.label || proc
+                    };
+                }
+            }
+        }
+
+        // 2. Check active browser tab from extension
+        if (this.currentActiveTab && this.currentActiveTab.domain) {
+            const domain = this.currentActiveTab.domain;
+            for (const item of this.whitelist) {
+                if (item.type === 'domain' && this.matchPattern(item.pattern, domain)) {
+                    return {
+                        allowed: true,
+                        type: 'domain',
+                        target: domain,
+                        label: item.label || domain
+                    };
+                }
+            }
+        }
+
+        return { allowed: false };
+    },
+
+    onWorkspaceChanged() {
+        if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
+
+        const isAway = document.hidden || !document.hasFocus();
+        if (!isAway) return;
+
+        const check = this.isCurrentlyInAllowedWorkspace();
+        if (check.allowed) {
+            this.showFlowProtectionBadge(check.label || check.target);
+            if (S.paused && S.autoPausedByTab) {
+                resumeSession(true);
+                soundResume();
+            }
+        } else {
+            this.hideFlowProtectionBadge();
+            if (S.running && !S.paused) {
+                handleWindowOrTabDesertion('switch');
+            }
+        }
+    },
+
+    showFlowProtectionBadge(label) {
+        this.isAwayInProtectedWorkspace = true;
+        this.protectedLabel = label;
+        const badge = $('focus-protected-badge');
+        const text = $('protected-badge-text');
+        if (badge && text) {
+            text.textContent = `Flow Protected: ${label}`;
+            badge.style.display = 'inline-flex';
+        }
+        if (timerDisp && S && S.running) {
+            document.title = `🛡️ [${label}] ${timerDisp.textContent} | Focusr`;
+        }
+    },
+
+    hideFlowProtectionBadge() {
+        this.isAwayInProtectedWorkspace = false;
+        this.protectedLabel = '';
+        const badge = $('focus-protected-badge');
+        if (badge) badge.style.display = 'none';
+    },
+
+    addPattern(pattern, type = 'domain', label = '') {
+        const cleanPattern = pattern.trim();
+        if (!cleanPattern) return;
+
+        if (this.isPatternWhitelisted(cleanPattern, type)) {
+            showToast(`${cleanPattern} is already whitelisted!`, '', 2500);
+            return;
+        }
+
+        const cleanLabel = label || cleanPattern;
+        this.whitelist.push({
+            id: 'fp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+            type,
+            pattern: cleanPattern,
+            label: cleanLabel,
+            addedAt: Date.now()
+        });
+
+        this.saveWhitelist();
+        this.renderShelf();
+        this.renderTabs();
+        this.renderHistory();
+        this.renderApps();
+        showToast(`Whitelisted: ${cleanPattern}`, '', 2500);
+    },
+
+    removePattern(id) {
+        const found = this.whitelist.find(i => i.id === id);
+        this.whitelist = this.whitelist.filter(i => i.id !== id);
+        this.saveWhitelist();
+        this.renderShelf();
+        this.renderTabs();
+        this.renderHistory();
+        this.renderApps();
+        if (found) {
+            showToast(`Removed ${found.pattern} from whitelist`, '', 2000);
+        }
+    },
+
+    resetDefaults() {
+        this.whitelist = JSON.parse(JSON.stringify(this.DEFAULT_ITEMS));
+        this.saveWhitelist();
+        this.renderShelf();
+        this.renderTabs();
+        this.renderHistory();
+        this.renderApps();
+        showToast('Reset whitelist to recommended developer defaults', '', 2500);
+    },
+
+    clearAll() {
+        this.whitelist = [];
+        this.saveWhitelist();
+        this.renderShelf();
+        this.renderTabs();
+        this.renderHistory();
+        this.renderApps();
+        showToast('All allowed workspaces cleared', '', 2500);
+    },
+
+    renderShelf() {
+        const shelf = $('passport-tags-shelf');
+        const countEl = $('passport-count');
+        if (countEl) countEl.textContent = this.whitelist.length;
+        if (!shelf) return;
+
+        if (this.whitelist.length === 0) {
+            shelf.innerHTML = '<span style="font-size:0.75rem;color:rgba(255,255,255,0.45)">No workspaces whitelisted. Add tabs or desktop apps above.</span>';
+            return;
+        }
+
+        shelf.innerHTML = this.whitelist.map(item => `
+            <span class="whitelist-tag" data-id="${item.id}">
+                <span class="whitelist-tag-type">${item.type === 'process' ? 'APP' : 'TAB'}</span>
+                <span>${item.pattern}</span>
+                <span class="whitelist-tag-remove" onclick="FocusPassport.removePattern('${item.id}')" title="Remove ${item.pattern}">✕</span>
+            </span>
+        `).join('');
+    },
+
+    renderTabs() {
+        const list = $('passport-tabs-list');
+        if (!list) return;
+
+        if (!this.extensionConnected) {
+            list.innerHTML = `
+                <div class="passport-empty-state">
+                    <strong>Focusr Companion Extension not detected</strong><br/>
+                    Install from <code>extension/</code> folder via <em>chrome://extensions</em> ("Load unpacked").
+                </div>
+            `;
+            return;
+        }
+
+        if (!this.detectedTabs || this.detectedTabs.length === 0) {
+            list.innerHTML = '<div class="passport-empty-state">No other tabs open.</div>';
+            return;
+        }
+
+        list.innerHTML = this.detectedTabs.map(tab => {
+            const isWhitelisted = this.isPatternWhitelisted(tab.domain, 'domain');
+            const iconHtml = tab.favIconUrl 
+                ? `<img src="${tab.favIconUrl}" alt="" onerror="this.style.display='none'">` 
+                : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>`;
+
+            return `
+                <div class="passport-item-row">
+                    <div class="passport-item-info">
+                        <div class="passport-item-icon">${iconHtml}</div>
+                        <div class="passport-item-text">
+                            <span class="passport-item-title">${tab.title || tab.domain}</span>
+                            <span class="passport-item-sub">${tab.domain}</span>
+                        </div>
+                    </div>
+                    ${isWhitelisted ? `
+                        <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                    ` : `
+                        <button class="passport-item-btn" onclick="FocusPassport.addPattern('${tab.domain}', 'domain', '${tab.domain}')">+ Allow</button>
+                    `}
+                </div>
+            `;
+        }).join('');
+    },
+
+    renderHistory() {
+        const list = $('passport-history-list');
+        if (!list) return;
+
+        if (!this.extensionConnected) {
+            list.innerHTML = '<div class="passport-empty-state">Connect extension to view frequent work domains.</div>';
+            return;
+        }
+
+        if (!this.detectedHistory || this.detectedHistory.length === 0) {
+            list.innerHTML = '<div class="passport-empty-state">No frequent domains found in the past 7 days.</div>';
+            return;
+        }
+
+        list.innerHTML = this.detectedHistory.map(item => {
+            const isWhitelisted = this.isPatternWhitelisted(item.domain, 'domain');
+            return `
+                <div class="passport-item-row">
+                    <div class="passport-item-info">
+                        <div class="passport-item-icon">🌐</div>
+                        <div class="passport-item-text">
+                            <span class="passport-item-title">${item.domain}</span>
+                            <span class="passport-item-sub">${item.title || item.domain} · ${item.visitCount} visits</span>
+                        </div>
+                    </div>
+                    ${isWhitelisted ? `
+                        <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                    ` : `
+                        <button class="passport-item-btn" onclick="FocusPassport.addPattern('${item.domain}', 'domain', '${item.domain}')">+ Allow</button>
+                    `}
+                </div>
+            `;
+        }).join('');
+    },
+
+    renderApps() {
+        const list = $('passport-apps-list');
+        if (!list) return;
+
+        if (!this.desktopBridgeConnected) {
+            list.innerHTML = `
+                <div class="passport-empty-state">
+                    <strong>Desktop Bridge is offline</strong><br/>
+                    Run <code>launch-bridge.bat</code> in the Focusr folder to detect active Windows applications.
+                </div>
+            `;
+            return;
+        }
+
+        if (!this.detectedApps || this.detectedApps.length === 0) {
+            list.innerHTML = '<div class="passport-empty-state">No windowed user applications detected.</div>';
+            return;
+        }
+
+        list.innerHTML = this.detectedApps.map(app => {
+            const isWhitelisted = this.isPatternWhitelisted(app.processName, 'process');
+            return `
+                <div class="passport-item-row">
+                    <div class="passport-item-info">
+                        <div class="passport-item-icon">💻</div>
+                        <div class="passport-item-text">
+                            <span class="passport-item-title">${app.displayName}</span>
+                            <span class="passport-item-sub">${app.processName}</span>
+                        </div>
+                    </div>
+                    ${isWhitelisted ? `
+                        <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                    ` : `
+                        <button class="passport-item-btn" onclick="FocusPassport.addPattern('${app.processName}', 'process', '${app.displayName}')">+ Allow</button>
+                    `}
+                </div>
+            `;
+        }).join('');
+    },
+
+    updateStatusBadges() {
+        // Extension
+        const dotExt = $('dot-ext-status');
+        const textExt = $('text-ext-status');
+        if (dotExt && textExt) {
+            if (this.extensionConnected) {
+                dotExt.className = 'status-indicator-dot dot-green';
+                textExt.textContent = 'Connected 🟢';
+            } else {
+                dotExt.className = 'status-indicator-dot dot-gray';
+                textExt.textContent = 'Not Detected ⚪';
+            }
+        }
+
+        // Bridge
+        const dotBridge = $('dot-bridge-status');
+        const textBridge = $('text-bridge-status');
+        const hintBridge = $('hint-bridge-launcher');
+        if (dotBridge && textBridge) {
+            if (this.desktopBridgeConnected) {
+                dotBridge.className = 'status-indicator-dot dot-green';
+                textBridge.textContent = 'Connected 🟢';
+                if (hintBridge) hintBridge.style.display = 'none';
+            } else {
+                dotBridge.className = 'status-indicator-dot dot-gray';
+                textBridge.textContent = 'Offline ⚪';
+                if (hintBridge) hintBridge.style.display = 'inline';
+            }
+        }
+
+        // Pulse dot on home action island
+        const pulseDot = $('home-passport-pulse');
+        if (pulseDot) {
+            if (this.extensionConnected || this.desktopBridgeConnected) {
+                pulseDot.className = 'passport-pulse-dot';
+            } else {
+                pulseDot.className = 'passport-pulse-dot offline';
+            }
+        }
+    },
+
+    showBridgeGuide() {
+        showToast('To connect Desktop Bridge: open the Focusr directory and run launch-bridge.bat!', '', 5000);
+    }
+};
+
+
 
 const FocusrCustomization = {
     config: {
@@ -11173,9 +12010,15 @@ window.PricingModal = PricingModal;
 window.BinauralEngine = BinauralEngine;
 window.CustomThemeStorage = CustomThemeStorage;
 window.WallpaperMarketplace = WallpaperMarketplace;
+window.FocusPassport = FocusPassport;
 window.FocusrCustomization = FocusrCustomization;
 window.AdManager = AdManager;
 window.DiscoveryEngine = DiscoveryEngine;
+window.handleWindowOrTabDesertion = handleWindowOrTabDesertion;
+window.handleWindowOrTabReturn = handleWindowOrTabReturn;
+window.S = S;
+window.navigate = navigate;
+window.screens = screens;
 
 /* ── Live Wallpaper Manager & Atmospheric Motion Engine ── */
 const LiveWallpaperManager = window.LiveWallpaperManager || {
@@ -11545,6 +12388,7 @@ function bootApplication() {
     if (typeof BinauralEngine !== 'undefined' && BinauralEngine.init) BinauralEngine.init();
     if (typeof FocusrCustomization !== 'undefined' && FocusrCustomization.init) FocusrCustomization.init();
     if (typeof WallpaperMarketplace !== 'undefined' && WallpaperMarketplace.init) WallpaperMarketplace.init();
+    if (typeof FocusPassport !== 'undefined' && FocusPassport.init) FocusPassport.init();
     if (typeof AdManager !== 'undefined' && AdManager.init) AdManager.init();
     if (typeof DiscoveryEngine !== 'undefined' && DiscoveryEngine.init) DiscoveryEngine.init();
 

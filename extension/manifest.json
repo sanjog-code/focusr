@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Focusr Companion",
+  "version": "1.0.0",
+  "description": "Allowed workspaces companion for Focusr to monitor legitimate work tabs and eliminate false distraction penalties.",
+  "permissions": [
+    "tabs",
+    "history"
+  ],
+  "host_permissions": [
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "https://focusr-seven.vercel.app/*",
+    "https://*.vercel.app/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost/*",
+        "http://127.0.0.1/*",
+        "https://focusr-seven.vercel.app/*",
+        "https://*.vercel.app/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
