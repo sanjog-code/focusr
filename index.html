@@ -308,11 +308,11 @@
     <div class="mode-grid">
         <div class="mode-card glass" data-mode="timer">
             <span class="mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="14" r="8"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="14" x2="16" y2="10"/></svg></span>
-            <div><h2>Timer</h2><p>Countdown</p></div>
+            <div class="mode-content"><h2>Timer</h2><p>Countdown</p></div>
         </div>
         <div class="mode-card glass" data-mode="stopwatch">
             <span class="mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><polyline points="12 9 12 13 15 15"/><path d="M5 3L2 6"/><path d="M22 6l-3-3"/><path d="M12 2v3"/></svg></span>
-            <div><h2>Stopwatch</h2><p>Open Flow</p></div>
+            <div class="mode-content"><h2>Stopwatch</h2><p>Open Flow</p></div>
         </div>
         <div class="mode-card glass" data-mode="pomodoro">
             <span class="mode-icon">
@@ -323,7 +323,7 @@
                     <path d="M12 10v4l2.5 2"/>
                 </svg>
             </span>
-            <div><h2>Pomodoro</h2><p>Intervals</p></div>
+            <div class="mode-content"><h2>Pomodoro</h2><p>Intervals</p></div>
         </div>
     </div>
 
@@ -494,6 +494,25 @@
         <div class="setup-category-wrap">
             <label class="setup-category-title">Focus Category</label>
             <div class="category-chips setup-chips" id="category-chips-setup"></div>
+        </div>
+
+        <!-- Clock Face Selector in Setup -->
+        <div class="setup-clock-wrap">
+            <label class="setup-clock-title">Clock Face</label>
+            <div class="setup-clock-chips" id="setup-clock-chips">
+                <button type="button" class="setup-clock-chip active" data-face="digital" title="Digital Studio Ring">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="18" y2="12"/></svg>
+                    <span>Digital</span>
+                </button>
+                <button type="button" class="setup-clock-chip" data-face="analog" title="Swiss Chronograph">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>Swiss</span>
+                </button>
+                <button type="button" class="setup-clock-chip" data-face="arc" title="Zen Minimal Arc">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+                    <span>Zen Arc</span>
+                </button>
+            </div>
         </div>
 
         <!-- Session Protocols & Focus Guard (Spatial Inset Group) -->
@@ -710,8 +729,8 @@
             <div class="ghost-racer-card glass" id="ghost-racer-card">
                 <div class="ghost-track-header">
                     <div class="ghost-rival-info">
-                        <span class="ghost-avatar-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-                        <div>
+                        <div class="ghost-avatar-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                        <div class="ghost-rival-meta-wrap">
                             <div class="ghost-rival-title">
                                 <span id="ghost-rival-name">Phantom Self (PB)</span>
                                 <span class="ghost-speed-badge" id="ghost-speed-badge">1.0x Pace</span>
@@ -725,27 +744,29 @@
                     </div>
                 </div>
 
-                <!-- Dual Race Track -->
+                <!-- Dual Precision Pacing Track -->
                 <div class="ghost-race-track" id="ghost-race-track">
-                    <div class="track-finish-line" title="Session Finish Line">FINISH</div>
-
-                    <!-- Ghost Lane -->
-                    <div class="track-lane ghost-lane">
-                        <div class="track-progress-fill ghost-fill" id="ghost-track-fill" style="width: 0%"></div>
-                        <div class="racer-node ghost-node" id="ghost-racer-node" style="left: 0%">
-                            <span class="racer-icon">GHOST</span>
-                            <span class="racer-tag">GHOST</span>
+                    <div class="track-lane-row">
+                        <span class="track-lane-label">PACE</span>
+                        <div class="track-lane ghost-lane">
+                            <div class="track-progress-fill ghost-fill" id="ghost-track-fill" style="width: 0%"></div>
+                            <div class="racer-node ghost-node" id="ghost-racer-node" style="left: 0%">
+                                <span class="racer-dot ghost-dot"></span>
+                                <span class="racer-tag" style="display:none">GHOST</span>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Player Lane -->
-                    <div class="track-lane player-lane">
-                        <div class="track-progress-fill player-fill" id="player-track-fill" style="width: 0%"></div>
-                        <div class="racer-node player-node" id="player-racer-node" style="left: 0%">
-                            <span class="racer-icon">YOU</span>
-                            <span class="racer-tag">YOU</span>
+                    <div class="track-lane-row">
+                        <span class="track-lane-label">YOU</span>
+                        <div class="track-lane player-lane">
+                            <div class="track-progress-fill player-fill" id="player-track-fill" style="width: 0%"></div>
+                            <div class="racer-node player-node" id="player-racer-node" style="left: 0%">
+                                <span class="racer-dot player-dot"></span>
+                                <span class="racer-tag" style="display:none">YOU</span>
+                            </div>
                         </div>
                     </div>
+                    <div class="track-finish-line" style="display:none">FINISH</div>
                 </div>
 
                 <div class="ghost-track-footer">
@@ -767,7 +788,7 @@
         </div>
 
         <!-- Spatial Glass Inventory Shelf -->
-        <aside class="inventory-shelf glass" id="inventory-shelf">
+        <aside class="inventory-shelf glass collapsed" id="inventory-shelf">
             <div class="shelf-header">
                 <div>
                     <h3>Focus Bottles</h3>
@@ -6798,11 +6819,12 @@ const Cosmo = {
     },
 
     animate() {
-        if (this.isPaused || !this.enabled) {
-            this.animId = null;
+        const self = (this && this.isPaused !== undefined) ? this : (window.Cosmo || this);
+        if (!self || self.isPaused || !self.enabled) {
+            if (self) self.animId = null;
             return;
         }
-        this.animId = requestAnimationFrame(this.animate);
+        self.animId = requestAnimationFrame(() => self.animate());
         this.time += 0.035;
 
         // Dynamic blink intervals
@@ -10711,6 +10733,15 @@ const FocusrCustomization = {
                 soundClick();
             });
         });
+
+        const setupChips = document.querySelectorAll('.setup-clock-chip');
+        setupChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const face = chip.dataset.face;
+                this.setClockFace(face);
+                soundClick();
+            });
+        });
     },
 
     setClockFace(face) {
@@ -10725,6 +10756,10 @@ const FocusrCustomization = {
 
         // Update active class on clock face cards in modal
         document.querySelectorAll('.clock-face-card').forEach(c => {
+            c.classList.toggle('active', c.dataset.face === face);
+        });
+        // Update active class on setup clock chips
+        document.querySelectorAll('.setup-clock-chip').forEach(c => {
             c.classList.toggle('active', c.dataset.face === face);
         });
 
