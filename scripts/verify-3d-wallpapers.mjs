@@ -67,7 +67,7 @@ if (!hasCosmic3D || !hasCyberpunk3D || !hasNature3D || !hasAurora3D || !hasLofi3
 }
 console.log('✓ All 6 3D spatial renderers, canvas stream capture, and adaptive theming verified.');
 
-console.log('>>> [4/4] Verifying Focus Passport Allowed Workspaces & Relayed Desktop Apps...');
+console.log('>>> [4/5] Verifying Focus Passport Allowed Workspaces & Relayed Desktop Apps...');
 const hasPassportCurated = html.includes('CURATED_DEVELOPER_APPS') && html.includes('CURATED_WORK_TABS');
 const hasRelayApps = html.includes('FOCUSR_RESP_APPS') && html.includes('FOCUSR_ACTIVE_APP_CHANGED');
 const hasLauncherBat = html.includes('downloadBridgeBat');
@@ -76,5 +76,22 @@ if (!hasPassportCurated || !hasRelayApps || !hasLauncherBat) {
   throw new Error('Focus Passport is missing curated apps library or extension relay support');
 }
 console.log('✓ Focus Passport curated developer library, extension relay, and launcher download verified.');
+
+console.log('>>> [5/5] Verifying Live Wallpaper Fine-Tuning Control Center & Physics Engine...');
+const hasTuningBar = html.includes('id="market-tuning-bar"');
+const hasSpeedSlider = html.includes('id="slider-live-speed"');
+const hasDepthSlider = html.includes('id="slider-live-depth"');
+const hasDensitySlider = html.includes('id="slider-live-density"');
+const hasGlowSlider = html.includes('id="slider-live-glow"');
+const hasWeatherSelector = html.includes('id="tuning-weather-selector"');
+const hasTuningMethods = html.includes('loadTuning') && html.includes('saveTuning') && 
+                         html.includes('setSpeed') && html.includes('setDepth') && 
+                         html.includes('setDensity') && html.includes('setGlow') &&
+                         html.includes('resetTuning');
+
+if (!hasTuningBar || !hasSpeedSlider || !hasDepthSlider || !hasDensitySlider || !hasGlowSlider || !hasWeatherSelector || !hasTuningMethods) {
+  throw new Error('Live Wallpaper Fine-Tuning Controls or engine methods missing in index.html');
+}
+console.log('✓ Live Wallpaper Fine-Tuning Controls (Speed, Depth, Density, Weather, Glow) & Engine verified.');
 
 console.log('\n🎉 ALL 152 UNIQUE WALLPAPERS & 3D MOTION ENGINE VERIFICATIONS PASSED!\n');

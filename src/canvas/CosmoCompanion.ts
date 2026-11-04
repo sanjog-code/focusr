@@ -29,6 +29,8 @@ export const CosmoCompanion = {
     isTabHidden: false,
     isZenActive: false,
     enabled: true,
+    state: 'hovering',
+    trickT: 0,
     rafId: 0,
     time: 0,
     eyeState: 'happy',
@@ -100,6 +102,11 @@ export const CosmoCompanion = {
                 this.startLoop();
             }
         }) as EventListener);
+
+        this.actor?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.doWheelie();
+        });
 
         if (this.enabled) {
             this.startLoop();

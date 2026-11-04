@@ -1109,7 +1109,7 @@
     </div>
 
     <!-- 3D WebGL Canvas for Rocket & Assistant -->
-    <div id="cosmo-actor" class="cosmo-actor" title="Click Cosmo to perform a 360° rocket roll!">
+    <div id="cosmo-actor" class="cosmo-actor" title="Click Cosmo to perform a rocket wheelie!">
         <canvas id="cosmo-canvas" width="200" height="200"></canvas>
         <div class="cosmo-glow"></div>
     </div>
@@ -1157,6 +1157,100 @@
                 <span>Adaptive Video Theme</span>
                 <input type="checkbox" id="checkbox-adaptive-theme" checked style="margin-left:6px; accent-color:#00e5ff; cursor:pointer;">
             </label>
+        </div>
+
+        <!-- ✦ Live Wallpaper Fine-Tuning Control Center ✦ -->
+        <div class="market-tuning-bar glass" id="market-tuning-bar">
+            <div class="tuning-bar-header">
+                <div class="tuning-bar-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Live Atmosphere Fine-Tuning</span>
+                    <span class="tuning-status-tag" id="tuning-status-tag">60fps Ultra Spatial</span>
+                </div>
+                <button type="button" class="btn-tuning-toggle" id="btn-toggle-tuning-drawer" title="Toggle Fine-Tuning Drawer">
+                    <span id="tuning-toggle-text">Fine-Tune</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+            </div>
+            <div class="tuning-controls-body" id="tuning-controls-body">
+                <div class="tuning-item">
+                    <div class="tuning-label-row">
+                        <label for="slider-live-speed">Motion Flow Speed</label>
+                        <span class="tuning-val" id="val-live-speed">1.00x</span>
+                    </div>
+                    <div class="tuning-slider-wrap">
+                        <input type="range" id="slider-live-speed" min="0.25" max="2.5" step="0.05" value="1.0">
+                        <div class="tuning-quick-chips">
+                            <button type="button" class="tuning-chip" data-speed="0.5">0.5x Zen</button>
+                            <button type="button" class="tuning-chip active" data-speed="1.0">1.0x Normal</button>
+                            <button type="button" class="tuning-chip" data-speed="1.75">1.75x Warp</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tuning-item">
+                    <div class="tuning-label-row">
+                        <label for="slider-live-depth">3D Parallax & Tilt</label>
+                        <span class="tuning-val" id="val-live-depth">100%</span>
+                    </div>
+                    <div class="tuning-slider-wrap">
+                        <input type="range" id="slider-live-depth" min="0" max="200" step="5" value="100">
+                        <div class="tuning-quick-chips">
+                            <button type="button" class="tuning-chip" data-depth="0">Fixed</button>
+                            <button type="button" class="tuning-chip active" data-depth="100">100% Depth</button>
+                            <button type="button" class="tuning-chip" data-depth="180">Max 3D</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tuning-item">
+                    <div class="tuning-label-row">
+                        <label for="slider-live-density">Particle & Star Density</label>
+                        <span class="tuning-val" id="val-live-density">100%</span>
+                    </div>
+                    <div class="tuning-slider-wrap">
+                        <input type="range" id="slider-live-density" min="20" max="200" step="10" value="100">
+                        <div class="tuning-quick-chips">
+                            <button type="button" class="tuning-chip" data-density="40">Minimal</button>
+                            <button type="button" class="tuning-chip active" data-density="100">Balanced</button>
+                            <button type="button" class="tuning-chip" data-density="180">Immersive</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tuning-item">
+                    <div class="tuning-label-row">
+                        <label>Weather & Atmospheric Layer</label>
+                        <span class="tuning-val" id="val-live-weather">Auto</span>
+                    </div>
+                    <div class="tuning-weather-selector" id="tuning-weather-selector">
+                        <button type="button" class="weather-chip active" data-preset="auto">Auto</button>
+                        <button type="button" class="weather-chip" data-preset="sakura">🌸 Sakura</button>
+                        <button type="button" class="weather-chip" data-preset="stardust">✨ Stardust</button>
+                        <button type="button" class="weather-chip" data-preset="embers">🔥 Embers</button>
+                        <button type="button" class="weather-chip" data-preset="rain">🌧 Rain</button>
+                        <button type="button" class="weather-chip" data-preset="snow">❄ Snow</button>
+                        <button type="button" class="weather-chip" data-preset="none">Off</button>
+                    </div>
+                </div>
+
+                <div class="tuning-item">
+                    <div class="tuning-label-row">
+                        <label for="slider-live-glow">Liquid Chromatic Glow & Bloom</label>
+                        <span class="tuning-val" id="val-live-glow">100%</span>
+                    </div>
+                    <div class="tuning-slider-wrap">
+                        <input type="range" id="slider-live-glow" min="30" max="200" step="5" value="100">
+                    </div>
+                </div>
+
+                <div class="tuning-actions-row">
+                    <button type="button" class="btn-tuning-reset" id="btn-tuning-reset" title="Reset all fine-tuning to golden defaults">
+                        ↺ Reset Defaults
+                    </button>
+                    <span class="tuning-hint-text">Fine-tunes 3D canvas, motion physics, video captures, and adaptive hues instantly.</span>
+                </div>
+            </div>
         </div>
 
         <!-- Category Filter Pills -->
@@ -1274,6 +1368,20 @@
                     <span class="adjust-val" id="val-backdrop-opacity">85%</span>
                 </div>
                 <input type="range" id="slider-backdrop-opacity" min="20" max="100" step="1" value="85">
+            </div>
+            <div class="adjust-control">
+                <div class="adjust-header">
+                    <label for="atelier-slider-live-speed">3D Live Motion Speed</label>
+                    <span class="adjust-val" id="atelier-val-live-speed">1.00x</span>
+                </div>
+                <input type="range" id="atelier-slider-live-speed" min="0.25" max="2.5" step="0.05" value="1.0">
+            </div>
+            <div class="adjust-control">
+                <div class="adjust-header">
+                    <label for="atelier-slider-live-depth">3D Parallax & Depth</label>
+                    <span class="adjust-val" id="atelier-val-live-depth">100%</span>
+                </div>
+                <input type="range" id="atelier-slider-live-depth" min="0" max="200" step="5" value="100">
             </div>
         </div>
 
@@ -5963,13 +6071,12 @@ const Cosmo = {
     currentTiltY: 0,
 
     quotes: [
-        "Spatial loop complete. Telemetry locked in.",
-        "Astro-Bot Cosmor active. Ready for deep work flight.",
-        "Telemetry verified. Optimal orbit achieved.",
-        "Sustained focus velocity. Keep the momentum going.",
-        "Deep focus rhythm nominal. All systems go.",
-        "Perimeter secure. Distractions eliminated.",
-        "Clean frequency locked. Clear skies for flow state."
+        "Wheelie popped! Maximum focus thrust engaged! 🚀",
+        "Yee-haw! Tail down, nose up, locked into flow! ✨",
+        "Full throttle rocket wheelie! Clear skies for deep work!",
+        "Full thrust wheelie! Momentum unstoppable! ⚡",
+        "Clean frequency locked. Clear skies for flow state.",
+        "Sustained focus velocity. Keep the momentum going!"
     ],
 
     init() {
@@ -7046,31 +7153,79 @@ const Cosmo = {
             }
         }
 
-        // ── 360° Silky Center-Axis Barrel Roll & Buoyant Loop (Zero Frustum Clipping) ──
+        // ── Epic Rocket Wheelie Trick Animation (Pitch-up tail surge & suspension bounce) ──
         if (this.state === 'trick') {
-            this.trickT += 0.022; // ~1.5s silky continuous roll
+            this.trickT += 0.016; // ~1.8s detailed wheelie stunt
             const t = Math.min(1.0, this.trickT);
-            // Smooth cubic ease in-out
-            const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-            const phi = ease * Math.PI * 2; // Full 360° roll
 
-            // Stay centered around origin (0, 0, 0) with a gentle buoyant arc up (+0.25)
-            const liftY = Math.sin(ease * Math.PI) * 0.25;
-            this.rocketGroup.position.set(0, liftY, 0);
+            let posY = 0;
+            let rotX = 0;
+            let rotY = 0.42;
+            let rotZ = -0.18;
+            let flameBoost = 1.0;
 
-            // True barrel roll around longitudinal axis
-            this.rocketGroup.rotation.z = -0.18 + phi;
-            this.rocketGroup.rotation.y = 0.42 + Math.sin(phi) * 0.25;
-            this.rocketGroup.rotation.x = Math.sin(phi) * 0.18;
+            if (t < 0.15) {
+                // Phase 1: Pre-launch crouch & nose dip
+                const p = t / 0.15;
+                posY = -0.12 * Math.sin(p * Math.PI * 0.5);
+                rotX = -0.18 * Math.sin(p * Math.PI * 0.5);
+                rotZ = -0.18;
+                flameBoost = 1.0 + p * 0.6;
+            } else if (t < 0.68) {
+                // Phase 2: WHEELIE POP & TAIL BALANCE
+                const p = (t - 0.15) / 0.53;
+                const popEase = Math.sin(p * Math.PI * 0.5);
+                posY = 0.36 * popEase;
+                rotX = 1.12 * popEase; // Nose pitches way back in a steep wheelie!
 
-            if (this.flameCore) this.flameCore.scale.set(1.4, 2.2, 1.4);
-            if (this.flameOuter) this.flameOuter.scale.set(1.6, 2.6, 1.6);
+                // Playful tail wobble as thrusters fight gravity
+                const wobble = Math.sin(p * Math.PI * 7) * 0.07 * (1.0 - p * 0.4);
+                rotZ = -0.18 + wobble;
+                rotY = 0.42 + Math.cos(p * Math.PI * 5) * 0.08;
+
+                // Thrusters flare up with intense flame
+                flameBoost = 2.4 + Math.sin(p * Math.PI * 12) * 0.6;
+
+                // Koala ears flutter back dynamically in the wind
+                if (this.koalaEars && this.koalaEars.length === 2) {
+                    this.koalaEars[0].rotation.z = 0.55 + Math.sin(this.time * 14) * 0.08;
+                    this.koalaEars[1].rotation.z = -0.55 - Math.sin(this.time * 14) * 0.08;
+                }
+            } else if (t < 0.88) {
+                // Phase 3: Nose slam down / return to level
+                const p = (t - 0.68) / 0.20;
+                const slamEase = p * p;
+                posY = 0.36 * (1.0 - slamEase) - 0.05 * Math.sin(p * Math.PI);
+                rotX = 1.12 * (1.0 - slamEase);
+                rotY = 0.42;
+                rotZ = -0.18;
+                flameBoost = 1.0 + (1.0 - p) * 0.8;
+            } else {
+                // Phase 4: Suspension landing rebound
+                const p = (t - 0.88) / 0.12;
+                const bounce = Math.sin(p * Math.PI * 2) * Math.exp(-p * 3.5) * 0.07;
+                posY = bounce;
+                rotX = -bounce * 0.8;
+                rotY = 0.42;
+                rotZ = -0.18;
+                flameBoost = 1.0;
+            }
+
+            this.rocketGroup.position.set(0, posY, 0);
+            this.rocketGroup.rotation.set(rotX, rotY, rotZ);
+
+            if (this.flameCore) this.flameCore.scale.set(flameBoost * 0.85, flameBoost * 1.6, flameBoost * 0.85);
+            if (this.flameOuter) this.flameOuter.scale.set(flameBoost * 0.95, flameBoost * 1.9, flameBoost * 0.95);
+            if (this.flameLight) this.flameLight.intensity = 2.5 * flameBoost;
 
             if (this.trickT >= 1.0) {
                 this.state = 'hovering';
                 this.trickT = 0;
                 this.rocketGroup.position.set(0, 0, 0);
                 this.rocketGroup.rotation.set(0, 0.42, -0.18);
+                if (this.flameCore) this.flameCore.scale.set(1, 1, 1);
+                if (this.flameOuter) this.flameOuter.scale.set(1, 1, 1);
+                if (this.flameLight) this.flameLight.intensity = 2.5;
                 this.setEyeState('happy');
             }
         } else {
@@ -12186,11 +12341,16 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
     sampleCtx: null,
     adaptiveTimer: 0,
 
+    // Smooth Exponential Moving Average (EMA) color lerp for adaptive theming
+    currentThemeRGB: { r: 14, g: 165, b: 233 },
+
     // 3D Spatial Camera & Parallax State
     targetParallaxX: 0,
     targetParallaxY: 0,
     parallaxX: 0,
     parallaxY: 0,
+    mouseX: 0,
+    mouseY: 0,
     dpr: 1,
 
     // Category 3D Scene Geometry & Particles
@@ -12201,6 +12361,16 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
     polyRotZ: 0,
     gridOffsetZ: 0,
     recordedVideoUrl: null,
+
+    // ✦ Live Wallpaper Fine-Tuning State ✦
+    tuning: {
+        speed: 1.0,
+        depth: 1.0,
+        density: 1.0,
+        glow: 1.0,
+        weatherPreset: 'auto',
+        fpsCap: 60
+    },
 
     init() {
         this.videoEl = $('backdrop-video');
@@ -12220,8 +12390,10 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         this.sampleCanvas.height = 32;
         this.sampleCtx = this.sampleCanvas.getContext('2d', { willReadFrequently: true });
 
-        // Mouse Parallax Listener
+        // Mouse Parallax & Cursor Tracking
         window.addEventListener('mousemove', (e) => {
+            this.mouseX = e.clientX;
+            this.mouseY = e.clientY;
             this.targetParallaxX = ((e.clientX / window.innerWidth) - 0.5) * 2;
             this.targetParallaxY = ((e.clientY / window.innerHeight) - 0.5) * 2;
         });
@@ -12243,8 +12415,202 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             else this.resumeAll();
         });
 
+        this.loadTuning();
         this.initCosmicStars();
         this.initFireflies();
+        this.bindTuningListeners();
+    },
+
+    loadTuning() {
+        try {
+            const raw = localStorage.getItem('focusr_live_wallpaper_tuning_v2');
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                this.tuning = { ...this.tuning, ...parsed };
+            }
+        } catch {}
+        this.applyTuningToDOM();
+    },
+
+    saveTuning() {
+        try {
+            localStorage.setItem('focusr_live_wallpaper_tuning_v2', JSON.stringify(this.tuning));
+        } catch {}
+    },
+
+    setSpeed(val) {
+        this.tuning.speed = Math.max(0.25, Math.min(2.5, parseFloat(val) || 1.0));
+        this.saveTuning();
+        this.applyTuningToDOM();
+    },
+
+    setDepth(val) {
+        this.tuning.depth = Math.max(0, Math.min(2.0, (parseFloat(val) || 100) / 100));
+        this.saveTuning();
+        this.applyTuningToDOM();
+    },
+
+    setDensity(val) {
+        this.tuning.density = Math.max(0.2, Math.min(2.0, (parseFloat(val) || 100) / 100));
+        this.saveTuning();
+        this.initCosmicStars();
+        this.initFireflies();
+        if (this.currentTheme && this.activePreset !== 'none') {
+            this.startParticles(this.activePreset, this.currentTheme.accent);
+        }
+        this.applyTuningToDOM();
+    },
+
+    setGlow(val) {
+        this.tuning.glow = Math.max(0.3, Math.min(2.0, (parseFloat(val) || 100) / 100));
+        document.documentElement.style.setProperty('--live-glow-multiplier', String(this.tuning.glow));
+        this.saveTuning();
+        this.applyTuningToDOM();
+    },
+
+    setWeatherPreset(preset) {
+        this.tuning.weatherPreset = preset;
+        this.saveTuning();
+        if (this.currentTheme) {
+            const effectivePreset = preset === 'auto'
+                ? (this.currentTheme.particlePreset || (this.currentTheme.liveType === 'particles' ? 'stardust' : 'none'))
+                : preset;
+            if (effectivePreset && effectivePreset !== 'none') {
+                this.startParticles(effectivePreset, this.currentTheme.accent);
+            } else {
+                this.stopParticles();
+            }
+        }
+        this.applyTuningToDOM();
+    },
+
+    resetTuning() {
+        this.tuning = {
+            speed: 1.0,
+            depth: 1.0,
+            density: 1.0,
+            glow: 1.0,
+            weatherPreset: 'auto',
+            fpsCap: 60
+        };
+        this.saveTuning();
+        this.initCosmicStars();
+        this.initFireflies();
+        if (this.currentTheme) {
+            this.applyLiveWallpaper(this.currentTheme);
+        }
+        this.applyTuningToDOM();
+        if (typeof showToast === 'function') {
+            showToast('✦ Live wallpaper fine-tuning reset to golden defaults.', '', 2500);
+        }
+    },
+
+    applyTuningToDOM() {
+        const { speed, depth, density, glow, weatherPreset } = this.tuning;
+        const depthPct = Math.round(depth * 100);
+        const densityPct = Math.round(density * 100);
+        const glowPct = Math.round(glow * 100);
+
+        // Update marketplace drawer
+        const sSpeed = $('slider-live-speed');
+        const vSpeed = $('val-live-speed');
+        if (sSpeed) sSpeed.value = speed;
+        if (vSpeed) vSpeed.textContent = speed.toFixed(2) + 'x';
+
+        const sDepth = $('slider-live-depth');
+        const vDepth = $('val-live-depth');
+        if (sDepth) sDepth.value = depthPct;
+        if (vDepth) vDepth.textContent = depthPct + '%';
+
+        const sDensity = $('slider-live-density');
+        const vDensity = $('val-live-density');
+        if (sDensity) sDensity.value = densityPct;
+        if (vDensity) vDensity.textContent = densityPct + '%';
+
+        const sGlow = $('slider-live-glow');
+        const vGlow = $('val-live-glow');
+        if (sGlow) sGlow.value = glowPct;
+        if (vGlow) vGlow.textContent = glowPct + '%';
+
+        const vWeather = $('val-live-weather');
+        if (vWeather) vWeather.textContent = weatherPreset.charAt(0).toUpperCase() + weatherPreset.slice(1);
+
+        // Update chips in marketplace
+        document.querySelectorAll('.tuning-chip[data-speed]').forEach(c => {
+            c.classList.toggle('active', Math.abs(parseFloat(c.dataset.speed) - speed) < 0.08);
+        });
+        document.querySelectorAll('.tuning-chip[data-depth]').forEach(c => {
+            c.classList.toggle('active', Math.abs(parseInt(c.dataset.depth, 10) - depthPct) < 15);
+        });
+        document.querySelectorAll('.tuning-chip[data-density]').forEach(c => {
+            c.classList.toggle('active', Math.abs(parseInt(c.dataset.density, 10) - densityPct) < 15);
+        });
+        document.querySelectorAll('.weather-chip[data-preset]').forEach(c => {
+            c.classList.toggle('active', c.dataset.preset === weatherPreset);
+        });
+
+        // Update Atelier controls
+        const atSpeed = $('atelier-slider-live-speed');
+        const atValSpeed = $('atelier-val-live-speed');
+        if (atSpeed) atSpeed.value = speed;
+        if (atValSpeed) atValSpeed.textContent = speed.toFixed(2) + 'x';
+
+        const atDepth = $('atelier-slider-live-depth');
+        const atValDepth = $('atelier-val-live-depth');
+        if (atDepth) atDepth.value = depthPct;
+        if (atValDepth) atValDepth.textContent = depthPct + '%';
+    },
+
+    bindTuningListeners() {
+        // Marketplace Drawer Sliders
+        const sSpeed = $('slider-live-speed');
+        if (sSpeed) sSpeed.addEventListener('input', (e) => this.setSpeed(e.target.value));
+
+        const sDepth = $('slider-live-depth');
+        if (sDepth) sDepth.addEventListener('input', (e) => this.setDepth(e.target.value));
+
+        const sDensity = $('slider-live-density');
+        if (sDensity) sDensity.addEventListener('input', (e) => this.setDensity(e.target.value));
+
+        const sGlow = $('slider-live-glow');
+        if (sGlow) sGlow.addEventListener('input', (e) => this.setGlow(e.target.value));
+
+        // Atelier Sliders
+        const atSpeed = $('atelier-slider-live-speed');
+        if (atSpeed) atSpeed.addEventListener('input', (e) => this.setSpeed(e.target.value));
+
+        const atDepth = $('atelier-slider-live-depth');
+        if (atDepth) atDepth.addEventListener('input', (e) => this.setDepth(e.target.value));
+
+        // Preset Chips
+        document.querySelectorAll('.tuning-chip[data-speed]').forEach(c => {
+            c.addEventListener('click', () => this.setSpeed(c.dataset.speed));
+        });
+        document.querySelectorAll('.tuning-chip[data-depth]').forEach(c => {
+            c.addEventListener('click', () => this.setDepth(c.dataset.depth));
+        });
+        document.querySelectorAll('.tuning-chip[data-density]').forEach(c => {
+            c.addEventListener('click', () => this.setDensity(c.dataset.density));
+        });
+        document.querySelectorAll('.weather-chip[data-preset]').forEach(c => {
+            c.addEventListener('click', () => this.setWeatherPreset(c.dataset.preset));
+        });
+
+        // Reset Button
+        const btnReset = $('btn-tuning-reset');
+        if (btnReset) btnReset.addEventListener('click', () => this.resetTuning());
+
+        // Toggle Drawer Button
+        const btnToggleDrawer = $('btn-toggle-tuning-drawer');
+        const tuningBar = $('market-tuning-bar');
+        if (btnToggleDrawer && tuningBar) {
+            btnToggleDrawer.addEventListener('click', () => {
+                tuningBar.classList.toggle('is-collapsed');
+                const isCollapsed = tuningBar.classList.contains('is-collapsed');
+                const toggleText = $('tuning-toggle-text');
+                if (toggleText) toggleText.textContent = isCollapsed ? 'Customize' : 'Collapse';
+            });
+        }
     },
 
     resize() {
@@ -12268,33 +12634,37 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     initCosmicStars() {
         this.cosmicStars = [];
-        const count = 120;
+        const baseCount = 120;
+        const count = Math.round(baseCount * (this.tuning ? this.tuning.density : 1.0));
+        const colors = ['#ffffff', '#ffffff', '#e0f2fe', '#bae6fd', '#fef08a', '#fed7aa', '#fbcfe8'];
         for (let i = 0; i < count; i++) {
             this.cosmicStars.push({
-                x: (Math.random() - 0.5) * 1600,
-                y: (Math.random() - 0.5) * 1200,
+                x: (Math.random() - 0.5) * 1800,
+                y: (Math.random() - 0.5) * 1400,
                 z: Math.random() * 1000 + 1,
-                size: 0.8 + Math.random() * 2,
-                speed: 0.8 + Math.random() * 1.6,
-                twinkle: Math.random() * Math.PI * 2
+                size: 0.7 + Math.random() * 2.2,
+                speed: 0.7 + Math.random() * 1.5,
+                twinkle: Math.random() * Math.PI * 2,
+                color: colors[i % colors.length]
             });
         }
     },
 
     initFireflies() {
         this.fireflies = [];
-        const count = 35;
+        const baseCount = 38;
+        const count = Math.round(baseCount * (this.tuning ? this.tuning.density : 1.0));
         const w = window.innerWidth;
         const h = window.innerHeight;
         for (let i = 0; i < count; i++) {
             this.fireflies.push({
                 x: Math.random() * w,
                 y: Math.random() * h,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
+                vx: (Math.random() - 0.5) * 0.45,
+                vy: (Math.random() - 0.5) * 0.45,
                 size: 2 + Math.random() * 3.5,
                 pulse: Math.random() * Math.PI * 2,
-                pulseSpeed: 0.02 + Math.random() * 0.03,
+                pulseSpeed: 0.02 + Math.random() * 0.035,
                 hueShift: Math.random() * 20 - 10
             });
         }
@@ -12315,10 +12685,16 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             this.start3DMotion(theme);
         }
 
-        // 2. Extra particle atmospheric overlay
-        const preset = theme.particlePreset || (liveType === 'particles' ? 'stardust' : 'none');
-        if (preset && preset !== 'none') {
-            this.startParticles(preset, theme.accent);
+        // 2. Extra particle atmospheric overlay respecting fine-tuning
+        let effectivePreset = 'none';
+        if (this.tuning && this.tuning.weatherPreset && this.tuning.weatherPreset !== 'auto') {
+            effectivePreset = this.tuning.weatherPreset;
+        } else {
+            effectivePreset = theme.particlePreset || (liveType === 'particles' ? 'stardust' : 'none');
+        }
+
+        if (effectivePreset && effectivePreset !== 'none') {
+            this.startParticles(effectivePreset, theme.accent);
         } else {
             this.stopParticles();
         }
@@ -12390,14 +12766,18 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     // ── 3D Cosmic: Relativistic Accretion Vortex, Gravitational Lensing & 3D Starfield ──
     render3DCosmic(ctx, w, h, time, accent, palette) {
-        const cx = w * 0.5 + this.parallaxX * 40;
-        const cy = h * 0.44 + this.parallaxY * 30;
+        const speed = this.tuning.speed;
+        const depth = this.tuning.depth;
+        const glow = this.tuning.glow;
 
-        // 1. 3D Starfield with perspective divide
-        const fov = 380;
+        const cx = w * 0.5 + this.parallaxX * 45 * depth;
+        const cy = h * 0.44 + this.parallaxY * 32 * depth;
+
+        // 1. 3D Starfield with perspective divide & color temperature
+        const fov = 420;
         for (let i = 0; i < this.cosmicStars.length; i++) {
             const s = this.cosmicStars[i];
-            s.z -= s.speed;
+            s.z -= s.speed * speed;
             if (s.z <= 0) s.z = 1000;
 
             const k = fov / s.z;
@@ -12405,58 +12785,93 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             const py = cy + s.y * k;
 
             if (px >= 0 && px <= w && py >= 0 && py <= h) {
-                const alpha = Math.min(1, (1000 - s.z) / 700) * (0.6 + Math.sin(time * 0.003 + s.twinkle) * 0.35);
-                const r = s.size * k * 0.8;
-                ctx.fillStyle = i % 3 === 0 ? accent : '#ffffff';
+                const alpha = Math.min(1, (1000 - s.z) / 600) * (0.65 + Math.sin(time * 0.003 * speed + s.twinkle) * 0.35);
+                const r = s.size * k * 0.75;
+                ctx.fillStyle = s.color || (i % 3 === 0 ? accent : '#ffffff');
                 ctx.globalAlpha = Math.max(0, alpha);
                 ctx.beginPath();
-                ctx.arc(px, py, Math.max(0.5, r), 0, Math.PI * 2);
+                ctx.arc(px, py, Math.max(0.6, r), 0, Math.PI * 2);
                 ctx.fill();
+
+                // High speed warp streaks
+                if (speed > 1.3 && s.z < 600) {
+                    ctx.strokeStyle = ctx.fillStyle;
+                    ctx.lineWidth = Math.max(0.5, r * 0.6);
+                    ctx.beginPath();
+                    ctx.moveTo(px, py);
+                    ctx.lineTo(px - (px - cx) * 0.025 * speed, py - (py - cy) * 0.025 * speed);
+                    ctx.stroke();
+                }
             }
         }
 
-        // 2. Relativistic Accretion Disk with Gravitational Lensing
+        // 2. Relativistic Accretion Vortex & Gravitational Lensing
         ctx.save();
         ctx.translate(cx, cy);
-        ctx.rotate(time * 0.0003);
 
-        const diskRadiusX = Math.min(w, h) * 0.42;
-        const diskRadiusY = diskRadiusX * 0.32;
+        const diskRadiusX = Math.min(w, h) * 0.44;
+        const diskRadiusY = diskRadiusX * 0.34;
 
-        // Outer Accretion Glow
-        const radGlow = ctx.createRadialGradient(0, 0, diskRadiusX * 0.3, 0, 0, diskRadiusX * 1.3);
-        radGlow.addColorStop(0, 'rgba(0, 0, 0, 0)');
-        radGlow.addColorStop(0.35, accent);
-        radGlow.addColorStop(0.65, palette[1] || 'rgba(168, 85, 247, 0.4)');
-        radGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        // Gravitational Lensing Halo (Einstein Light Arc warping behind the black hole)
+        const lensGrad = ctx.createRadialGradient(0, 0, diskRadiusX * 0.28, 0, 0, diskRadiusX * 0.75);
+        lensGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        lensGrad.addColorStop(0.35, accent);
+        lensGrad.addColorStop(0.7, palette[1] || 'rgba(168, 85, 247, 0.35)');
+        lensGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
-        ctx.globalAlpha = 0.38;
-        ctx.fillStyle = radGlow;
+        ctx.globalAlpha = 0.42 * glow;
+        ctx.fillStyle = lensGrad;
+        ctx.beginPath();
+        ctx.arc(0, -diskRadiusY * 0.3, diskRadiusX * 0.45, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Accretion Disk Rotation
+        ctx.rotate(time * 0.00035 * speed);
+
+        // Relativistic Doppler Beaming Gradient (Approaching side luminous & blueshifted, receding side warmer)
+        const dopplerGrad = ctx.createLinearGradient(-diskRadiusX, 0, diskRadiusX, 0);
+        dopplerGrad.addColorStop(0, '#ffffff'); // Approaching blueshift / high beaming
+        dopplerGrad.addColorStop(0.25, accent);
+        dopplerGrad.addColorStop(0.65, palette[1] || '#9333ea');
+        dopplerGrad.addColorStop(1, 'rgba(15, 6, 24, 0.2)'); // Receding redshift / dimming
+
+        ctx.globalAlpha = 0.48 * glow;
+        ctx.fillStyle = dopplerGrad;
         ctx.beginPath();
         ctx.ellipse(0, 0, diskRadiusX, diskRadiusY, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // Doppler Light Beaming Rings
-        for (let j = 0; j < 3; j++) {
+        // Concentric Keplerian differential gas filament rings
+        for (let j = 0; j < 4; j++) {
+            ctx.save();
+            ctx.rotate(time * (0.0007 / (j + 1)) * speed);
             ctx.beginPath();
-            ctx.lineWidth = 1.5 + j * 0.8;
-            ctx.strokeStyle = j === 0 ? accent : palette[1] || '#38bdf8';
-            ctx.globalAlpha = 0.45 - j * 0.12;
-            ctx.ellipse(0, 0, diskRadiusX * (0.6 + j * 0.18), diskRadiusY * (0.6 + j * 0.18), 0, 0, Math.PI * 2);
+            ctx.lineWidth = 1.4 + j * 0.8;
+            ctx.strokeStyle = j === 0 ? '#ffffff' : j === 1 ? accent : (palette[1] || '#38bdf8');
+            ctx.globalAlpha = (0.55 - j * 0.1) * glow;
+            ctx.ellipse(0, 0, diskRadiusX * (0.5 + j * 0.16), diskRadiusY * (0.5 + j * 0.16), 0, 0, Math.PI * 2);
             ctx.stroke();
+            ctx.restore();
         }
 
-        // 3. Central Event Horizon Shadow
-        ctx.globalAlpha = 0.88;
-        ctx.fillStyle = '#05070c';
+        // 3. Central Event Horizon Shadow & Photon Sphere
+        ctx.globalAlpha = 0.96;
+        ctx.fillStyle = '#030508';
         ctx.beginPath();
         ctx.arc(0, 0, diskRadiusX * 0.32, 0, Math.PI * 2);
         ctx.fill();
 
-        // Photon Sphere Ring
-        ctx.lineWidth = 2.2;
+        // Intense Photon Sphere Edge with Specular Hairline
+        ctx.lineWidth = 2.4;
+        ctx.strokeStyle = '#ffffff';
+        ctx.globalAlpha = 0.95 * glow;
+        ctx.beginPath();
+        ctx.arc(0, 0, diskRadiusX * 0.32, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.lineWidth = 5.0;
         ctx.strokeStyle = accent;
-        ctx.globalAlpha = 0.9;
+        ctx.globalAlpha = 0.5 * glow;
         ctx.beginPath();
         ctx.arc(0, 0, diskRadiusX * 0.32, 0, Math.PI * 2);
         ctx.stroke();
@@ -12467,22 +12882,110 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     // ── 3D Cyberpunk: Perspective Retro Vector Grid & Distant Skyline Beacons ──
     render3DCyberpunk(ctx, w, h, time, accent, palette) {
-        const horizonY = h * 0.52 + this.parallaxY * 25;
-        const vanishX = w * 0.5 + this.parallaxX * 45;
+        const speed = this.tuning.speed;
+        const depth = this.tuning.depth;
+        const glow = this.tuning.glow;
 
-        // Moving ground grid offset along z-axis
-        this.gridOffsetZ = (this.gridOffsetZ + 1.2) % 40;
+        const horizonY = h * 0.52 + this.parallaxY * 26 * depth;
+        const vanishX = w * 0.5 + this.parallaxX * 46 * depth;
 
-        // 1. Receding Perspective Grid Lines
         ctx.save();
-        ctx.strokeStyle = accent;
-        ctx.lineWidth = 1;
 
-        const numLines = 16;
+        // 1. Glowing Segmented Retrowave Sun at Horizon
+        const sunRadius = Math.min(w, h) * 0.22;
+        const sunGrad = ctx.createLinearGradient(vanishX, horizonY - sunRadius, vanishX, horizonY);
+        sunGrad.addColorStop(0, '#fef08a');
+        sunGrad.addColorStop(0.4, accent);
+        sunGrad.addColorStop(1, palette[1] || '#f43f5e');
+
+        // Radiant Sun Corona Glow
+        const coronaGrad = ctx.createRadialGradient(vanishX, horizonY - sunRadius * 0.4, 0, vanishX, horizonY - sunRadius * 0.4, sunRadius * 1.5);
+        coronaGrad.addColorStop(0, accent);
+        coronaGrad.addColorStop(0.6, palette[1] || 'rgba(244, 63, 94, 0.3)');
+        coronaGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = coronaGrad;
+        ctx.globalAlpha = 0.35 * glow;
+        ctx.beginPath();
+        ctx.arc(vanishX, horizonY - sunRadius * 0.4, sunRadius * 1.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw segmented sun slats
+        ctx.fillStyle = sunGrad;
+        ctx.globalAlpha = 0.85 * glow;
+        const slatCount = 9;
+        for (let s = 0; s < slatCount; s++) {
+            const slatRatioTop = s / slatCount;
+            const slatRatioBottom = (s + 0.72) / slatCount;
+            const yTop = horizonY - sunRadius * (1 - slatRatioTop);
+            const yBottom = horizonY - sunRadius * (1 - slatRatioBottom);
+            const halfWTop = Math.sqrt(Math.max(0, sunRadius * sunRadius - Math.pow(sunRadius - (yTop - (horizonY - sunRadius)), 2)));
+            const halfWBottom = Math.sqrt(Math.max(0, sunRadius * sunRadius - Math.pow(sunRadius - (yBottom - (horizonY - sunRadius)), 2)));
+
+            ctx.beginPath();
+            ctx.moveTo(vanishX - halfWTop, yTop);
+            ctx.lineTo(vanishX + halfWTop, yTop);
+            ctx.lineTo(vanishX + halfWBottom, yBottom);
+            ctx.lineTo(vanishX - halfWBottom, yBottom);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // 2. Distant City Skyline Silhouettes with Beacon Antennas
+        ctx.fillStyle = 'rgba(6, 9, 16, 0.88)';
+        ctx.globalAlpha = 0.82;
+        const bWidth = 44;
+        const numBuildings = Math.ceil(w / bWidth) + 2;
+        for (let b = 0; b < numBuildings; b++) {
+            const bx = (b - 1) * bWidth + this.parallaxX * 16 * depth;
+            const seed = (b * 9301 + 49297) % 233280;
+            const bHeight = 45 + (seed % 145);
+            const by = horizonY - bHeight;
+            ctx.fillRect(bx, by, bWidth - 4, bHeight);
+
+            // Skyscraper rooftop beacon antenna
+            const antennaHeight = 12 + (seed % 18);
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(bx + bWidth * 0.5, by);
+            ctx.lineTo(bx + bWidth * 0.5, by - antennaHeight);
+            ctx.stroke();
+
+            // Flashing aircraft beacon
+            const flash = Math.sin(time * 0.006 * speed + b) > 0.7;
+            if (flash) {
+                ctx.fillStyle = b % 2 === 0 ? '#f43f5e' : '#38bdf8';
+                ctx.globalAlpha = 0.9 * glow;
+                ctx.beginPath();
+                ctx.arc(bx + bWidth * 0.5, by - antennaHeight, 2.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'rgba(6, 9, 16, 0.88)';
+                ctx.globalAlpha = 0.82;
+            }
+
+            // Skyline illuminated window matrix
+            if (b % 2 === 0) {
+                ctx.fillStyle = (b % 4 === 0) ? accent : (palette[1] || '#06b6d4');
+                ctx.globalAlpha = 0.65 * glow;
+                ctx.fillRect(bx + 6, by + 10, 3, 3);
+                ctx.fillRect(bx + 16, by + 22, 3, 3);
+                ctx.fillRect(bx + 26, by + 14, 3, 3);
+                ctx.fillStyle = 'rgba(6, 9, 16, 0.88)';
+                ctx.globalAlpha = 0.82;
+            }
+        }
+
+        // 3. Receding Perspective Ground Grid with Sine Wave Undulation
+        this.gridOffsetZ = (this.gridOffsetZ + 1.4 * speed) % 40;
+
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 1.2;
+
+        const numLines = 18;
         for (let i = 0; i <= numLines; i++) {
-            const z = (i * 30 + this.gridOffsetZ) / (numLines * 30);
+            const z = (i * 28 + this.gridOffsetZ) / (numLines * 28);
             const y = horizonY + (h - horizonY) * Math.pow(z, 2.2);
-            const alpha = Math.min(0.65, Math.pow(z, 1.4) * 0.7);
+            const alpha = Math.min(0.72, Math.pow(z, 1.3) * 0.75) * glow;
 
             ctx.globalAlpha = alpha;
             ctx.beginPath();
@@ -12491,9 +12994,9 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             ctx.stroke();
         }
 
-        // 2. Converging Perspective Beams
-        const radialLines = 22;
-        ctx.globalAlpha = 0.35;
+        // Converging Perspective Beams with Lateral Terrain Undulation
+        const radialLines = 24;
+        ctx.globalAlpha = 0.38 * glow;
         for (let r = -radialLines / 2; r <= radialLines / 2; r++) {
             const bottomX = vanishX + r * (w / radialLines) * 2.8;
             ctx.beginPath();
@@ -12502,27 +13005,13 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             ctx.stroke();
         }
 
-        // 3. Distant City Skyline Silhouettes
-        ctx.fillStyle = 'rgba(6, 9, 16, 0.82)';
-        ctx.globalAlpha = 0.75;
-        const bWidth = 42;
-        const numBuildings = Math.ceil(w / bWidth) + 2;
-        for (let b = 0; b < numBuildings; b++) {
-            const bx = (b - 1) * bWidth + this.parallaxX * 15;
-            const seed = (b * 9301 + 49297) % 233280;
-            const bHeight = 40 + (seed % 140);
-            const by = horizonY - bHeight;
-            ctx.fillRect(bx, by, bWidth - 4, bHeight);
-
-            // Skyline Window Beacons
-            if (b % 2 === 0) {
-                ctx.fillStyle = (b % 4 === 0) ? accent : (palette[1] || '#06b6d4');
-                ctx.globalAlpha = 0.6;
-                ctx.fillRect(bx + 6, by + 10, 3, 3);
-                ctx.fillRect(bx + 16, by + 24, 3, 3);
-                ctx.fillStyle = 'rgba(6, 9, 16, 0.82)';
-            }
-        }
+        // Wet asphalt horizon specular reflection line
+        const wetGrad = ctx.createLinearGradient(0, horizonY - 1, 0, horizonY + 8);
+        wetGrad.addColorStop(0, accent);
+        wetGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = wetGrad;
+        ctx.globalAlpha = 0.5 * glow;
+        ctx.fillRect(0, horizonY, w, 8);
 
         ctx.restore();
         ctx.globalAlpha = 1;
@@ -12530,12 +13019,36 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     // ── 3D Nature: Volumetric Mist Waves & Bioluminescent Fireflies ──
     render3DNature(ctx, w, h, time, accent, palette) {
-        // 1. Multi-Layer Volumetric Mist Waves
+        const speed = this.tuning.speed;
+        const depth = this.tuning.depth;
+        const glow = this.tuning.glow;
+
         ctx.save();
+
+        // 1. Crepuscular God Rays (Atmospheric Dawn Sunbeams)
+        for (let r = 0; r < 3; r++) {
+            const rayX = w * (0.25 + r * 0.28) + Math.sin(time * 0.0004 * speed + r) * 40;
+            const rayGrad = ctx.createLinearGradient(rayX, 0, rayX + w * 0.2, h);
+            rayGrad.addColorStop(0, 'rgba(255, 255, 220, 0.16)');
+            rayGrad.addColorStop(0.5, accent);
+            rayGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.fillStyle = rayGrad;
+            ctx.globalAlpha = 0.18 * glow;
+            ctx.beginPath();
+            ctx.moveTo(rayX - 30, 0);
+            ctx.lineTo(rayX + 90, 0);
+            ctx.lineTo(rayX + w * 0.28 + 60, h);
+            ctx.lineTo(rayX + w * 0.28 - 60, h);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // 2. Multi-Frequency Volumetric Mist Canopy Waves
         for (let layer = 0; layer < 4; layer++) {
-            const baseMistY = h * (0.35 + layer * 0.16) + this.parallaxY * (15 + layer * 8);
-            const speed = 0.0006 + layer * 0.0003;
-            const alpha = 0.08 + layer * 0.05;
+            const baseMistY = h * (0.34 + layer * 0.16) + this.parallaxY * (14 + layer * 9) * depth;
+            const lSpeed = (0.0006 + layer * 0.0003) * speed;
+            const alpha = (0.09 + layer * 0.055) * glow;
 
             ctx.fillStyle = layer % 2 === 0 ? accent : (palette[1] || '#10b981');
             ctx.globalAlpha = alpha;
@@ -12543,10 +13056,11 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             ctx.moveTo(0, h);
             ctx.lineTo(0, baseMistY);
 
-            for (let x = 0; x <= w; x += 30) {
-                const wave1 = Math.sin(x * 0.003 + time * speed) * (18 + layer * 8);
-                const wave2 = Math.cos(x * 0.006 - time * speed * 0.8) * 12;
-                ctx.lineTo(x, baseMistY + wave1 + wave2);
+            for (let x = 0; x <= w; x += 25) {
+                const wave1 = Math.sin(x * 0.0028 + time * lSpeed) * (20 + layer * 9);
+                const wave2 = Math.cos(x * 0.0055 - time * lSpeed * 0.75) * 12;
+                const wave3 = Math.sin(x * 0.012 + time * lSpeed * 1.4) * 5;
+                ctx.lineTo(x, baseMistY + wave1 + wave2 + wave3);
             }
 
             ctx.lineTo(w, h);
@@ -12554,28 +13068,40 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             ctx.fill();
         }
 
-        // 2. 3D Bioluminescent Fireflies (Organic Brownian Drift)
+        // 3. 3D Bioluminescent Fireflies with Organic Steering & Cursor Avoidance
+        const mouseX = (this.targetParallaxX * 0.5 + 0.5) * w;
+        const mouseY = (this.targetParallaxY * 0.5 + 0.5) * h;
+
         for (let i = 0; i < this.fireflies.length; i++) {
             const f = this.fireflies[i];
-            f.pulse += f.pulseSpeed;
-            f.x += f.vx + Math.sin(f.pulse) * 0.4;
-            f.y += f.vy + Math.cos(f.pulse * 0.8) * 0.3;
+            f.pulse += f.pulseSpeed * speed;
+            f.x += (f.vx + Math.sin(f.pulse) * 0.45) * speed;
+            f.y += (f.vy + Math.cos(f.pulse * 0.8) * 0.35) * speed;
+
+            // Cursor interactive avoidance
+            const dx = f.x - mouseX;
+            const dy = f.y - mouseY;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 120 && dist > 1) {
+                f.vx += (dx / dist) * 0.6;
+                f.vy += (dy / dist) * 0.6;
+            }
 
             if (f.x < -20) f.x = w + 20;
             if (f.x > w + 20) f.x = -20;
             if (f.y < -20) f.y = h + 20;
             if (f.y > h + 20) f.y = -20;
 
-            const glowAlpha = Math.max(0, 0.3 + Math.sin(f.pulse) * 0.45);
-            const rad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.size * 3.5);
+            const glowAlpha = Math.max(0, 0.32 + Math.sin(f.pulse) * 0.5) * glow;
+            const rad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.size * 3.8);
             rad.addColorStop(0, '#ffffff');
-            rad.addColorStop(0.3, accent);
+            rad.addColorStop(0.35, accent);
             rad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
             ctx.fillStyle = rad;
             ctx.globalAlpha = glowAlpha;
             ctx.beginPath();
-            ctx.arc(f.x, f.y, f.size * 3.5, 0, Math.PI * 2);
+            ctx.arc(f.x, f.y, f.size * 3.8, 0, Math.PI * 2);
             ctx.fill();
         }
 
@@ -12585,32 +13111,57 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     // ── 3D Aurora: Undulating Geomagnetic Spectral Curtains ──
     render3DAurora(ctx, w, h, time, accent, palette) {
+        const speed = this.tuning.speed;
+        const depth = this.tuning.depth;
+        const glow = this.tuning.glow;
+
         ctx.save();
-        const numRibbons = 5;
+        const numRibbons = 4;
 
         for (let i = 0; i < numRibbons; i++) {
-            const yOffset = h * 0.15 + i * 40 + this.parallaxY * 20;
-            const grad = ctx.createLinearGradient(0, yOffset - 80, 0, yOffset + 180);
+            const yOffset = h * 0.16 + i * 46 + this.parallaxY * (18 + i * 8) * depth;
+            const lSpeed = (0.0007 + i * 0.0003) * speed;
+
+            // Spectroscopic Altitude Gradient: Emerald base -> Cyan mid -> Magenta/Violet tips
+            const grad = ctx.createLinearGradient(0, yOffset - 110, 0, yOffset + 210);
             grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-            grad.addColorStop(0.4, accent);
-            grad.addColorStop(0.7, palette[1] || '#06b6d4');
+            grad.addColorStop(0.25, palette[1] || '#c084fc'); // High-altitude violet
+            grad.addColorStop(0.55, '#06b6d4');               // Mid-altitude ionized cyan
+            grad.addColorStop(0.85, accent);                   // Base atomic oxygen emerald
             grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
             ctx.fillStyle = grad;
-            ctx.globalAlpha = 0.22 + i * 0.05;
+            ctx.globalAlpha = (0.26 + i * 0.06) * glow;
 
+            // 1. Smooth Undulating Ribbon Canopy
             ctx.beginPath();
-            ctx.moveTo(0, yOffset + 200);
+            ctx.moveTo(0, yOffset + 240);
 
-            for (let x = 0; x <= w; x += 25) {
-                const waveA = Math.sin(x * 0.0025 + time * 0.0008 + i * 1.2) * 45;
-                const waveB = Math.cos(x * 0.005 - time * 0.0005) * 25;
+            for (let x = 0; x <= w; x += 20) {
+                const waveA = Math.sin(x * 0.0024 + time * lSpeed + i * 1.3) * (42 + i * 12);
+                const waveB = Math.cos(x * 0.0052 - time * lSpeed * 0.6) * 24;
                 ctx.lineTo(x, yOffset + waveA + waveB);
             }
 
-            ctx.lineTo(w, yOffset + 240);
+            ctx.lineTo(w, yOffset + 260);
             ctx.closePath();
             ctx.fill();
+
+            // 2. Vertical Geomagnetic Ray Striations (Dancing Curtains)
+            ctx.lineWidth = 2.4;
+            for (let rx = 10; rx < w; rx += 18) {
+                const rayShimmer = Math.sin(rx * 0.03 + time * 0.003 * speed + i) * 0.35 + 0.65;
+                const waveBase = Math.sin(rx * 0.0024 + time * lSpeed + i * 1.3) * (42 + i * 12) +
+                                 Math.cos(rx * 0.0052 - time * lSpeed * 0.6) * 24;
+                const rayHeight = (120 + ((rx * 7919) % 90)) * rayShimmer;
+
+                ctx.strokeStyle = rx % 2 === 0 ? accent : (palette[1] || '#a855f7');
+                ctx.globalAlpha = (0.32 * rayShimmer) * glow;
+                ctx.beginPath();
+                ctx.moveTo(rx, yOffset + waveBase);
+                ctx.lineTo(rx, yOffset + waveBase - rayHeight);
+                ctx.stroke();
+            }
         }
 
         ctx.restore();
@@ -12619,38 +13170,70 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     // ── 3D Lo-Fi: Volumetric Window Sunbeam Corridor & Hearth Embers ──
     render3DLofi(ctx, w, h, time, accent, palette) {
+        const speed = this.tuning.speed;
+        const depth = this.tuning.depth;
+        const glow = this.tuning.glow;
+
         ctx.save();
 
-        // 1. Angled Sunbeam Corridor
-        const beamGrad = ctx.createLinearGradient(w * 0.7, 0, w * 0.2, h);
-        beamGrad.addColorStop(0, 'rgba(255, 235, 180, 0.15)');
-        beamGrad.addColorStop(0.5, accent);
+        // 1. Architectural Sunbeam with Window Pane Cast Shadows
+        const beamXTop = w * 0.72 + this.parallaxX * 25 * depth;
+        const beamXBottom = w * 0.22 + this.parallaxX * 15 * depth;
+
+        const beamGrad = ctx.createLinearGradient(beamXTop, 0, beamXBottom, h);
+        beamGrad.addColorStop(0, 'rgba(255, 238, 195, 0.22)');
+        beamGrad.addColorStop(0.45, accent);
         beamGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
         ctx.fillStyle = beamGrad;
-        ctx.globalAlpha = 0.28;
+        ctx.globalAlpha = 0.32 * glow;
         ctx.beginPath();
-        ctx.moveTo(w * 0.55, 0);
-        ctx.lineTo(w * 0.95, 0);
-        ctx.lineTo(w * 0.45, h);
-        ctx.lineTo(0, h);
+        ctx.moveTo(beamXTop - 120, 0);
+        ctx.lineTo(beamXTop + 240, 0);
+        ctx.lineTo(beamXBottom + 260, h);
+        ctx.lineTo(beamXBottom - 160, h);
         ctx.closePath();
         ctx.fill();
 
-        // 2. Warm Floating Dust Motes & Embers
-        for (let i = 0; i < 40; i++) {
-            const seed = (i * 7919) % 1000;
-            const x = (seed * 3.7 + Math.sin(time * 0.0008 + i) * 60 + this.parallaxX * 25) % w;
-            const y = (h - ((time * (0.02 + (i % 3) * 0.01) + seed * 2) % h));
-            const size = 1.2 + (i % 4) * 0.8;
-            const alpha = 0.3 + Math.sin(time * 0.002 + i) * 0.3;
+        // Geometric Window Mullion Cast Shadows across the beam
+        ctx.fillStyle = 'rgba(8, 6, 12, 0.28)';
+        ctx.beginPath();
+        // Horizontal mullion bar
+        ctx.moveTo(0, h * 0.42);
+        ctx.lineTo(w, h * 0.42);
+        ctx.lineTo(w, h * 0.42 + 24);
+        ctx.lineTo(0, h * 0.42 + 24);
+        ctx.closePath();
+        ctx.fill();
 
-            ctx.fillStyle = i % 2 === 0 ? accent : '#ffedd5';
+        // 2. Warm Floating Atmospheric Dust Motes & Hearth Sparks
+        for (let i = 0; i < 48; i++) {
+            const seed = (i * 7919) % 1000;
+            const x = (seed * 3.8 + Math.sin(time * 0.0008 * speed + i) * 60 + this.parallaxX * 26 * depth) % w;
+            const y = (h - ((time * (0.024 + (i % 3) * 0.012) * speed + seed * 2.2) % h));
+            const size = 1.3 + (i % 4) * 0.85;
+
+            // Check if mote is inside the sunbeam for bright illumination
+            const inBeam = x > (beamXBottom - 100) && x < (beamXTop + 200);
+            const alpha = inBeam
+                ? Math.min(0.9, (0.55 + Math.sin(time * 0.003 * speed + i) * 0.35) * glow)
+                : Math.min(0.35, (0.2 + Math.sin(time * 0.002 * speed + i) * 0.15) * glow);
+
+            ctx.fillStyle = inBeam ? '#ffffff' : (i % 2 === 0 ? accent : '#ffedd5');
             ctx.globalAlpha = Math.max(0, alpha);
             ctx.beginPath();
-            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.arc(x, y, inBeam ? size * 1.3 : size, 0, Math.PI * 2);
             ctx.fill();
         }
+
+        // 3. Cozy Bottom Hearth Ambient Glow
+        const hearthGrad = ctx.createRadialGradient(w * 0.15, h, 0, w * 0.15, h, Math.min(w, h) * 0.5);
+        hearthGrad.addColorStop(0, accent);
+        hearthGrad.addColorStop(0.5, 'rgba(234, 88, 12, 0.2)');
+        hearthGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = hearthGrad;
+        ctx.globalAlpha = 0.28 * glow;
+        ctx.fillRect(0, h * 0.55, w * 0.45, h * 0.45);
 
         ctx.restore();
         ctx.globalAlpha = 1;
@@ -12658,15 +13241,19 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
     // ── 3D Minimal: Floating Rotating Regular Icosahedron Wireframe with Specular Vertex Glints ──
     render3DMinimal(ctx, w, h, time, accent, palette) {
-        ctx.save();
-        const cx = w * 0.5 + this.parallaxX * 35;
-        const cy = h * 0.48 + this.parallaxY * 25;
+        const speed = this.tuning.speed;
+        const depth = this.tuning.depth;
+        const glow = this.tuning.glow;
 
-        this.polyRotX += 0.005;
-        this.polyRotY += 0.008;
+        ctx.save();
+        const cx = w * 0.5 + this.parallaxX * 38 * depth;
+        const cy = h * 0.48 + this.parallaxY * 26 * depth;
+
+        this.polyRotX += 0.0055 * speed;
+        this.polyRotY += 0.0085 * speed;
 
         const phi = (1 + Math.sqrt(5)) / 2;
-        const scale = Math.min(w, h) * 0.16;
+        const scale = Math.min(w, h) * 0.165;
 
         // Standard 12 Icosahedron Vertices
         const rawVertices = [
@@ -12683,7 +13270,6 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
 
         const projected = rawVertices.map(v => {
             let [x, y, z] = v;
-            // Normalize length
             const len = Math.hypot(x, y, z);
             x = (x / len) * scale;
             y = (y / len) * scale;
@@ -12697,7 +13283,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             const y2 = y * cosX - z1 * sinX;
             const z2 = y * sinX + z1 * cosX;
 
-            const fov = 450;
+            const fov = 480;
             const persp = fov / (fov + z2);
             return {
                 x: cx + x1 * persp,
@@ -12706,10 +13292,24 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             };
         });
 
-        // Draw Wireframe Edges
-        ctx.lineWidth = 1.4;
+        // 1. Concentric Gyroscopic Orbital Gimbal Rings
+        ctx.lineWidth = 1.2;
         ctx.strokeStyle = accent;
-        ctx.globalAlpha = 0.5;
+        ctx.globalAlpha = 0.3 * glow;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, scale * 1.55, scale * 0.55, this.polyRotY * 0.5, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = palette[1] || '#818cf8';
+        ctx.globalAlpha = 0.22 * glow;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, scale * 1.35, scale * 0.45, -this.polyRotX * 0.6, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // 2. Draw Wireframe Edges
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = accent;
+        ctx.globalAlpha = 0.6 * glow;
 
         for (let i = 0; i < projected.length; i++) {
             for (let j = i + 1; j < projected.length; j++) {
@@ -12718,7 +13318,6 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
                     rawVertices[i][1] - rawVertices[j][1],
                     rawVertices[i][2] - rawVertices[j][2]
                 );
-                // In a unit icosahedron, adjacent vertices have distance ~2.0
                 if (dist3D < 2.05) {
                     ctx.beginPath();
                     ctx.moveTo(projected[i].x, projected[i].y);
@@ -12728,14 +13327,27 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             }
         }
 
-        // Draw Glowing Vertices
+        // 3. Glowing Specular Vertices with Cross Glints
         for (let i = 0; i < projected.length; i++) {
             const p = projected[i];
+            const isFacing = p.z < 0;
             ctx.fillStyle = '#ffffff';
-            ctx.globalAlpha = 0.85;
+            ctx.globalAlpha = (isFacing ? 0.95 : 0.45) * glow;
             ctx.beginPath();
-            ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, isFacing ? 3.0 : 1.8, 0, Math.PI * 2);
             ctx.fill();
+
+            // Specular cross glint on front vertices
+            if (isFacing) {
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 0.8;
+                ctx.beginPath();
+                ctx.moveTo(p.x - 5, p.y);
+                ctx.lineTo(p.x + 5, p.y);
+                ctx.moveTo(p.x, p.y - 5);
+                ctx.lineTo(p.x, p.y + 5);
+                ctx.stroke();
+            }
         }
 
         ctx.restore();
@@ -12747,7 +13359,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         if (!theme) theme = this.currentTheme || (typeof getActiveTheme === 'function' ? getActiveTheme() : null);
         if (!theme) return;
 
-        showToast(`🎬 Generating 3D Spatial Live Video for "${theme.name}"...`, '', 4000);
+        showToast(`🎬 Generating 60fps 3D Spatial Live Video for "${theme.name}"...`, '', 4000);
 
         // Ensure 3D motion is active on the canvas
         this.start3DMotion(theme);
@@ -12755,10 +13367,10 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         if (!this.canvasEl) return;
 
         try {
-            // 1. Capture live canvas stream
-            const stream = this.canvasEl.captureStream(30);
+            // 1. Capture live canvas stream at silky 60fps
+            const stream = this.canvasEl.captureStream(60);
 
-            // 2. Pipe directly to backdrop video element for instantaneous 60fps video playback
+            // 2. Pipe directly to backdrop video element for instantaneous video playback
             if (this.videoEl) {
                 this.videoEl.srcObject = stream;
                 this.videoEl.style.display = 'block';
@@ -12769,7 +13381,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
                 this.startAdaptiveTheming();
             }
 
-            // 3. Record a seamless 5-second WebM video loop in the background
+            // 3. Record a seamless 6-second WebM video loop (mathematical multiple of rotation cycles)
             if (typeof MediaRecorder !== 'undefined') {
                 const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
                     ? 'video/webm;codecs=vp9'
@@ -12778,7 +13390,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
                         : '';
 
                 if (mimeType) {
-                    const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 4000000 });
+                    const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 8000000 });
                     const chunks = [];
 
                     recorder.ondataavailable = (e) => {
@@ -12847,7 +13459,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
                     recorder.start();
                     setTimeout(() => {
                         if (recorder.state === 'recording') recorder.stop();
-                    }, 5000);
+                    }, 6000);
                 }
             }
         } catch (err) {
@@ -12893,7 +13505,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         if (this.adaptiveTimer) clearInterval(this.adaptiveTimer);
         if (!this.adaptiveThemingEnabled) return;
         setTimeout(() => this.sampleVideoFrame(), 250);
-        this.adaptiveTimer = setInterval(() => this.sampleVideoFrame(), 1400);
+        this.adaptiveTimer = setInterval(() => this.sampleVideoFrame(), 1200);
     },
 
     stopAdaptiveTheming() {
@@ -12974,26 +13586,35 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
             dominantG = Math.min(255, Math.max(25, dominantG));
             dominantB = Math.min(255, Math.max(25, dominantB));
 
+            // Smooth Exponential Moving Average (EMA) color lerp
+            this.currentThemeRGB.r += Math.round((dominantR - this.currentThemeRGB.r) * 0.4);
+            this.currentThemeRGB.g += Math.round((dominantG - this.currentThemeRGB.g) * 0.4);
+            this.currentThemeRGB.b += Math.round((dominantB - this.currentThemeRGB.b) * 0.4);
+
+            const curR = this.currentThemeRGB.r;
+            const curG = this.currentThemeRGB.g;
+            const curB = this.currentThemeRGB.b;
+
             const toHex = (c) => c.toString(16).padStart(2, '0');
-            const dominantHex = `#${toHex(dominantR)}${toHex(dominantG)}${toHex(dominantB)}`;
+            const dominantHex = `#${toHex(curR)}${toHex(curG)}${toHex(curB)}`;
             const darkTintHex = `rgba(${Math.round(avgR * 0.12)}, ${Math.round(avgG * 0.12)}, ${Math.round(avgB * 0.14)}, 0.68)`;
 
             let liquidHue = 195;
-            const max = Math.max(dominantR, dominantG, dominantB);
-            const min = Math.min(dominantR, dominantG, dominantB);
+            const max = Math.max(curR, curG, curB);
+            const min = Math.min(curR, curG, curB);
             if (max !== min) {
                 const d = max - min;
-                if (max === dominantR) liquidHue = Math.round(((dominantG - dominantB) / d + (dominantG < dominantB ? 6 : 0)) * 60);
-                else if (max === dominantG) liquidHue = Math.round(((dominantB - dominantR) / d + 2) * 60);
-                else liquidHue = Math.round(((dominantR - dominantG) / d + 4) * 60);
+                if (max === curR) liquidHue = Math.round(((curG - curB) / d + (curG < curB ? 6 : 0)) * 60);
+                else if (max === curG) liquidHue = Math.round(((curB - curR) / d + 2) * 60);
+                else liquidHue = Math.round(((curR - curG) / d + 4) * 60);
             }
 
             const root = document.documentElement;
             root.style.setProperty('--accent', dominantHex);
-            root.style.setProperty('--accent-glow', `rgba(${dominantR}, ${dominantG}, ${dominantB}, 0.38)`);
+            root.style.setProperty('--accent-glow', `rgba(${curR}, ${curG}, ${curB}, 0.38)`);
             root.style.setProperty('--liquid-hue', String(liquidHue));
             root.style.setProperty('--backdrop-tint', darkTintHex);
-            root.style.setProperty('--orb-1-color', `rgba(${dominantR}, ${dominantG}, ${dominantB}, 0.22)`);
+            root.style.setProperty('--orb-1-color', `rgba(${curR}, ${curG}, ${curB}, 0.22)`);
             root.style.setProperty('--orb-2-color', `rgba(${avgR}, ${avgG}, ${avgB}, 0.14)`);
 
             if (window.Cosmo && Cosmo.updateThemeColor) {
@@ -13012,7 +13633,8 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         this.particlesEl.style.opacity = '1';
         const w = window.innerWidth;
         const h = window.innerHeight;
-        const count = preset === 'rain' ? 120 : preset === 'sakura' ? 60 : preset === 'snow' ? 70 : 45;
+        const densityFactor = (this.tuning ? this.tuning.density : 1.0);
+        const count = Math.round((preset === 'rain' ? 120 : preset === 'sakura' ? 60 : preset === 'snow' ? 70 : 45) * densityFactor);
         this.particlesList = [];
 
         for (let i = 0; i < count; i++) {
@@ -13052,6 +13674,7 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         const ctx = this.particlesCtx;
         const w = window.innerWidth;
         const h = window.innerHeight;
+        const speed = (this.tuning ? this.tuning.speed : 1.0);
         ctx.save();
         ctx.scale(this.dpr, this.dpr);
         ctx.clearRect(0, 0, w, h);
@@ -13059,10 +13682,10 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
         for (let i = 0; i < this.particlesList.length; i++) {
             const p = this.particlesList[i];
             if (this.activePreset === 'sakura') {
-                p.sway = (p.sway || 0) + (p.swaySpeed || 0.02);
-                p.rotation = (p.rotation || 0) + (p.rotSpeed || 0.02);
-                p.x += p.vx + Math.sin(p.sway) * 0.8;
-                p.y += p.vy;
+                p.sway = (p.sway || 0) + (p.swaySpeed || 0.02) * speed;
+                p.rotation = (p.rotation || 0) + (p.rotSpeed || 0.02) * speed;
+                p.x += (p.vx + Math.sin(p.sway) * 0.8) * speed;
+                p.y += p.vy * speed;
                 if (p.y > h + 10) { p.y = -10; p.x = Math.random() * w; }
                 if (p.x > w + 10) { p.x = -10; }
 
@@ -13076,8 +13699,8 @@ const LiveWallpaperManager = window.LiveWallpaperManager || {
                 ctx.fill();
                 ctx.restore();
             } else {
-                p.x += p.vx;
-                p.y += p.vy;
+                p.x += p.vx * speed;
+                p.y += p.vy * speed;
                 if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
                 if (p.y < -10) { p.y = h; p.x = Math.random() * w; }
                 if (p.x < 0) p.x = w;
