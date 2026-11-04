@@ -3,7 +3,7 @@
 /**
  * Focusr Desktop Bridge (scripts/bridge.mjs)
  * Standalone, zero-dependency Node.js bridge for Windows desktop app discovery
- * and active foreground window streaming to Focusr via WebSocket (127.0.0.1:42069).
+ * and active foreground window streaming to Focusr via WebSocket & HTTP (127.0.0.1:42069).
  */
 
 import http from 'node:http';
@@ -11,11 +11,15 @@ import crypto from 'node:crypto';
 import { exec, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import readline from 'node:readline';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const execAsync = promisify(exec);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const PORT = 42069;
 const HOST = '127.0.0.1';
-const BRIDGE_VERSION = '1.0.0';
+const BRIDGE_VERSION = '1.2.0';
 
 // Known Windows system/background processes to filter out from user application list
 const SYSTEM_PROCESSES = new Set([
@@ -33,8 +37,46 @@ const SYSTEM_PROCESSES = new Set([
   'touchpointanalyticsclientservice.exe', 'mc-fw-host.exe', 'mc-neo-host.exe', 'filecoauth.exe',
   'useroobebroker.exe', 'widgetservice.exe', 'widgets.exe', 'crossdeviceservice.exe',
   'crossdeviceresume.exe', 'dataexchangehost.exe', 'defendersessionhelper.exe', 'desktopextension.exe',
-  'applicationframehost.exe', 'accountscontrolhost.exe', 'appvshnotify.exe'
+  'applicationframehost.exe', 'accountscontrolhost.exe', 'appvshnotify.exe', 'msmpeng.exe',
+  'mpdefendercoreprocess.exe', 'mpdefenderservice.exe', 'securityhealthsystray.exe', 'shellhost.exe',
+  'winstore.app.exe', 'chxsmartscreen.exe'
 ]);
+
+// App category dictionary for visual iconography in Focus Passport
+const APP_METADATA = {
+  'code.exe': { name: 'Visual Studio Code', icon: '💻', category: 'IDE' },
+  'cursor.exe': { name: 'Cursor AI Editor', icon: '⚡', category: 'IDE' },
+  'devenv.exe': { name: 'Visual Studio IDE', icon: '🛠️', category: 'IDE' },
+  'idea64.exe': { name: 'IntelliJ IDEA', icon: '💡', category: 'IDE' },
+  'pycharm64.exe': { name: 'PyCharm', icon: '🐍', category: 'IDE' },
+  'webstorm64.exe': { name: 'WebStorm', icon: '🌐', category: 'IDE' },
+  'sublime_text.exe': { name: 'Sublime Text', icon: '📑', category: 'Editor' },
+  'antigravity.exe': { name: 'Antigravity IDE', icon: '🚀', category: 'IDE' },
+  'windowsterminal.exe': { name: 'Windows Terminal', icon: '⌨️', category: 'Terminal' },
+  'powershell.exe': { name: 'PowerShell', icon: '⚡', category: 'Terminal' },
+  'pwsh.exe': { name: 'PowerShell Core', icon: '⚡', category: 'Terminal' },
+  'figma.exe': { name: 'Figma Desktop', icon: '🎨', category: 'Design' },
+  'blender.exe': { name: 'Blender 3D', icon: '🧊', category: 'Design' },
+  'photoshop.exe': { name: 'Adobe Photoshop', icon: '🖌️', category: 'Design' },
+  'illustrator.exe': { name: 'Adobe Illustrator', icon: '✒️', category: 'Design' },
+  'obsidian.exe': { name: 'Obsidian Notes', icon: '📓', category: 'Notes' },
+  'notion.exe': { name: 'Notion', icon: '📝', category: 'Notes' },
+  'slack.exe': { name: 'Slack', icon: '💬', category: 'Communication' },
+  'discord.exe': { name: 'Discord', icon: '🎧', category: 'Communication' },
+  'teams.exe': { name: 'Microsoft Teams', icon: '👥', category: 'Communication' },
+  'whatsapp.root.exe': { name: 'WhatsApp', icon: '💬', category: 'Communication' },
+  'whatsapp.exe': { name: 'WhatsApp', icon: '💬', category: 'Communication' },
+  'telegram.exe': { name: 'Telegram', icon: '✈️', category: 'Communication' },
+  'spotify.exe': { name: 'Spotify Music', icon: '🎵', category: 'Media' },
+  'chrome.exe': { name: 'Google Chrome', icon: '🌐', category: 'Browser' },
+  'msedge.exe': { name: 'Microsoft Edge', icon: '🌊', category: 'Browser' },
+  'firefox.exe': { name: 'Mozilla Firefox', icon: '🦊', category: 'Browser' },
+  'brave.exe': { name: 'Brave Browser', icon: '🦁', category: 'Browser' },
+  'docker desktop.exe': { name: 'Docker Desktop', icon: '🐳', category: 'DevOps' },
+  'gitkraken.exe': { name: 'GitKraken', icon: '🐙', category: 'DevOps' },
+  'postman.exe': { name: 'Postman API', icon: '🚀', category: 'Dev' },
+  'dbeaver.exe': { name: 'DBeaver SQL', icon: '🗄️', category: 'Database' }
+};
 
 let currentActiveWindow = {
   processName: '',
@@ -43,10 +85,18 @@ let currentActiveWindow = {
   updatedAt: Date.now()
 };
 
+let cachedRunningApps = [];
+let lastAppsFetch = 0;
+
 /**
  * Fetch list of running user-facing desktop applications
  */
-async function getRunningUserApps() {
+async function getRunningUserApps(forceRefresh = false) {
+  const now = Date.now();
+  if (!forceRefresh && cachedRunningApps.length > 0 && now - lastAppsFetch < 3000) {
+    return cachedRunningApps;
+  }
+
   try {
     const { stdout } = await execAsync('tasklist /fo csv /nh');
     const lines = stdout.split('\r\n').filter(Boolean);
@@ -54,30 +104,40 @@ async function getRunningUserApps() {
     const apps = [];
 
     for (const line of lines) {
-      const match = line.match(/^"([^"]+)","([^"]+)","([^"]+)"/);
+      const match = line.match(/^"([^"]+)","([^"]+)","([^"]+)","([^"]+)","([^"]+)"/);
       if (!match) continue;
-      const [, imageName, pidStr, sessionName] = match;
+      const [, imageName, pidStr, sessionName, sessionNum, memUsage] = match;
       const lower = imageName.toLowerCase();
 
-      // Only inspect interactive user session processes
-      if (sessionName.toLowerCase() !== 'console') continue;
+      // Only inspect interactive user session processes (Session > 0 or Console)
+      if (sessionNum === '0' && sessionName.toLowerCase() === 'services') continue;
       if (SYSTEM_PROCESSES.has(lower)) continue;
 
       if (!seen.has(lower)) {
         seen.add(lower);
-        const displayName = imageName.replace(/\.exe$/i, '');
+        const meta = APP_METADATA[lower] || {};
+        const baseName = imageName.replace(/\.exe$/i, '');
+        const displayName = meta.name || baseName;
+        const icon = meta.icon || '💻';
+        const category = meta.category || 'App';
+
         apps.push({
           processName: imageName,
           displayName,
+          icon,
+          category,
+          memUsage: memUsage || '',
           pid: parseInt(pidStr, 10)
         });
       }
     }
 
-    return apps.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    cachedRunningApps = apps.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    lastAppsFetch = now;
+    return cachedRunningApps;
   } catch (err) {
     console.error('[Bridge] Error reading tasklist:', err.message);
-    return [];
+    return cachedRunningApps;
   }
 }
 
@@ -130,9 +190,10 @@ function sendToSocket(socket, data) {
 }
 
 /**
- * HTTP Server handling CORS and upgrade to WebSocket
+ * HTTP Server handling CORS, Private Network Access, and upgrade to WebSocket
  */
 const server = http.createServer(async (req, res) => {
+  // CORS & PNA headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', '*');
@@ -152,21 +213,44 @@ const server = http.createServer(async (req, res) => {
       status: 'ok',
       bridge: 'focusr-desktop',
       version: BRIDGE_VERSION,
+      connectedClients: activeSockets.size,
       activeWindow: currentActiveWindow
     }));
     return;
   }
 
   if (url.pathname === '/apps') {
-    const apps = await getRunningUserApps();
+    const apps = await getRunningUserApps(url.searchParams.has('refresh'));
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ apps }));
+    res.end(JSON.stringify({ apps, total: apps.length }));
     return;
   }
 
   if (url.pathname === '/active') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ activeWindow: currentActiveWindow }));
+    return;
+  }
+
+  // Simulation test endpoint for automated verifications
+  if (url.pathname === '/simulate') {
+    const proc = url.searchParams.get('process') || 'Code.exe';
+    const title = url.searchParams.get('title') || 'focusr - Visual Studio Code';
+    currentActiveWindow = {
+      processName: proc,
+      windowTitle: title,
+      pid: 9999,
+      updatedAt: Date.now()
+    };
+    broadcast({
+      type: 'ACTIVE_WINDOW',
+      processName: currentActiveWindow.processName,
+      windowTitle: currentActiveWindow.windowTitle,
+      pid: currentActiveWindow.pid,
+      simulated: true
+    });
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ success: true, activeWindow: currentActiveWindow }));
     return;
   }
 
@@ -291,44 +375,17 @@ server.on('upgrade', (req, socket, head) => {
  * Foreground window poller via persistent PowerShell process
  */
 function startForegroundWindowPoller() {
-  const psScript = `
-Add-Type @"
-using System;
-using System.Text;
-using System.Runtime.InteropServices;
-public class WinUtil {
-  [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
-  [DllImport("user32.dll")] public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
-  [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-}
-"@
-$lastPid = -1
-$lastTitle = ""
-while ($true) {
-  try {
-    $hwnd = [WinUtil]::GetForegroundWindow()
-    if ($hwnd -ne [IntPtr]::Zero) {
-      $pidOut = 0
-      [WinUtil]::GetWindowThreadProcessId($hwnd, [ref]$pidOut) | Out-Null
-      $sb = New-Object System.Text.StringBuilder 512
-      [WinUtil]::GetWindowText($hwnd, $sb, 512) | Out-Null
-      $title = $sb.ToString()
-      if ($pidOut -ne $lastPid -or $title -ne $lastTitle) {
-        $proc = Get-Process -Id $pidOut -ErrorAction SilentlyContinue
-        $procName = if ($proc) { $proc.ProcessName + ".exe" } else { "unknown.exe" }
-        $obj = @{ type = "ACTIVE_WINDOW"; processName = $procName; windowTitle = $title; pid = $pidOut }
-        [Console]::WriteLine((ConvertTo-Json -Compress -InputObject $obj))
-        $lastPid = $pidOut
-        $lastTitle = $title
-      }
-    }
-  } catch {}
-  Start-Sleep -Milliseconds 1500
-}
-`;
+  const psScriptPath = path.join(__dirname, 'poller.ps1');
 
   try {
-    const ps = spawn('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', psScript], {
+    const ps = spawn('powershell.exe', [
+      '-NoProfile',
+      '-NonInteractive',
+      '-ExecutionPolicy',
+      'Bypass',
+      '-File',
+      psScriptPath
+    ], {
       windowsHide: true
     });
 
@@ -379,4 +436,6 @@ server.listen(PORT, HOST, () => {
   console.log(`  Version: ${BRIDGE_VERSION}`);
   console.log(`======================================================\n`);
   startForegroundWindowPoller();
+  // Pre-fetch running apps
+  getRunningUserApps();
 });

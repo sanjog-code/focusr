@@ -463,12 +463,62 @@ export const CosmoCompanion = {
         const render = () => {
             if (!this.isRendering) return;
             this.time += 0.035;
-            if (this.rocketGroup) {
+
+            // Rocket Wheelie Stunt Animation
+            if (this.state === 'trick' && this.rocketGroup) {
+                this.trickT += 0.016;
+                const t = Math.min(1.0, this.trickT);
+                let posY = 0;
+                let rotX = 0;
+                let rotY = 0.42;
+                let rotZ = -0.18;
+
+                if (t < 0.15) {
+                    const p = t / 0.15;
+                    posY = -0.12 * Math.sin(p * Math.PI * 0.5);
+                    rotX = -0.18 * Math.sin(p * Math.PI * 0.5);
+                } else if (t < 0.68) {
+                    const p = (t - 0.15) / 0.53;
+                    const popEase = Math.sin(p * Math.PI * 0.5);
+                    posY = 0.36 * popEase;
+                    rotX = 1.12 * popEase; // Nose points high in the sky!
+                    const wobble = Math.sin(p * Math.PI * 7) * 0.07 * (1.0 - p * 0.4);
+                    rotZ = -0.18 + wobble;
+                    rotY = 0.42 + Math.cos(p * Math.PI * 5) * 0.08;
+
+                    if (this.koalaEars && this.koalaEars.length === 2) {
+                        this.koalaEars[0].rotation.z = 0.55 + Math.sin(this.time * 14) * 0.08;
+                        this.koalaEars[1].rotation.z = -0.55 - Math.sin(this.time * 14) * 0.08;
+                    }
+                } else if (t < 0.88) {
+                    const p = (t - 0.68) / 0.20;
+                    const slamEase = p * p;
+                    posY = 0.36 * (1.0 - slamEase) - 0.05 * Math.sin(p * Math.PI);
+                    rotX = 1.12 * (1.0 - slamEase);
+                } else {
+                    const p = (t - 0.88) / 0.12;
+                    const bounce = Math.sin(p * Math.PI * 2) * Math.exp(-p * 3.5) * 0.07;
+                    posY = bounce;
+                    rotX = -bounce * 0.8;
+                }
+
+                this.rocketGroup.position.set(0, posY, 0);
+                this.rocketGroup.rotation.set(rotX, rotY, rotZ);
+
+                if (this.trickT >= 1.0) {
+                    this.state = 'hovering';
+                    this.trickT = 0;
+                    this.rocketGroup.position.set(0, 0, 0);
+                    this.rocketGroup.rotation.set(0, 0.42, -0.18);
+                    this.drawFace('happy');
+                }
+            } else if (this.rocketGroup) {
                 this.rocketGroup.position.y = Math.sin(this.time * 2) * 0.08;
                 this.rocketGroup.rotation.y = 0.42 + Math.sin(this.time * 1.2) * 0.15;
                 this.rocketGroup.rotation.z = -0.18 + Math.cos(this.time * 1.5) * 0.04;
             }
-            if (this.koalaGroup) {
+
+            if (this.state !== 'trick' && this.koalaGroup) {
                 const koalaBreathe = Math.sin(this.time * 3.5) * 0.008;
                 this.koalaGroup.position.y = 0.52 + koalaBreathe;
                 if (this.koalaHead) {
@@ -487,6 +537,13 @@ export const CosmoCompanion = {
             this.rafId = requestAnimationFrame(render);
         };
         this.rafId = requestAnimationFrame(render);
+    },
+
+    doWheelie(): void {
+        if (this.state === 'trick') return;
+        this.state = 'trick';
+        this.trickT = 0;
+        this.drawFace('star');
     },
 
     pauseLoop(): void {

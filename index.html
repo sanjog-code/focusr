@@ -2036,7 +2036,7 @@
 </div>
 
 <!-- ════════════════════════════════════════════════════════════════
-     FOCUS PASSPORT — ALLOWED WORKSPACES MODAL
+     FOCUS PASSPORT — ALLOWED WORKSPACES MODAL (VISIONOS SPATIAL)
      ════════════════════════════════════════════════════════════════ -->
 <div class="passport-modal-backdrop" id="modal-focus-passport" aria-hidden="true">
     <div class="passport-modal glass" role="dialog" aria-labelledby="passport-modal-title">
@@ -2054,26 +2054,101 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 id="passport-modal-title">Focus Passport — Allowed Workspaces</h2>
-                        <p class="passport-subtitle">Prevent distraction penalties and auto-pauses while working in authorized tabs & desktop apps.</p>
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <h2 id="passport-modal-title">Focus Passport — Allowed Workspaces</h2>
+                            <span class="passport-version-tag">visionOS Spatial Guard</span>
+                        </div>
+                        <p class="passport-subtitle">Prevent distraction penalties and auto-pauses while working in authorized tabs & desktop applications.</p>
                     </div>
                 </div>
                 
                 <div class="passport-status-row">
                     <div class="passport-status-pill" id="passport-ext-status">
                         <span class="status-indicator-dot dot-gray" id="dot-ext-status"></span>
-                        <span class="status-pill-title">Browser Extension:</span>
-                        <span class="status-pill-val" id="text-ext-status">Checking...</span>
+                        <span class="status-pill-title">Browser Companion:</span>
+                        <span class="status-pill-val" id="text-ext-status">Detecting...</span>
                     </div>
                     <div class="passport-status-pill" id="passport-bridge-status">
                         <span class="status-indicator-dot dot-gray" id="dot-bridge-status"></span>
-                        <span class="status-pill-title">Desktop Bridge:</span>
-                        <span class="status-pill-val" id="text-bridge-status">Checking...</span>
-                        <a href="javascript:void(0)" class="bridge-launcher-hint" id="hint-bridge-launcher" style="display:none" onclick="if(window.FocusPassport) FocusPassport.showBridgeGuide()">Run Launcher</a>
+                        <span class="status-pill-title">Windows Desktop Bridge:</span>
+                        <span class="status-pill-val" id="text-bridge-status">Detecting...</span>
                     </div>
+                    <div class="passport-status-pill active-detection-pill" id="passport-live-detect">
+                        <span class="status-indicator-dot dot-green" id="dot-live-detect"></span>
+                        <span class="status-pill-title">Current Focus:</span>
+                        <span class="status-pill-val" id="text-live-detect">In Focusr (Active)</span>
+                    </div>
+                    <button class="passport-guide-toggle-btn" id="btn-toggle-passport-guide" onclick="FocusPassport.toggleGuide()">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                        <span>Setup Guide</span>
+                    </button>
                 </div>
             </div>
             <button class="modal-close-btn" id="btn-close-passport" title="Close Passport">✕</button>
+        </div>
+
+        <!-- Collapsible Interactive Setup Guide Drawer -->
+        <div class="passport-setup-drawer" id="passport-setup-drawer" style="display:none">
+            <div class="setup-drawer-grid">
+                <div class="setup-card">
+                    <div class="setup-card-header">
+                        <span class="setup-step-num">1</span>
+                        <h4>Chrome / Edge Companion Extension</h4>
+                    </div>
+                    <p class="setup-card-desc">Grants Focusr zero-penalty access to verify your active work tabs and browsing history.</p>
+                    <div class="setup-steps-list">
+                        <div class="setup-step-item"><span>1.</span> Open <code>chrome://extensions</code> in your browser.</div>
+                        <div class="setup-step-item"><span>2.</span> Toggle on <strong>Developer mode</strong> (top right).</div>
+                        <div class="setup-step-item"><span>3.</span> Click <strong>Load unpacked</strong> and select folder:</div>
+                    </div>
+                    <div class="setup-copy-box">
+                        <code id="text-ext-folder-path">extension</code>
+                        <button class="setup-copy-btn" onclick="FocusPassport.copyExtensionPath()">Copy Path</button>
+                    </div>
+                </div>
+
+                <div class="setup-card">
+                    <div class="setup-card-header">
+                        <span class="setup-step-num">2</span>
+                        <h4>Windows Local Desktop Bridge</h4>
+                    </div>
+                    <p class="setup-card-desc">Streams active foreground desktop apps (VS Code, Terminal, Figma) to Focusr via <code>127.0.0.1:42069</code>.</p>
+                    <div class="setup-steps-list">
+                        <div class="setup-step-item"><span>1.</span> Download or launch <code>launch-bridge.bat</code> in the Focusr root.</div>
+                        <div class="setup-step-item"><span>2.</span> Or start it in any terminal with Node.js:</div>
+                    </div>
+                    <div class="setup-copy-box">
+                        <code>node scripts/bridge.mjs</code>
+                        <button class="setup-copy-btn" onclick="FocusPassport.copyBridgeCommand()">Copy Command</button>
+                    </div>
+                    <div style="margin-top:8px;display:flex;gap:8px">
+                        <button class="setup-action-btn" onclick="FocusPassport.downloadBridgeBat()">Download launcher.bat 📥</button>
+                        <button class="setup-action-btn secondary" onclick="FocusPassport.probeConnections()">Re-check Status 🔄</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick 1-Click Preset Packs Shelf -->
+        <div class="passport-presets-bar">
+            <span class="presets-label">⚡ 1-Click Work Bundles:</span>
+            <div class="presets-chips-wrap">
+                <button class="preset-chip-btn" onclick="FocusPassport.applyPreset('developer')" title="VS Code, Cursor, Terminal, GitHub, StackOverflow, Claude, localhost">
+                    <span>💻</span> Full-Stack Developer
+                </button>
+                <button class="preset-chip-btn" onclick="FocusPassport.applyPreset('designer')" title="Figma, Blender, Photoshop, Illustrator, Canva, Dribbble">
+                    <span>🎨</span> Designer & 3D
+                </button>
+                <button class="preset-chip-btn" onclick="FocusPassport.applyPreset('writer')" title="Obsidian, Notion, Google Docs, Slack, Discord">
+                    <span>📝</span> Notes & Writing
+                </button>
+                <button class="preset-chip-btn" onclick="FocusPassport.applyPreset('academic')" title="Google Docs, Canvas, Overleaf, Zoom, Wikipedia">
+                    <span>🎓</span> Student & Research
+                </button>
+                <button class="preset-chip-btn secondary" onclick="FocusPassport.resetDefaults()" title="Reset to standard developer whitelist">
+                    <span>🛡️</span> Reset Recommended
+                </button>
+            </div>
         </div>
 
         <!-- Two-Column Selection View -->
@@ -2087,27 +2162,43 @@
                             <line x1="2" y1="12" x2="22" y2="12"/>
                             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                         </svg>
-                        <h3>Browser Tabs & History</h3>
+                        <h3>Browser Workspaces</h3>
                     </div>
-                    <button class="passport-refresh-btn" id="btn-refresh-tabs" title="Refresh Tabs">
+                    <button class="passport-refresh-btn" id="btn-refresh-tabs" title="Refresh Tabs & History">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                         <span>Refresh</span>
                     </button>
                 </div>
 
-                <div class="passport-input-group">
-                    <input type="text" id="input-custom-domain" placeholder="Enter custom domain, e.g. *.github.com" class="passport-input" spellcheck="false" autocomplete="off" />
-                    <button class="passport-add-btn" id="btn-add-domain">+ Add</button>
+                <!-- Segmented Control for Tabs -->
+                <div class="passport-segmented-nav">
+                    <button class="passport-segment-btn active" id="seg-tabs-open" onclick="FocusPassport.switchTabSegment('open')">
+                        Open Tabs (<span id="count-open-tabs">0</span>)
+                    </button>
+                    <button class="passport-segment-btn" id="seg-tabs-history" onclick="FocusPassport.switchTabSegment('history')">
+                        Browsing History
+                    </button>
+                    <button class="passport-segment-btn" id="seg-tabs-curated" onclick="FocusPassport.switchTabSegment('curated')">
+                        Popular Sites
+                    </button>
                 </div>
 
-                <div class="passport-section-label">Currently Open Tabs</div>
+                <!-- Search and Custom Input -->
+                <div class="passport-filter-row">
+                    <div class="passport-search-wrap">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="input-search-tabs" placeholder="Filter tabs or history..." class="passport-search-input" spellcheck="false" autocomplete="off" oninput="FocusPassport.onTabSearch(this.value)" />
+                    </div>
+                </div>
+
+                <div class="passport-input-group">
+                    <input type="text" id="input-custom-domain" placeholder="Enter domain or wildcard, e.g. *.github.com" class="passport-input" spellcheck="false" autocomplete="off" />
+                    <button class="passport-add-btn" id="btn-add-domain">+ Whitelist</button>
+                </div>
+
+                <!-- Scrollable Items List -->
                 <div class="passport-scroll-list" id="passport-tabs-list">
                     <div class="passport-empty-state">Loading tabs...</div>
-                </div>
-
-                <div class="passport-section-label">Frequent Work Domains (Past 7 Days)</div>
-                <div class="passport-scroll-list" id="passport-history-list">
-                    <div class="passport-empty-state">Loading browsing history...</div>
                 </div>
             </div>
 
@@ -2120,31 +2211,56 @@
                             <line x1="8" y1="21" x2="16" y2="21"/>
                             <line x1="12" y1="17" x2="12" y2="21"/>
                         </svg>
-                        <h3>Detected Desktop Apps</h3>
+                        <h3>Desktop Applications</h3>
                     </div>
-                    <button class="passport-refresh-btn" id="btn-refresh-apps" title="Refresh Running Apps">
+                    <button class="passport-refresh-btn" id="btn-refresh-apps" title="Refresh Running Desktop Apps">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                         <span>Refresh</span>
                     </button>
                 </div>
 
-                <div class="passport-input-group">
-                    <input type="text" id="input-custom-app" placeholder="Enter process name, e.g. Figma.exe" class="passport-input" spellcheck="false" autocomplete="off" />
-                    <button class="passport-add-btn" id="btn-add-app">+ Add</button>
+                <!-- Segmented Control for Apps -->
+                <div class="passport-segmented-nav">
+                    <button class="passport-segment-btn active" id="seg-apps-running" onclick="FocusPassport.switchAppSegment('running')">
+                        Running Apps (<span id="count-running-apps">0</span>)
+                    </button>
+                    <button class="passport-segment-btn" id="seg-apps-curated" onclick="FocusPassport.switchAppSegment('curated')">
+                        Popular Tools
+                    </button>
                 </div>
 
-                <div class="passport-section-label">Running Applications</div>
-                <div class="passport-scroll-list" id="passport-apps-list">
-                    <div class="passport-empty-state">Desktop bridge offline. Run launch-bridge.bat to detect apps.</div>
-                </div>
-
-                <div class="passport-bridge-callout glass" id="passport-bridge-callout">
-                    <div class="callout-icon">💡</div>
-                    <div class="callout-body">
-                        <strong>Windows Desktop Integration:</strong>
-                        <span>Launch <code>launch-bridge.bat</code> in the Focusr directory to stream active desktop apps (VS Code, Terminal, Figma) to Focusr with zero distraction alerts.</span>
+                <!-- Search and Custom Input -->
+                <div class="passport-filter-row">
+                    <div class="passport-search-wrap">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="input-search-apps" placeholder="Filter running applications..." class="passport-search-input" spellcheck="false" autocomplete="off" oninput="FocusPassport.onAppSearch(this.value)" />
                     </div>
                 </div>
+
+                <div class="passport-input-group">
+                    <input type="text" id="input-custom-app" placeholder="Enter process name, e.g. Figma.exe" class="passport-input" spellcheck="false" autocomplete="off" />
+                    <button class="passport-add-btn" id="btn-add-app">+ Whitelist</button>
+                </div>
+
+                <!-- Scrollable Apps List -->
+                <div class="passport-scroll-list" id="passport-apps-list">
+                    <div class="passport-empty-state">Loading running desktop applications...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Flow Protection Simulator -->
+        <div class="passport-simulator-bar">
+            <div class="simulator-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Live Flow Guard Simulator:</span>
+            </div>
+            <div class="simulator-controls">
+                <select id="select-sim-target" class="simulator-select" onchange="FocusPassport.updateSimPreview()">
+                    <!-- Populated dynamically -->
+                </select>
+                <button class="simulator-test-btn" id="btn-test-sim" onclick="FocusPassport.testSimulation()">Test Workspace Switch</button>
+                <div class="simulator-feedback" id="sim-feedback-result" style="display:none"></div>
             </div>
         </div>
 
@@ -2157,9 +2273,14 @@
                     </svg>
                     <h4>Active Whitelist (<span id="passport-count">0</span> allowed)</h4>
                 </div>
+                <div class="shelf-filter-chips">
+                    <button class="shelf-filter-chip active" id="chip-filter-all" onclick="FocusPassport.setShelfFilter('all')">All (<span id="count-shelf-all">0</span>)</button>
+                    <button class="shelf-filter-chip" id="chip-filter-tab" onclick="FocusPassport.setShelfFilter('domain')">Tabs (<span id="count-shelf-tabs">0</span>)</button>
+                    <button class="shelf-filter-chip" id="chip-filter-app" onclick="FocusPassport.setShelfFilter('process')">Apps (<span id="count-shelf-apps">0</span>)</button>
+                </div>
                 <div class="shelf-actions">
                     <button class="passport-shelf-action" id="btn-passport-reset">Reset Defaults</button>
-                    <button class="passport-shelf-action" id="btn-passport-clear">Clear All</button>
+                    <button class="passport-shelf-action danger" id="btn-passport-clear">Clear All</button>
                 </div>
             </div>
             <div class="passport-tags-shelf" id="passport-tags-shelf">
@@ -10945,33 +11066,86 @@ const FocusPassport = {
         { id: 'def_11', type: 'process', pattern: 'Obsidian.exe', label: 'Obsidian' },
         { id: 'def_12', type: 'process', pattern: 'devenv.exe', label: 'Visual Studio' }
     ],
+    PRESETS: {
+        developer: [
+            { type: 'process', pattern: 'Code.exe', label: 'VS Code' },
+            { type: 'process', pattern: 'Cursor.exe', label: 'Cursor AI' },
+            { type: 'process', pattern: 'WindowsTerminal.exe', label: 'Windows Terminal' },
+            { type: 'process', pattern: 'devenv.exe', label: 'Visual Studio IDE' },
+            { type: 'process', pattern: 'Docker Desktop.exe', label: 'Docker' },
+            { type: 'domain', pattern: 'github.com', label: 'GitHub' },
+            { type: 'domain', pattern: '*.github.com', label: '*.github.com' },
+            { type: 'domain', pattern: 'stackoverflow.com', label: 'Stack Overflow' },
+            { type: 'domain', pattern: 'claude.ai', label: 'Claude AI' },
+            { type: 'domain', pattern: 'chatgpt.com', label: 'ChatGPT' },
+            { type: 'domain', pattern: 'developer.mozilla.org', label: 'MDN Web Docs' },
+            { type: 'domain', pattern: 'localhost:*', label: 'Local Dev (localhost:*)' }
+        ],
+        designer: [
+            { type: 'process', pattern: 'Figma.exe', label: 'Figma Desktop' },
+            { type: 'process', pattern: 'blender.exe', label: 'Blender 3D' },
+            { type: 'process', pattern: 'Photoshop.exe', label: 'Adobe Photoshop' },
+            { type: 'process', pattern: 'Illustrator.exe', label: 'Adobe Illustrator' },
+            { type: 'domain', pattern: 'figma.com', label: 'Figma Web' },
+            { type: 'domain', pattern: 'dribbble.com', label: 'Dribbble' },
+            { type: 'domain', pattern: 'unsplash.com', label: 'Unsplash' },
+            { type: 'domain', pattern: 'canva.com', label: 'Canva' },
+            { type: 'domain', pattern: 'coolors.co', label: 'Coolors Palette' }
+        ],
+        writer: [
+            { type: 'process', pattern: 'Obsidian.exe', label: 'Obsidian Notes' },
+            { type: 'process', pattern: 'Notion.exe', label: 'Notion' },
+            { type: 'process', pattern: 'slack.exe', label: 'Slack' },
+            { type: 'process', pattern: 'Discord.exe', label: 'Discord' },
+            { type: 'domain', pattern: 'docs.google.com', label: 'Google Docs' },
+            { type: 'domain', pattern: 'notion.so', label: 'Notion Web' },
+            { type: 'domain', pattern: 'medium.com', label: 'Medium' }
+        ],
+        academic: [
+            { type: 'process', pattern: 'Obsidian.exe', label: 'Obsidian Notes' },
+            { type: 'process', pattern: 'Zotero.exe', label: 'Zotero Library' },
+            { type: 'domain', pattern: 'docs.google.com', label: 'Google Docs' },
+            { type: 'domain', pattern: 'overleaf.com', label: 'Overleaf LaTeX' },
+            { type: 'domain', pattern: 'arxiv.org', label: 'ArXiv Papers' },
+            { type: 'domain', pattern: 'wikipedia.org', label: 'Wikipedia' },
+            { type: 'domain', pattern: '*.edu', label: 'Educational (*.edu)' }
+        ]
+    },
     CURATED_DEVELOPER_APPS: [
-        { processName: 'Code.exe', displayName: 'Visual Studio Code', icon: '💻', category: 'Dev' },
-        { processName: 'Cursor.exe', displayName: 'Cursor AI Editor', icon: '⚡', category: 'Dev' },
+        { processName: 'Code.exe', displayName: 'Visual Studio Code', icon: '💻', category: 'IDE' },
+        { processName: 'Cursor.exe', displayName: 'Cursor AI Editor', icon: '⚡', category: 'IDE' },
         { processName: 'WindowsTerminal.exe', displayName: 'Windows Terminal / PowerShell', icon: '⌨️', category: 'Terminal' },
+        { processName: 'powershell.exe', displayName: 'PowerShell Console', icon: '⚡', category: 'Terminal' },
         { processName: 'Figma.exe', displayName: 'Figma Desktop', icon: '🎨', category: 'Design' },
-        { processName: 'Obsidian.exe', displayName: 'Obsidian Notes', icon: '📓', category: 'Productivity' },
-        { processName: 'devenv.exe', displayName: 'Visual Studio IDE', icon: '🛠️', category: 'Dev' },
-        { processName: 'slack.exe', displayName: 'Slack', icon: '💬', category: 'Communication' },
-        { processName: 'Discord.exe', displayName: 'Discord', icon: '🎧', category: 'Communication' },
-        { processName: 'Notion.exe', displayName: 'Notion', icon: '📝', category: 'Notes' },
-        { processName: 'Docker Desktop.exe', displayName: 'Docker Desktop', icon: '🐳', category: 'DevOps' }
+        { processName: 'blender.exe', displayName: 'Blender 3D Suite', icon: '🧊', category: 'Design' },
+        { processName: 'Obsidian.exe', displayName: 'Obsidian Knowledge Vault', icon: '📓', category: 'Productivity' },
+        { processName: 'Notion.exe', displayName: 'Notion Workspace', icon: '📝', category: 'Notes' },
+        { processName: 'devenv.exe', displayName: 'Visual Studio IDE', icon: '🛠️', category: 'IDE' },
+        { processName: 'slack.exe', displayName: 'Slack Team Chat', icon: '💬', category: 'Communication' },
+        { processName: 'Discord.exe', displayName: 'Discord Community', icon: '🎧', category: 'Communication' },
+        { processName: 'Spotify.exe', displayName: 'Spotify Music', icon: '🎵', category: 'Media' },
+        { processName: 'Docker Desktop.exe', displayName: 'Docker Desktop Container Engine', icon: '🐳', category: 'DevOps' }
     ],
     CURATED_WORK_TABS: [
-        { domain: 'github.com', title: 'GitHub — Code & Repositories', icon: '🐙' },
+        { domain: 'github.com', title: 'GitHub — Repositories & PRs', icon: '🐙' },
         { domain: '*.github.com', title: 'GitHub Subdomains (*.github.com)', icon: '🐙' },
-        { domain: 'stackoverflow.com', title: 'Stack Overflow — Q&A', icon: '📚' },
+        { domain: 'stackoverflow.com', title: 'Stack Overflow — Developer Q&A', icon: '📚' },
         { domain: 'claude.ai', title: 'Claude AI Assistant', icon: '🧠' },
         { domain: 'chatgpt.com', title: 'ChatGPT AI Assistant', icon: '🤖' },
         { domain: 'developer.mozilla.org', title: 'MDN Web Docs', icon: '📖' },
-        { domain: 'docs.google.com', title: 'Google Docs / Sheets', icon: '📄' },
-        { domain: 'linear.app', title: 'Linear Issue Tracker', icon: '📐' },
-        { domain: 'vercel.com', title: 'Vercel Platform', icon: '▲' },
-        { domain: 'localhost:*', title: 'Local Development (localhost:*)', icon: '⚡' }
+        { domain: 'docs.google.com', title: 'Google Docs / Sheets / Drive', icon: '📄' },
+        { domain: 'linear.app', title: 'Linear Issue Tracking', icon: '📐' },
+        { domain: 'vercel.com', title: 'Vercel Cloud Platform', icon: '▲' },
+        { domain: 'localhost:*', title: 'Local Development Servers (localhost:*)', icon: '⚡' }
     ],
     whitelist: [],
     extensionConnected: false,
     desktopBridgeConnected: false,
+    activeTabSegment: 'open',
+    activeAppSegment: 'running',
+    shelfFilter: 'all',
+    tabSearchQuery: '',
+    appSearchQuery: '',
     currentActiveTab: null,
     currentActiveProcess: null,
     detectedTabs: [],
@@ -10990,6 +11164,7 @@ const FocusPassport = {
         this.bindEvents();
         this.updateStatusBadges();
         this.renderShelf();
+        this.updateSimPreview();
     },
 
     loadWhitelist() {
@@ -11013,6 +11188,8 @@ const FocusPassport = {
         } catch (e) {}
         const countEl = $('passport-count');
         if (countEl) countEl.textContent = this.whitelist.length;
+        this.updateShelfCounts();
+        this.updateSimPreview();
     },
 
     bindEvents() {
@@ -11092,11 +11269,15 @@ const FocusPassport = {
         const modal = $('modal-focus-passport');
         if (!modal) return;
         modal.classList.add('active');
+        this.probeConnections();
         this.requestTabs();
         this.requestHistory();
         this.requestApps();
         this.renderShelf();
+        this.renderTabs();
+        this.renderApps();
         this.updateStatusBadges();
+        this.updateSimPreview();
     },
 
     close() {
@@ -11104,27 +11285,113 @@ const FocusPassport = {
         if (modal) modal.classList.remove('active');
     },
 
+    probeConnections() {
+        window.postMessage({ type: 'FOCUSR_PING' }, '*');
+        this.checkHttpBridgeFallback();
+    },
+
+    toggleGuide() {
+        const drawer = $('passport-setup-drawer');
+        if (!drawer) return;
+        const isHidden = drawer.style.display === 'none';
+        drawer.style.display = isHidden ? 'block' : 'none';
+    },
+
+    switchTabSegment(segment) {
+        this.activeTabSegment = segment;
+        const btnOpen = $('seg-tabs-open');
+        const btnHist = $('seg-tabs-history');
+        const btnCur = $('seg-tabs-curated');
+        if (btnOpen) btnOpen.classList.toggle('active', segment === 'open');
+        if (btnHist) btnHist.classList.toggle('active', segment === 'history');
+        if (btnCur) btnCur.classList.toggle('active', segment === 'curated');
+        this.renderTabs();
+    },
+
+    switchAppSegment(segment) {
+        this.activeAppSegment = segment;
+        const btnRun = $('seg-apps-running');
+        const btnCur = $('seg-apps-curated');
+        if (btnRun) btnRun.classList.toggle('active', segment === 'running');
+        if (btnCur) btnCur.classList.toggle('active', segment === 'curated');
+        this.renderApps();
+    },
+
+    onTabSearch(val) {
+        this.tabSearchQuery = (val || '').toLowerCase().trim();
+        this.renderTabs();
+    },
+
+    onAppSearch(val) {
+        this.appSearchQuery = (val || '').toLowerCase().trim();
+        this.renderApps();
+    },
+
+    setShelfFilter(filter) {
+        this.shelfFilter = filter;
+        const chipAll = $('chip-filter-all');
+        const chipTab = $('chip-filter-tab');
+        const chipApp = $('chip-filter-app');
+        if (chipAll) chipAll.classList.toggle('active', filter === 'all');
+        if (chipTab) chipTab.classList.toggle('active', filter === 'domain');
+        if (chipApp) chipApp.classList.toggle('active', filter === 'process');
+        this.renderShelf();
+    },
+
+    applyPreset(presetName) {
+        const preset = this.PRESETS[presetName];
+        if (!preset) return;
+
+        let addedCount = 0;
+        for (const item of preset) {
+            if (!this.isPatternWhitelisted(item.pattern, item.type)) {
+                this.whitelist.push({
+                    id: 'fp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+                    type: item.type,
+                    pattern: item.pattern,
+                    label: item.label,
+                    addedAt: Date.now()
+                });
+                addedCount++;
+            }
+        }
+
+        this.saveWhitelist();
+        this.renderShelf();
+        this.renderTabs();
+        this.renderApps();
+        soundClick();
+        showToast(`Applied ${presetName.toUpperCase()} pack: +${addedCount} allowed workspaces`, '', 3500);
+    },
+
     initExtensionBridge() {
-        // Listen to messages from content script
         window.addEventListener('message', (event) => {
             if (!event.data || typeof event.data !== 'object') return;
             const { type } = event.data;
 
             if (type === 'FOCUSR_EXTENSION_READY' || type === 'FOCUSR_PONG') {
                 this.extensionConnected = true;
-                if (event.data.bridgeStatus && event.data.bridgeStatus.connected) {
+                if (event.data.bridgeConnected || (event.data.bridgeStatus && event.data.bridgeStatus.connected)) {
                     this.desktopBridgeConnected = true;
+                }
+                if (event.data.activeApp) {
+                    this.currentActiveProcess = event.data.activeApp;
+                }
+                if (event.data.currentActiveTab) {
+                    this.currentActiveTab = event.data.currentActiveTab;
                 }
                 this.updateStatusBadges();
             } else if (type === 'FOCUSR_RESP_TABS') {
                 this.extensionConnected = true;
                 this.detectedTabs = event.data.tabs || [];
+                const countBadge = $('count-open-tabs');
+                if (countBadge) countBadge.textContent = this.detectedTabs.length;
                 this.renderTabs();
                 this.updateStatusBadges();
             } else if (type === 'FOCUSR_RESP_HISTORY') {
                 this.extensionConnected = true;
                 this.detectedHistory = event.data.history || [];
-                this.renderHistory();
+                this.renderTabs();
                 this.updateStatusBadges();
             } else if (type === 'FOCUSR_RESP_APPS') {
                 if (event.data.connected) {
@@ -11132,9 +11399,18 @@ const FocusPassport = {
                 }
                 if (event.data.apps && event.data.apps.length > 0) {
                     this.detectedApps = event.data.apps;
+                    const countBadge = $('count-running-apps');
+                    if (countBadge) countBadge.textContent = this.detectedApps.length;
                     this.renderApps();
                 }
                 this.updateStatusBadges();
+            } else if (type === 'FOCUSR_BRIDGE_STATUS_CHANGED') {
+                this.desktopBridgeConnected = !!event.data.connected;
+                if (event.data.activeApp) {
+                    this.currentActiveProcess = event.data.activeApp;
+                }
+                this.updateStatusBadges();
+                this.onWorkspaceChanged();
             } else if (type === 'FOCUSR_ACTIVE_APP_CHANGED') {
                 this.desktopBridgeConnected = true;
                 this.currentActiveProcess = {
@@ -11145,28 +11421,40 @@ const FocusPassport = {
                 this.updateStatusBadges();
                 this.onWorkspaceChanged();
             } else if (type === 'FOCUSR_ACTIVE_TAB_CHANGED') {
+                this.extensionConnected = true;
                 this.currentActiveTab = {
                     domain: event.data.domain,
                     url: event.data.url,
-                    title: event.data.title
+                    title: event.data.title,
+                    favIconUrl: event.data.favIconUrl || ''
                 };
+                this.updateStatusBadges();
                 this.onWorkspaceChanged();
             }
         });
 
-        // Ping check
-        window.postMessage({ type: 'FOCUSR_PING' }, '*');
+        // Trigger handshake
+        this.probeConnections();
         this.requestTabs();
         this.requestHistory();
         this.requestApps();
 
-        // Periodic ping
+        // Keep extension connection verified
         this.pingInterval = setInterval(() => {
-            window.postMessage({ type: 'FOCUSR_PING' }, '*');
-        }, 5000);
+            this.probeConnections();
+        }, 4000);
     },
 
     initDesktopBridge() {
+        const isHttps = window.location.protocol === 'https:';
+
+        // When hosted on HTTPS, direct WebSocket to ws://127.0.0.1 triggers browser Mixed Content security blocks.
+        // Therefore on HTTPS we let the companion extension act as the relay.
+        if (isHttps) {
+            this.checkHttpBridgeFallback();
+            return;
+        }
+
         try {
             if (this.ws) {
                 try { this.ws.close(); } catch (e) {}
@@ -11187,12 +11475,14 @@ const FocusPassport = {
                     const data = JSON.parse(event.data);
                     if (data.type === 'BRIDGE_CONNECTED') {
                         this.desktopBridgeConnected = true;
-                        this.updateStatusBadges();
                         if (data.activeWindow) {
                             this.currentActiveProcess = data.activeWindow;
                         }
+                        this.updateStatusBadges();
                     } else if (data.type === 'RUNNING_APPS') {
                         this.detectedApps = data.apps || [];
+                        const countBadge = $('count-running-apps');
+                        if (countBadge) countBadge.textContent = this.detectedApps.length;
                         this.renderApps();
                     } else if (data.type === 'ACTIVE_WINDOW') {
                         this.currentActiveProcess = {
@@ -11200,6 +11490,7 @@ const FocusPassport = {
                             windowTitle: data.windowTitle || '',
                             pid: data.pid || 0
                         };
+                        this.updateStatusBadges();
                         this.onWorkspaceChanged();
                     }
                 } catch (err) {}
@@ -11231,6 +11522,12 @@ const FocusPassport = {
     },
 
     async checkHttpBridgeFallback() {
+        // Skip direct fetch on HTTPS to prevent browser mixed content warnings
+        if (window.location.protocol === 'https:') {
+            window.postMessage({ type: 'FOCUSR_REQ_APPS' }, '*');
+            return;
+        }
+
         try {
             const res = await fetch('http://127.0.0.1:42069/status', { method: 'GET', mode: 'cors' });
             if (res.ok) {
@@ -11255,18 +11552,23 @@ const FocusPassport = {
             this.ws.send(JSON.stringify({ type: 'GET_RUNNING_APPS' }));
         }
         window.postMessage({ type: 'FOCUSR_REQ_APPS' }, '*');
-        try {
-            const res = await fetch('http://127.0.0.1:42069/apps', { method: 'GET', mode: 'cors' });
-            if (res.ok) {
-                const data = await res.json();
-                if (data.apps && data.apps.length > 0) {
-                    this.detectedApps = data.apps;
-                    this.desktopBridgeConnected = true;
-                    this.renderApps();
-                    this.updateStatusBadges();
+
+        if (window.location.protocol !== 'https:') {
+            try {
+                const res = await fetch('http://127.0.0.1:42069/apps', { method: 'GET', mode: 'cors' });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.apps && data.apps.length > 0) {
+                        this.detectedApps = data.apps;
+                        this.desktopBridgeConnected = true;
+                        const countBadge = $('count-running-apps');
+                        if (countBadge) countBadge.textContent = this.detectedApps.length;
+                        this.renderApps();
+                        this.updateStatusBadges();
+                    }
                 }
-            }
-        } catch (e) {}
+            } catch (e) {}
+        }
     },
 
     matchPattern(pattern, target) {
@@ -11277,7 +11579,7 @@ const FocusPassport = {
         // Exact match
         if (pat === tgt) return true;
 
-        // Process extension agnostic match
+        // Process extension agnostic match (e.g. Code matches Code.exe)
         if (pat.replace(/\.exe$/, '') === tgt.replace(/\.exe$/, '')) return true;
 
         // Subdomain wildcard: *.github.com matches github.com and api.github.com
@@ -11291,6 +11593,12 @@ const FocusPassport = {
             const host = pat.slice(0, -2);
             const targetHost = tgt.split(':')[0];
             if (targetHost === host) return true;
+        }
+
+        // Broad wildcard: *.edu matches mit.edu, stanford.edu
+        if (pat.startsWith('*.')) {
+            const tld = pat.slice(1);
+            if (tgt.endsWith(tld)) return true;
         }
 
         return false;
@@ -11400,8 +11708,8 @@ const FocusPassport = {
         this.saveWhitelist();
         this.renderShelf();
         this.renderTabs();
-        this.renderHistory();
         this.renderApps();
+        soundClick();
         showToast(`Whitelisted: ${cleanPattern}`, '', 2500);
     },
 
@@ -11411,7 +11719,6 @@ const FocusPassport = {
         this.saveWhitelist();
         this.renderShelf();
         this.renderTabs();
-        this.renderHistory();
         this.renderApps();
         if (found) {
             showToast(`Removed ${found.pattern} from whitelist`, '', 2000);
@@ -11423,8 +11730,8 @@ const FocusPassport = {
         this.saveWhitelist();
         this.renderShelf();
         this.renderTabs();
-        this.renderHistory();
         this.renderApps();
+        soundClick();
         showToast('Reset whitelist to recommended developer defaults', '', 2500);
     },
 
@@ -11433,26 +11740,41 @@ const FocusPassport = {
         this.saveWhitelist();
         this.renderShelf();
         this.renderTabs();
-        this.renderHistory();
         this.renderApps();
         showToast('All allowed workspaces cleared', '', 2500);
+    },
+
+    updateShelfCounts() {
+        const countAll = $('count-shelf-all');
+        const countTabs = $('count-shelf-tabs');
+        const countApps = $('count-shelf-apps');
+        const tabItems = this.whitelist.filter(i => i.type === 'domain');
+        const appItems = this.whitelist.filter(i => i.type === 'process');
+        if (countAll) countAll.textContent = this.whitelist.length;
+        if (countTabs) countTabs.textContent = tabItems.length;
+        if (countApps) countApps.textContent = appItems.length;
     },
 
     renderShelf() {
         const shelf = $('passport-tags-shelf');
         const countEl = $('passport-count');
         if (countEl) countEl.textContent = this.whitelist.length;
+        this.updateShelfCounts();
         if (!shelf) return;
 
-        if (this.whitelist.length === 0) {
-            shelf.innerHTML = '<span style="font-size:0.75rem;color:rgba(255,255,255,0.45)">No workspaces whitelisted. Add tabs or desktop apps above.</span>';
+        let items = this.whitelist;
+        if (this.shelfFilter === 'domain') items = items.filter(i => i.type === 'domain');
+        if (this.shelfFilter === 'process') items = items.filter(i => i.type === 'process');
+
+        if (items.length === 0) {
+            shelf.innerHTML = '<span style="font-size:0.75rem;color:rgba(255,255,255,0.45)">No matching workspaces. Whitelist tabs or desktop apps above.</span>';
             return;
         }
 
-        shelf.innerHTML = this.whitelist.map(item => `
-            <span class="whitelist-tag" data-id="${item.id}">
+        shelf.innerHTML = items.map(item => `
+            <span class="whitelist-tag ${item.type}" data-id="${item.id}">
                 <span class="whitelist-tag-type">${item.type === 'process' ? 'APP' : 'TAB'}</span>
-                <span>${item.pattern}</span>
+                <span class="whitelist-tag-label">${item.pattern}</span>
                 <span class="whitelist-tag-remove" onclick="FocusPassport.removePattern('${item.id}')" title="Remove ${item.pattern}">✕</span>
             </span>
         `).join('');
@@ -11462,32 +11784,105 @@ const FocusPassport = {
         const list = $('passport-tabs-list');
         if (!list) return;
 
-        // If extension is connected and has detected tabs, show live open tabs
-        if (this.extensionConnected && this.detectedTabs && this.detectedTabs.length > 0) {
-            list.innerHTML = `
-                <div style="font-size:0.7rem;font-weight:700;color:#10b981;margin-bottom:8px;display:flex;align-items:center;gap:6px">
-                    <span class="status-indicator-dot dot-green" style="width:6px;height:6px"></span>
-                    <span>Live Chrome Tabs (${this.detectedTabs.length} open)</span>
-                </div>
-            ` + this.detectedTabs.map(tab => {
-                const isWhitelisted = this.isPatternWhitelisted(tab.domain, 'domain');
-                const iconHtml = tab.favIconUrl 
-                    ? `<img src="${tab.favIconUrl}" alt="" onerror="this.style.display='none'">` 
-                    : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>`;
+        const q = this.tabSearchQuery;
 
+        if (this.activeTabSegment === 'open') {
+            if (this.extensionConnected && this.detectedTabs && this.detectedTabs.length > 0) {
+                let tabs = this.detectedTabs;
+                if (q) {
+                    tabs = tabs.filter(t => (t.domain || '').toLowerCase().includes(q) || (t.title || '').toLowerCase().includes(q));
+                }
+
+                if (tabs.length === 0) {
+                    list.innerHTML = `<div class="passport-empty-state">No open tabs match "${q}".</div>`;
+                    return;
+                }
+
+                list.innerHTML = tabs.map(tab => {
+                    const isWhitelisted = this.isPatternWhitelisted(tab.domain, 'domain');
+                    const iconHtml = tab.favIconUrl 
+                        ? `<img src="${tab.favIconUrl}" alt="" onerror="this.style.display='none'">` 
+                        : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>`;
+
+                    return `
+                        <div class="passport-item-row ${tab.active ? 'active-item' : ''}">
+                            <div class="passport-item-info">
+                                <div class="passport-item-icon">${iconHtml}</div>
+                                <div class="passport-item-text">
+                                    <div class="passport-item-title-wrap">
+                                        <span class="passport-item-title">${tab.title || tab.domain}</span>
+                                        ${tab.active ? '<span class="item-badge-pill active">Active Tab</span>' : ''}
+                                    </div>
+                                    <span class="passport-item-sub">${tab.domain}</span>
+                                </div>
+                            </div>
+                            ${isWhitelisted ? `
+                                <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                            ` : `
+                                <button class="passport-item-btn" onclick="FocusPassport.addPattern('${tab.domain}', 'domain', '${tab.domain}')">+ Whitelist</button>
+                            `}
+                        </div>
+                    `;
+                }).join('');
+                return;
+            }
+
+            // Extension offline fallback
+            list.innerHTML = `
+                <div class="passport-callout-card">
+                    <div style="font-weight:600;color:#38bdf8;margin-bottom:3px">Extension Not Connected</div>
+                    <div style="font-size:0.7rem;color:rgba(255,255,255,0.7);line-height:1.4">
+                        Load the companion extension in <code>chrome://extensions</code> to automatically detect live open tabs. Or choose from popular developer sites below.
+                    </div>
+                    <button class="passport-inline-action-btn" onclick="FocusPassport.toggleGuide()">View Setup Guide ↗</button>
+                </div>
+                ${this.renderCuratedTabsList(q)}
+            `;
+            return;
+        }
+
+        if (this.activeTabSegment === 'history') {
+            if (!this.extensionConnected) {
+                list.innerHTML = `
+                    <div class="passport-callout-card">
+                        <div style="font-weight:600;color:#38bdf8;margin-bottom:3px">Companion Extension Required</div>
+                        <div style="font-size:0.7rem;color:rgba(255,255,255,0.7);line-height:1.4">
+                            Browsing history is protected by browser permissions. Load the companion extension to auto-populate your top visited work domains.
+                        </div>
+                        <button class="passport-inline-action-btn" onclick="FocusPassport.toggleGuide()">View Setup Guide ↗</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let history = this.detectedHistory;
+            if (q) {
+                history = history.filter(h => (h.domain || '').toLowerCase().includes(q) || (h.title || '').toLowerCase().includes(q));
+            }
+
+            if (!history || history.length === 0) {
+                list.innerHTML = '<div class="passport-empty-state">No browsing history found. Visit work sites or check search filter.</div>';
+                return;
+            }
+
+            list.innerHTML = history.map(item => {
+                const isWhitelisted = this.isPatternWhitelisted(item.domain, 'domain');
                 return `
                     <div class="passport-item-row">
                         <div class="passport-item-info">
-                            <div class="passport-item-icon">${iconHtml}</div>
+                            <div class="passport-item-icon">🌐</div>
                             <div class="passport-item-text">
-                                <span class="passport-item-title">${tab.title || tab.domain}</span>
-                                <span class="passport-item-sub">${tab.domain}</span>
+                                <div class="passport-item-title-wrap">
+                                    <span class="passport-item-title">${item.domain}</span>
+                                    <span class="item-badge-pill">${item.visitCount} visits</span>
+                                </div>
+                                <span class="passport-item-sub">${item.title || item.domain}</span>
                             </div>
                         </div>
                         ${isWhitelisted ? `
                             <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
                         ` : `
-                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${tab.domain}', 'domain', '${tab.domain}')">+ Allow</button>
+                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${item.domain}', 'domain', '${item.domain}')">+ Whitelist</button>
                         `}
                     </div>
                 `;
@@ -11495,66 +11890,30 @@ const FocusPassport = {
             return;
         }
 
-        // When extension not yet connected or no tabs: show popular work tabs library with 1-click whitelisting!
-        list.innerHTML = `
-            <div style="padding:0.6rem 0.8rem;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:12px;margin-bottom:0.75rem">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
-                    <span style="font-size:0.75rem;font-weight:700;color:#38bdf8">⚡ Popular Work Tabs</span>
-                    <button class="passport-item-btn" style="padding:2px 8px;font-size:0.65rem;border-radius:6px;" onclick="FocusPassport.showExtensionGuide()">Setup Live Extension ↗</button>
-                </div>
-                <div style="font-size:0.68rem;color:rgba(255,255,255,0.65)">Whitelist legitimate developer sites below with 1-click.</div>
-            </div>
-            ${this.CURATED_WORK_TABS.map(item => {
-                const isWhitelisted = this.isPatternWhitelisted(item.domain, 'domain');
-                return `
-                    <div class="passport-item-row">
-                        <div class="passport-item-info">
-                            <div class="passport-item-icon">${item.icon}</div>
-                            <div class="passport-item-text">
-                                <span class="passport-item-title">${item.title}</span>
-                                <span class="passport-item-sub">${item.domain}</span>
-                            </div>
-                        </div>
-                        ${isWhitelisted ? `
-                            <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
-                        ` : `
-                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${item.domain}', 'domain', '${item.domain}')">+ Allow</button>
-                        `}
-                    </div>
-                `;
-            }).join('')}
-        `;
+        // Curated tabs
+        list.innerHTML = this.renderCuratedTabsList(q);
     },
 
-    renderHistory() {
-        const list = $('passport-history-list');
-        if (!list) return;
-
-        if (!this.extensionConnected) {
-            list.innerHTML = '<div class="passport-empty-state">Connect extension to view frequent work domains.</div>';
-            return;
+    renderCuratedTabsList(q) {
+        let items = this.CURATED_WORK_TABS;
+        if (q) {
+            items = items.filter(i => (i.domain || '').toLowerCase().includes(q) || (i.title || '').toLowerCase().includes(q));
         }
-
-        if (!this.detectedHistory || this.detectedHistory.length === 0) {
-            list.innerHTML = '<div class="passport-empty-state">No frequent domains found in the past 7 days.</div>';
-            return;
-        }
-
-        list.innerHTML = this.detectedHistory.map(item => {
+        return items.map(item => {
             const isWhitelisted = this.isPatternWhitelisted(item.domain, 'domain');
             return `
                 <div class="passport-item-row">
                     <div class="passport-item-info">
-                        <div class="passport-item-icon">🌐</div>
+                        <div class="passport-item-icon">${item.icon}</div>
                         <div class="passport-item-text">
-                            <span class="passport-item-title">${item.domain}</span>
-                            <span class="passport-item-sub">${item.title || item.domain} · ${item.visitCount} visits</span>
+                            <span class="passport-item-title">${item.title}</span>
+                            <span class="passport-item-sub">${item.domain}</span>
                         </div>
                     </div>
                     ${isWhitelisted ? `
                         <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
                     ` : `
-                        <button class="passport-item-btn" onclick="FocusPassport.addPattern('${item.domain}', 'domain', '${item.domain}')">+ Allow</button>
+                        <button class="passport-item-btn" onclick="FocusPassport.addPattern('${item.domain}', 'domain', '${item.domain}')">+ Whitelist</button>
                     `}
                 </div>
             `;
@@ -11565,64 +11924,171 @@ const FocusPassport = {
         const list = $('passport-apps-list');
         if (!list) return;
 
-        // If desktop bridge is connected and has apps, show live running applications
-        if (this.desktopBridgeConnected && this.detectedApps && this.detectedApps.length > 0) {
-            list.innerHTML = `
-                <div style="font-size:0.7rem;font-weight:700;color:#10b981;margin-bottom:8px;display:flex;align-items:center;gap:6px">
-                    <span class="status-indicator-dot dot-green" style="width:6px;height:6px"></span>
-                    <span>Live Windows Apps (${this.detectedApps.length} running)</span>
-                </div>
-            ` + this.detectedApps.map(app => {
-                const isWhitelisted = this.isPatternWhitelisted(app.processName, 'process');
-                return `
-                    <div class="passport-item-row">
-                        <div class="passport-item-info">
-                            <div class="passport-item-icon">💻</div>
-                            <div class="passport-item-text">
-                                <span class="passport-item-title">${app.displayName}</span>
-                                <span class="passport-item-sub">${app.processName}</span>
+        const q = this.appSearchQuery;
+
+        if (this.activeAppSegment === 'running') {
+            if (this.desktopBridgeConnected && this.detectedApps && this.detectedApps.length > 0) {
+                let apps = this.detectedApps;
+                if (q) {
+                    apps = apps.filter(a => (a.displayName || '').toLowerCase().includes(q) || (a.processName || '').toLowerCase().includes(q));
+                }
+
+                if (apps.length === 0) {
+                    list.innerHTML = `<div class="passport-empty-state">No running apps match "${q}".</div>`;
+                    return;
+                }
+
+                list.innerHTML = apps.map(app => {
+                    const isWhitelisted = this.isPatternWhitelisted(app.processName, 'process');
+                    const isCurrent = this.currentActiveProcess && this.currentActiveProcess.processName.toLowerCase() === app.processName.toLowerCase();
+                    return `
+                        <div class="passport-item-row ${isCurrent ? 'active-item' : ''}">
+                            <div class="passport-item-info">
+                                <div class="passport-item-icon">${app.icon || '💻'}</div>
+                                <div class="passport-item-text">
+                                    <div class="passport-item-title-wrap">
+                                        <span class="passport-item-title">${app.displayName}</span>
+                                        <span class="item-badge-pill category">${app.category || 'App'}</span>
+                                        ${isCurrent ? '<span class="item-badge-pill active">Foreground</span>' : ''}
+                                    </div>
+                                    <span class="passport-item-sub">${app.processName} ${app.memUsage ? '· ' + app.memUsage : ''}</span>
+                                </div>
                             </div>
+                            ${isWhitelisted ? `
+                                <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                            ` : `
+                                <button class="passport-item-btn" onclick="FocusPassport.addPattern('${app.processName}', 'process', '${app.displayName}')">+ Whitelist</button>
+                            `}
                         </div>
-                        ${isWhitelisted ? `
-                            <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
-                        ` : `
-                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${app.processName}', 'process', '${app.displayName}')">+ Allow</button>
-                        `}
+                    `;
+                }).join('');
+                return;
+            }
+
+            // Bridge offline fallback
+            list.innerHTML = `
+                <div class="passport-callout-card bridge">
+                    <div style="font-weight:600;color:#34d399;margin-bottom:3px">Desktop Bridge Offline</div>
+                    <div style="font-size:0.7rem;color:rgba(255,255,255,0.7);line-height:1.4">
+                        Run <code>launch-bridge.bat</code> in the Focusr directory to stream live foreground window and process discovery.
                     </div>
-                `;
-            }).join('');
+                    <div style="margin-top:6px;display:flex;gap:6px">
+                        <button class="passport-inline-action-btn" onclick="FocusPassport.downloadBridgeBat()">Download launcher.bat 📥</button>
+                        <button class="passport-inline-action-btn secondary" onclick="FocusPassport.toggleGuide()">Setup Guide ↗</button>
+                    </div>
+                </div>
+                ${this.renderCuratedAppsList(q)}
+            `;
             return;
         }
 
-        // When bridge not yet connected: show curated developer apps library with 1-click whitelisting & download launcher!
-        list.innerHTML = `
-            <div style="padding:0.6rem 0.8rem;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.22);border-radius:12px;margin-bottom:0.75rem">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
-                    <span style="font-size:0.75rem;font-weight:700;color:#34d399">⚡ Popular Developer Apps</span>
-                    <button class="passport-item-btn" style="padding:2px 8px;font-size:0.65rem;border-radius:6px;background:rgba(16,185,129,0.2);border-color:#10b981;color:#6ee7b7" onclick="FocusPassport.downloadBridgeBat()">Download Launcher ↗</button>
-                </div>
-                <div style="font-size:0.68rem;color:rgba(255,255,255,0.65)">Click below to whitelist your tools. Run <code>launch-bridge.bat</code> to stream live foreground window.</div>
-            </div>
-            ${this.CURATED_DEVELOPER_APPS.map(app => {
-                const isWhitelisted = this.isPatternWhitelisted(app.processName, 'process');
-                return `
-                    <div class="passport-item-row">
-                        <div class="passport-item-info">
-                            <div class="passport-item-icon">${app.icon}</div>
-                            <div class="passport-item-text">
+        // Curated apps
+        list.innerHTML = this.renderCuratedAppsList(q);
+    },
+
+    renderCuratedAppsList(q) {
+        let items = this.CURATED_DEVELOPER_APPS;
+        if (q) {
+            items = items.filter(i => (i.displayName || '').toLowerCase().includes(q) || (i.processName || '').toLowerCase().includes(q));
+        }
+        return items.map(app => {
+            const isWhitelisted = this.isPatternWhitelisted(app.processName, 'process');
+            return `
+                <div class="passport-item-row">
+                    <div class="passport-item-info">
+                        <div class="passport-item-icon">${app.icon}</div>
+                        <div class="passport-item-text">
+                            <div class="passport-item-title-wrap">
                                 <span class="passport-item-title">${app.displayName}</span>
-                                <span class="passport-item-sub">${app.processName}</span>
+                                <span class="item-badge-pill category">${app.category}</span>
                             </div>
+                            <span class="passport-item-sub">${app.processName}</span>
                         </div>
-                        ${isWhitelisted ? `
-                            <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
-                        ` : `
-                            <button class="passport-item-btn" onclick="FocusPassport.addPattern('${app.processName}', 'process', '${app.displayName}')">+ Allow</button>
-                        `}
                     </div>
-                `;
-            }).join('')}
-        `;
+                    ${isWhitelisted ? `
+                        <button class="passport-item-btn whitelisted" disabled>✓ Allowed</button>
+                    ` : `
+                        <button class="passport-item-btn" onclick="FocusPassport.addPattern('${app.processName}', 'process', '${app.displayName}')">+ Whitelist</button>
+                    `}
+                </div>
+            `;
+        }).join('');
+    },
+
+    updateSimPreview() {
+        const select = $('select-sim-target');
+        if (!select) return;
+
+        const options = [
+            { val: 'Code.exe', type: 'process', label: 'VS Code (Code.exe)' },
+            { val: 'github.com', type: 'domain', label: 'GitHub (github.com)' },
+            { val: 'WindowsTerminal.exe', type: 'process', label: 'Windows Terminal' },
+            { val: 'Figma.exe', type: 'process', label: 'Figma Desktop' },
+            { val: 'stackoverflow.com', type: 'domain', label: 'Stack Overflow' },
+            { val: 'youtube.com', type: 'domain', label: 'YouTube (Distraction Test)' },
+            { val: 'twitter.com', type: 'domain', label: 'X / Twitter (Distraction Test)' },
+            { val: 'Steam.exe', type: 'process', label: 'Steam Game Client (Distraction Test)' }
+        ];
+
+        // Add user-added whitelist items
+        for (const item of this.whitelist.slice(0, 10)) {
+            if (!options.some(o => o.val.toLowerCase() === item.pattern.toLowerCase())) {
+                options.unshift({
+                    val: item.pattern,
+                    type: item.type,
+                    label: `${item.label || item.pattern} (${item.type === 'process' ? 'App' : 'Tab'})`
+                });
+            }
+        }
+
+        select.innerHTML = options.map(opt => `
+            <option value="${opt.val}" data-type="${opt.type}">${opt.label}</option>
+        `).join('');
+    },
+
+    testSimulation() {
+        const select = $('select-sim-target');
+        const feedback = $('sim-feedback-result');
+        if (!select || !feedback) return;
+
+        const target = select.value;
+        const selectedOpt = select.options[select.selectedIndex];
+        const type = selectedOpt ? selectedOpt.getAttribute('data-type') : 'domain';
+
+        const isAllowed = this.isPatternWhitelisted(target, type);
+
+        feedback.style.display = 'block';
+        if (isAllowed) {
+            feedback.className = 'simulator-feedback allowed';
+            feedback.innerHTML = `
+                <div style="font-weight:700">🛡️ Flow Protected: Allowed Workspace</div>
+                <div>Switching to <strong>${target}</strong> keeps your session active with 0 penalty, continuous audio, and flowing water physics.</div>
+            `;
+        } else {
+            feedback.className = 'simulator-feedback blocked';
+            feedback.innerHTML = `
+                <div style="font-weight:700">⚠️ Distraction Alert: Unauthorized Workspace</div>
+                <div>Leaving Focusr for <strong>${target}</strong> will pause session, trigger audio alert, and apply the 10% desertion penalty debt.</div>
+            `;
+        }
+    },
+
+    copyExtensionPath() {
+        const path = 'C:\\Users\\sanjo\\.gemini\\antigravity\\scratch\\focusr\\extension';
+        navigator.clipboard.writeText(path).then(() => {
+            showToast('Copied extension folder path to clipboard!', '', 3000);
+        }).catch(() => {
+            prompt('Copy extension path:', path);
+        });
+    },
+
+    copyBridgeCommand() {
+        const cmd = 'node scripts/bridge.mjs';
+        navigator.clipboard.writeText(cmd).then(() => {
+            showToast('Copied "node scripts/bridge.mjs" to clipboard!', '', 3000);
+        }).catch(() => {
+            prompt('Copy command:', cmd);
+        });
     },
 
     downloadBridgeBat() {
@@ -11636,11 +12102,7 @@ const FocusPassport = {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast('Downloaded launch-bridge.bat! Run it in your Focusr folder.', '', 4000);
-    },
-
-    showExtensionGuide() {
-        showToast('Load unpacked extension from "extension/" in chrome://extensions', '', 5000);
+        showToast('Downloaded launch-bridge.bat! Run it in your Focusr directory.', '', 4000);
     },
 
     updateStatusBadges() {
@@ -11650,26 +12112,40 @@ const FocusPassport = {
         if (dotExt && textExt) {
             if (this.extensionConnected) {
                 dotExt.className = 'status-indicator-dot dot-green';
-                textExt.textContent = 'Connected 🟢';
+                textExt.textContent = 'Connected (v1.2) 🟢';
             } else {
                 dotExt.className = 'status-indicator-dot dot-gray';
-                textExt.textContent = 'Not Detected ⚪';
+                textExt.textContent = 'Not Loaded ⚪';
             }
         }
 
         // Bridge
         const dotBridge = $('dot-bridge-status');
         const textBridge = $('text-bridge-status');
-        const hintBridge = $('hint-bridge-launcher');
         if (dotBridge && textBridge) {
             if (this.desktopBridgeConnected) {
                 dotBridge.className = 'status-indicator-dot dot-green';
-                textBridge.textContent = 'Connected 🟢';
-                if (hintBridge) hintBridge.style.display = 'none';
+                textBridge.textContent = 'Live Win32 Stream 🟢';
             } else {
                 dotBridge.className = 'status-indicator-dot dot-gray';
                 textBridge.textContent = 'Offline ⚪';
-                if (hintBridge) hintBridge.style.display = 'inline';
+            }
+        }
+
+        // Live Detection Pill
+        const dotLive = $('dot-live-detect');
+        const textLive = $('text-live-detect');
+        if (dotLive && textLive) {
+            const check = this.isCurrentlyInAllowedWorkspace();
+            if (this.currentActiveProcess && this.currentActiveProcess.processName) {
+                textLive.textContent = `${this.currentActiveProcess.processName} (${check.allowed ? 'Protected 🛡️' : 'Unlisted ⚠️'})`;
+                dotLive.className = check.allowed ? 'status-indicator-dot dot-green' : 'status-indicator-dot dot-amber';
+            } else if (this.currentActiveTab && this.currentActiveTab.domain) {
+                textLive.textContent = `${this.currentActiveTab.domain} (${check.allowed ? 'Protected 🛡️' : 'Unlisted ⚠️'})`;
+                dotLive.className = check.allowed ? 'status-indicator-dot dot-green' : 'status-indicator-dot dot-amber';
+            } else {
+                textLive.textContent = 'In Focusr (Active)';
+                dotLive.className = 'status-indicator-dot dot-green';
             }
         }
 
@@ -11682,10 +12158,6 @@ const FocusPassport = {
                 pulseDot.className = 'passport-pulse-dot offline';
             }
         }
-    },
-
-    showBridgeGuide() {
-        showToast('To connect Desktop Bridge: open the Focusr directory and run launch-bridge.bat!', '', 5000);
     }
 };
 

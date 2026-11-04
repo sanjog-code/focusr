@@ -1,5 +1,5 @@
 // Focusr Companion Content Script
-// Acts as a bi-directional bridge between the Focusr web app and the extension background worker.
+// Bi-directional bridge between the Focusr web application and the extension background service worker.
 
 (function() {
   const host = window.location.hostname.toLowerCase();
@@ -10,29 +10,54 @@
 
   if (!isFocusr) return;
 
-  const FOCUSR_EXT_VERSION = '1.1.0';
+  const FOCUSR_EXT_VERSION = '1.2.0';
 
-  function announcePresence() {
-    window.postMessage({
-      type: 'FOCUSR_EXTENSION_READY',
-      version: FOCUSR_EXT_VERSION,
-      source: 'focusr-extension'
-    }, '*');
+  function safePost(payload) {
+    try {
+      window.postMessage({
+        ...payload,
+        version: FOCUSR_EXT_VERSION,
+        source: 'focusr-companion-ext'
+      }, '*');
+    } catch (e) {}
   }
 
-  // Relay messages from background worker to web page
+  function announcePresence(extra = {}) {
+    safePost({
+      type: 'FOCUSR_EXTENSION_READY',
+      ...extra
+    });
+  }
+
+  // Register this tab with background worker
+  function registerTab() {
+    try {
+      chrome.runtime.sendMessage({ type: 'REGISTER_FOCUSR_TAB' }, (res) => {
+        if (chrome.runtime.lastError) return;
+        if (res) {
+          announcePresence({
+            bridgeConnected: !!res.bridgeConnected,
+            activeApp: res.activeApp || null,
+            currentActiveTab: res.currentActiveTab || null
+          });
+        }
+      });
+    } catch (e) {}
+  }
+
+  // Relay real-time broadcast events from background worker into webpage
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (!msg || !msg.type) return;
 
-    if (msg.type === 'FOCUSR_ACTIVE_TAB_CHANGED' || msg.type === 'FOCUSR_ACTIVE_APP_CHANGED') {
-      window.postMessage({
-        ...msg,
-        source: 'focusr-extension'
-      }, '*');
+    if (msg.type === 'FOCUSR_ACTIVE_TAB_CHANGED' ||
+        msg.type === 'FOCUSR_ACTIVE_APP_CHANGED' ||
+        msg.type === 'FOCUSR_BRIDGE_STATUS_CHANGED' ||
+        msg.type === 'FOCUSR_RESP_APPS') {
+      safePost(msg);
     }
   });
 
-  // Listen to requests from web page
+  // Listen to requests dispatched by Focusr in index.html
   window.addEventListener('message', (event) => {
     if (event.source !== window || !event.data || typeof event.data !== 'object') {
       return;
@@ -41,60 +66,101 @@
     const { type, requestId } = event.data;
 
     if (type === 'FOCUSR_PING') {
-      // Query bridge status alongside pong
-      chrome.runtime.sendMessage({ type: 'GET_BRIDGE_STATUS' }, (bridgeRes) => {
-        window.postMessage({
-          type: 'FOCUSR_PONG',
-          version: FOCUSR_EXT_VERSION,
-          bridgeStatus: bridgeRes,
-          requestId,
-          source: 'focusr-extension'
-        }, '*');
-      });
+      try {
+        chrome.runtime.sendMessage({ type: 'GET_BRIDGE_STATUS' }, (bridgeRes) => {
+          if (chrome.runtime.lastError) {
+            safePost({
+              type: 'FOCUSR_PONG',
+              bridgeConnected: false,
+              requestId
+            });
+            return;
+          }
+          safePost({
+            type: 'FOCUSR_PONG',
+            bridgeConnected: !!(bridgeRes && bridgeRes.connected),
+            bridgeStatus: bridgeRes,
+            activeApp: (bridgeRes && bridgeRes.activeApp) || null,
+            currentActiveTab: (bridgeRes && bridgeRes.currentActiveTab) || null,
+            requestId
+          });
+        });
+      } catch (e) {
+        safePost({ type: 'FOCUSR_PONG', bridgeConnected: false, requestId });
+      }
       return;
     }
 
     if (type === 'FOCUSR_REQ_TABS') {
-      chrome.runtime.sendMessage({ type: 'GET_OPEN_TABS' }, (response) => {
-        window.postMessage({
-          type: 'FOCUSR_RESP_TABS',
-          tabs: (response && response.tabs) || [],
-          requestId,
-          source: 'focusr-extension'
-        }, '*');
-      });
+      try {
+        chrome.runtime.sendMessage({ type: 'GET_OPEN_TABS' }, (response) => {
+          if (chrome.runtime.lastError) {
+            safePost({ type: 'FOCUSR_RESP_TABS', tabs: [], requestId });
+            return;
+          }
+          safePost({
+            type: 'FOCUSR_RESP_TABS',
+            tabs: (response && response.tabs) || [],
+            requestId
+          });
+        });
+      } catch (e) {
+        safePost({ type: 'FOCUSR_RESP_TABS', tabs: [], requestId });
+      }
       return;
     }
 
     if (type === 'FOCUSR_REQ_HISTORY') {
-      chrome.runtime.sendMessage({ type: 'GET_HISTORY' }, (response) => {
-        window.postMessage({
-          type: 'FOCUSR_RESP_HISTORY',
-          history: (response && response.history) || [],
-          requestId,
-          source: 'focusr-extension'
-        }, '*');
-      });
+      try {
+        chrome.runtime.sendMessage({ type: 'GET_HISTORY' }, (response) => {
+          if (chrome.runtime.lastError) {
+            safePost({ type: 'FOCUSR_RESP_HISTORY', history: [], requestId });
+            return;
+          }
+          safePost({
+            type: 'FOCUSR_RESP_HISTORY',
+            history: (response && response.history) || [],
+            requestId
+          });
+        });
+      } catch (e) {
+        safePost({ type: 'FOCUSR_RESP_HISTORY', history: [], requestId });
+      }
       return;
     }
 
     if (type === 'FOCUSR_REQ_APPS') {
-      chrome.runtime.sendMessage({ type: 'GET_RUNNING_APPS' }, (response) => {
-        window.postMessage({
-          type: 'FOCUSR_RESP_APPS',
-          apps: (response && response.apps) || [],
-          connected: !!(response && response.connected),
-          requestId,
-          source: 'focusr-extension'
-        }, '*');
-      });
+      try {
+        chrome.runtime.sendMessage({ type: 'GET_RUNNING_APPS' }, (response) => {
+          if (chrome.runtime.lastError) {
+            safePost({ type: 'FOCUSR_RESP_APPS', apps: [], connected: false, requestId });
+            return;
+          }
+          safePost({
+            type: 'FOCUSR_RESP_APPS',
+            apps: (response && response.apps) || [],
+            connected: !!(response && response.connected),
+            requestId
+          });
+        });
+      } catch (e) {
+        safePost({ type: 'FOCUSR_RESP_APPS', apps: [], connected: false, requestId });
+      }
       return;
     }
   });
 
+  registerTab();
   announcePresence();
-  if (document.readyState !== 'complete') {
-    window.addEventListener('DOMContentLoaded', announcePresence);
-    window.addEventListener('load', announcePresence);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      registerTab();
+      announcePresence();
+    });
   }
+  window.addEventListener('load', () => {
+    registerTab();
+    announcePresence();
+  });
 })();
