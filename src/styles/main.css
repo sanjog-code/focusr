@@ -7447,6 +7447,13 @@ body.zen-mode #timer-display {
     animation: pulseProtectionGlow 2.5s infinite;
 }
 
+.focus-protected-badge.grace-warning {
+    background: rgba(245, 158, 11, 0.18);
+    border-color: rgba(245, 158, 11, 0.45);
+    color: #fbbf24;
+    animation: pulseGraceWarning 1.5s infinite;
+}
+
 @keyframes pulseProtectionGlow {
     0%, 100% {
         box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
@@ -7454,6 +7461,68 @@ body.zen-mode #timer-display {
     50% {
         box-shadow: 0 0 18px rgba(16, 185, 129, 0.45);
     }
+}
+
+@keyframes pulseGraceWarning {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
+    }
+}
+
+/* Ergonomic Fullscreen Controls & Setup Toggles */
+.action-pill.fs-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.34rem 0.85rem;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--text-dim, rgba(255, 255, 255, 0.7));
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.action-pill.fs-pill:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.action-pill.fs-pill.active {
+    background: rgba(10, 132, 255, 0.18);
+    border-color: rgba(10, 132, 255, 0.45);
+    color: #60a5fa;
+    box-shadow: 0 0 16px rgba(10, 132, 255, 0.22);
+}
+
+.setup-option-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--text-dim, rgba(255, 255, 255, 0.65));
+    user-select: none;
+    margin-bottom: 0.85rem;
+    transition: color 0.2s ease;
+}
+
+.setup-option-toggle:hover {
+    color: #fff;
+}
+
+.setup-option-toggle input[type="checkbox"] {
+    accent-color: var(--accent, #0a84ff);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

@@ -609,6 +609,10 @@
         </div>
 
         <div class="setup-start">
+            <label class="setup-option-toggle" title="Launch focus session in fullscreen mode (or keep windowed for multitasking with WhatsApp & tabs)">
+                <input type="checkbox" id="check-auto-fullscreen">
+                <span class="setup-option-label">Launch in Fullscreen Mode</span>
+            </label>
             <button class="btn-primary" id="btn-start">Start Focus</button>
         </div>
     </div>
@@ -649,12 +653,24 @@
                     </span>
                 </div>
                 <div class="focus-top-bar-controls">
+                    <button id="btn-toggle-fullscreen" class="action-pill fs-pill" title="Toggle Fullscreen Mode (F)" onclick="toggleFullscreen()">
+                        <span id="text-fs-top">⛶ Fullscreen</span>
+                    </button>
                     <button id="btn-toggle-zen" class="action-pill zen-pill" title="Toggle Zen Mode (Z)"><span>✦ Zen Mode</span></button>
                 </div>
             </div>
 
             <!-- Spatial Studio VisionOS Instrument Dock -->
             <nav class="studio-instrument-dock glass" id="studio-instrument-dock" aria-label="Spatial Studio Controls">
+                <button class="studio-dock-btn" id="btn-focus-fullscreen" title="Toggle Fullscreen Mode (F)" onclick="toggleFullscreen()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fs-icon-enter">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fs-icon-exit" style="display:none">
+                        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+                    </svg>
+                    <span id="text-fs-dock">Fullscreen</span>
+                </button>
                 <button class="studio-dock-btn" id="btn-toggle-ghost-hud" title="Toggle Pacing Partner (Target Pace)">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                     <span>Pacing Partner</span>
@@ -1592,6 +1608,17 @@
                     <button class="binaural-btn active" data-ghosthud="live">Live Telemetry Track</button>
                     <button class="binaural-btn" data-ghosthud="stealth">Stealth Mode (Debrief Only)</button>
                 </div>
+            </div>
+
+            <div class="setting-toggle-row" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-top:14px;">
+                <div>
+                    <strong style="display:block;font-size:0.85rem;color:var(--text)">Auto-Fullscreen on Session Start</strong>
+                    <span style="font-size:0.75rem;color:var(--text-dim)">Automatically expand to fullscreen when starting focus. Keep disabled for windowed multitasking with WhatsApp and desktop tools.</span>
+                </div>
+                <label class="spatial-switch">
+                    <input type="checkbox" id="toggle-auto-fullscreen">
+                    <span class="spatial-slider"></span>
+                </label>
             </div>
         </div>
     </div>
@@ -4623,26 +4650,88 @@ function saveSessions() {
 }
 function addSession(data) { S.sessions.push(data); saveSessions(); }
 
-/* ── Fullscreen & Keyboard Lock ── */
+/* ── Fullscreen Controller & Windowed Ergonomics ── */
+let suppressDesertionUntil = 0;
+
 function enterFS() {
     const el = document.documentElement;
     const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
     if (rfs) {
+        suppressDesertionUntil = Date.now() + 2000;
         rfs.call(el).then(() => {
-            if (navigator.keyboard && navigator.keyboard.lock) {
-                navigator.keyboard.lock().catch(() => {});
-            }
+            updateFullscreenUI(true);
         }).catch(() => {});
     }
 }
+
 function exitFS() {
-    if (navigator.keyboard && navigator.keyboard.unlock) {
-        try { navigator.keyboard.unlock(); } catch {}
-    }
+    suppressDesertionUntil = Date.now() + 2000;
     if (document.fullscreenElement || document.webkitFullscreenElement) {
-        (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen).call(document).catch(() => {});
+        (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen).call(document).then(() => {
+            updateFullscreenUI(false);
+        }).catch(() => {});
+    } else {
+        updateFullscreenUI(false);
     }
 }
+
+function toggleFullscreen() {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+        exitFS();
+    } else {
+        enterFS();
+    }
+}
+window.toggleFullscreen = toggleFullscreen;
+
+function updateFullscreenUI(isFS) {
+    const isActuallyFS = (isFS !== undefined) ? isFS : !!(document.fullscreenElement || document.webkitFullscreenElement);
+    document.body.classList.toggle('is-fullscreen', isActuallyFS);
+
+    // Top-bar pill
+    const btnTop = $('btn-toggle-fullscreen');
+    const textTop = $('text-fs-top');
+    if (btnTop && textTop) {
+        textTop.textContent = isActuallyFS ? 'Exit Fullscreen' : '⛶ Fullscreen';
+        btnTop.classList.toggle('active', isActuallyFS);
+    }
+
+    // Dock button
+    const btnDock = $('btn-focus-fullscreen');
+    const textDock = $('text-fs-dock');
+    const iconEnter = btnDock?.querySelector('.fs-icon-enter');
+    const iconExit = btnDock?.querySelector('.fs-icon-exit');
+    if (btnDock && textDock) {
+        textDock.textContent = isActuallyFS ? 'Windowed' : 'Fullscreen';
+        btnDock.classList.toggle('active', isActuallyFS);
+        if (iconEnter) iconEnter.style.display = isActuallyFS ? 'none' : 'block';
+        if (iconExit) iconExit.style.display = isActuallyFS ? 'block' : 'none';
+    }
+}
+
+function handleFullscreenTransition() {
+    const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    suppressDesertionUntil = Date.now() + 2000;
+    updateFullscreenUI(isFS);
+
+    // Smoothly re-layout and resize 3D & canvas engines without layout jumping
+    requestAnimationFrame(() => {
+        if (typeof WaterSim !== 'undefined' && WaterSim.resize) WaterSim.resize();
+        if (typeof LiveWallpaper3D !== 'undefined' && LiveWallpaper3D.resize) LiveWallpaper3D.resize();
+        if (window.Cosmo && Cosmo.onResize) Cosmo.onResize();
+        if (typeof AnalogClock !== 'undefined' && AnalogClock.resize) AnalogClock.resize();
+    });
+    setTimeout(() => {
+        if (typeof WaterSim !== 'undefined' && WaterSim.resize) WaterSim.resize();
+        if (typeof LiveWallpaper3D !== 'undefined' && LiveWallpaper3D.resize) LiveWallpaper3D.resize();
+        if (window.Cosmo && Cosmo.onResize) Cosmo.onResize();
+    }, 250);
+}
+
+document.addEventListener('fullscreenchange', handleFullscreenTransition);
+document.addEventListener('webkitfullscreenchange', handleFullscreenTransition);
+document.addEventListener('mozfullscreenchange', handleFullscreenTransition);
+document.addEventListener('MSFullscreenChange', handleFullscreenTransition);
 
 /* ══════════════════════════════════════════════════════════
    SPOTIFY FOCUS ENGINE & CLIENT INTEGRATION
@@ -8986,7 +9075,13 @@ function beginSession() {
     }
 
     navigate('focus');
-    enterFS();
+    const shouldAutoFS = (window.FocusrCustomization && window.FocusrCustomization.config && window.FocusrCustomization.config.autoFullscreen) || 
+                         ($('check-auto-fullscreen') && $('check-auto-fullscreen').checked);
+    if (shouldAutoFS) {
+        enterFS();
+    } else {
+        updateFullscreenUI(false);
+    }
 
     TimerHeartbeat.start(50);
 
@@ -9543,7 +9638,20 @@ document.addEventListener('keydown', e => {
 
     // Session controls
     if (e.code === 'Space') { e.preventDefault(); togglePause(); }
-    if (e.code === 'Escape') { e.preventDefault(); stopSession(); }
+    if (e.code === 'KeyF') { e.preventDefault(); toggleFullscreen(); }
+    if (e.code === 'Escape') {
+        e.preventDefault();
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+            exitFS();
+            return;
+        }
+        if (e.shiftKey) {
+            stopSession();
+        } else {
+            showToast('Press Shift + Esc to stop session, or click Stop button', '⏸', 2500);
+        }
+        return;
+    }
     if (e.code === 'KeyS' && S.pomoIsBreak) { e.preventDefault(); skipBreak(); }
     if (e.code === 'KeyZ') { e.preventDefault(); if (window.ZenMode) window.ZenMode.toggle(); }
 }, true);
@@ -9559,9 +9667,36 @@ window.addEventListener('beforeunload', e => {
 
 // ── Window & Tab Switch / Auto-Pause & Desertion Penalty Guard ──
 let windowDesertionDebounce = null;
+let desertionGraceTimer = null;
+let desertionGraceDeadline = 0;
+let desertionGraceInterval = null;
+
+function clearDesertionGrace() {
+    if (desertionGraceTimer) {
+        clearTimeout(desertionGraceTimer);
+        desertionGraceTimer = null;
+    }
+    if (desertionGraceInterval) {
+        clearInterval(desertionGraceInterval);
+        desertionGraceInterval = null;
+    }
+    desertionGraceDeadline = 0;
+    const badge = $('focus-protected-badge');
+    if (badge && badge.classList.contains('grace-warning')) {
+        badge.classList.remove('grace-warning');
+        if (!window.FocusPassport || !window.FocusPassport.isAwayInProtectedWorkspace) {
+            badge.style.display = 'none';
+        }
+    }
+}
 
 function handleWindowOrTabDesertion(source = 'window') {
     if (currentScreen !== 'focus' || (!S.running && !S.paused)) return;
+
+    // Check suppressDesertionUntil (e.g. during fullscreen transitions, layout adjustments)
+    if (Date.now() < suppressDesertionUntil) {
+        return;
+    }
 
     // Guard: If focus moved into an internal iframe (e.g. Spotify embed player) or an internal modal is open,
     // this is active in-app interaction, not desertion!
@@ -9577,7 +9712,10 @@ function handleWindowOrTabDesertion(source = 'window') {
 
     // Check if truly away: document is either hidden or window has lost focus
     const isAway = document.hidden || !document.hasFocus();
-    if (!isAway) return;
+    if (!isAway) {
+        clearDesertionGrace();
+        return;
+    }
 
     // Focus Passport Guard:
     // If user navigated to an authorized browser tab or switched to an authorized desktop process,
@@ -9585,11 +9723,72 @@ function handleWindowOrTabDesertion(source = 'window') {
     if (window.FocusPassport) {
         const passportCheck = window.FocusPassport.isCurrentlyInAllowedWorkspace();
         if (passportCheck && passportCheck.allowed) {
+            clearDesertionGrace();
             window.FocusPassport.showFlowProtectionBadge(passportCheck.label || passportCheck.target);
             return; // Zero penalty, keep timer running smoothly!
         }
     }
 
+    // Multitasking Grace Period:
+    // Give user an inactivity grace window (configured in protocols, default 30s)
+    // to switch to legitimate tools (or quick multitasking) before pausing timer and assessing penalties.
+    const graceDurationSec = (window.FocusrCustomization && window.FocusrCustomization.config && window.FocusrCustomization.config.inactivityGrace)
+        ? Number(window.FocusrCustomization.config.inactivityGrace)
+        : 30;
+    const graceDurationMs = Math.max(15000, graceDurationSec * 1000);
+
+    if (!desertionGraceTimer && S.running && !S.paused) {
+        desertionGraceDeadline = Date.now() + graceDurationMs;
+        const badge = $('focus-protected-badge');
+        const text = $('protected-badge-text');
+        if (badge && text) {
+            badge.classList.add('grace-warning');
+            badge.style.display = 'inline-flex';
+            text.textContent = `Multitasking Grace: ${Math.ceil(graceDurationMs / 1000)}s`;
+        }
+
+        desertionGraceInterval = setInterval(() => {
+            // Re-check FocusPassport in case bridge/extension just refreshed active window
+            if (window.FocusPassport) {
+                const pc = window.FocusPassport.isCurrentlyInAllowedWorkspace();
+                if (pc && pc.allowed) {
+                    clearDesertionGrace();
+                    window.FocusPassport.showFlowProtectionBadge(pc.label || pc.target);
+                    return;
+                }
+            }
+            if (!document.hidden && document.hasFocus()) {
+                clearDesertionGrace();
+                return;
+            }
+            const remSec = Math.max(0, Math.ceil((desertionGraceDeadline - Date.now()) / 1000));
+            const txt = $('protected-badge-text');
+            if (txt) txt.textContent = `Multitasking Grace: ${remSec}s`;
+            if (remSec <= 0 && desertionGraceInterval) {
+                clearInterval(desertionGraceInterval);
+                desertionGraceInterval = null;
+            }
+        }, 1000);
+
+        desertionGraceTimer = setTimeout(() => {
+            clearDesertionGrace();
+            // Double check if user is back or in allowed workspace
+            if (!document.hidden && document.hasFocus()) return;
+            if (window.FocusPassport) {
+                const pc = window.FocusPassport.isCurrentlyInAllowedWorkspace();
+                if (pc && pc.allowed) {
+                    window.FocusPassport.showFlowProtectionBadge(pc.label || pc.target);
+                    return;
+                }
+            }
+            applyDesertionPenalty(source);
+        }, graceDurationMs);
+
+        return;
+    }
+}
+
+function applyDesertionPenalty(source = 'window') {
     if (S.running && !S.paused) {
         pauseSession(true);
         S.distractions++;
@@ -9664,6 +9863,8 @@ function handleWindowOrTabReturn(source = 'window') {
 
     // Check if truly focused and visible
     if (document.hidden || !document.hasFocus()) return;
+
+    clearDesertionGrace();
 
     // Clear flow protection status badge upon returning to Focusr
     if (window.FocusPassport) {
@@ -11060,11 +11261,15 @@ const FocusPassport = {
         { id: 'def_5', type: 'domain', pattern: 'stackoverflow.com', label: 'stackoverflow.com' },
         { id: 'def_6', type: 'domain', pattern: 'developer.mozilla.org', label: 'developer.mozilla.org' },
         { id: 'def_7', type: 'domain', pattern: 'docs.google.com', label: 'docs.google.com' },
+        { id: 'def_wa_web', type: 'domain', pattern: 'web.whatsapp.com', label: 'WhatsApp Web' },
+        { id: 'def_wa_dom', type: 'domain', pattern: '*.whatsapp.com', label: 'WhatsApp (*.whatsapp.com)' },
         { id: 'def_8', type: 'process', pattern: 'Code.exe', label: 'VS Code (Code.exe)' },
         { id: 'def_9', type: 'process', pattern: 'WindowsTerminal.exe', label: 'Windows Terminal' },
         { id: 'def_10', type: 'process', pattern: 'Figma.exe', label: 'Figma' },
         { id: 'def_11', type: 'process', pattern: 'Obsidian.exe', label: 'Obsidian' },
-        { id: 'def_12', type: 'process', pattern: 'devenv.exe', label: 'Visual Studio' }
+        { id: 'def_12', type: 'process', pattern: 'devenv.exe', label: 'Visual Studio' },
+        { id: 'def_wa_app', type: 'process', pattern: 'WhatsApp.exe', label: 'WhatsApp Desktop' },
+        { id: 'def_wa_root', type: 'process', pattern: 'WhatsApp.Root.exe', label: 'WhatsApp' }
     ],
     PRESETS: {
         developer: [
@@ -11122,6 +11327,7 @@ const FocusPassport = {
         { processName: 'Notion.exe', displayName: 'Notion Workspace', icon: '📝', category: 'Notes' },
         { processName: 'devenv.exe', displayName: 'Visual Studio IDE', icon: '🛠️', category: 'IDE' },
         { processName: 'slack.exe', displayName: 'Slack Team Chat', icon: '💬', category: 'Communication' },
+        { processName: 'WhatsApp.exe', displayName: 'WhatsApp Desktop', icon: '💬', category: 'Communication' },
         { processName: 'Discord.exe', displayName: 'Discord Community', icon: '🎧', category: 'Communication' },
         { processName: 'Spotify.exe', displayName: 'Spotify Music', icon: '🎵', category: 'Media' },
         { processName: 'Docker Desktop.exe', displayName: 'Docker Desktop Container Engine', icon: '🐳', category: 'DevOps' }
@@ -11134,6 +11340,8 @@ const FocusPassport = {
         { domain: 'chatgpt.com', title: 'ChatGPT AI Assistant', icon: '🤖' },
         { domain: 'developer.mozilla.org', title: 'MDN Web Docs', icon: '📖' },
         { domain: 'docs.google.com', title: 'Google Docs / Sheets / Drive', icon: '📄' },
+        { domain: 'web.whatsapp.com', title: 'WhatsApp Web — Team & Client Messaging', icon: '💬' },
+        { domain: '*.whatsapp.com', title: 'WhatsApp Web Subdomains (*.whatsapp.com)', icon: '💬' },
         { domain: 'linear.app', title: 'Linear Issue Tracking', icon: '📐' },
         { domain: 'vercel.com', title: 'Vercel Cloud Platform', icon: '▲' },
         { domain: 'localhost:*', title: 'Local Development Servers (localhost:*)', icon: '⚡' }
@@ -11174,6 +11382,16 @@ const FocusPassport = {
                 const parsed = JSON.parse(raw);
                 if (Array.isArray(parsed) && parsed.length > 0) {
                     this.whitelist = parsed;
+                    // Ensure WhatsApp items exist for seamless out-of-the-box multitasking
+                    const hasWhatsApp = this.whitelist.some(item => item.pattern && item.pattern.toLowerCase().includes('whatsapp'));
+                    if (!hasWhatsApp) {
+                        this.whitelist.push(
+                            { id: 'def_wa_web', type: 'domain', pattern: 'web.whatsapp.com', label: 'WhatsApp Web' },
+                            { id: 'def_wa_dom', type: 'domain', pattern: '*.whatsapp.com', label: 'WhatsApp (*.whatsapp.com)' },
+                            { id: 'def_wa_app', type: 'process', pattern: 'WhatsApp.exe', label: 'WhatsApp Desktop' }
+                        );
+                        this.saveWhitelist();
+                    }
                     return;
                 }
             }
@@ -12167,6 +12385,7 @@ const FocusrCustomization = {
     config: {
         accent: '#0a84ff',
         oled: false,
+        autoFullscreen: false,
         clockFace: 'digital',
         chime: 'bell',
         soundscape: { rain: 0, brown: 0, campfire: 0, drone: 0 },
@@ -12239,6 +12458,11 @@ const FocusrCustomization = {
         graceBtns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.grace) === (this.config.inactivityGrace || 30)));
         const ghostBtns = document.querySelectorAll('[data-ghosthud]');
         ghostBtns.forEach(b => b.classList.toggle('active', b.dataset.ghosthud === (this.config.ghostHud || 'live')));
+
+        const toggleAutoFS = $('toggle-auto-fullscreen');
+        if (toggleAutoFS) toggleAutoFS.checked = !!this.config.autoFullscreen;
+        const checkAutoFS = $('check-auto-fullscreen');
+        if (checkAutoFS) checkAutoFS.checked = !!this.config.autoFullscreen;
     },
 
     initTabs() {
@@ -12753,6 +12977,28 @@ const FocusrCustomization = {
                 showToast(`Ghost Racer HUD: ${this.config.ghostHud === 'stealth' ? 'Stealth (Hidden)' : 'Live Telemetry'}`, '', 3000);
             });
         });
+
+        // Auto-Fullscreen setting switches
+        const toggleAutoFS = $('toggle-auto-fullscreen');
+        if (toggleAutoFS) {
+            toggleAutoFS.addEventListener('change', (e) => {
+                this.config.autoFullscreen = e.target.checked;
+                const checkSetup = $('check-auto-fullscreen');
+                if (checkSetup) checkSetup.checked = e.target.checked;
+                this.save();
+                soundClick();
+                showToast(e.target.checked ? 'Auto-Fullscreen enabled on focus start' : 'Windowed mode default (Multitasking enabled)', '', 2500);
+            });
+        }
+        const checkSetup = $('check-auto-fullscreen');
+        if (checkSetup) {
+            checkSetup.addEventListener('change', (e) => {
+                this.config.autoFullscreen = e.target.checked;
+                const toggleAuto = $('toggle-auto-fullscreen');
+                if (toggleAuto) toggleAuto.checked = e.target.checked;
+                this.save();
+            });
+        }
     },
 
     applyAll() {
